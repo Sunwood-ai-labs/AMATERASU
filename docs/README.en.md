@@ -1,10 +1,14 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-  <h1 align="center">🌄 AMATERASU 🌄</h1>
+<img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
+<h1 align="center">🌄 AMATERASU 🌄</h1>
 </p>
+
 <p align="center">
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU">
     <img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github">
+  </a>
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases">
+    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square">
   </a>
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green">
@@ -12,211 +16,213 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/stargazers">
     <img alt="GitHub stars" src="https://img.shields.io/github/stars/Sunwood-ai-labs/AMATERASU?style=social">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases">
-    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square">
-  </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/issues">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/Sunwood-ai-labs/AMATERASU">
-  </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/pulls">
-    <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square">
-  </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/network/members">
-    <img alt="GitHub forks" src="https://img.shields.io/github/forks/Sunwood-ai-labs/AMATERASU?style=social">
-  </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/watchers">
-    <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/Sunwood-ai-labs/AMATERASU?style=social">
-  </a>
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Sunwood-ai-labs/AMATERASU">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/Sunwood-ai-labs/AMATERASU">
 </p>
+
 <h2 align="center">
-  ～ AI-Powered Automated Repository Management Template ～
-
-<a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/README.md"><img src="https://img.shields.io/badge/ドキュメント-日本語-white.svg" alt="JA doc"/></a>
-<a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/docs/README.en.md"><img src="https://img.shields.io/badge/english-document-white.svg" alt="EN doc"></a>
+  ～ Automated Construction of an LLM Platform on AWS ～
 </h2>
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python" alt="Python">
-  <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai" alt="OpenAI">
-  <img src="https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=google" alt="Google Gemini">
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git" alt="Git">
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github" alt="GitHub">
-  <img src="https://img.shields.io/badge/Actions-2088FF?style=for-the-badge&logo=github-actions" alt="GitHub Actions">
-  <img src="https://img.shields.io/badge/YAML-CB171E?style=for-the-badge&logo=yaml" alt="YAML">
-  <img src="https://img.shields.io/badge/pip-3775A9?style=for-the-badge&logo=pypi" alt="pip">
-  <img src="https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown" alt="Markdown">
-  <img src="https://img.shields.io/badge/GitHub_API-181717?style=for-the-badge&logo=github" alt="GitHub API">
-</p>
-<p align="center">
-  <a href="https://github.com/Sunwood-ai-labs/AIRA">
-    <img src="https://img.shields.io/badge/AIRA-FF4500?style=for-the-badge&logo=github" alt="AIRA">
-  </a>
-  <a href="https://github.com/Sunwood-ai-labs/IRIS">
-    <img src="https://img.shields.io/badge/IRIS-9370DB?style=for-the-badge&logo=github" alt="IRIS">
-  </a>
-</p>
 
+>[!IMPORTANT]
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, allowing for easy deployment with Terraform.
 
-> [!IMPORTANT]
->  AMATERASU (formerly HarmonAI III) was developed using [cline (formerly Claude Dev)](https://github.com/clinebot/cline), [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and [claude.ai](https://claude.ai/).  Most of the release notes, README, and commit messages were generated using the latest AI technologies.
+## 🌟 Introduction
 
-## 🚀 Project Overview
+AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  While inheriting the functionality of MOA, it provides more flexible scaling and management by operating each service on a separate EC2 instance.
 
-AMATERASU (formerly HarmonAI III) is an innovative **AI repository starter kit** integrating AIRA and IRIS. This repository aims to dramatically improve developer efficiency by providing the structure and workflow for AI development projects leveraging LLMs. Version: `v0.1.0`
+Key Features:
+- Simple EC2 instance management using Terraform
+- Separate EC2 instance and Docker Compose environment for each service
+- Scalable and manageable at the service level
+- Secure communication and access control
 
+## 🚀 Architecture
 
-## 🆕 Latest News
+```mermaid
+graph TB
+    A[Terraform] --> B[AWS Infrastructure]
+    B --> C1[EC2: open-webui]
+    B --> C2[EC2: litellm]
+    B --> C3[EC2: langfuse]
+    B --> C4[EC2: other services...]
 
-- The repository name has been changed from `HarmonAI_III` to `AMATERASU`.  Unnecessary workflows have been removed, and the repository has been cleaned up. The README.md logo and main image have also been updated. A new main image and release notes header image have been added.
+    subgraph "open-webui instance"
+    C1 --> D1[Docker Compose]
+    D1 --> E1[open-webui service]
+    D1 --> E2[ollama service]
+    end
 
+    subgraph "litellm instance"
+    C2 --> D2[Docker Compose]
+    D2 --> F1[litellm service]
+    end
 
-## ✨ Key Features
-
-1. **Integrated AI Toolset**: Provides the functionality of AIRA and IRIS in a single package.
-2. **Ready-to-use**: Easily create a repository with a high-quality initial structure by using it as a template.
-3. **Automated Development Workflow**: Automates commit message generation, release note creation, and issue management (some workflows have been removed).
-4. **Multilingual Support**: Supports international project deployment through automated README translation.
-5. **Flexible Customization**: Easily adjustable to suit project needs.
-6. **Streamlit App**: A basic Streamlit application to display the README.md file.
-
-
-## 🔧 How to Use
-
-### Running the Streamlit App
-1. Install the necessary packages with `pip install -r requirements.txt`.
-2. Run `streamlit run app.py`.
-
-### AIRA Example:
-```bash
-aira --mode sourcesage commit  --config=.aira\config.dev.commit.yml --ss-model-name="gpt-4o-mini" --llm-output="llm_output.md"
+    subgraph "langfuse instance"
+    C3 --> D3[Docker Compose]
+    D3 --> G1[langfuse service]
+    D3 --> G2[postgres service]
+    end
 ```
 
-### IRIS Example:
+## 🛠️ System Requirements
 
-Refer to the documentation for each component for detailed usage instructions.
-
+- AWS Account
+- Environment with Terraform installed
+- Docker and Docker Compose (automatically installed on EC2 instances)
+- AWS CLI (configured)
 
 ## 📦 Installation Instructions
 
-1. Use this repository as a template to create a new repository.
-2. Clone the repository locally.
-3. Install the necessary dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Customize the AIRA and IRIS configuration files.
-5. Check the GitHub Actions settings and configure environment variables as needed. (The automatic synchronization workflow to Hugging Face Hub and the automatic publishing workflow to PyPI have been removed.)
-
-
-## 🌿 Environment Setup
-
-To set up the AMATERASU environment, follow these steps:
-
-1. Create a virtual environment:
-   ```bash
-   python3 -m venv .venv
-   ```
-   This will create a virtual environment in the `.venv` directory.
-
-2. Activate the virtual environment:
-   ```bash
-   source .venv/bin/activate  # Linux/macOS
-   .venv\Scripts\activate  # Windows
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-These steps will prepare the development environment for AMATERASU.
-
-
-## 📚 Main Components
-
-### 🤖 [AIRA (AI-Integrated Repository for Accelerated Development)](https://github.com/Sunwood-ai-labs/AIRA)
-- Automates repository creation.
-- Automates commit message generation.
-
-### 🌈 [IRIS (Intelligent Repository Issue Solver)](https://github.com/Sunwood-ai-labs/IRIS)
-- Automates issue classification.
-- Automates solution suggestions.
-- Automates release note generation.
-- Automates README translation.
-
-## 🤝 Automated Collaborator Invitation
-
-AMATERASU includes a script to automatically invite collaborators to the GitHub repository.  It can be used with the following steps:
-
-1. Create a `.env` file and set the necessary tokens:
-   ```
-   # GitHub access token (for collaborator invitation)
-   GITHUB_TOKEN=your_github_personal_access_token_here
-
-   # The following are examples of tokens that may be used by other functions. It's convenient to write them down for later use.
-   # GITHUB_ACCESS_TOKEN=ghp_xxxxx
-   # YOUR_PERSONAL_ACCESS_TOKEN_IRIS=ghp_yyyyy
-   # GEMINI_API_KEY=AIzzzzz
-   ```
-
-   Note: Include the `.env` file in `.gitignore` to prevent it from being committed to the repository.
-
-2. Run the following command to invite a collaborator:
-   ```bash
-   python .github/github_add_collaborator.py Sunwood-ai-labs/AMATERASU username_to_invite
-   ```
-
-   Replace `username_to_invite` with the GitHub username you want to invite.
-
-3. Once the script runs successfully, a collaborator invitation will be sent to the specified user.
-
-Notes:
-- This script requires the GitHub token to have the appropriate permissions (`repo` scope).
-- When used for an organization's repository, ensure that appropriate permissions are granted in the organization's settings.
-- For security, update tokens regularly and grant only the minimum necessary permissions.
-- Never commit information including the `.env` file or tokens to a public repository.
-
-This feature simplifies the process of adding new contributors to the project.  It allows for efficient team expansion while maintaining security.
-
-## 🐈 Process Flow
-
-
-```mermaid
-%%{init:{'theme':'base','themeVariables':{'primaryColor':'#024959','primaryTextColor':'#F2C335','primaryBorderColor':'#F2AE30','lineColor':'#A1A2A6','secondaryColor':'#593E25','tertiaryColor':'#F2C335','noteTextColor':'#024959','noteBkgColor':'#F2C335','textColor':'#024959','fontSize':'18px'}}}%%
-
-graph LR
-    A[Start] --> B[Repository Conception & Naming]
-    B -->|Human Action| C[AMATERASU-based <br>Repository Initialization]
-    C -->|Automated| D[Development Work]
-    D -->|Human Action| E[AIRA-based <br>Automated Commits]
-    E --> H[IRIS-based <br>Release Note Creation]
-    H --> I[IRIS-based <br>Documentation Translation]
-    I --> J[Release]
-    J --> K[End]
-
-    class B,D,G human;
-    class E aira;
-    class F,H,I iris;
-    class C auto;
-    class A,J,K process;
-
+1. Clone the repository:
+```bash
+git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
+cd AMATERASU
 ```
 
+2. Set environment variables:
+```bash
+cp .env.example .env
+# Edit the .env file and set the necessary credentials
+```
 
+3. Initialize and run Terraform:
+```bash
+cd terraform
+terraform init
+terraform plan
+terraform apply
+```
+
+## 🌐 Module Structure
+
+Each module runs using Docker Compose on a separate EC2 instance:
+
+### open-webui Module (EC2 Instance)
+```
+📁 open-webui/
+├── 📄 docker-compose.yml  # Configuration for open-webui and ollama
+├── 📄 .env               # Environment variable settings
+└── 📁 config/            # Configuration files
+```
+
+Example Configuration (docker-compose.yml):
+```yaml
+version: '3'
+services:
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./data:/root/.ollama
+
+  open-webui:
+    image: open-webui/open-webui
+    ports:
+      - "3000:3000"
+    environment:
+      - OLLAMA_URL=http://ollama:11434
+```
+
+### litellm Module (EC2 Instance)
+```
+📁 litellm/
+├── 📄 docker-compose.yml  # Configuration for the litellm service
+├── 📄 .env               # Environment variables such as API keys
+└── 📁 config/            # LLM configuration files
+```
+
+### langfuse Module (EC2 Instance)
+```
+📁 langfuse/
+├── 📄 docker-compose.yml  # Configuration for langfuse and the database
+├── 📄 .env               # Environment variable settings
+└── 📁 data/              # PostgreSQL data
+```
+
+## 🔨 Deployment Command Examples
+
+Deploying only specific modules:
+```bash
+# Deploy only the open-webui module
+terraform apply -target=module.ec2_open_webui
+
+# Deploy only the litellm module
+terraform apply -target=module.ec2_litellm
+
+# Deploy only the langfuse module
+terraform apply -target=module.ec2_langfuse
+```
+
+## 💻 Module Management Commands
+
+Connecting to each EC2 instance:
+```bash
+# SSH connection script
+./scripts/connect.sh open-webui
+./scripts/connect.sh litellm
+./scripts/connect.sh langfuse
+```
+
+Docker Compose operations:
+```bash
+# Execute within each instance
+cd /opt/amaterasu/[module-name]
+docker-compose up -d      # Start services
+docker-compose down      # Stop services
+docker-compose logs -f   # Display logs
+```
+
+## 🔒 Security Configuration
+
+- Each EC2 instance is protected by a separate security group.
+- Inter-service communication is controlled by the internal VPC network.
+- Only the minimum necessary ports are exposed.
+- Permission management via IAM roles.
+
+## 📚 Directory Structure
+
+```plaintext
+amaterasu/
+├── terraform/          # Terraform code
+│   ├── modules/        # Modules for each EC2 instance
+│   ├── main.tf        # Main configuration
+│   └── variables.tf   # Variable definitions
+├── modules/           # Docker Compose configuration for each service
+│   ├── open-webui/    # open-webui related files
+│   ├── litellm/      # litellm related files
+│   └── langfuse/     # langfuse related files
+├── scripts/          # Operational scripts
+└── docs/            # Documentation
+```
 
 ## 🤝 Contributions
 
-AMATERASU welcomes contributions from the community as an open-source project.  Please help improve this template repository through bug reports, feature requests, and pull requests.
+Contributions are welcome!  Follow these steps to participate:
+
+1. Fork this repository.
+2. Create a new branch (`git checkout -b feature/amazing-feature`).
+3. Commit your changes (`git commit -m 'Add amazing feature'`).
+4. Push the branch (`git push origin feature/amazing-feature`).
+5. Create a pull request.
 
 ## 📄 License
 
-AMATERASU is released under the [MIT License](LICENSE).
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgements
+## 🌟 Acknowledgements
 
-Many open-source projects have inspired the development of AMATERASU.  We especially thank the developers of AIRA and IRIS.  We also thank iris-s-coon and Maki.
+AMATERASU is supported by the following projects:
 
----
+- [MOA](https://github.com/Sunwood-ai-labs/MOA) - The foundational project
+- [open-webui](https://github.com/open-webui/open-webui)
+- [litellm](https://github.com/BerriAI/litellm)
+- [langfuse](https://github.com/langfuse/langfuse)
+- [Terraform](https://www.terraform.io/)
 
-AMATERASU is an excellent starter kit for realizing AI-driven development processes.  Start developing innovative AI projects based on this template!
+## 📧 Support
+
+For questions or feedback, please feel free to contact us:
+- Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
+- Email: support@sunwoodai.com
+
+Build a more flexible and powerful AI infrastructure with AMATERASU! ✨
