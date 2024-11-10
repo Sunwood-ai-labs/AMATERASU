@@ -50,4 +50,4 @@ if __name__ == "__main__":
 # ---------------------------
 # コマンドメモ
 #
-# python .github\setup\update_repo_name.py x-archive-visualizer
+# python .github\setup\update_repo_name.py AMATERASU

@@ -26,4 +26,4 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git push -f https://MakiAi:$HF_TOKEN@huggingface.co/spaces/MakiAi/HarmonAI_III main
+          git push -f https://MakiAi:$HF_TOKEN@huggingface.co/spaces/MakiAi/AMATERASU main
