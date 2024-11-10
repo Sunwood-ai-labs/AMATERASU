@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ベースのセットアップスクリプトをダウンロードして実行
-curl -fsSL https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/scripts/setup_script.sh -o /tmp/base_setup.sh
+curl -fsSL https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/scripts/docker-compose_setup_script.sh -o /tmp/base_setup.sh
 chmod +x /tmp/base_setup.sh
 /tmp/base_setup.sh
 
