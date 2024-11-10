@@ -1,52 +1,40 @@
----
-title: HarmonAI III
-emoji: 🦀
-colorFrom: green
-colorTo: blue
-sdk: streamlit
-sdk_version: 1.39.0
-app_file: app.py
-pinned: false
-license: mit
----
-
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/HarmonAI_III/refs/heads/main/docs/HarmonAI-III.png" width="100%">
-  <h1 align="center">🌟 HarmonAI III 🌟</h1>
+  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
+  <h1 align="center">🌟 AMATERASU🌟</h1>
 </p>
 <p align="center">
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU">
     <img alt="GitHub Repo" src="https://img.shields.io/badge/github-HarmonAI__III-blue?logo=github">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/blob/main/LICENSE">
-    <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/HarmonAI_III?color=green">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Sunwood-ai-labs/HarmonAI_III?style=social">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Sunwood-ai-labs/AMATERASU?style=social">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/releases">
-    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/HarmonAI_III?include_prereleases&style=flat-square">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases">
+    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/issues">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/Sunwood-ai-labs/HarmonAI_III">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/Sunwood-ai-labs/AMATERASU">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/pulls">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/pulls">
     <img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/network/members">
-    <img alt="GitHub forks" src="https://img.shields.io/github/forks/Sunwood-ai-labs/HarmonAI_III?style=social">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/network/members">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/Sunwood-ai-labs/AMATERASU?style=social">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/watchers">
-    <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/Sunwood-ai-labs/HarmonAI_III?style=social">
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/watchers">
+    <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/Sunwood-ai-labs/AMATERASU?style=social">
   </a>
-  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Sunwood-ai-labs/HarmonAI_III">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/Sunwood-ai-labs/HarmonAI_III">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Sunwood-ai-labs/AMATERASU">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/Sunwood-ai-labs/AMATERASU">
 </p>
 <h2 align="center">
   ～ AI-Powered Automated Repository Management Template ～
 
-<a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/blob/main/README.md"><img src="https://img.shields.io/badge/ドキュメント-日本語-white.svg" alt="JA doc"/></a>
-<a href="https://github.com/Sunwood-ai-labs/HarmonAI_III/blob/main/docs/README.en.md"><img src="https://img.shields.io/badge/english-document-white.svg" alt="EN doc"></a>
+<a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/README.md"><img src="https://img.shields.io/badge/ドキュメント-日本語-white.svg" alt="JA doc"/></a>
+<a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/docs/README.en.md"><img src="https://img.shields.io/badge/english-document-white.svg" alt="EN doc"></a>
 </h2>
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python" alt="Python">
@@ -178,7 +166,7 @@ HarmonAI IIIには、GitHubリポジトリにコラボレーターを自動で�
 
 2. 以下のコマンドを実行してコラボレーターを招待します：
    ```bash
-   python .github/github_add_collaborator.py Sunwood-ai-labs/HarmonAI_III username_to_invite
+   python .github/github_add_collaborator.py Sunwood-ai-labs/AMATERASU username_to_invite
    ```
 
    `username_to_invite` は招待したいGitHubユーザー名に置き換えてください。
