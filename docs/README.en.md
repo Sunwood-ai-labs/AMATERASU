@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.2.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -23,52 +23,27 @@
 </h2>
 
 >[!IMPORTANT]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, allowing for easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, enabling easier deployment with Terraform.
 
-## 🌟 Introduction
+## 🚀 Project Overview
 
-AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  While inheriting the functionality of MOA, it provides more flexible scaling and management by operating each service on a separate EC2 instance.
+AMATERASU is an automation tool for building a Large Language Model (LLM) platform on AWS.  While inheriting functionality from MOA, it provides more flexible scaling and management by running each service on its own dedicated EC2 instance.
 
 Key Features:
 - Simple EC2 instance management using Terraform
-- Separate EC2 instance and Docker Compose environment for each service
-- Scalable and manageable at the service level
+- Independent EC2 instances and Docker Compose environments for each service
+- Service-level scaling and operation
 - Secure communication and access control
 
-## 🚀 Architecture
+## ✨ Main Features
 
-```mermaid
-graph TB
-    A[Terraform] --> B[AWS Infrastructure]
-    B --> C1[EC2: open-webui]
-    B --> C2[EC2: litellm]
-    B --> C3[EC2: langfuse]
-    B --> C4[EC2: other services...]
+- None (at this time)
 
-    subgraph "open-webui instance"
-    C1 --> D1[Docker Compose]
-    D1 --> E1[open-webui service]
-    D1 --> E2[ollama service]
-    end
 
-    subgraph "litellm instance"
-    C2 --> D2[Docker Compose]
-    D2 --> F1[litellm service]
-    end
+## 🔧 Usage
 
-    subgraph "langfuse instance"
-    C3 --> D3[Docker Compose]
-    D3 --> G1[langfuse service]
-    D3 --> G2[postgres service]
-    end
-```
+Follow the installation instructions and usage guidelines provided in this README to set up AMATERASU.
 
-## 🛠️ System Requirements
-
-- AWS Account
-- Environment with Terraform installed
-- Docker and Docker Compose (automatically installed on EC2 instances)
-- AWS CLI (configured)
 
 ## 📦 Installation Instructions
 
@@ -81,7 +56,7 @@ cd AMATERASU
 2. Set environment variables:
 ```bash
 cp .env.example .env
-# Edit the .env file and set the necessary credentials
+# Edit the .env file and configure the necessary credentials
 ```
 
 3. Initialize and run Terraform:
@@ -92,6 +67,13 @@ terraform plan
 terraform apply
 ```
 
+## 🆕 Latest News
+
+v0.2.0 features a revamped architecture, with each AI service now running in a separate EC2 instance using Docker Compose. This improves scalability and manageability of individual services.  The English README has also been updated, and images have been added to improve the appearance of the release notes.
+
+With the architecture overhaul, the README now includes an architecture diagram (not included in this translation), system requirements, installation instructions, module structure, deployment methods, example operational commands, detailed directory structure for each module, examples of the Docker Compose configuration file (`docker-compose.yml`) and environment variable file (`.env`), scripts for SSH connection to each module, and Docker Compose service management (start, stop, log display). For enhanced security, each EC2 instance is protected by a dedicated security group, and inter-service communication is controlled within the internal VPC network.
+
+
 ## 🌐 Module Structure
 
 Each module runs using Docker Compose on a separate EC2 instance:
@@ -99,12 +81,12 @@ Each module runs using Docker Compose on a separate EC2 instance:
 ### open-webui Module (EC2 Instance)
 ```
 📁 open-webui/
-├── 📄 docker-compose.yml  # Configuration for open-webui and ollama
+├── 📄 docker-compose.yml  # open-webui and ollama configuration
 ├── 📄 .env               # Environment variable settings
 └── 📁 config/            # Configuration files
 ```
 
-Example Configuration (docker-compose.yml):
+Example configuration (docker-compose.yml):
 ```yaml
 version: '3'
 services:
@@ -126,15 +108,15 @@ services:
 ### litellm Module (EC2 Instance)
 ```
 📁 litellm/
-├── 📄 docker-compose.yml  # Configuration for the litellm service
-├── 📄 .env               # Environment variables such as API keys
+├── 📄 docker-compose.yml  # litellm service configuration
+├── 📄 .env               # API key and other environment variables
 └── 📁 config/            # LLM configuration files
 ```
 
 ### langfuse Module (EC2 Instance)
 ```
 📁 langfuse/
-├── 📄 docker-compose.yml  # Configuration for langfuse and the database
+├── 📄 docker-compose.yml  # langfuse and DB configuration
 ├── 📄 .env               # Environment variable settings
 └── 📁 data/              # PostgreSQL data
 ```
@@ -165,19 +147,19 @@ Connecting to each EC2 instance:
 
 Docker Compose operations:
 ```bash
-# Execute within each instance
+# Run within each instance
 cd /opt/amaterasu/[module-name]
-docker-compose up -d      # Start services
-docker-compose down      # Stop services
+docker-compose up -d      # Start service
+docker-compose down      # Stop service
 docker-compose logs -f   # Display logs
 ```
 
 ## 🔒 Security Configuration
 
-- Each EC2 instance is protected by a separate security group.
-- Inter-service communication is controlled by the internal VPC network.
+- Each EC2 instance is protected by a dedicated security group.
+- Inter-service communication is controlled within the internal VPC network.
 - Only the minimum necessary ports are exposed.
-- Permission management via IAM roles.
+- Permission management using IAM roles.
 
 ## 📚 Directory Structure
 
@@ -195,29 +177,35 @@ amaterasu/
 └── docs/            # Documentation
 ```
 
-## 🤝 Contributions
+## ⚠️ Important Changes
 
-Contributions are welcome!  Follow these steps to participate:
+- Due to the revamped architecture, upgrading from previous versions requires manual migration following the provided steps.  Refer to the upgrade instructions for details.
 
-1. Fork this repository.
-2. Create a new branch (`git checkout -b feature/amazing-feature`).
-3. Commit your changes (`git commit -m 'Add amazing feature'`).
-4. Push the branch (`git push origin feature/amazing-feature`).
-5. Create a pull request.
+
+## 📦 Upgrade Instructions
+
+1. Stop the existing environment.
+2. Build the environment with the new architecture following the instructions in this README.
+3. If data migration is necessary, perform the appropriate steps. (Specific steps are not provided.)
+
 
 ## 📄 License
 
 This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
-## 🌟 Acknowledgements
+## 👏 Acknowledgements
 
-AMATERASU is supported by the following projects:
+Thanks to iris-s-coon and Maki.
 
-- [MOA](https://github.com/Sunwood-ai-labs/MOA) - The foundational project
-- [open-webui](https://github.com/open-webui/open-webui)
-- [litellm](https://github.com/BerriAI/litellm)
-- [langfuse](https://github.com/langfuse/langfuse)
-- [Terraform](https://www.terraform.io/)
+## 🤝 Contributions
+
+Contributions are welcome!  Here's how to get involved:
+
+1. Fork this repository
+2. Create a new branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push the branch (`git push origin feature/amazing-feature`)
+5. Create a pull request
 
 ## 📧 Support
 
