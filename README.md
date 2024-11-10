@@ -4,7 +4,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU">
-    <img alt="GitHub Repo" src="https://img.shields.io/badge/github-HarmonAI__III-blue?logo=github">
+    <img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github">
   </a>
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green">
@@ -63,23 +63,22 @@
 
 ## 🚀 プロジェクト概要
 
-HarmonAI IIIは、AIRAとIRISを統合した革新的な**AIリポジトリスターターキット**です。このリポジトリは、LLMを活用したAI開発プロジェクトの構造とワークフローを提供し、開発者の作業効率を劇的に向上させることを目的としています。バージョン: `v1.3.0`
+AMATERASU (旧HarmonAI III)は、AIRAとIRISを統合した革新的な**AIリポジトリスターターキット**です。このリポジトリは、LLMを活用したAI開発プロジェクトの構造とワークフローを提供し、開発者の作業効率を劇的に向上させることを目的としています。バージョン: `v0.1.0`
 
 
 ## 🆕 最新情報
 
-- 🎉 **v1.3.0リリース**: Streamlitアプリの基本構造作成、READMEファイルのデザイン改善、いくつかのバグ修正、およびドキュメントの更新を行いました。  StreamlitアプリではREADME.mdファイルを読み込んで表示する機能を実装しました。  README.mdファイルが存在しない場合のエラー処理も追加されています。  さらに、GitHubリポジトリへのコラボレーター追加スクリプト、Hugging Face Hubへの自動同期ワークフロー、PyPIへの自動デプロイワークフローを追加しました。
+- リポジトリ名が`HarmonAI_III`から`AMATERASU`に変更されました。不要になったワークフローが削除され、リポジトリのクリーンアップが行われました。README.mdのロゴとメイン画像も更新されました。新しいメイン画像とリリースノートヘッダー画像が追加されました。
 
 
 ## ✨ 主な機能
 
 1. **統合AIツールセット**: AIRAとIRISの機能を1つのパッケージで提供
 2. **即時利用可能**: テンプレートとして使用することで、高品質な初期構造を持つリポジトリを簡単に作成
-3. **自動化された開発ワークフロー**: コミットメッセージ生成、リリースノート作成、イシュー管理の自動化
+3. **自動化された開発ワークフロー**: コミットメッセージ生成、リリースノート作成、イシュー管理の自動化 (一部ワークフローは削除されました。)
 4. **多言語サポート**: READMEの自動翻訳機能により、国際的なプロジェクト展開をサポート
 5. **柔軟なカスタマイズ**: プロジェクトのニーズに合わせて容易に調整可能
-6. **コラボレーター自動招待**: GitHub APIを利用したコラボレーター招待スクリプト
-7. **Streamlitアプリ**: README.mdファイルを表示する基本的なStreamlitアプリケーション
+6. **Streamlitアプリ**: README.mdファイルを表示する基本的なStreamlitアプリケーション
 
 
 ## 🔧 使用方法
@@ -107,13 +106,12 @@ aira --mode sourcesage commit  --config=.aira\config.dev.commit.yml --ss-model-n
    pip install -r requirements.txt
    ```
 4. AIRAとIRISの設定ファイルをカスタマイズします。
-5. GitHub Actionsの設定を確認し、必要に応じて環境変数を設定します。
-6. `.github/release_notes/.sourcesage_releasenotes_iris.yml`ファイルを開き、`repo-name:`の値を新しいリポジトリ名に修正します。
+5.  GitHub Actionsの設定を確認し、必要に応じて環境変数を設定します。(Hugging Face Hubへの自動同期ワークフローとPyPIへの自動公開ワークフローは削除されました。)
 
 
 ## 🌿 環境構築
 
-HarmonAI IIIの環境を構築するには、以下の手順に従ってください：
+AMATERASUの環境を構築するには、以下の手順に従ってください：
 
 1. 仮想環境を作成します：
    ```bash
@@ -132,7 +130,7 @@ HarmonAI IIIの環境を構築するには、以下の手順に従ってくだ�
    pip install -r requirements.txt
    ```
 
-これらの手順により、HarmonAI IIIの開発環境が整います。
+これらの手順により、AMATERASUの開発環境が整います。
 
 
 ## 📚 主要コンポーネント
@@ -149,7 +147,7 @@ HarmonAI IIIの環境を構築するには、以下の手順に従ってくだ�
 
 ## 🤝 コラボレーターの自動招待
 
-HarmonAI IIIには、GitHubリポジトリにコラボレーターを自動で招待するスクリプトが含まれています。以下の手順で使用できます：
+AMATERASUには、GitHubリポジトリにコラボレーターを自動で招待するスクリプトが含まれています。以下の手順で使用できます：
 
 1. `.env` ファイルを作成し、必要なトークンを設定します：
    ```
@@ -189,7 +187,7 @@ HarmonAI IIIには、GitHubリポジトリにコラボレーターを自動で�
 
 graph LR
     A[開始] --> B[リポジトリの構想とネーミング]
-    B -->|人間が実施| C[HarmonAI IIIによる<br>リポジトリ初期化]
+    B -->|人間が実施| C[AMATERASUによる<br>リポジトリ初期化]
     C -->|自動化| D[開発作業]
     D -->|人間が実施| E[AIRAによる<br>コミット自動化]
     E --> H[IRISによる<br>リリースノート作成]
@@ -209,16 +207,16 @@ graph LR
 
 ## 🤝 コントリビューション
 
-HarmonAI IIIは、オープンソースプロジェクトとしてコミュニティからの貢献を歓迎しています。バグ報告、機能リクエスト、プルリクエストを通じて、このテンプレートリポジトリの改善にご協力ください。
+AMATERASUは、オープンソースプロジェクトとしてコミュニティからの貢献を歓迎しています。バグ報告、機能リクエスト、プルリクエストを通じて、このテンプレートリポジトリの改善にご協力ください。
 
 ## 📄 ライセンス
 
-HarmonAI IIIは、[MITライセンス](LICENSE)の下で公開されています。
+AMATERASUは、[MITライセンス](LICENSE)の下で公開されています。
 
 ## 🙏 謝辞
 
-HarmonAI IIIの開発にあたり、多くのオープンソースプロジェクトからインスピレーションを得ています。特に、AIRAとIRISの開発者の皆様に深く感謝申し上げます。iris-s-coon、Maki様にも感謝いたします。
+AMATERASUの開発にあたり、多くのオープンソースプロジェクトからインスピレーションを得ています。特に、AIRAとIRISの開発者の皆様に深く感謝申し上げます。iris-s-coon、Maki様にも感謝いたします。
 
 ---
 
-HarmonAI IIIは、AI駆動の開発プロセスを実現する優れたスターターキットです。このテンプレートを基に、革新的なAIプロジェクトの開発を始めましょう！
+AMATERASUは、AI駆動の開発プロセスを実現する優れたスターターキットです。このテンプレートを基に、革新的なAIプロジェクトの開発を始めましょう！
