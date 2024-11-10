@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-  <h1 align="center">🌟 AMATERASU🌟</h1>
+  <h1 align="center">🌄 AMATERASU 🌄</h1>
 </p>
 <p align="center">
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU">
