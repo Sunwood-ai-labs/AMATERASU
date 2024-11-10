@@ -17,12 +17,16 @@ resource "aws_subnet" "public" {
   tags = {
     Name = "${var.project_name}-public-subnet"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # 追加のパブリックサブネット（ALBには最低2つのサブネットが必要）
 resource "aws_subnet" "public_2" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(var.vpc_cidr, 8, 2)
+  cidr_block              = cidrsubnet(var.vpc_cidr, 8, 3)  # CIDRを10.0.3.0/24に設定
   availability_zone       = "${var.aws_region}c"
   map_public_ip_on_launch = true
 
@@ -75,6 +79,13 @@ resource "aws_security_group" "alb" {
     cidr_blocks = [for entry in local.whitelist_entries : entry.ip]
   }
 
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [for entry in local.whitelist_entries : entry.ip]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -112,13 +123,28 @@ resource "aws_security_group" "ec2" {
   }
 }
 
+# ACM証明書
+resource "aws_acm_certificate" "cert" {
+  provider = aws.us-east-1  # CloudFront用の証明書はus-east-1リージョンに作成する必要があります
+  domain_name       = "*.cloudfront.net"
+  validation_method = "DNS"
+
+  tags = {
+    Name = "${var.project_name}-cert"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 # Application Load Balancer
 resource "aws_lb" "main" {
   name               = "${var.project_name}-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
-  subnets           = [aws_subnet.public.id, aws_subnet.public_2.id]
+  subnets            = [aws_subnet.public.id, aws_subnet.public_2.id]
 
   tags = {
     Name = "${var.project_name}-alb"
@@ -144,6 +170,23 @@ resource "aws_lb_target_group" "main" {
   }
 }
 
+# HTTPリスナー
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Please use HTTPS"
+      status_code  = "200"
+    }
+  }
+}
+
+# HTTPSリスナー
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.main.arn
   port              = "443"
@@ -163,7 +206,7 @@ resource "aws_cloudfront_distribution" "main" {
   
   origin {
     domain_name = aws_lb.main.dns_name
-    origin_id   = aws_lb.main.name
+    origin_id   = "${var.project_name}-alb"
 
     custom_origin_config {
       http_port              = 80
@@ -176,7 +219,7 @@ resource "aws_cloudfront_distribution" "main" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = aws_lb.main.name
+    target_origin_id = "${var.project_name}-alb"
 
     forwarded_values {
       query_string = true
@@ -191,6 +234,8 @@ resource "aws_cloudfront_distribution" "main" {
     max_ttl                = 86400
   }
 
+  price_class = "PriceClass_All"
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
@@ -203,19 +248,5 @@ resource "aws_cloudfront_distribution" "main" {
 
   tags = {
     Name = "${var.project_name}-cloudfront"
-  }
-}
-
-# ACM Certificate
-resource "aws_acm_certificate" "cert" {
-  domain_name       = "*.cloudfront.net"
-  validation_method = "DNS"
-
-  tags = {
-    Name = "${var.project_name}-cert"
-  }
-
-  lifecycle {
-    create_before_destroy = true
   }
 }
