@@ -23,39 +23,51 @@
 </h2>
 
 >[!IMPORTANT]
->AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスをAWS EC2上の独立したモジュールとして再構築し、Terraformを用いて簡単にデプロイできるように進化させました。
+>AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
 
 ## 🌟 はじめに
 
-AMATERASUは、AWS上にLLM（大規模言語モデル）プラットフォームを構築するための自動化ツールです。MOAの機能を踏襲しながら、より柔軟なインフラストラクチャの構築と管理を実現します。
+AMATERASUは、AWS上にLLM（大規模言語モデル）プラットフォームを構築するための自動化ツールです。MOAの機能を踏襲しながら、各サービスを独立したEC2インスタンスで運用することで、より柔軟なスケーリングと管理を実現します。
 
 主な特徴:
-- Terraformを使用した簡単なAWSリソース管理
-- マイクロサービスアーキテクチャの採用による柔軟な拡張性
-- EC2インスタンス上での各種AIサービスの分離デプロイ
-- 高度なセキュリティと運用管理機能
+- Terraformを使用した簡単なEC2インスタンス管理
+- 各サービスごとに独立したEC2インスタンスとDocker Compose環境
+- サービス単位でのスケーリングと運用が可能
+- セキュアな通信とアクセス制御
 
 ## 🚀 アーキテクチャ
 
 ```mermaid
 graph TB
     A[Terraform] --> B[AWS Infrastructure]
-    B --> C[EC2 Instances]
-    C --> D[open-webui module]
-    C --> E[litellm module]
-    C --> F[langfuse module]
-    C --> G[other modules...]
-    D --> H[Load Balancer]
-    E --> H
-    F --> H
-    G --> H
+    B --> C1[EC2: open-webui]
+    B --> C2[EC2: litellm]
+    B --> C3[EC2: langfuse]
+    B --> C4[EC2: other services...]
+    
+    subgraph "open-webui instance"
+    C1 --> D1[Docker Compose]
+    D1 --> E1[open-webui service]
+    D1 --> E2[ollama service]
+    end
+    
+    subgraph "litellm instance"
+    C2 --> D2[Docker Compose]
+    D2 --> F1[litellm service]
+    end
+    
+    subgraph "langfuse instance"
+    C3 --> D3[Docker Compose]
+    D3 --> G1[langfuse service]
+    D3 --> G2[postgres service]
+    end
 ```
 
 ## 🛠️ システム要件
 
 - AWS アカウント
 - Terraform がインストールされた環境
-- Docker と Docker Compose
+- Docker と Docker Compose（EC2インスタンスに自動インストール）
 - AWS CLI（設定済み）
 
 ## 📦 インストール手順
@@ -72,83 +84,115 @@ cp .env.example .env
 # .envファイルを編集して必要な認証情報を設定
 ```
 
-3. Terraformの初期化:
+3. Terraformの初期化と実行:
 ```bash
 cd terraform
 terraform init
-```
-
-4. インフラストラクチャのデプロイ:
-```bash
 terraform plan
 terraform apply
 ```
 
 ## 🌐 モジュール構成
 
-各モジュールは独立したEC2インスタンス上で動作し、必要に応じて選択的にデプロイできます：
+各モジュールは独立したEC2インスタンス上でDocker Composeを使って実行されます：
 
-### open-webui モジュール
-- チャットインターフェース提供
-- LLMモデルの管理と実行
-```bash
-terraform apply -target=module.open_webui
+### open-webui モジュール（EC2インスタンス）
+```
+📁 open-webui/
+├── 📄 docker-compose.yml  # open-webuiとollamaの設定
+├── 📄 .env               # 環境変数設定
+└── 📁 config/            # 設定ファイル
 ```
 
-### litellm モジュール
-- 複数のLLMプロバイダーの統合
-- API管理とルーティング
-```bash
-terraform apply -target=module.litellm
+設定例（docker-compose.yml）:
+```yaml
+version: '3'
+services:
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./data:/root/.ollama
+
+  open-webui:
+    image: open-webui/open-webui
+    ports:
+      - "3000:3000"
+    environment:
+      - OLLAMA_URL=http://ollama:11434
 ```
 
-### langfuse モジュール
-- LLMの実行ログ収集
-- パフォーマンスモニタリング
-```bash
-terraform apply -target=module.langfuse
+### litellm モジュール（EC2インスタンス）
+```
+📁 litellm/
+├── 📄 docker-compose.yml  # litellmサービスの設定
+├── 📄 .env               # API keyなどの環境変数
+└── 📁 config/            # LLMの設定ファイル
 ```
 
-## 📊 モニタリングとメンテナンス
+### langfuse モジュール（EC2インスタンス）
+```
+📁 langfuse/
+├── 📄 docker-compose.yml  # langfuseとDBの設定
+├── 📄 .env               # 環境変数設定
+└── 📁 data/              # PostgreSQLデータ
+```
 
-- CloudWatchによる各モジュールのメトリクス監視
-- 自動バックアップと復元機能
-- スケーリングポリシーの設定
+## 🔨 デプロイコマンド例
 
-## 🔒 セキュリティ機能
+特定のモジュールのみデプロイ:
+```bash
+# open-webuiモジュールのみデプロイ
+terraform apply -target=module.ec2_open_webui
 
-- VPC内での分離されたネットワーク構成
+# litellmモジュールのみデプロイ
+terraform apply -target=module.ec2_litellm
+
+# langfuseモジュールのみデプロイ
+terraform apply -target=module.ec2_langfuse
+```
+
+## 💻 モジュール管理コマンド
+
+各EC2インスタンスへの接続:
+```bash
+# SSH接続スクリプト
+./scripts/connect.sh open-webui
+./scripts/connect.sh litellm
+./scripts/connect.sh langfuse
+```
+
+Docker Compose操作:
+```bash
+# 各インスタンス内で実行
+cd /opt/amaterasu/[module-name]
+docker-compose up -d      # サービス起動
+docker-compose down      # サービス停止
+docker-compose logs -f   # ログ表示
+```
+
+## 🔒 セキュリティ設定
+
+- 各EC2インスタンスは独立したセキュリティグループで保護
+- サービス間通信は内部VPCネットワークで制御
+- 必要最小限のポートのみを公開
 - IAMロールによる権限管理
-- SSL/TLS証明書の自動管理
-- セキュリティグループの細かな制御
 
-## 💻 運用コマンド例
-
-モジュールの起動:
-```bash
-./scripts/start-module.sh open-webui
-```
-
-ログの確認:
-```bash
-./scripts/view-logs.sh litellm
-```
-
-設定の更新:
-```bash
-./scripts/update-config.sh langfuse
-```
-
-## 📚 ドキュメント
-
-詳細なドキュメントは以下のディレクトリに格納されています：
+## 📚 ディレクトリ構造
 
 ```plaintext
-docs/
-├── setup/           # セットアップガイド
-├── modules/         # 各モジュールの詳細説明
-├── operations/      # 運用マニュアル
-└── security/        # セキュリティガイドライン
+amaterasu/
+├── terraform/          # Terraformコード
+│   ├── modules/        # 各EC2インスタンスのモジュール
+│   ├── main.tf        # メイン設定
+│   └── variables.tf   # 変数定義
+├── modules/           # 各サービスのDocker Compose設定
+│   ├── open-webui/    # open-webui関連ファイル
+│   ├── litellm/      # litellm関連ファイル
+│   └── langfuse/     # langfuse関連ファイル
+├── scripts/          # 運用スクリプト
+└── docs/            # ドキュメント
 ```
 
 ## 🤝 コントリビューション
