@@ -6,7 +6,7 @@ services:
     # ports:
     #   - "11434:11434" 
     volumes:
-      - ollama-moa2:/root/.ollama
+      - ollama-amaterasu1:/root/.ollama
     env_file:
       - .env
     pull_policy: always
@@ -22,11 +22,11 @@ services:
       
     image: ghcr.io/open-webui/open-webui:dev
     volumes:
-      - open-webui-moa3:/app/backend/data
+      - open-webui-amaterasu1:/app/backend/data
       - ./:/work
     depends_on:
       - ollama
-      - litellm
+
     ports:
       - ${OPEN_WEBUI_PORT-8181}:8080
     env_file:
@@ -34,3 +34,7 @@ services:
     # environment:
     #   - OPENAI_API_BASE_URL=http://litellm:14365
     restart: unless-stopped
+
+volumes:
+  ollama-amaterasu1: {}
+  open-webui-amaterasu1: {}
