@@ -9,6 +9,11 @@ module "networking" {
   public_subnet_cidr = var.public_subnet_cidr
   project_name       = var.project_name
   aws_region         = var.aws_region
+
+  providers = {
+    aws           = aws
+    aws.us-east-1 = aws.us-east-1
+  }
 }
 
 module "compute" {
