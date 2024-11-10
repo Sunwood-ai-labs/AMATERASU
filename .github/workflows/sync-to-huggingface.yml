@@ -1,0 +1,29 @@
+name: Sync to Hugging Face hub
+on:
+  push:
+    branches: [main]
+
+  # to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+      - name: Remove .github and PNG files from history
+        run: |
+          git filter-branch --force --index-filter \
+          'git rm -rf --cached --ignore-unmatch .github *.png' \
+          --prune-empty --tag-name-filter cat -- --all
+      - name: Push to Hugging Face hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git push -f https://MakiAi:$HF_TOKEN@huggingface.co/spaces/MakiAi/HarmonAI_III main

@@ -1,0 +1,42 @@
+name: 提案された変更の適用
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  apply-changes:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request == null && github.event.comment.body == 'ok' }}
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Git の設定
+        run: |
+          git config --global user.name 'github-actionsA[bot]'
+          git config --global user.email 'github-actionsA[bot]@users.noreply.github.com'
+
+      - name: Python のセットアップ
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: 依存関係のインストール
+        run: |
+          pip install -r .github/requirements.txt
+
+      - name: スクリプトの実行
+        run: python .github/scripts/apply_suggestion.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          YOUR_PERSONAL_ACCESS_TOKEN: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          YOUR_PERSONAL_ACCESS_TOKEN_IRIS: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}

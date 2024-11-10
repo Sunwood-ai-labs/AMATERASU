@@ -1,0 +1,11 @@
+label,description
+bug,何かが正常に動作していません
+documentation,ドキュメントの改善または追加
+duplicate,このイシューまたはプルリクエストは既に存在します
+enhancement,新機能または要望
+feature,新機能または要望
+good first issue,初心者に適しています
+help wanted,追加の注意が必要です
+invalid,これは適切ではないようです
+question,さらなる情報が必要です
+wontfix,これは対応されません

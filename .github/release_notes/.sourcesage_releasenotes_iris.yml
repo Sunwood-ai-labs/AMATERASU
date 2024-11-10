@@ -1,0 +1,15 @@
+ss-mode:
+ - DocuMind
+docuMind-model: "XXXXX"
+docuMind-db: ".SourceSageAssets/DOCUMIND/Repository_summary.md"
+docuMind-release-report: ".SourceSageAssets/RELEASE_REPORT/Report_v0.0.0.md"
+docuMind-changelog: ".SourceSageAssets/Changelog/CHANGELOG_main.md"
+docuMind-output: ".SourceSageAssets/DOCUMIND/RELEASE_NOTES_v0.0.0.md"
+docuMind-prompt-output: ".SourceSageAssets/DOCUMIND/_PROMPT_v0.0.0.md"
+repo-name: "HarmonAI_III"
+repo-version: "v0.0.0"
+
+# changelog-start-tag: "v0.1.0"
+# changelog-end-tag: "v0.0.0"
+# sourcesage --ss-mode=DocuMind --yaml-file=docs\.sourcesage_releasenotes.yml
+# sourcesage --ss-mode=DocuMind --yaml-file=docs/.sourcesage_releasenotes_iris.yml

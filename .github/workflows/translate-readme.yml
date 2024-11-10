@@ -1,0 +1,114 @@
+name: READMEの翻訳
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+  GITHUB_REPOSITORY: ${{ github.repository }}
+  YOUR_PERSONAL_ACCESS_TOKEN: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}
+  YOUR_PERSONAL_ACCESS_TOKEN_IRIS: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}
+
+jobs:
+  translate-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 新しいブランチの作成
+        run: |
+          git checkout -b translate-readme-${{ github.run_id }}
+
+      - name: Pythonのセットアップ
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: 依存関係のインストール
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r .github/requirements.txt
+
+      - name: READMEの翻訳
+        run: |
+          python .github/scripts/translate_readme.py
+
+      - name: 変更の確認とコミット
+        id: check_changes
+        run: |
+          git config --global user.name "iris-s-coon"
+          git config --global user.email "iris.sol.coon@gmail.com"
+          git add docs/README.en.md
+          if git diff --staged --quiet; then
+            echo "変更はありません。"
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "📖 [docs] 英語READMEの更新"
+            echo "変更が検出されました。"
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: ブランチをプッシュ
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git push origin translate-readme-${{ github.run_id }}
+
+      - name: ラベルの確認と作成
+        if: steps.check_changes.outputs.changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ env.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}
+        run: |
+          if ! gh label list | grep -q "automated pr"; then
+            gh label create "automated pr" --color "#0E8A16" --description "自動生成されたプルリクエスト"
+          fi
+
+      - name: プルリクエストの作成
+        if: steps.check_changes.outputs.changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ env.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}
+        run: |
+          gh pr create --title "📖 [docs] 英語READMEの自動更新" \
+                       --body "このプルリクエストは、README.mdの変更に基づいて、README.en.mdを自動更新したものです。内容を確認し、問題がなければマージしてください。" \
+                       --base main \
+                       --head translate-readme-${{ github.run_id }} \
+                       --label "documentation" \
+                       --label "automated pr"
+
+      - name: プルリクエストの自動マージ
+        if: steps.check_changes.outputs.changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ env.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}
+        run: |
+          PR_NUMBER=$(gh pr list --head translate-readme-${{ github.run_id }} --json number --jq '.[0].number')
+          gh pr merge $PR_NUMBER --auto --merge
+
+      - name: ブランチの削除
+        if: steps.check_changes.outputs.changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ env.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}
+        run: |
+          PR_NUMBER=$(gh pr list --head translate-readme-${{ github.run_id }} --json number --jq '.[0].number')
+          if [ ! -z "$PR_NUMBER" ]; then
+            echo "プルリクエスト #$PR_NUMBER は自動マージされるのを待っています。"
+          else
+            echo "プルリクエストは既にマージされています。ブランチを削除します。"
+            git push origin --delete translate-readme-${{ github.run_id }}
+          fi
+
+      - name: 変更がない場合のメッセージ
+        if: steps.check_changes.outputs.changes == 'false'
+        run: |
+          echo "READMEに変更がないため、プルリクエストは作成されませんでした。"

@@ -1,0 +1,71 @@
+aira:
+  gaiah:  # 共通設定
+    run: true
+    repo:
+      repo_name: "IRIS"
+      description: "I.R.I.S（Intelligent Repository Issue Solver）"
+      private: false
+    local:
+      repo_dir: "C:/Prj/IRIS"
+      no_initial_commit: false
+    commit:
+      commit_msg_path: ".Gaiah.md"
+      branch_name: null
+
+    dev:  # 開発時の設定 (必要に応じて上書き)
+      repo:
+        create_repo: false
+      local:
+        init_repo: false
+      commit:
+        process_commits: true
+
+    init:  # 初期化時の設定 (必要に応じて上書き)
+      repo:
+        create_repo: true
+      local:
+        init_repo: true
+      commit:
+        process_commits: false
+
+  llm:
+    model: "gemini/gemini-1.5-pro-latest"  # 利用するLLMモデル
+
+  repository_summary_output_dir: .aira  # リポジトリ概要の出力ディレクトリ
+  readme_prompt_template_path: .aira/readme_prompt_template.txt  # README生成のプロンプトテンプレートのパス
+  
+  harmon_ai:
+    run: true
+    environment:
+      repo_name: "IRIS"
+      owner_name: "Sunwood-ai-labs"
+      package_name: "IRIS"
+      icon_url: "https://huggingface.co/datasets/MakiAi/IconAssets/resolve/main/IRIS.png"
+      title: "IRIS"
+      subtitle: "～ Intelligent Repository Issue Solver ～"
+      website_url: "https://hamaruki.com/"
+      github_url: "https://github.com/Sunwood-ai-labs"
+      twitter_url: "https://x.com/hAru_mAki_ch"
+      blog_url: "https://hamaruki.com/"
+
+    product:
+      important_message_file: "important_template.md"
+      sections_content_file: "sections_template.md"
+      output_file: "README_template.md"
+      cicd_file_path: "publish-to-pypi.yml"
+      cicd_main_path: "publish-to-pypi.yml"
+      github_cicd_dir: ".github/workflows"
+    
+    llm_product:
+      sections_content_file: "sections_template_llm.md"
+
+    development:
+      output_dir: "C:/Prj/IRIS/.harmon_ai"
+
+    main:
+      main_dir: "C:/Prj/IRIS/"
+      replace_readme: true
+
+    instructions_prompt: .aira/instructions.IRIS.md
+
+# aira --mode=make --config=.aira\config.IRIS.yml

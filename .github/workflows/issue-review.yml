@@ -1,0 +1,39 @@
+name: イシュー自動レビュー
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  review-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@v3
+
+      - name: Python のセットアップ
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: 依存関係のインストール
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r .github/requirements.txt
+
+      - name: スクリプトの実行
+        run: python .github/scripts/label_adder.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          YOUR_PERSONAL_ACCESS_TOKEN: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}
+          YOUR_PERSONAL_ACCESS_TOKEN_IRIS: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN_IRIS }}
