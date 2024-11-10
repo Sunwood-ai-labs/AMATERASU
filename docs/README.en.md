@@ -4,7 +4,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU">
-    <img alt="GitHub Repo" src="https://img.shields.io/badge/github-HarmonAI__III-blue?logo=github">
+    <img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github">
   </a>
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green">
@@ -59,34 +59,33 @@
 
 
 > [!IMPORTANT]
-> HarmonAI III is a template repository developed using [cline (formerly Claude Dev)](https://github.com/clinebot/cline), [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and [claude.ai](https://claude.ai/).  A large portion of the release notes, README, and commit messages were generated using the latest AI technologies.
+>  AMATERASU (formerly HarmonAI III) was developed using [cline (formerly Claude Dev)](https://github.com/clinebot/cline), [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and [claude.ai](https://claude.ai/).  Most of the release notes, README, and commit messages were generated using the latest AI technologies.
 
 ## 🚀 Project Overview
 
-HarmonAI III is an innovative **AI repository starter kit** integrating AIRA and IRIS. This repository aims to dramatically improve developer efficiency by providing a structure and workflow for AI development projects leveraging LLMs. Version: `v1.3.0`
+AMATERASU (formerly HarmonAI III) is an innovative **AI repository starter kit** integrating AIRA and IRIS. This repository aims to dramatically improve developer efficiency by providing the structure and workflow for AI development projects leveraging LLMs. Version: `v0.1.0`
 
 
-## 🆕 What's New
+## 🆕 Latest News
 
-- 🎉 **v1.3.0 Release**:  Added basic Streamlit app structure, improved README file design, fixed several bugs, and updated documentation. The Streamlit app now includes functionality to display the contents of the README.md file. Error handling for missing README.md files has also been added.  Furthermore, scripts for adding collaborators to the GitHub repository, automated synchronization workflows with Hugging Face Hub, and automated deployment workflows to PyPI have been added.
+- The repository name has been changed from `HarmonAI_III` to `AMATERASU`.  Unnecessary workflows have been removed, and the repository has been cleaned up. The README.md logo and main image have also been updated. A new main image and release notes header image have been added.
 
 
 ## ✨ Key Features
 
 1. **Integrated AI Toolset**: Provides the functionality of AIRA and IRIS in a single package.
-2. **Ready to Use**: Easily create a repository with a high-quality initial structure by using it as a template.
-3. **Automated Development Workflow**: Automates commit message generation, release note creation, and issue management.
+2. **Ready-to-use**: Easily create a repository with a high-quality initial structure by using it as a template.
+3. **Automated Development Workflow**: Automates commit message generation, release note creation, and issue management (some workflows have been removed).
 4. **Multilingual Support**: Supports international project deployment through automated README translation.
 5. **Flexible Customization**: Easily adjustable to suit project needs.
-6. **Automated Collaborator Invitation**:  Collaborator invitation script using the GitHub API.
-7. **Streamlit App**: A basic Streamlit application to display the README.md file.
+6. **Streamlit App**: A basic Streamlit application to display the README.md file.
 
 
 ## 🔧 How to Use
 
 ### Running the Streamlit App
-1. Install the necessary packages with: `pip install -r requirements.txt`.
-2. Run: `streamlit run app.py`.
+1. Install the necessary packages with `pip install -r requirements.txt`.
+2. Run `streamlit run app.py`.
 
 ### AIRA Example:
 ```bash
@@ -98,7 +97,7 @@ aira --mode sourcesage commit  --config=.aira\config.dev.commit.yml --ss-model-n
 Refer to the documentation for each component for detailed usage instructions.
 
 
-## 📦 Installation
+## 📦 Installation Instructions
 
 1. Use this repository as a template to create a new repository.
 2. Clone the repository locally.
@@ -107,19 +106,18 @@ Refer to the documentation for each component for detailed usage instructions.
    pip install -r requirements.txt
    ```
 4. Customize the AIRA and IRIS configuration files.
-5. Review the GitHub Actions settings and configure environment variables as needed.
-6. Open the `.github/release_notes/.sourcesage_releasenotes_iris.yml` file and change the value of `repo-name:` to your new repository name.
+5. Check the GitHub Actions settings and configure environment variables as needed. (The automatic synchronization workflow to Hugging Face Hub and the automatic publishing workflow to PyPI have been removed.)
 
 
-## 🌿 Setting up the Environment
+## 🌿 Environment Setup
 
-To set up the HarmonAI III environment, follow these steps:
+To set up the AMATERASU environment, follow these steps:
 
 1. Create a virtual environment:
    ```bash
    python3 -m venv .venv
    ```
-   This creates a virtual environment in the `.venv` directory.
+   This will create a virtual environment in the `.venv` directory.
 
 2. Activate the virtual environment:
    ```bash
@@ -127,12 +125,12 @@ To set up the HarmonAI III environment, follow these steps:
    .venv\Scripts\activate  # Windows
    ```
 
-3. Install the dependencies:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-These steps will prepare the development environment for HarmonAI III.
+These steps will prepare the development environment for AMATERASU.
 
 
 ## 📚 Main Components
@@ -149,14 +147,14 @@ These steps will prepare the development environment for HarmonAI III.
 
 ## 🤝 Automated Collaborator Invitation
 
-HarmonAI III includes a script to automatically invite collaborators to the GitHub repository.  You can use it with the following steps:
+AMATERASU includes a script to automatically invite collaborators to the GitHub repository.  It can be used with the following steps:
 
 1. Create a `.env` file and set the necessary tokens:
    ```
    # GitHub access token (for collaborator invitation)
    GITHUB_TOKEN=your_github_personal_access_token_here
 
-   # The following are examples of tokens that may be used for other features.  It is convenient to list them for later use.
+   # The following are examples of tokens that may be used by other functions. It's convenient to write them down for later use.
    # GITHUB_ACCESS_TOKEN=ghp_xxxxx
    # YOUR_PERSONAL_ACCESS_TOKEN_IRIS=ghp_yyyyy
    # GEMINI_API_KEY=AIzzzzz
@@ -174,9 +172,9 @@ HarmonAI III includes a script to automatically invite collaborators to the GitH
 3. Once the script runs successfully, a collaborator invitation will be sent to the specified user.
 
 Notes:
-- This script requires the GitHub token to have appropriate permissions (the `repo` scope).
+- This script requires the GitHub token to have the appropriate permissions (`repo` scope).
 - When used for an organization's repository, ensure that appropriate permissions are granted in the organization's settings.
-- For security, update the token regularly and grant only the minimum necessary permissions.
+- For security, update tokens regularly and grant only the minimum necessary permissions.
 - Never commit information including the `.env` file or tokens to a public repository.
 
 This feature simplifies the process of adding new contributors to the project.  It allows for efficient team expansion while maintaining security.
@@ -188,12 +186,12 @@ This feature simplifies the process of adding new contributors to the project.  
 %%{init:{'theme':'base','themeVariables':{'primaryColor':'#024959','primaryTextColor':'#F2C335','primaryBorderColor':'#F2AE30','lineColor':'#A1A2A6','secondaryColor':'#593E25','tertiaryColor':'#F2C335','noteTextColor':'#024959','noteBkgColor':'#F2C335','textColor':'#024959','fontSize':'18px'}}}%%
 
 graph LR
-    A[Start] --> B[Repository Conception and Naming]
-    B -->|Human Action| C[HarmonAI III Repository Initialization]
+    A[Start] --> B[Repository Conception & Naming]
+    B -->|Human Action| C[AMATERASU-based <br>Repository Initialization]
     C -->|Automated| D[Development Work]
-    D -->|Human Action| E[AIRA Commit Automation]
-    E --> H[IRIS Release Note Creation]
-    H --> I[IRIS Documentation Translation]
+    D -->|Human Action| E[AIRA-based <br>Automated Commits]
+    E --> H[IRIS-based <br>Release Note Creation]
+    H --> I[IRIS-based <br>Documentation Translation]
     I --> J[Release]
     J --> K[End]
 
@@ -207,18 +205,18 @@ graph LR
 
 
 
-## 🤝 Contributing
+## 🤝 Contributions
 
-HarmonAI III welcomes contributions from the community as an open-source project.  Please help improve this template repository through bug reports, feature requests, and pull requests.
+AMATERASU welcomes contributions from the community as an open-source project.  Please help improve this template repository through bug reports, feature requests, and pull requests.
 
 ## 📄 License
 
-HarmonAI III is released under the [MIT License](LICENSE).
+AMATERASU is released under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgements
 
-HarmonAI III has drawn inspiration from many open-source projects during its development.  We especially thank the developers of AIRA and IRIS.  We also thank iris-s-coon and Maki.
+Many open-source projects have inspired the development of AMATERASU.  We especially thank the developers of AIRA and IRIS.  We also thank iris-s-coon and Maki.
 
 ---
 
-HarmonAI III is an excellent starter kit for realizing AI-driven development processes. Let's start developing innovative AI projects based on this template!
+AMATERASU is an excellent starter kit for realizing AI-driven development processes.  Start developing innovative AI projects based on this template!
