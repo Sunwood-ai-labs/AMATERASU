@@ -46,4 +46,4 @@ if __name__ == "__main__":
 # ---------------------------
 # コマンドメモ
 #
-# python .github\setup\github_add_collaborator.py Sunwood-ai-labs/x-archive-visualizer iris-s-coon
+# python .github\setup\github_add_collaborator.py Sunwood-ai-labs/AMATERASU iris-s-coon
