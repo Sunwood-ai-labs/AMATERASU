@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.2.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 >[!IMPORTANT]
 >AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
 
-## 🌟 はじめに
+## 🚀 プロジェクト概要
 
 AMATERASUは、AWS上にLLM（大規模言語モデル）プラットフォームを構築するための自動化ツールです。MOAの機能を踏襲しながら、各サービスを独立したEC2インスタンスで運用することで、より柔軟なスケーリングと管理を実現します。
 
@@ -35,40 +35,15 @@ AMATERASUは、AWS上にLLM（大規模言語モデル）プラットフォー�
 - サービス単位でのスケーリングと運用が可能
 - セキュアな通信とアクセス制御
 
-## 🚀 アーキテクチャ
+## ✨ 主な機能
 
-```mermaid
-graph TB
-    A[Terraform] --> B[AWS Infrastructure]
-    B --> C1[EC2: open-webui]
-    B --> C2[EC2: litellm]
-    B --> C3[EC2: langfuse]
-    B --> C4[EC2: other services...]
-    
-    subgraph "open-webui instance"
-    C1 --> D1[Docker Compose]
-    D1 --> E1[open-webui service]
-    D1 --> E2[ollama service]
-    end
-    
-    subgraph "litellm instance"
-    C2 --> D2[Docker Compose]
-    D2 --> F1[litellm service]
-    end
-    
-    subgraph "langfuse instance"
-    C3 --> D3[Docker Compose]
-    D3 --> G1[langfuse service]
-    D3 --> G2[postgres service]
-    end
-```
+- なし
 
-## 🛠️ システム要件
 
-- AWS アカウント
-- Terraform がインストールされた環境
-- Docker と Docker Compose（EC2インスタンスに自動インストール）
-- AWS CLI（設定済み）
+## 🔧 使用方法
+
+このREADMEに記載されているインストール手順と使用方法に従って、AMATERASUをセットアップしてください。
+
 
 ## 📦 インストール手順
 
@@ -91,6 +66,13 @@ terraform init
 terraform plan
 terraform apply
 ```
+
+## 🆕 最新情報
+
+v0.2.0では、アーキテクチャを刷新し、各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行するように変更しました。これにより、各サービスのスケーリングと運用が容易になり、柔軟性が向上しています。また、英語READMEの更新と、リリースノートの見栄えを向上させるための画像の追加を行いました。
+
+アーキテクチャ刷新に伴い、READMEにアーキテクチャ図、システム要件、インストール手順、モジュール構成、デプロイ方法、運用コマンド例、各モジュールの詳細なディレクトリ構成、Docker Compose設定ファイル(docker-compose.yml)と環境変数ファイル(.env)の例、各モジュールへのSSH接続、Docker Composeによるサービス管理(起動、停止、ログ表示)を行うスクリプトが追加されました。セキュリティ強化のため、各EC2インスタンスは独立したセキュリティグループで保護され、サービス間通信は内部VPCネットワークで制御されるようになりました。
+
 
 ## 🌐 モジュール構成
 
@@ -195,6 +177,26 @@ amaterasu/
 └── docs/            # ドキュメント
 ```
 
+## ⚠️ 重要な変更
+
+- アーキテクチャが刷新されたため、以前のバージョンからのアップグレードには、手順に従って手動での移行が必要です。詳細については、アップグレード手順を参照してください。
+
+
+## 📦 アップグレード手順
+
+1. 既存の環境を停止してください。
+2. このREADMEに記載されている手順に従って、新しいアーキテクチャで環境を構築してください。
+3. データの移行が必要な場合は、適切な手順を実行してください。(具体的な手順は提供されていません。)
+
+
+## 📄 ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSE](LICENSE)ファイルをご覧ください。
+
+## 👏 謝辞
+
+iris-s-coonとMakiに感謝します。
+
 ## 🤝 コントリビューション
 
 コントリビューションを歓迎します！以下の手順で参加できます：
@@ -204,20 +206,6 @@ amaterasu/
 3. 変更をコミット (`git commit -m 'Add amazing feature'`)
 4. ブランチをプッシュ (`git push origin feature/amazing-feature`)
 5. プルリクエストを作成
-
-## 📄 ライセンス
-
-このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSE](LICENSE)ファイルをご覧ください。
-
-## 🌟 謝辞
-
-AMATERASUは以下のプロジェクトの支援を受けています：
-
-- [MOA](https://github.com/Sunwood-ai-labs/MOA) - 基盤となるプロジェクト
-- [open-webui](https://github.com/open-webui/open-webui)
-- [litellm](https://github.com/BerriAI/litellm)
-- [langfuse](https://github.com/langfuse/langfuse)
-- [Terraform](https://www.terraform.io/)
 
 ## 📧 サポート
 
