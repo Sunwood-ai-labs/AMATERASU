@@ -1,49 +1,28 @@
 #!/bin/bash
 
-# Update package index and install necessary packages
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl git
+# ベースのセットアップスクリプトをダウンロードして実行
+curl -fsSL https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/scripts/docker-compose_setup_script.sh -o /tmp/base_setup.sh
+chmod +x /tmp/base_setup.sh
+/tmp/base_setup.sh
 
-# Create directory for APT keyrings
-sudo install -m 0755 -d /etc/apt/keyrings
+# AMATERASUリポジトリのクローン
+git clone https://github.com/Sunwood-ai-labs/AMATERASU.git /home/ubuntu/AMATERASU
 
-# Download and add Docker's official GPG key
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Terraformから提供される環境変数ファイルの作成
+# 注: .envファイルの内容はTerraformから提供される
+echo "${env_content}" > /home/ubuntu/AMATERASU/.env
 
-# Add Docker repository to APT sources
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# .envファイルの権限設定
+chown ubuntu:ubuntu /home/ubuntu/AMATERASU/.env
+chmod 600 /home/ubuntu/AMATERASU/.env
 
-# Update package index again after adding new repository
-sudo apt-get update
+# AMATERASUディレクトリに移動
+cd /home/ubuntu/AMATERASU
 
-# Install Docker and related packages
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# Download Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
-# Make Docker Compose executable
-sudo chmod +x /usr/local/bin/docker-compose
-
-# Clone the MOA
-git clone https://github.com/Sunwood-ai-labs/moa.git /home/ubuntu/moa
-
-# Create .env file
-# Note: The content of the .env file should be provided by Terraform
-echo "${env_content}" > /home/ubuntu/moa/.env
-
-# Set correct permissions for the .env file
-chown ubuntu:ubuntu /home/ubuntu/moa/.env
-chmod 600 /home/ubuntu/moa/.env
-
-# Change to the MOA directory
-cd /home/ubuntu/moa
-
-# Run docker-compose with the specified file
+# 指定されたdocker-composeファイルでコンテナを起動
 sudo docker-compose -f docker-compose.ollama.yml up -d
 
-echo "MOA setup completed and docker-compose started!"
+echo "AMATERASUのセットアップが完了し、docker-composeを起動しました!"
+
+# 一時ファイルの削除
+rm /tmp/base_setup.sh
