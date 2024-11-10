@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      configuration_aliases = [aws.us-east-1]
+    }
+  }
+}
+
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
