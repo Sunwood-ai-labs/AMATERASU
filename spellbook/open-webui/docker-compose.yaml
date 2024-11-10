@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    # ports:
+    #   - "11434:11434" 
+    volumes:
+      - ollama-moa2:/root/.ollama
+    env_file:
+      - .env
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+
+  open-webui:
+    build:
+      context: .
+      args:
+        OLLAMA_BASE_URL: '/ollama'
+      dockerfile: Dockerfile.openweb.ui
+      
+    image: ghcr.io/open-webui/open-webui:dev
+    volumes:
+      - open-webui-moa3:/app/backend/data
+      - ./:/work
+    depends_on:
+      - ollama
+      - litellm
+    ports:
+      - ${OPEN_WEBUI_PORT-8181}:8080
+    env_file:
+      - .env
+    # environment:
+    #   - OPENAI_API_BASE_URL=http://litellm:14365
+    restart: unless-stopped
