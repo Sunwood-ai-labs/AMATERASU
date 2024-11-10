@@ -12,7 +12,7 @@ resource "aws_instance" "app_server" {
   }
 
   user_data = templatefile("${path.module}/../../scripts/setup_script.sh", {
-    env_content = file("${path.module}/../../.env")
+    env_content = file("${path.module}/../../../.env")
   })
 
   tags = {
