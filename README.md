@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.2.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.3.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -40,7 +40,10 @@ AMATERASUは、AWS上にLLM（大規模言語モデル）プラットフォー�
 
 ## ✨ 主な機能
 
-- なし
+- TerraformによるAWSインフラの自動構築
+- Docker Composeによる各サービスのコンテナ化と管理
+- 複数のLLMモデルとの連携（OpenAI, Anthropic, Geminiなど）
+- Langfuseによるモデル管理と課金機能
 
 
 ## 🔧 使用方法
@@ -59,12 +62,12 @@ cd AMATERASU
 2. 環境変数の設定:
 ```bash
 cp .env.example .env
-# .envファイルを編集して必要な認証情報を設定
+# .envファイルを編集して必要な認証情報を設定  (LITELLM_MASTER_KEY、LITELLM_SALT_KEY、OPENAI_API_KEY、ANTHROPIC_API_KEY、GEMINI_API_KEY、GEMINI_API_KEY_IRISなど)
 ```
 
 3. Terraformの初期化と実行:
 ```bash
-cd terraform
+cd spellbook/open-webui/terraform
 terraform init
 terraform plan
 terraform apply
@@ -79,124 +82,15 @@ ssh -i "C:\Users\makim\.ssh\AMATERASU-terraform-keypair-tokyo-PEM.pem" ubuntu@i-
 
 ## 🆕 最新情報
 
-v0.2.0では、アーキテクチャを刷新し、各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行するように変更しました。これにより、各サービスのスケーリングと運用が容易になり、柔軟性が向上しています。また、英語READMEの更新と、リリースノートの見栄えを向上させるための画像の追加を行いました。
+### v0.3.0 の更新内容
 
-アーキテクチャ刷新に伴い、READMEにアーキテクチャ図、システム要件、インストール手順、モジュール構成、デプロイ方法、運用コマンド例、各モジュールの詳細なディレクトリ構成、Docker Compose設定ファイル(docker-compose.yml)と環境変数ファイル(.env)の例、各モジュールへのSSH接続、Docker Composeによるサービス管理(起動、停止、ログ表示)を行うスクリプトが追加されました。セキュリティ強化のため、各EC2インスタンスは独立したセキュリティグループで保護され、サービス間通信は内部VPCネットワークで制御されるようになりました。
-
-
-## 🌐 モジュール構成
-
-各モジュールは独立したEC2インスタンス上でDocker Composeを使って実行されます：
-
-### open-webui モジュール（EC2インスタンス）
-```
-📁 open-webui/
-├── 📄 docker-compose.yml  # open-webuiとollamaの設定
-├── 📄 .env               # 環境変数設定
-└── 📁 config/            # 設定ファイル
-```
-
-設定例（docker-compose.yml）:
-```yaml
-version: '3'
-services:
-  ollama:
-    image: ollama/ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ./data:/root/.ollama
-
-  open-webui:
-    image: open-webui/open-webui
-    ports:
-      - "3000:3000"
-    environment:
-      - OLLAMA_URL=http://ollama:11434
-```
-
-### litellm モジュール（EC2インスタンス）
-```
-📁 litellm/
-├── 📄 docker-compose.yml  # litellmサービスの設定
-├── 📄 .env               # API keyなどの環境変数
-└── 📁 config/            # LLMの設定ファイル
-```
-
-### langfuse モジュール（EC2インスタンス）
-```
-📁 langfuse/
-├── 📄 docker-compose.yml  # langfuseとDBの設定
-├── 📄 .env               # 環境変数設定
-└── 📁 data/              # PostgreSQLデータ
-```
-
-## 🔨 デプロイコマンド例
-
-特定のモジュールのみデプロイ:
-```bash
-# open-webuiモジュールのみデプロイ
-terraform apply -target=module.ec2_open_webui
-
-# litellmモジュールのみデプロイ
-terraform apply -target=module.ec2_litellm
-
-# langfuseモジュールのみデプロイ
-terraform apply -target=module.ec2_langfuse
-```
-
-## 💻 モジュール管理コマンド
-
-各EC2インスタンスへの接続:
-```bash
-# SSH接続スクリプト
-./scripts/connect.sh open-webui
-./scripts/connect.sh litellm
-./scripts/connect.sh langfuse
-```
-
-Docker Compose操作:
-```bash
-# 各インスタンス内で実行
-cd /opt/amaterasu/[module-name]
-docker-compose up -d      # サービス起動
-docker-compose down      # サービス停止
-docker-compose logs -f   # ログ表示
-```
-
-## 🔒 セキュリティ設定
-
-- 各EC2インスタンスは独立したセキュリティグループで保護
-- サービス間通信は内部VPCネットワークで制御
-- 必要最小限のポートのみを公開
-- IAMロールによる権限管理
-
-## 📚 ディレクトリ構造
-
-```plaintext
-amaterasu/
-├── terraform/          # Terraformコード
-│   ├── modules/        # 各EC2インスタンスのモジュール
-│   ├── main.tf        # メイン設定
-│   └── variables.tf   # 変数定義
-├── modules/           # 各サービスのDocker Compose設定
-│   ├── open-webui/    # open-webui関連ファイル
-│   ├── litellm/      # litellm関連ファイル
-│   └── langfuse/     # langfuse関連ファイル
-├── scripts/          # 運用スクリプト
-└── docs/            # ドキュメント
-```
-
-## ⚠️ 重要な変更
-
-- アーキテクチャが刷新されたため、以前のバージョンからのアップグレードには、手順に従って手動での移行が必要です。詳細については、アップグレード手順を参照してください。
-
-
-## 📦 アップグレード手順
-
-1. 既存の環境を停止してください。
-2. このREADMEに記載されている手順に従って、新しいアーキテクチャで環境を構築してください。
-3. データの移行が必要な場合は、適切な手順を実行してください。(具体的な手順は提供されていません。)
+- README.mdの更新: SourceSageとClaude.aiの利用について明記し、重要な情報を強調しました。
+- 複数のClaudeモデル定義の追加: Langfuseで利用可能なClaudeモデルを拡張しました。(`claude-3.5-haiku-20241022`, `claude-3.5-haiku-latest`, `claude-3.5-sonnet-20240620`, `claude-3.5-sonnet-20241022`, `claude-3.5-sonnet-latest`, `claude-3-haiku-20240307`, `claude-3-opus-20240229`, `claude-3-sonnet-20240229`)
+- LLaMAモデル連携のための環境変数設定の追加: 様々なLLaMAモデルプロバイダーとの連携を容易にしました。(`LITELLM_MASTER_KEY`、`LITELLM_SALT_KEY`、`OPENAI_API_KEY`、`ANTHROPIC_API_KEY`、`GEMINI_API_KEY`、`GEMINI_API_KEY_IRIS`)
+- README.mdへのSSH接続情報の追加とインフラストラクチャ説明の更新: EC2インスタンスへのSSH接続方法と、v0.2.0でのアーキテクチャ刷新に関する説明を追加しました。
+- 英語READMEの更新
+- docker-compose.ymlのボリュームマウント修正
+- ロギングライブラリの変更: `logging`モジュールから`loguru`モジュールに変更しました。
 
 
 ## 📄 ライセンス
@@ -205,7 +99,7 @@ amaterasu/
 
 ## 👏 謝辞
 
-iris-s-coonとMakiに感謝します。
+iris-s-coonとMakiに貢献への謝辞を述べます。
 
 ## 🤝 コントリビューション
 
