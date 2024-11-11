@@ -19,19 +19,19 @@
 </p>
 
 <h2 align="center">
-  ～ Automated Construction of an LLM Platform on AWS ～
+  ～ Automates the Construction of an LLM Platform on AWS ～
 </h2>
 
 >[!IMPORTANT]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, enabling easier deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an automation tool for building a Large Language Model (LLM) platform on AWS.  While inheriting functionality from MOA, it provides more flexible scaling and management by running each service on its own dedicated EC2 instance.
+AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  While inheriting the functionality of MOA, it achieves more flexible scaling and management by operating each service on a separate EC2 instance.
 
 Key Features:
 - Simple EC2 instance management using Terraform
-- Independent EC2 instances and Docker Compose environments for each service
+- Independent EC2 instance and Docker Compose environment for each service
 - Service-level scaling and operation
 - Secure communication and access control
 
@@ -42,7 +42,7 @@ Key Features:
 
 ## 🔧 Usage
 
-Follow the installation instructions and usage guidelines provided in this README to set up AMATERASU.
+Follow the installation instructions and usage methods described in this README to set up AMATERASU.
 
 
 ## 📦 Installation Instructions
@@ -56,7 +56,7 @@ cd AMATERASU
 2. Set environment variables:
 ```bash
 cp .env.example .env
-# Edit the .env file and configure the necessary credentials
+# Edit the .env file and set the necessary credentials
 ```
 
 3. Initialize and run Terraform:
@@ -67,26 +67,33 @@ terraform plan
 terraform apply
 ```
 
-## 🆕 Latest News
 
-v0.2.0 features a revamped architecture, with each AI service now running in a separate EC2 instance using Docker Compose. This improves scalability and manageability of individual services.  The English README has also been updated, and images have been added to improve the appearance of the release notes.
+## SSH
 
-With the architecture overhaul, the README now includes an architecture diagram (not included in this translation), system requirements, installation instructions, module structure, deployment methods, example operational commands, detailed directory structure for each module, examples of the Docker Compose configuration file (`docker-compose.yml`) and environment variable file (`.env`), scripts for SSH connection to each module, and Docker Compose service management (start, stop, log display). For enhanced security, each EC2 instance is protected by a dedicated security group, and inter-service communication is controlled within the internal VPC network.
+```bash
+ssh -i "C:\Users\makim\.ssh\AMATERASU-terraform-keypair-tokyo-PEM.pem" ubuntu@i-062f3dd7388a5da8a
+```
+
+## 🆕 Latest Information
+
+v0.2.0 has revamped the architecture, changing the execution of each AI service to use Docker Compose on independent EC2 instances. This improves scalability and operation of each service, enhancing flexibility.  Additionally, the English README has been updated, and images have been added to improve the appearance of the release notes.
+
+Along with the architecture refresh, the README now includes an architecture diagram, system requirements, installation instructions, module composition, deployment methods, operational command examples, detailed directory structures for each module, examples of Docker Compose configuration files (`docker-compose.yml`) and environment variable files (`.env`), SSH connection to each module, and scripts for managing services (start, stop, log display) via Docker Compose. For enhanced security, each EC2 instance is protected by a separate security group, and inter-service communication is controlled within the internal VPC network.
 
 
-## 🌐 Module Structure
+## 🌐 Module Composition
 
-Each module runs using Docker Compose on a separate EC2 instance:
+Each module runs using Docker Compose on an independent EC2 instance:
 
-### open-webui Module (EC2 Instance)
+### open-webui Module (EC2 instance)
 ```
 📁 open-webui/
-├── 📄 docker-compose.yml  # open-webui and ollama configuration
+├── 📄 docker-compose.yml  # Configuration for open-webui and ollama
 ├── 📄 .env               # Environment variable settings
 └── 📁 config/            # Configuration files
 ```
 
-Example configuration (docker-compose.yml):
+Example Configuration (docker-compose.yml):
 ```yaml
 version: '3'
 services:
@@ -105,18 +112,18 @@ services:
       - OLLAMA_URL=http://ollama:11434
 ```
 
-### litellm Module (EC2 Instance)
+### litellm Module (EC2 instance)
 ```
 📁 litellm/
-├── 📄 docker-compose.yml  # litellm service configuration
+├── 📄 docker-compose.yml  # Configuration for the litellm service
 ├── 📄 .env               # API key and other environment variables
 └── 📁 config/            # LLM configuration files
 ```
 
-### langfuse Module (EC2 Instance)
+### langfuse Module (EC2 instance)
 ```
 📁 langfuse/
-├── 📄 docker-compose.yml  # langfuse and DB configuration
+├── 📄 docker-compose.yml  # Configuration for langfuse and the database
 ├── 📄 .env               # Environment variable settings
 └── 📁 data/              # PostgreSQL data
 ```
@@ -147,19 +154,19 @@ Connecting to each EC2 instance:
 
 Docker Compose operations:
 ```bash
-# Run within each instance
+# Execute within each instance
 cd /opt/amaterasu/[module-name]
-docker-compose up -d      # Start service
-docker-compose down      # Stop service
+docker-compose up -d      # Start services
+docker-compose down      # Stop services
 docker-compose logs -f   # Display logs
 ```
 
-## 🔒 Security Configuration
+## 🔒 Security Settings
 
-- Each EC2 instance is protected by a dedicated security group.
-- Inter-service communication is controlled within the internal VPC network.
-- Only the minimum necessary ports are exposed.
-- Permission management using IAM roles.
+- Each EC2 instance is protected by a separate security group
+- Inter-service communication is controlled within the internal VPC network
+- Only the minimum necessary ports are exposed
+- Permission management via IAM roles
 
 ## 📚 Directory Structure
 
@@ -179,13 +186,13 @@ amaterasu/
 
 ## ⚠️ Important Changes
 
-- Due to the revamped architecture, upgrading from previous versions requires manual migration following the provided steps.  Refer to the upgrade instructions for details.
+- Due to the architecture refresh, upgrading from previous versions requires manual migration following the provided steps. Refer to the upgrade instructions for details.
 
 
 ## 📦 Upgrade Instructions
 
 1. Stop the existing environment.
-2. Build the environment with the new architecture following the instructions in this README.
+2. Follow the instructions in this README to build the environment with the new architecture.
 3. If data migration is necessary, perform the appropriate steps. (Specific steps are not provided.)
 
 
@@ -199,7 +206,7 @@ Thanks to iris-s-coon and Maki.
 
 ## 🤝 Contributions
 
-Contributions are welcome!  Here's how to get involved:
+Contributions are welcome!  Follow these steps to contribute:
 
 1. Fork this repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)
@@ -209,7 +216,7 @@ Contributions are welcome!  Here's how to get involved:
 
 ## 📧 Support
 
-For questions or feedback, please feel free to contact us:
+For any questions or feedback, please feel free to contact us:
 - Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
