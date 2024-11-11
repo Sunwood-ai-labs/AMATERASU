@@ -67,6 +67,13 @@ terraform plan
 terraform apply
 ```
 
+
+## SSH
+
+```bash
+ssh -i "C:\Users\makim\.ssh\AMATERASU-terraform-keypair-tokyo-PEM.pem" ubuntu@i-062f3dd7388a5da8a
+```
+
 ## 🆕 最新情報
 
 v0.2.0では、アーキテクチャを刷新し、各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行するように変更しました。これにより、各サービスのスケーリングと運用が容易になり、柔軟性が向上しています。また、英語READMEの更新と、リリースノートの見栄えを向上させるための画像の追加を行いました。
