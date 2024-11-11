@@ -4,7 +4,7 @@ import requests
 from typing import Optional, Dict, Any
 from datetime import datetime
 import json
-import logging
+from loguru import logger
 import sys
 
 class LangfuseModelCreator:
@@ -53,19 +53,19 @@ class LangfuseModelCreator:
             payload["tokenizerConfig"] = tokenizer_config
             
         try:
-            logging.info(f"Creating model definition with payload: {json.dumps(payload, indent=2)}")
+            logger.info(f"Creating model definition with payload: {json.dumps(payload, indent=2)}")
             response = requests.post(
                 f"{self.base_url}/api/public/models",
                 auth=self.auth,
                 json=payload
             )
             response.raise_for_status()
-            logging.info(f"Successfully created model definition for {model_name}")
+            logger.info(f"Successfully created model definition for {model_name}")
             return response.json()
         except requests.exceptions.RequestException as e:
-            logging.error(f"Failed to create model: {str(e)}")
+            logger.error(f"Failed to create model: {str(e)}")
             if hasattr(e.response, 'text'):
-                logging.error(f"Response content: {e.response.text}")
+                logger.error(f"Response content: {e.response.text}")
             raise
 
     def get_models(self) -> Dict[str, Any]:
@@ -78,8 +78,99 @@ class LangfuseModelCreator:
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            logging.error(f"Failed to get models: {str(e)}")
+            logger.error(f"Failed to get models: {str(e)}")
             raise
+
+def configure_claude_models(creator):
+    """Configure all Claude model definitions with updated patterns."""
+    
+    # Claude 3.5 Haiku 20241022
+    creator.create_model(
+        model_name="claude-3.5-haiku-20241022",
+        match_pattern=r"(?i)^(.*[/])?claude-3-5-haiku-20241022(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.000001,  # $0.001/1K tokens
+        output_price=0.000005,  # $0.005/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
+
+    # Claude 3.5 Haiku Latest
+    creator.create_model(
+        model_name="claude-3.5-haiku-latest",
+        match_pattern=r"(?i)^(.*[/])?claude-3-5-haiku-latest(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.000001,  # $0.001/1K tokens
+        output_price=0.000005,  # $0.005/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
+
+    # Claude 3.5 Sonnet 20240620
+    creator.create_model(
+        model_name="claude-3.5-sonnet-20240620",
+        match_pattern=r"(?i)^(.*[/])?claude-3-5-sonnet-20240620(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.000003,  # $0.003/1K tokens
+        output_price=0.000015,  # $0.015/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
+
+    # Claude 3.5 Sonnet 20241022
+    creator.create_model(
+        model_name="claude-3.5-sonnet-20241022",
+        match_pattern=r"(?i)^(.*[/])?claude-3-5-sonnet-20241022(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.000003,  # $0.003/1K tokens
+        output_price=0.000015,  # $0.015/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
+
+    # Claude 3.5 Sonnet Latest
+    creator.create_model(
+        model_name="claude-3.5-sonnet-latest",
+        match_pattern=r"(?i)^(.*[/])?claude-3-5-sonnet-latest(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.000003,  # $0.003/1K tokens
+        output_price=0.000015,  # $0.015/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
+
+    # Claude 3 Haiku 20240307
+    creator.create_model(
+        model_name="claude-3-haiku-20240307",
+        match_pattern=r"(?i)^(.*[/])?claude-3-haiku-20240307(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.00000025,  # $0.00025/1K tokens
+        output_price=0.00000125,  # $0.00125/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
+
+    # Claude 3 Opus 20240229
+    creator.create_model(
+        model_name="claude-3-opus-20240229",
+        match_pattern=r"(?i)^(.*[/])?claude-3-opus-20240229(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.000015,  # $0.015/1K tokens
+        output_price=0.000075,  # $0.075/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
+
+    # Claude 3 Sonnet 20240229
+    creator.create_model(
+        model_name="claude-3-sonnet-20240229",
+        match_pattern=r"(?i)^(.*[/])?claude-3-sonnet-20240229(-[a-zA-Z]+\d+)?$",
+        unit="TOKENS",
+        input_price=0.000003,  # $0.003/1K tokens
+        output_price=0.000015,  # $0.015/1K tokens
+        tokenizer_id="claude",
+        tokenizer_config={"type": "claude"}
+    )
 
 def main():
     # Langfuse認証情報
@@ -93,29 +184,19 @@ def main():
         )
         
         # 既存のモデル定義を確認
-        logging.info("Fetching existing model definitions...")
+        logger.info("Fetching existing model definitions...")
         existing_models = creator.get_models()
-        logging.info(f"Found {len(existing_models.get('data', []))} existing model definitions")
+        logger.info(f"Found {len(existing_models.get('data', []))} existing model definitions")
         
-        # Claude 3.5 Sonnet 20240620のモデル定義を作成
-        claude_model = creator.create_model(
-            model_name="claude-3.5-sonnet-20240620",
-            # 前方に任意のプレフィックスがあり、末尾に-US1などのリージョン指定がオプショナルなパターンにマッチ
-            match_pattern=r"(?i)^(.*[/])?claude-3-5-sonnet-20240620(-[a-zA-Z]+\d+)?$",
-            unit="TOKENS",
-            input_price=0.000003,  # $0.003/1K tokens
-            output_price=0.000015,  # $0.015/1K tokens
-            tokenizer_id="claude",
-            tokenizer_config={
-                "type": "claude"
-            }
-        )
+        configure_claude_models(creator)
         
-        logging.info("Model definition created successfully:")
-        logging.info(json.dumps(claude_model, indent=2))
+        
+        logger.success("---------------------")        
+        logger.success("Model definition created successfully:")
+
         
     except Exception as e:
-        logging.error(f"Error occurred: {str(e)}")
+        logger.error(f"Error occurred: {str(e)}")
         sys.exit(1)
 
 if __name__ == "__main__":
