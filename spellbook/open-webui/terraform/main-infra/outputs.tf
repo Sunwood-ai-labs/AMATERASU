@@ -28,7 +28,12 @@ output "public_subnet_id" {
   value       = module.networking.public_subnet_id
 }
 
-output "security_group_id" {
-  description = "ID of the security group"
-  value       = module.networking.security_group_id
+output "alb_dns_name" {
+  description = "DNS name of the Application Load Balancer"
+  value       = module.networking.alb_dns_name
+}
+
+output "alb_target_group_arn" {
+  description = "ARN of the ALB target group"
+  value       = module.networking.alb_target_group_arn
 }

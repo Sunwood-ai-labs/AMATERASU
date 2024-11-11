@@ -7,7 +7,6 @@ variable "aws_region" {
 variable "project_name" {
   description = "Name of the project, used as a prefix for all resources"
   type        = string
-  default     = "my-docker-compose-project"
 }
 
 variable "vpc_cidr" {
@@ -19,13 +18,12 @@ variable "vpc_cidr" {
 variable "public_subnet_cidr" {
   description = "CIDR block for the public subnet"
   type        = string
-  default     = "10.0.2.0/24"
+  default     = "10.0.1.0/24"
 }
 
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"
   type        = string
-  default     = "ami-0d52744d6551d851e"  # Ubuntu 20.04 LTS (HVM), SSD Volume Type
 }
 
 variable "instance_type" {
@@ -37,4 +35,10 @@ variable "instance_type" {
 variable "key_name" {
   description = "Name of the SSH key pair"
   type        = string
+}
+
+variable "domain_name" {
+  description = "Domain name for the SSL certificate"
+  type        = string
+  default     = ""  # オプショナルに変更
 }

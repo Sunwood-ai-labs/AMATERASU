@@ -7,15 +7,18 @@ model_list:
     litellm_params:
       model: bedrock/anthropic.claude-3-sonnet-20240229-v1:0
       aws_region_name: us-east-1
-  - model_name: bedrock/claude-3-haiku
+  - model_name: claude-3-haiku
     litellm_params:
       model: bedrock/anthropic.claude-3-haiku-20240307-v1:0
       aws_region_name: us-east-1
+    model_info: 
+      metadata: "bedrock/anthropic.claude-3-opus-20240229-v1:0/us-east-1" # returned via GET /model/info
   - model_name: bedrock/claude-3-opus
     litellm_params:
       model: bedrock/anthropic.claude-3-opus-20240229-v1:0
       aws_region_name: us-east-1
-
+    model_info: 
+      metadata: "bedrock/anthropic.claude-3-opus-20240229-v1:0" # returned via GET /model/info
   # - model_name: bedrock/claude-v2-1
   #   litellm_params:
   #     model: bedrock/anthropic.claude-v2:1

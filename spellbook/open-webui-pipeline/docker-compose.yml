@@ -12,13 +12,13 @@ services:
       - PORT=9099
     restart: unless-stopped
 
-  open-webui:
-    depends_on:
-      - pipelines
-    environment:
-      - OLLAMA_API_BASE_URL=http://ollama:11434/api
-      - OPENAI_API_BASE=http://pipelines:9099/v1
-      - OPENAI_API_KEY=0p3n-w3bu!
+  # open-webui:
+  #   depends_on:
+  #     - pipelines
+  #   environment:
+  #     - OLLAMA_API_BASE_URL=http://ollama:11434/api
+  #     - OPENAI_API_BASE=http://pipelines:9099/v1
+  #     - OPENAI_API_KEY=0p3n-w3bu!
 
 volumes:
   pipelines-data: {}
