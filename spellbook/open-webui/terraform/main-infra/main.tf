@@ -1,4 +1,3 @@
-# spellbook/open-webui/terraform/main-infra/main.tf
 terraform {
   required_version = ">= 0.12"
 }
@@ -13,6 +12,7 @@ module "networking" {
   public_subnet_cidr = var.public_subnet_cidr
   public_subnet_id   = var.public_subnet_id
   public_subnet_2_id = var.public_subnet_2_id
+  security_group_id  = var.security_group_id  # 追加
 }
 
 module "iam" {
@@ -31,7 +31,7 @@ module "compute" {
   instance_type       = var.instance_type
   key_name            = var.key_name
   iam_instance_profile = module.iam.ec2_instance_profile_name
-  security_group_id    = module.networking.ec2_security_group_id
+  security_group_id    = var.security_group_id
 
   depends_on = [
     module.networking,
