@@ -34,6 +34,11 @@ variable "public_subnet_2_id" {
   type        = string
 }
 
+variable "security_group_id" {
+  description = "ID of the existing security group"
+  type        = string
+}
+
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"
   type        = string

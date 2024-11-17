@@ -13,6 +13,11 @@ data "aws_subnet" "public_2" {
   id = var.public_subnet_2_id
 }
 
+# 既存のセキュリティグループを参照
+data "aws_security_group" "existing" {
+  id = var.security_group_id
+}
+
 # セキュリティグループモジュール
 module "security" {
   source = "./security"
