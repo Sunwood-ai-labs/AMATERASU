@@ -77,7 +77,7 @@ terraform apply
 ## SSH
 
 ```bash
-ssh -i "C:\Users\makim\.ssh\AMATERASU-terraform-keypair-tokyo-PEM.pem" ubuntu@i-062f3dd7388a5da8a
+ssh -i "C:\Users\makim\.ssh\AMATERASU-terraform-keypair-tokyo-PEM.pem" ubuntu@i-0f2dd4596a0e1f3c0
 ```
 
 ## 🆕 最新情報
