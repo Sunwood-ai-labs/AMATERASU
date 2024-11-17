@@ -1,3 +1,4 @@
+# spellbook/open-webui/terraform/main-infra/main.tf
 terraform {
   required_version = ">= 0.12"
 }
@@ -5,11 +6,13 @@ terraform {
 module "networking" {
   source = "./modules/networking"
   
+  project_name        = var.project_name
+  aws_region         = var.aws_region
+  vpc_id             = var.vpc_id
   vpc_cidr           = var.vpc_cidr
   public_subnet_cidr = var.public_subnet_cidr
-  project_name       = var.project_name
-  aws_region         = var.aws_region
-  domain_name        = var.domain_name
+  public_subnet_id   = var.public_subnet_id
+  public_subnet_2_id = var.public_subnet_2_id
 }
 
 module "iam" {
@@ -22,13 +25,13 @@ module "compute" {
   source = "./modules/compute"
   
   project_name         = var.project_name
-  vpc_id               = module.networking.vpc_id
-  public_subnet_id     = module.networking.public_subnet_id
-  ami_id               = var.ami_id
-  instance_type        = var.instance_type
-  key_name             = var.key_name
+  vpc_id              = var.vpc_id
+  public_subnet_id    = var.public_subnet_id
+  ami_id              = var.ami_id
+  instance_type       = var.instance_type
+  key_name            = var.key_name
   iam_instance_profile = module.iam.ec2_instance_profile_name
-  security_group_id    = module.networking.ec2_security_group_id  # この行を変更
+  security_group_id    = module.networking.ec2_security_group_id
 
   depends_on = [
     module.networking,

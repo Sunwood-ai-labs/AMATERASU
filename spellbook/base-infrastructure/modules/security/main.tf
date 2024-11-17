@@ -1,4 +1,4 @@
-# modules/security/main.tf
+
 resource "aws_security_group" "default" {
   name_prefix = "${var.project_name}-default-sg"
   description = "Default security group for ${var.project_name}"
@@ -11,7 +11,7 @@ resource "aws_security_group" "default" {
       to_port     = 22
       protocol    = "tcp"
       cidr_blocks = [ingress.value.ip]
-      description = "${ingress.value.description} - SSH Access"
+      description = ingress.value.description
     }
   }
 
@@ -22,7 +22,7 @@ resource "aws_security_group" "default" {
       to_port     = 80
       protocol    = "tcp"
       cidr_blocks = [ingress.value.ip]
-      description = "${ingress.value.description} - HTTP Access"
+      description = ingress.value.description
     }
   }
 
@@ -33,7 +33,7 @@ resource "aws_security_group" "default" {
       to_port     = 443
       protocol    = "tcp"
       cidr_blocks = [ingress.value.ip]
-      description = "${ingress.value.description} - HTTPS Access"
+      description = ingress.value.description
     }
   }
 

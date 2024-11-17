@@ -9,16 +9,29 @@ variable "project_name" {
   type        = string
 }
 
+variable "vpc_id" {
+  description = "ID of the existing VPC"
+  type        = string
+}
+
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
-  default     = "10.0.0.0/16"
 }
 
 variable "public_subnet_cidr" {
   description = "CIDR block for the public subnet"
   type        = string
-  default     = "10.0.1.0/24"
+}
+
+variable "public_subnet_id" {
+  description = "ID of the first public subnet"
+  type        = string
+}
+
+variable "public_subnet_2_id" {
+  description = "ID of the second public subnet"
+  type        = string
 }
 
 variable "ami_id" {
@@ -40,5 +53,5 @@ variable "key_name" {
 variable "domain_name" {
   description = "Domain name for the SSL certificate"
   type        = string
-  default     = ""  # オプショナルに変更
+  default     = ""
 }
