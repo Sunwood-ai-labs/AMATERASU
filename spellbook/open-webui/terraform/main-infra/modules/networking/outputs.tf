@@ -1,17 +1,17 @@
 # VPCの出力
 output "vpc_id" {
   description = "ID of the VPC"
-  value       = module.vpc.vpc_id
+  value       = data.aws_vpc.existing.id
 }
 
 output "public_subnet_id" {
   description = "ID of the public subnet"
-  value       = module.vpc.public_subnet_id
+  value       = data.aws_subnet.public_1.id
 }
 
 output "public_subnet_2_id" {
   description = "ID of the second public subnet"
-  value       = module.vpc.public_subnet_2_id
+  value       = data.aws_subnet.public_2.id
 }
 
 # セキュリティグループの出力

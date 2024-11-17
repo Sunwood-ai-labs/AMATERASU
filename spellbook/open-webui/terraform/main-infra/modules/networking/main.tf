@@ -1,11 +1,21 @@
-# VPCモジュール
-module "vpc" {
-  source = "./vpc"
+# spellbook/open-webui/terraform/main-infra/modules/networking/main.tf
+# 既存のVPCを参照
+data "aws_vpc" "existing" {
+  id = var.vpc_id
+}
 
-  vpc_cidr           = var.vpc_cidr
-  public_subnet_cidr = var.public_subnet_cidr
-  project_name       = var.project_name
-  aws_region         = var.aws_region
+# 既存のパブリックサブネットを参照
+data "aws_subnet" "public_1" {
+  id = var.public_subnet_id
+}
+
+data "aws_subnet" "public_2" {
+  id = var.public_subnet_2_id
+}
+
+# 既存のセキュリティグループを参照
+data "aws_security_group" "existing" {
+  id = var.security_group_id
 }
 
 # セキュリティグループモジュール
@@ -13,7 +23,7 @@ module "security" {
   source = "./security"
 
   project_name  = var.project_name
-  vpc_id        = module.vpc.vpc_id
+  vpc_id        = var.vpc_id
   whitelist_ips = [for entry in local.whitelist_entries : entry.ip]
 }
 
@@ -22,9 +32,9 @@ module "alb" {
   source = "./alb"
 
   project_name         = var.project_name
-  vpc_id              = module.vpc.vpc_id
-  public_subnet_id    = module.vpc.public_subnet_id
-  public_subnet_2_id  = module.vpc.public_subnet_2_id
+  vpc_id              = var.vpc_id
+  public_subnet_id    = var.public_subnet_id
+  public_subnet_2_id  = var.public_subnet_2_id
   alb_security_group_id = module.security.alb_security_group_id
 }
 

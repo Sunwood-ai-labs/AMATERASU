@@ -1,8 +1,16 @@
-# outputs.tf
-
 output "vpc_id" {
   description = "ID of the created VPC"
   value       = module.vpc.vpc_id
+}
+
+output "vpc_cidr" {
+  description = "CIDR block of the VPC"
+  value       = var.vpc_cidr
+}
+
+output "public_subnet_cidrs" {
+  description = "CIDR blocks of the public subnets"
+  value       = var.public_subnet_cidrs
 }
 
 output "public_subnet_ids" {
