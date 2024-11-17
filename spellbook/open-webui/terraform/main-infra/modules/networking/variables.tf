@@ -42,6 +42,11 @@ variable "public_subnet_2_id" {
   type        = string
 }
 
+variable "security_group_id" {
+  description = "ID of the existing security group"
+  type        = string
+}
+
 variable "domain_name" {
   description = "Domain name for the SSL certificate"
   type        = string
