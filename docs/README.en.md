@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.2.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.3.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -19,30 +19,36 @@
 </p>
 
 <h2 align="center">
-  ～ Automates the Construction of an LLM Platform on AWS ～
+  ～ Automated Construction of an LLM Platform on AWS ～
 </h2>
 
 >[!IMPORTANT]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+
+>[!NOTE]
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, enabling easier deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  While inheriting the functionality of MOA, it achieves more flexible scaling and management by operating each service on a separate EC2 instance.
+AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  While inheriting functionality from MOA, it provides more flexible scaling and management by running each service on a separate EC2 instance.
 
 Key Features:
 - Simple EC2 instance management using Terraform
-- Independent EC2 instance and Docker Compose environment for each service
-- Service-level scaling and operation
+- Independent EC2 instances and Docker Compose environments for each service
+- Scalable and manageable at the service level
 - Secure communication and access control
 
 ## ✨ Main Features
 
-- None (at this time)
+- Automated AWS infrastructure construction using Terraform
+- Containerization and management of each service using Docker Compose
+- Integration with multiple LLM models (OpenAI, Anthropic, Gemini, etc.)
+- Model management and billing functionality via Langfuse
 
 
 ## 🔧 Usage
 
-Follow the installation instructions and usage methods described in this README to set up AMATERASU.
+Please follow the installation instructions and usage described in this README to set up AMATERASU.
 
 
 ## 📦 Installation Instructions
@@ -56,12 +62,12 @@ cd AMATERASU
 2. Set environment variables:
 ```bash
 cp .env.example .env
-# Edit the .env file and set the necessary credentials
+# Edit the .env file and set the necessary credentials (LITELLM_MASTER_KEY, LITELLM_SALT_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, GEMINI_API_KEY_IRIS, etc.)
 ```
 
 3. Initialize and run Terraform:
 ```bash
-cd terraform
+cd spellbook/open-webui/terraform
 terraform init
 terraform plan
 terraform apply
@@ -74,149 +80,40 @@ terraform apply
 ssh -i "C:\Users\makim\.ssh\AMATERASU-terraform-keypair-tokyo-PEM.pem" ubuntu@i-062f3dd7388a5da8a
 ```
 
-## 🆕 Latest Information
+## 🆕 What's New
 
-v0.2.0 has revamped the architecture, changing the execution of each AI service to use Docker Compose on independent EC2 instances. This improves scalability and operation of each service, enhancing flexibility.  Additionally, the English README has been updated, and images have been added to improve the appearance of the release notes.
+### v0.3.0 Updates
 
-Along with the architecture refresh, the README now includes an architecture diagram, system requirements, installation instructions, module composition, deployment methods, operational command examples, detailed directory structures for each module, examples of Docker Compose configuration files (`docker-compose.yml`) and environment variable files (`.env`), SSH connection to each module, and scripts for managing services (start, stop, log display) via Docker Compose. For enhanced security, each EC2 instance is protected by a separate security group, and inter-service communication is controlled within the internal VPC network.
-
-
-## 🌐 Module Composition
-
-Each module runs using Docker Compose on an independent EC2 instance:
-
-### open-webui Module (EC2 instance)
-```
-📁 open-webui/
-├── 📄 docker-compose.yml  # Configuration for open-webui and ollama
-├── 📄 .env               # Environment variable settings
-└── 📁 config/            # Configuration files
-```
-
-Example Configuration (docker-compose.yml):
-```yaml
-version: '3'
-services:
-  ollama:
-    image: ollama/ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ./data:/root/.ollama
-
-  open-webui:
-    image: open-webui/open-webui
-    ports:
-      - "3000:3000"
-    environment:
-      - OLLAMA_URL=http://ollama:11434
-```
-
-### litellm Module (EC2 instance)
-```
-📁 litellm/
-├── 📄 docker-compose.yml  # Configuration for the litellm service
-├── 📄 .env               # API key and other environment variables
-└── 📁 config/            # LLM configuration files
-```
-
-### langfuse Module (EC2 instance)
-```
-📁 langfuse/
-├── 📄 docker-compose.yml  # Configuration for langfuse and the database
-├── 📄 .env               # Environment variable settings
-└── 📁 data/              # PostgreSQL data
-```
-
-## 🔨 Deployment Command Examples
-
-Deploying only specific modules:
-```bash
-# Deploy only the open-webui module
-terraform apply -target=module.ec2_open_webui
-
-# Deploy only the litellm module
-terraform apply -target=module.ec2_litellm
-
-# Deploy only the langfuse module
-terraform apply -target=module.ec2_langfuse
-```
-
-## 💻 Module Management Commands
-
-Connecting to each EC2 instance:
-```bash
-# SSH connection script
-./scripts/connect.sh open-webui
-./scripts/connect.sh litellm
-./scripts/connect.sh langfuse
-```
-
-Docker Compose operations:
-```bash
-# Execute within each instance
-cd /opt/amaterasu/[module-name]
-docker-compose up -d      # Start services
-docker-compose down      # Stop services
-docker-compose logs -f   # Display logs
-```
-
-## 🔒 Security Settings
-
-- Each EC2 instance is protected by a separate security group
-- Inter-service communication is controlled within the internal VPC network
-- Only the minimum necessary ports are exposed
-- Permission management via IAM roles
-
-## 📚 Directory Structure
-
-```plaintext
-amaterasu/
-├── terraform/          # Terraform code
-│   ├── modules/        # Modules for each EC2 instance
-│   ├── main.tf        # Main configuration
-│   └── variables.tf   # Variable definitions
-├── modules/           # Docker Compose configuration for each service
-│   ├── open-webui/    # open-webui related files
-│   ├── litellm/      # litellm related files
-│   └── langfuse/     # langfuse related files
-├── scripts/          # Operational scripts
-└── docs/            # Documentation
-```
-
-## ⚠️ Important Changes
-
-- Due to the architecture refresh, upgrading from previous versions requires manual migration following the provided steps. Refer to the upgrade instructions for details.
-
-
-## 📦 Upgrade Instructions
-
-1. Stop the existing environment.
-2. Follow the instructions in this README to build the environment with the new architecture.
-3. If data migration is necessary, perform the appropriate steps. (Specific steps are not provided.)
+- README.md update: Clearly stated the use of SourceSage and Claude.ai, emphasizing important information.
+- Added multiple Claude model definitions: Expanded the Claude models available in Langfuse. (`claude-3.5-haiku-20241022`, `claude-3.5-haiku-latest`, `claude-3.5-sonnet-20240620`, `claude-3.5-sonnet-20241022`, `claude-3.5-sonnet-latest`, `claude-3-haiku-20240307`, `claude-3-opus-20240229`, `claude-3-sonnet-20240229`)
+- Added environment variable settings for LLaMA model integration:  Simplified integration with various LLaMA model providers. (`LITELLM_MASTER_KEY`, `LITELLM_SALT_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `GEMINI_API_KEY_IRIS`)
+- Added SSH connection information to README.md and updated infrastructure description: Added instructions for SSH connection to the EC2 instance and an explanation of the architecture refresh in v0.2.0.
+- Updated English README
+- Corrected volume mount in docker-compose.yml
+- Changed logging library: Changed from the `logging` module to the `loguru` module.
 
 
 ## 📄 License
 
 This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
-## 👏 Acknowledgements
+## 👏 Acknowledgments
 
-Thanks to iris-s-coon and Maki.
+Thanks to iris-s-coon and Maki for their contributions.
 
 ## 🤝 Contributions
 
-Contributions are welcome!  Follow these steps to contribute:
+Contributions are welcome!  Here's how to get involved:
 
 1. Fork this repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push the branch (`git push origin feature/amazing-feature`)
+4. Push your branch (`git push origin feature/amazing-feature`)
 5. Create a pull request
 
 ## 📧 Support
 
-For any questions or feedback, please feel free to contact us:
+For questions or feedback, please feel free to contact us:
 - Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
