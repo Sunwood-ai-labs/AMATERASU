@@ -37,6 +37,23 @@ resource "aws_security_group" "default" {
     }
   }
 
+  # Add these ingress rules to allow internal VPC traffic
+  ingress {
+  from_port   = 80
+  to_port     = 80
+  protocol    = "tcp"
+  cidr_blocks = ["10.0.0.0/16"]
+  description = "Allow HTTP traffic within VPC"
+  }
+
+  ingress {
+  from_port   = 443  
+  to_port     = 443
+  protocol    = "tcp" 
+  cidr_blocks = ["10.0.0.0/16"]
+  description = "Allow HTTPS traffic within VPC"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -52,6 +69,8 @@ resource "aws_security_group" "default" {
     },
     var.tags
   )
+
+
 
   lifecycle {
     create_before_destroy = true

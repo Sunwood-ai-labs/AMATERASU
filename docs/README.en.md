@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.4.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.5.1 🌄</h1>
 </p>
 
 <p align="center">
@@ -19,37 +19,84 @@
 </p>
 
 <h2 align="center">
-  ～ Automates the Construction of an LLM Platform on AWS ～
+  ～ Automating the Construction of an LLM Platform on AWS ～
 </h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, allowing for easier deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, making deployment with Terraform significantly easier.
+
 
 ## 🚀 Project Overview
 
-AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  Building upon the functionality of MOA, it achieves more flexible scaling and management by operating each service on an independent EC2 instance.
+AMATERASU is an automation tool for building Large Language Model (LLM) platforms on AWS.  Building upon the functionality of MOA, it provides more flexible scaling and management by running each service on an independent EC2 instance.
 
-Key Features:
+### Key Features:
 - Simple EC2 instance management using Terraform
-- Independent EC2 instance and Docker Compose environment for each service
+- Independent EC2 instances and Docker Compose environments for each service
 - Service-level scaling and operation
 - Secure communication and access control
 
-## ✨ Main Features
+## 🏗️ Architecture
 
-- Automated AWS infrastructure construction using Terraform
-- Containerization and management of each service using Docker Compose
-- Integration with multiple LLM models (OpenAI, Anthropic, Gemini, etc.)
-- Model management and billing features using Langfuse
+### Architecture Overview
 
+AMATERASU employs a three-tier architecture:
 
-## 🔧 Usage
+1. **Infrastructure Layer** (Spellbook)
+   - AWS infrastructure base
+   - Networking and security
 
-Follow the installation instructions and usage guide provided in this README to set up AMATERASU.
+2. **Platform Layer**
+   - LLM proxy service (LiteLLM)
+   - Monitoring infrastructure (Langfuse)
 
+3. **Application Layer**
+   - Web UI interface (Open WebUI)
+   - API endpoints
+
+### Infrastructure Diagram
+
+```mermaid
+%%{init:{'theme':'base'}}%%
+
+graph TB
+    subgraph AWS Cloud
+        subgraph "Base Infrastructure"
+            VPC["VPC<br/>(base-infrastructure)"]
+            SG["Security Groups"]
+            PUBSUB["Public Subnets"]
+        end
+
+        subgraph "Service Infrastructure"
+            subgraph "OpenWebUI Service"
+                ALB_UI["ALB"] --> UI_EC2["EC2<br/>Open WebUI"]
+            end
+
+            subgraph "Langfuse Service"
+                ALB_LF["ALB"] --> LF_EC2["EC2<br/>Langfuse"]
+            end
+
+            subgraph "LiteLLM Service"
+                ALB_LL["ALB"] --> LL_EC2["EC2<br/>LiteLLM"]
+            end
+        end
+    end
+
+    Users["Users 👥"] --> ALB_UI
+    Users --> ALB_LF
+    Users --> ALB_LL
+
+    UI_EC2 --> ALB_LL
+    LF_EC2 --> ALB_LL
+
+    SG -.-> UI_EC2
+    SG -.-> LF_EC2
+    SG -.-> LL_EC2
+
+```
 
 ## 📦 Installation Instructions
 
@@ -62,71 +109,95 @@ cd AMATERASU
 2. Set environment variables:
 ```bash
 cp .env.example .env
-# Edit the .env file and configure the necessary credentials (LITELLM_MASTER_KEY, LITELLM_SALT_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, GEMINI_API_KEY_IRIS, etc.)
+# Edit the .env file and configure the necessary credentials
 ```
 
-3. Initialize and run Terraform:
+3. Deploy the infrastructure:
 ```bash
-cd spellbook/open-webui/terraform
-terraform init
-terraform plan
-terraform apply
+cd spellbook/base-infrastructure
+terraform init && terraform apply
+
+cd ../open-webui/terraform/main-infrastructure
+terraform init && terraform apply
 ```
 
+4. Start the services:
+```bash
+# Deploy Langfuse
+cd ../../langfuse
+docker-compose up -d
 
-## SSH
+# Deploy LiteLLM
+cd ../litellm
+docker-compose up -d
 
-Refer to the `instance_public_ip` output value in `spellbook/open-webui/terraform/main-infra/outputs.tf` for the SSH connection IP address.
+# Deploy Open WebUI
+cd ../open-webui
+docker-compose up -d
+```
 
+## 📚 Detailed Documentation
+
+- [Spellbook Infrastructure Setup Guide](spellbook/README.md)
+- [LiteLLM Configuration Guide](spellbook/litellm/README.md)
+- [Langfuse Setup Guide](spellbook/langfuse/README.md)
 
 ## 🆕 What's New
 
-### v0.4.0 Update Notes
+### v0.5.1 Updates
 
-- Added infrastructure construction functionality using existing VPCs and security groups. This simplifies integration with existing environments, reducing infrastructure costs and time.
-- Updated the English README and fixed several bugs.
-- Added variables for existing VPC and subnet IDs for flexible adaptation to existing environments.
-- Modified the settings to use existing security groups.
-- Added a whitelist function to the security group (using the `whitelist.csv` file).
-- Added configuration for ALB, target groups, listeners, and CloudFront Distribution.
-- Configured the Terraform variable file (AWS region, project name, environment name, etc.).
-- Added configuration for key output values (VPC ID, subnet ID, etc.).
-- Added functionality to build VPCs, subnets, internet gateways, and NAT gateways.
-- Simplified the security group description.
+- 🎉 Added AMATERASU architecture overview and diagram to README.md.
+- 🚀 Significantly updated the Spellbook README.md.
+- 🚀 Completely revised the README.md.
+- 🚀 Updated the English README.
 
 
-## ⚠️ Important Changes
+### v0.5.0 Updates
 
-- Because the system has been changed to use existing VPCs and subnets, upgrading from previous versions requires manual migration.  Specific instructions are not provided.
+- 🎉 Added whitelist IP address configuration functionality.
+- 🎉 Added Terraform variable file configuration functionality.
+- 🎉 Added a setup script for after EC2 instance startup.
+- 🎉 Added overall output configuration.
+- 🎉 Major update to the VPC module.
 
+## 📊 Resource Requirements
 
-## 📦 Upgrade Instructions
+Minimum Configuration:
+- EC2: t3.medium (2vCPU/4GB)
+- Storage: 50GB gp2
+- Network: Public subnet
 
-Specific upgrade instructions are not provided. Refer to the Important Changes section.
+Recommended Configuration:
+- EC2: t3.large (2vCPU/8GB)
+- Storage: 100GB gp2
+- Network: Public/Private subnet
 
+## 💰 Cost Management
+
+Provides detailed cost analysis and management features through Langfuse:
+- Model-specific usage cost tracking
+- Budget alert settings
+- Usage visualization
 
 ## 👏 Acknowledgements
 
 Thanks to iris-s-coon and Maki for their contributions.
 
-
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributions
-
-Contributions are welcome!  You can participate by following these steps:
+## 🤝 Contributing
 
 1. Fork this repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push the branch (`git push origin feature/amazing-feature`)
+3. Make your changes and commit (`git commit -m 'Add amazing feature'`)
+4. Push your branch (`git push origin feature/amazing-feature`)
 5. Create a pull request
 
 ## 📧 Support
 
-For questions or feedback, please feel free to contact us:
+For questions or feedback, please contact us:
 - Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
