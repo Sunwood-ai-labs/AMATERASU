@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.3.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.4.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -76,30 +76,43 @@ terraform apply
 
 ## SSH
 
-```bash
-ssh -i "C:\Users\makim\.ssh\AMATERASU-terraform-keypair-tokyo-PEM.pem" ubuntu@i-0f2dd4596a0e1f3c0
-```
+SSH接続先のIPアドレスは、`spellbook/open-webui/terraform/main-infra/outputs.tf` の `instance_public_ip`出力値を参照してください。
+
 
 ## 🆕 最新情報
 
-### v0.3.0 の更新内容
+### v0.4.0 の更新内容
 
-- README.mdの更新: SourceSageとClaude.aiの利用について明記し、重要な情報を強調しました。
-- 複数のClaudeモデル定義の追加: Langfuseで利用可能なClaudeモデルを拡張しました。(`claude-3.5-haiku-20241022`, `claude-3.5-haiku-latest`, `claude-3.5-sonnet-20240620`, `claude-3.5-sonnet-20241022`, `claude-3.5-sonnet-latest`, `claude-3-haiku-20240307`, `claude-3-opus-20240229`, `claude-3-sonnet-20240229`)
-- LLaMAモデル連携のための環境変数設定の追加: 様々なLLaMAモデルプロバイダーとの連携を容易にしました。(`LITELLM_MASTER_KEY`、`LITELLM_SALT_KEY`、`OPENAI_API_KEY`、`ANTHROPIC_API_KEY`、`GEMINI_API_KEY`、`GEMINI_API_KEY_IRIS`)
-- README.mdへのSSH接続情報の追加とインフラストラクチャ説明の更新: EC2インスタンスへのSSH接続方法と、v0.2.0でのアーキテクチャ刷新に関する説明を追加しました。
-- 英語READMEの更新
-- docker-compose.ymlのボリュームマウント修正
-- ロギングライブラリの変更: `logging`モジュールから`loguru`モジュールに変更しました。
+- 既存のVPCとセキュリティグループを利用したインフラ構築機能を追加しました。これにより、既存環境への統合が容易になり、インフラ構築コストと時間を削減できます。
+- 英語READMEの更新と、いくつかのバグ修正を行いました。
+- 既存のVPCとサブネットIDの変数を追加し、既存環境への柔軟な対応を実現しました。
+- 既存のセキュリティグループを使用するように設定を変更しました。
+- セキュリティグループへのホワイトリスト機能を追加しました (`whitelist.csv`ファイルを使用)。
+- ALB、ターゲットグループ、リスナー、CloudFront Distributionの設定を追加しました。
+- Terraform変数ファイルの設定を行いました (AWSリージョン、プロジェクト名、環境名など)。
+- 主要な出力値の設定を追加しました (VPC ID、サブネットIDなど)。
+- VPC、サブネット、インターネットゲートウェイ、NATゲートウェイを構築する機能を追加しました。
+- セキュリティグループ記述の簡素化を行いました。
+
+
+## ⚠️ 重要な変更
+
+- 既存のVPCとサブネットを使用するように変更されたため、以前のバージョンからのアップグレードは、手動での移行が必要になります。具体的な手順は提供されていません。
+
+
+## 📦 アップグレード手順
+
+具体的なアップグレード手順は提供されていません。重要な変更セクションを参照してください。
+
+
+## 👏 謝辞
+
+iris-s-coonとMakiに貢献への謝辞を述べます。
 
 
 ## 📄 ライセンス
 
 このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSE](LICENSE)ファイルをご覧ください。
-
-## 👏 謝辞
-
-iris-s-coonとMakiに貢献への謝辞を述べます。
 
 ## 🤝 コントリビューション
 
