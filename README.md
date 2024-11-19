@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.5.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.5.1 🌄</h1>
 </p>
 
 <p align="center">
@@ -142,6 +142,14 @@ docker-compose up -d
 - [Langfuse セットアップガイド](spellbook/langfuse/README.md)
 
 ## 🆕 最新情報
+
+### v0.5.1 の更新内容
+
+- 🎉 README.mdにAMATERASUのアーキテクチャ概要と構成図を追加しました。
+- 🚀 SpellbookのREADME.mdを大幅に更新しました。
+- 🚀 README.mdを全面的に改修しました。
+- 🚀 英語READMEの更新を行いました。
+
 
 ### v0.5.0 の更新内容
 
