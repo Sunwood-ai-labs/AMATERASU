@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.12"
 }
 
-# main.tf (module section)
+# Networking module
 module "networking" {
   source = "./modules/networking"
   
@@ -17,12 +17,14 @@ module "networking" {
   subdomain        = var.subdomain
 }
 
+# IAM module
 module "iam" {
   source = "./modules/iam"
   
   project_name = var.project_name
 }
 
+# Compute module
 module "compute" {
   source = "./modules/compute"
   
@@ -41,7 +43,7 @@ module "compute" {
   ]
 }
 
-# ALBターゲットグループにEC2インスタンスを登録
+# Register EC2 instance with ALB target group
 resource "aws_lb_target_group_attachment" "main" {
   target_group_arn = module.networking.alb_target_group_arn
   target_id        = module.compute.instance_id
