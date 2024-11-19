@@ -174,13 +174,14 @@ def configure_claude_models(creator):
 
 def main():
     # Langfuse認証情報
-    PUBLIC_KEY = "pk-lf-faccb782-2b76-4750-ac9b-f83b2be90ff1"
-    SECRET_KEY = "sk-lf-4e26deec-2e04-4a16-8aa2-21c94853e83e"
+    PUBLIC_KEY = "pk-lf-da6122ed-870b-4582-ad68-932a37868e6f"
+    SECRET_KEY = "sk-lf-a352a740-f507-4554-8dac-53d6c36fadc0"
     
     try:
         creator = LangfuseModelCreator(
             public_key=PUBLIC_KEY,
-            secret_key=SECRET_KEY
+            secret_key=SECRET_KEY,
+            base_url="https://amaterasu-langfuse-dev.sunwood-ai-labs.click"
         )
         
         # 既存のモデル定義を確認
