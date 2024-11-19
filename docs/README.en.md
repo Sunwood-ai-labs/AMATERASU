@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.5.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.5.1 🌄</h1>
 </p>
 
 <p align="center">
@@ -26,11 +26,12 @@
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easier deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, making deployment with Terraform significantly easier.
+
 
 ## 🚀 Project Overview
 
-AMATERASU is an automation tool for building Large Language Model (LLM) platforms on AWS.  Building upon the functionality of MOA, it achieves more flexible scaling and management by running each service on a separate EC2 instance.
+AMATERASU is an automation tool for building Large Language Model (LLM) platforms on AWS.  Building upon the functionality of MOA, it provides more flexible scaling and management by running each service on an independent EC2 instance.
 
 ### Key Features:
 - Simple EC2 instance management using Terraform
@@ -42,10 +43,10 @@ AMATERASU is an automation tool for building Large Language Model (LLM) platform
 
 ### Architecture Overview
 
-AMATERASU is comprised of a three-tier architecture:
+AMATERASU employs a three-tier architecture:
 
 1. **Infrastructure Layer** (Spellbook)
-   - AWS infrastructure
+   - AWS infrastructure base
    - Networking and security
 
 2. **Platform Layer**
@@ -108,7 +109,7 @@ cd AMATERASU
 2. Set environment variables:
 ```bash
 cp .env.example .env
-# Edit the .env file and set the necessary credentials
+# Edit the .env file and configure the necessary credentials
 ```
 
 3. Deploy the infrastructure:
@@ -141,15 +142,23 @@ docker-compose up -d
 - [LiteLLM Configuration Guide](spellbook/litellm/README.md)
 - [Langfuse Setup Guide](spellbook/langfuse/README.md)
 
-## 🆕 Latest Updates
+## 🆕 What's New
+
+### v0.5.1 Updates
+
+- 🎉 Added AMATERASU architecture overview and diagram to README.md.
+- 🚀 Significantly updated the Spellbook README.md.
+- 🚀 Completely revised the README.md.
+- 🚀 Updated the English README.
+
 
 ### v0.5.0 Updates
 
-- 🎉 Added whitelist IP address configuration.
-- 🎉 Added Terraform variable file configuration.
-- 🎉 Added post-EC2 instance startup setup scripts.
+- 🎉 Added whitelist IP address configuration functionality.
+- 🎉 Added Terraform variable file configuration functionality.
+- 🎉 Added a setup script for after EC2 instance startup.
 - 🎉 Added overall output configuration.
-- 🎉 Significant update to the VPC module.
+- 🎉 Major update to the VPC module.
 
 ## 📊 Resource Requirements
 
@@ -161,11 +170,11 @@ Minimum Configuration:
 Recommended Configuration:
 - EC2: t3.large (2vCPU/8GB)
 - Storage: 100GB gp2
-- Network: Public/Private subnets
+- Network: Public/Private subnet
 
 ## 💰 Cost Management
 
-Langfuse provides detailed cost analysis and management features:
+Provides detailed cost analysis and management features through Langfuse:
 - Model-specific usage cost tracking
 - Budget alert settings
 - Usage visualization
@@ -178,12 +187,12 @@ Thanks to iris-s-coon and Maki for their contributions.
 
 This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributions
+## 🤝 Contributing
 
 1. Fork this repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push the branch (`git push origin feature/amazing-feature`)
+3. Make your changes and commit (`git commit -m 'Add amazing feature'`)
+4. Push your branch (`git push origin feature/amazing-feature`)
 5. Create a pull request
 
 ## 📧 Support
