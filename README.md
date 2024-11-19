@@ -40,6 +40,8 @@ AMATERASUは、AWS上にLLM（大規模言語モデル）プラットフォー�
 
 ## 🏗️ アーキテクチャ
 
+### アーキテクチャ概要
+
 AMATERASUは3層アーキテクチャで構成されています：
 
 1. **インフラ層** (Spellbook)
@@ -53,6 +55,47 @@ AMATERASUは3層アーキテクチャで構成されています：
 3. **アプリケーション層**
    - WebUIインターフェース (Open WebUI)
    - APIエンドポイント
+
+### インフラストラクチャ構成図
+
+```mermaid
+%%{init:{'theme':'base'}}%%
+
+graph TB
+    subgraph AWS Cloud
+        subgraph "Base Infrastructure"
+            VPC["VPC<br/>(base-infrastructure)"]
+            SG["Security Groups"]
+            PUBSUB["Public Subnets"]
+        end
+
+        subgraph "Service Infrastructure"
+            subgraph "OpenWebUI Service"
+                ALB_UI["ALB"] --> UI_EC2["EC2<br/>Open WebUI"]
+            end
+
+            subgraph "Langfuse Service"
+                ALB_LF["ALB"] --> LF_EC2["EC2<br/>Langfuse"]
+            end
+
+            subgraph "LiteLLM Service"
+                ALB_LL["ALB"] --> LL_EC2["EC2<br/>LiteLLM"]
+            end
+        end
+    end
+
+    Users["Users 👥"] --> ALB_UI
+    Users --> ALB_LF
+    Users --> ALB_LL
+
+    UI_EC2 --> ALB_LL
+    LF_EC2 --> ALB_LL
+
+    SG -.-> UI_EC2
+    SG -.-> LF_EC2
+    SG -.-> LL_EC2
+
+```
 
 ## 📦 インストール手順
 
