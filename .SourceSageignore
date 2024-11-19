@@ -65,3 +65,8 @@ content.md
 docs
 .github
 .venv
+
+terraform.tfstate
+.terraform
+.terraform.lock.hcl
+terraform.tfstate.backup
