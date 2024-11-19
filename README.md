@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.4.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.5.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -67,7 +67,7 @@ cp .env.example .env
 
 3. Terraformの初期化と実行:
 ```bash
-cd spellbook/open-webui/terraform
+cd spellbook/open-webui/terraform/main-infrastructure
 terraform init
 terraform plan
 terraform apply
@@ -76,23 +76,23 @@ terraform apply
 
 ## SSH
 
-SSH接続先のIPアドレスは、`spellbook/open-webui/terraform/main-infra/outputs.tf` の `instance_public_ip`出力値を参照してください。
+SSH接続先のIPアドレスは、`spellbook/open-webui/terraform/main-infrastructure/outputs.tf` の `instance_public_ip`出力値を参照してください。
 
 
 ## 🆕 最新情報
 
-### v0.4.0 の更新内容
+### v0.5.0 の更新内容
 
-- 既存のVPCとセキュリティグループを利用したインフラ構築機能を追加しました。これにより、既存環境への統合が容易になり、インフラ構築コストと時間を削減できます。
-- 英語READMEの更新と、いくつかのバグ修正を行いました。
-- 既存のVPCとサブネットIDの変数を追加し、既存環境への柔軟な対応を実現しました。
-- 既存のセキュリティグループを使用するように設定を変更しました。
-- セキュリティグループへのホワイトリスト機能を追加しました (`whitelist.csv`ファイルを使用)。
-- ALB、ターゲットグループ、リスナー、CloudFront Distributionの設定を追加しました。
-- Terraform変数ファイルの設定を行いました (AWSリージョン、プロジェクト名、環境名など)。
-- 主要な出力値の設定を追加しました (VPC ID、サブネットIDなど)。
-- VPC、サブネット、インターネットゲートウェイ、NATゲートウェイを構築する機能を追加しました。
-- セキュリティグループ記述の簡素化を行いました。
+- 🎉 ホワイトリストIPアドレスの設定機能を追加しました。CSVファイルでホワイトリストに含めるIPアドレスを定義し、各IPアドレスの説明を付与できます。
+    - これにより、セキュリティが強化されます。
+- 🎉 Terraform変数ファイルの設定機能を追加しました。AWSリージョン、プロジェクト名などの重要な変数をファイルで管理できるようになりました。
+    - これにより、環境ごとの設定変更が容易になります。
+- 🎉 EC2インスタンス起動後のセットアップスクリプトを追加しました。
+    - これにより、インスタンス起動後に自動的にAMATERASU環境がセットアップされます。
+- 🎉 全体の出力設定を追加しました。
+    - EC2インスタンス、VPC、ALBなどの重要な情報を出力し、構築後の確認が容易になります。
+- 🎉 VPCモジュールの大幅なアップデートを行いました。既存のVPCとセキュリティグループを利用することで、より柔軟でコスト効率の高いインフラ構築が可能になりました。
+- 🎉 既存のVPCとサブネットを使用するように変更されました。以前のバージョンからのアップグレードは手動での移行が必要になります。具体的な手順は提供されていません。
 
 
 ## ⚠️ 重要な変更
