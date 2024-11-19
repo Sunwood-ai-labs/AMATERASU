@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.4.0 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.5.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -19,28 +19,28 @@
 </p>
 
 <h2 align="center">
-  ～ Automates the Construction of an LLM Platform on AWS ～
+  ～ Automated Construction of an LLM Platform on AWS ～
 </h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, allowing for easier deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service on a separate EC2 instance using Docker Compose, enabling easier deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  Building upon the functionality of MOA, it achieves more flexible scaling and management by operating each service on an independent EC2 instance.
+AMATERASU is an automation tool for building an LLM (Large Language Model) platform on AWS.  While inheriting the functionality of MOA, it achieves more flexible scaling and management by operating each service on an independent EC2 instance.
 
 Key Features:
 - Simple EC2 instance management using Terraform
-- Independent EC2 instance and Docker Compose environment for each service
-- Service-level scaling and operation
+- Independent EC2 instances and Docker Compose environments for each service
+- Scalable and manageable services individually
 - Secure communication and access control
 
 ## ✨ Main Features
 
-- Automated AWS infrastructure construction using Terraform
+- Automated AWS infrastructure construction with Terraform
 - Containerization and management of each service using Docker Compose
 - Integration with multiple LLM models (OpenAI, Anthropic, Gemini, etc.)
 - Model management and billing features using Langfuse
@@ -48,7 +48,7 @@ Key Features:
 
 ## 🔧 Usage
 
-Follow the installation instructions and usage guide provided in this README to set up AMATERASU.
+Follow the installation instructions and usage methods described in this README to set up AMATERASU.
 
 
 ## 📦 Installation Instructions
@@ -62,12 +62,12 @@ cd AMATERASU
 2. Set environment variables:
 ```bash
 cp .env.example .env
-# Edit the .env file and configure the necessary credentials (LITELLM_MASTER_KEY, LITELLM_SALT_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, GEMINI_API_KEY_IRIS, etc.)
+# Edit the .env file and set the necessary credentials (LITELLM_MASTER_KEY, LITELLM_SALT_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, GEMINI_API_KEY_IRIS, etc.)
 ```
 
 3. Initialize and run Terraform:
 ```bash
-cd spellbook/open-webui/terraform
+cd spellbook/open-webui/terraform/main-infrastructure
 terraform init
 terraform plan
 terraform apply
@@ -76,33 +76,33 @@ terraform apply
 
 ## SSH
 
-Refer to the `instance_public_ip` output value in `spellbook/open-webui/terraform/main-infra/outputs.tf` for the SSH connection IP address.
+Refer to the `instance_public_ip` output value in `spellbook/open-webui/terraform/main-infrastructure/outputs.tf` for the SSH connection IP address.
 
 
 ## 🆕 What's New
 
-### v0.4.0 Update Notes
+### v0.5.0 Update Notes
 
-- Added infrastructure construction functionality using existing VPCs and security groups. This simplifies integration with existing environments, reducing infrastructure costs and time.
-- Updated the English README and fixed several bugs.
-- Added variables for existing VPC and subnet IDs for flexible adaptation to existing environments.
-- Modified the settings to use existing security groups.
-- Added a whitelist function to the security group (using the `whitelist.csv` file).
-- Added configuration for ALB, target groups, listeners, and CloudFront Distribution.
-- Configured the Terraform variable file (AWS region, project name, environment name, etc.).
-- Added configuration for key output values (VPC ID, subnet ID, etc.).
-- Added functionality to build VPCs, subnets, internet gateways, and NAT gateways.
-- Simplified the security group description.
+- 🎉 Added a whitelist IP address setting function.  You can define IP addresses to include in the whitelist using a CSV file and provide a description for each IP address.
+    - This enhances security.
+- 🎉 Added a Terraform variable file setting function.  Important variables such as the AWS region and project name can now be managed in a file.
+    - This makes it easier to change settings for each environment.
+- 🎉 Added a post-EC2 instance launch setup script.
+    - This automatically sets up the AMATERASU environment after the instance launches.
+- 🎉 Added overall output settings.
+    - Outputs important information such as EC2 instances, VPCs, and ALBs, making post-construction verification easier.
+- 🎉 Significantly updated the VPC module.  Utilizing existing VPCs and security groups enables more flexible and cost-effective infrastructure construction.
+- 🎉 Changed to use existing VPCs and subnets. Upgrading from previous versions requires manual migration.  Specific instructions are not provided.
 
 
 ## ⚠️ Important Changes
 
-- Because the system has been changed to use existing VPCs and subnets, upgrading from previous versions requires manual migration.  Specific instructions are not provided.
+- Because the system now uses existing VPCs and subnets, upgrading from previous versions requires manual migration. Specific instructions are not provided.
 
 
 ## 📦 Upgrade Instructions
 
-Specific upgrade instructions are not provided. Refer to the Important Changes section.
+Specific upgrade instructions are not provided. Please refer to the Important Changes section.
 
 
 ## 👏 Acknowledgements
@@ -116,7 +116,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 🤝 Contributions
 
-Contributions are welcome!  You can participate by following these steps:
+Contributions are welcome!  Here's how to participate:
 
 1. Fork this repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)
