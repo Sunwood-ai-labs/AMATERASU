@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.5.1 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.6.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -111,7 +111,7 @@ cp .env.example .env
 # .envファイルを編集して必要な認証情報を設定
 ```
 
-3. インフラのデプロイ:
+3. インフラのデプロイ:  (CloudFront関連は削除済みです。)
 ```bash
 cd spellbook/base-infrastructure
 terraform init && terraform apply
@@ -143,21 +143,15 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### v0.5.1 の更新内容
+### v0.6.0 の更新内容
 
-- 🎉 README.mdにAMATERASUのアーキテクチャ概要と構成図を追加しました。
-- 🚀 SpellbookのREADME.mdを大幅に更新しました。
-- 🚀 README.mdを全面的に改修しました。
-- 🚀 英語READMEの更新を行いました。
+- CloudFrontインフラの削除に伴い、不要になったリソースを削除しました。
+- コードを簡素化し、保守性を向上させました。
+- アプリケーションのHTTPSとHTTP URLを出力に追加しました。
+- 環境変数ファイルとセットアップスクリプトのパスを`terraform.tfvars`で容易に変更できるようにしました。
+- 不要な変数定義を削除しました。
+- セットアップスクリプトを簡素化しました。
 
-
-### v0.5.0 の更新内容
-
-- 🎉 ホワイトリストIPアドレスの設定機能を追加
-- 🎉 Terraform変数ファイルの設定機能を追加
-- 🎉 EC2インスタンス起動後のセットアップスクリプトを追加
-- 🎉 全体の出力設定を追加
-- 🎉 VPCモジュールの大幅なアップデート
 
 ## 📊 リソース要件
 
@@ -180,7 +174,7 @@ Langfuseによる詳細なコスト分析と管理機能を提供：
 
 ## 👏 謝辞
 
-iris-s-coonとMakiに貢献への謝辞を述べます。
+Makiへの貢献に感謝します。
 
 ## 📄 ライセンス
 
