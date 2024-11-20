@@ -10,17 +10,16 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git /home/ubuntu/AMATERAS
 
 # Terraformから提供される環境変数ファイルの作成
 # 注: .envファイルの内容はTerraformから提供される
-echo "${env_content}" > /home/ubuntu/AMATERASU/.env
+echo "${env_content}" > /home/ubuntu/AMATERASU/spellbook/open-webui/.env
 
-# .envファイルの権限設定
-chown ubuntu:ubuntu /home/ubuntu/AMATERASU/.env
-chmod 600 /home/ubuntu/AMATERASU/.env
+# ファイルの権限設定
+chmod 777 -R /home/ubuntu/AMATERASU
 
 # AMATERASUディレクトリに移動
-cd /home/ubuntu/AMATERASU
+cd /home/ubuntu/AMATERASU/spellbook/open-webui
 
 # 指定されたdocker-composeファイルでコンテナを起動
-sudo docker-compose -f docker-compose.ollama.yml up -d
+sudo docker-compose up -d
 
 echo "AMATERASUのセットアップが完了し、docker-composeを起動しました!"
 

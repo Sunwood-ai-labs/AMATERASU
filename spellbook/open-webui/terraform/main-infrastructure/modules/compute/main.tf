@@ -11,8 +11,8 @@ resource "aws_instance" "app_server" {
     volume_size = 50
   }
 
-  user_data = templatefile("${path.module}/../../scripts/setup_script.sh", {
-    env_content = file("${path.module}/../../../../.env")
+  user_data = templatefile(var.setup_script_path, {
+    env_content = file(var.env_file_path)
   })
 
   tags = {

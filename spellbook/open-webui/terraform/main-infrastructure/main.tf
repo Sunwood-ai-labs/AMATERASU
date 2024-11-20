@@ -36,6 +36,8 @@ module "compute" {
   key_name            = var.key_name
   iam_instance_profile = module.iam.ec2_instance_profile_name
   security_group_id    = var.security_group_id
+  env_file_path       = var.env_file_path
+  setup_script_path   = var.setup_script_path
 
   depends_on = [
     module.networking,

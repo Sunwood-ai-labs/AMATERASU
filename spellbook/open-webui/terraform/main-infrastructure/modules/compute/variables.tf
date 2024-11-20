@@ -30,6 +30,29 @@ variable "security_group_id" {
   type        = string
 }
 
+# 環境変数ファイルのパス
+variable "env_file_path" {
+  description = "Absolute path to the .env file"
+  type        = string
+}
+
+# セットアップスクリプトのパス
+variable "setup_script_path" {
+  description = "Absolute path to the setup_script.sh file"
+  type        = string
+}
+
+# Required variables from common module
+variable "vpc_id" {
+  description = "ID of the VPC"
+  type        = string
+}
+
+variable "public_subnet_id" {
+  description = "ID of the public subnet"
+  type        = string
+}
+
 # Common module reference
 module "common" {
   source = "../common"
@@ -45,17 +68,6 @@ module "common" {
   public_subnet_2_id = ""
   domain            = ""
   subdomain         = ""
-}
-
-# Required variables from common module
-variable "vpc_id" {
-  description = "ID of the VPC"
-  type        = string
-}
-
-variable "public_subnet_id" {
-  description = "ID of the public subnet"
-  type        = string
 }
 
 # Local variables using common module outputs

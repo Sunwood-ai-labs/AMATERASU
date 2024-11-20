@@ -4,7 +4,7 @@ terraform {
 
 # Networking module
 module "networking" {
-  source = "./modules/networking"
+  source = "../../../open-webui/terraform/main-infrastructure/modules/networking"
   
   project_name       = var.project_name
   aws_region        = var.aws_region
@@ -19,14 +19,14 @@ module "networking" {
 
 # IAM module
 module "iam" {
-  source = "./modules/iam"
+  source = "../../../open-webui/terraform/main-infrastructure/modules/iam"
   
   project_name = var.project_name
 }
 
 # Compute module
 module "compute" {
-  source = "./modules/compute"
+  source = "../../../open-webui/terraform/main-infrastructure/modules/compute"
   
   project_name         = var.project_name
   vpc_id              = var.vpc_id
@@ -36,6 +36,8 @@ module "compute" {
   key_name            = var.key_name
   iam_instance_profile = module.iam.ec2_instance_profile_name
   security_group_id    = var.security_group_id
+  env_file_path       = var.env_file_path
+  setup_script_path   = var.setup_script_path
 
   depends_on = [
     module.networking,

@@ -77,6 +77,18 @@ variable "key_name" {
   type        = string
 }
 
+# 環境変数ファイルのパス
+variable "env_file_path" {
+  description = "Absolute path to the .env file"
+  type        = string
+}
+
+# セットアップスクリプトのパス
+variable "setup_script_path" {
+  description = "Absolute path to the setup_script.sh file"
+  type        = string
+}
+
 # 共通のローカル変数
 locals {
   # リソース命名用の共通プレフィックス
