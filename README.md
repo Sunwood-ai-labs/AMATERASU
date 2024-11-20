@@ -1,6 +1,7 @@
+
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.6.0 🌄</h1>
+<h1 align="center">AMATERASU v0.6.0</h1>
 </p>
 
 <p align="center">
@@ -13,124 +14,155 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Sunwood-ai-labs/AMATERASU?style=social">
-  </a>
 </p>
 
 <h2 align="center">
-  ～ AWS上のLLMプラットフォームを自動構築 ～
+  エンタープライズグレードのプライベートAIプラットフォーム
 </h2>
 
->[!IMPORTANT]
->このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
+## 🔒 セキュリティ重視の設計思想
 
->[!NOTE]
->AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
+AMATERASUは、セキュリティ要件の厳しい日本企業向けに特化して開発された、プライベートなAIプラットフォーム基盤です。AWS Bedrockを基盤とした安全なLLM活用を実現します：
 
-## 🚀 プロジェクト概要
+- **AWS Bedrock による安全なLLM基盤**:
+  - 企業向けに最適化された Claude-3 モデルをサポート
+  - AWSのエンタープライズグレードのセキュリティ
+  - 日本国内データセンターでの処理
+  - IAMロールベースのきめ細かなアクセス制御
 
-AMATERASUは、AWS上にLLM（大規模言語モデル）プラットフォームを構築するための自動化ツールです。MOAの機能を踏襲しながら、各サービスを独立したEC2インスタンスで運用することで、より柔軟なスケーリングと管理を実現します。
+- **完全クローズド環境での運用**: 
+  - 社内ネットワーク内でのみ動作
+  - インターネットアクセス不要のスタンドアロン構成
+  - プライベートクラウド/オンプレミス対応
 
-### 主な特徴:
-- Terraformを使用した簡単なEC2インスタンス管理
-- 各サービスごとに独立したEC2インスタンスとDocker Compose環境
-- サービス単位でのスケーリングと運用が可能
-- セキュアな通信とアクセス制御
+- **エンタープライズグレードのセキュリティ**: 
+  - IPホワイトリストによるアクセス制御
+  - HTTPS/TLS暗号化通信
+  - AWS Security Groupによるネットワークセグメンテーション
+  - 最小権限原則に基づいたIAMロール管理
 
-## 🏗️ アーキテクチャ
+- **コンプライアンス対応**:
+  - データの国内保持（データレジデンシー）
+  - アクセスログの保全と監査
+  - 部門/ユーザー単位のアクセス管理
 
-### アーキテクチャ概要
+## 🏢 主要機能
 
-AMATERASUは3層アーキテクチャで構成されています：
+### 1. セキュアなChatGPTライクインターフェース (Open WebUI)
+- 社内向けチャットUIの提供
+- プロンプトテンプレート管理
+- 会話履歴の保存と検索
 
-1. **インフラ層** (Spellbook)
-   - AWS基盤インフラストラクチャ
-   - ネットワーキングとセキュリティ
-   
-2. **プラットフォーム層**
-   - LLMプロキシサービス (LiteLLM)
-   - モニタリング基盤 (Langfuse)
-   
-3. **アプリケーション層**
-   - WebUIインターフェース (Open WebUI)
-   - APIエンドポイント
+### 2. セキュアなAPIプロキシサーバー (LiteLLM)
+- AWS Bedrockを基盤としたセキュアなLLMアクセス
+- Claude-3シリーズ（Opus/Sonnet/Haiku）の統合管理
+- リクエストの負荷分散とレート制限
+- APIキーの一元管理
 
-### インフラストラクチャ構成図
+### 3. コスト管理・監視基盤 (Langfuse)
+- トークン使用量の可視化
+- 部門別コスト集計
+- 利用状況分析
+
+## 🏗️ システムアーキテクチャ
+
+### AWS Bedrockベースのセキュア3層アーキテクチャ
 
 ```mermaid
 %%{init:{'theme':'base'}}%%
-
 graph TB
-    subgraph AWS Cloud
-        subgraph "Base Infrastructure"
-            VPC["VPC<br/>(base-infrastructure)"]
-            SG["Security Groups"]
-            PUBSUB["Public Subnets"]
-        end
-
-        subgraph "Service Infrastructure"
-            subgraph "OpenWebUI Service"
-                ALB_UI["ALB"] --> UI_EC2["EC2<br/>Open WebUI"]
+    subgraph "AWS Cloud"
+        subgraph "社内ネットワーク"
+            subgraph "プレゼンテーション層"
+                WebUI["Open WebUI<br/>(チャットインターフェース)"]
             end
-
-            subgraph "Langfuse Service"
-                ALB_LF["ALB"] --> LF_EC2["EC2<br/>Langfuse"]
+            
+            subgraph "アプリケーション層"
+                LiteLLM["LiteLLM Proxy<br/>(API管理)"]
+                Langfuse["Langfuse<br/>(監視・分析)"]
             end
-
-            subgraph "LiteLLM Service"
-                ALB_LL["ALB"] --> LL_EC2["EC2<br/>LiteLLM"]
+            
+            subgraph "インフラ層"
+                VPC["VPC/セキュリティグループ"]
+                IAM["IAMロール管理"]
             end
         end
+
+        subgraph "AWS Bedrock"
+            Claude3["Claude-3<br/>Models"]
+        end
+        
+        WebUI --> LiteLLM
+        WebUI --> Langfuse
+        LiteLLM --> VPC
+        Langfuse --> VPC
+        VPC --> IAM
+        LiteLLM --> Claude3
     end
 
-    Users["Users 👥"] --> ALB_UI
-    Users --> ALB_LF
-    Users --> ALB_LL
-
-    UI_EC2 --> ALB_LL
-    LF_EC2 --> ALB_LL
-
-    SG -.-> UI_EC2
-    SG -.-> LF_EC2
-    SG -.-> LL_EC2
-
+    Users["社内ユーザー 👥"] --> WebUI
 ```
 
-## 📦 インストール手順
 
-1. リポジトリのクローン:
+## 📊 リソース要件
+
+最小構成：
+- EC2: t3.medium (2vCPU/4GB)
+- Storage: 50GB gp2
+- Network: パブリックサブネット
+
+推奨構成：
+- EC2: t3.large (2vCPU/8GB)
+- Storage: 100GB gp2
+- Network: パブリック/プライベートサブネット
+
+
+## 💼 企業での活用シーン
+
+1. **開発部門**
+   - コードレビュー支援
+   - バグ解析の効率化
+   - ドキュメント生成
+
+2. **業務部門**
+   - レポート作成支援
+   - データ分析補助
+   - 議事録作成
+
+3. **カスタマーサポート**
+   - 問い合わせ対応の効率化
+   - FAQ自動生成
+   - 返信文面の品質向上
+
+## 🔧 導入・運用
+
+### セットアップ手順
 ```bash
+# 1. リポジトリのクローン
 git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
-```
 
-2. 環境変数の設定:
-```bash
+# 2. 環境変数の設定
 cp .env.example .env
-# .envファイルを編集して必要な認証情報を設定
-```
+# .envファイルを編集して認証情報を設定
 
-3. インフラのデプロイ:  (CloudFront関連は削除済みです。)
-```bash
+# 3. インフラのデプロイ
 cd spellbook/base-infrastructure
 terraform init && terraform apply
 
 cd ../open-webui/terraform/main-infrastructure
 terraform init && terraform apply
-```
 
-4. サービスの起動:
-```bash
-# Langfuseのデプロイ
+# 4. サービスの起動
+# Langfuse (監視基盤)
 cd ../../langfuse
 docker-compose up -d
 
-# LiteLLMのデプロイ
+# LiteLLM (APIプロキシ)
 cd ../litellm
 docker-compose up -d
 
-# Open WebUIのデプロイ
+# Open WebUI (ユーザーインターフェース)
 cd ../open-webui
 docker-compose up -d
 ```
@@ -152,18 +184,6 @@ docker-compose up -d
 - 不要な変数定義を削除しました。
 - セットアップスクリプトを簡素化しました。
 
-
-## 📊 リソース要件
-
-最小構成：
-- EC2: t3.medium (2vCPU/4GB)
-- Storage: 50GB gp2
-- Network: パブリックサブネット
-
-推奨構成：
-- EC2: t3.large (2vCPU/8GB)
-- Storage: 100GB gp2
-- Network: パブリック/プライベートサブネット
 
 ## 💰 コスト管理
 
@@ -194,4 +214,7 @@ Makiへの貢献に感謝します。
 - Issue作成: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - メール: support@sunwoodai.com
 
-AMATERASUで、より柔軟で強力なAIインフラストラクチャを構築しましょう！ ✨
+---
+
+AMATERASUで、セキュアで効率的なAIインフラを構築しましょう。✨
+
