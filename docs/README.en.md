@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.5.1 🌄</h1>
+<h1 align="center">🌄 AMATERASU v0.6.0 🌄</h1>
 </p>
 
 <p align="center">
@@ -26,16 +26,15 @@
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on a separate EC2 instance using Docker Compose, making deployment with Terraform significantly easier.
-
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service in a separate EC2 instance using Docker Compose, enabling easier deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an automation tool for building Large Language Model (LLM) platforms on AWS.  Building upon the functionality of MOA, it provides more flexible scaling and management by running each service on an independent EC2 instance.
+AMATERASU is an automation tool for building Large Language Model (LLM) platforms on AWS.  Building on the functionality of MOA, it provides more flexible scaling and management by running each service on a separate EC2 instance.
 
 ### Key Features:
 - Simple EC2 instance management using Terraform
-- Independent EC2 instances and Docker Compose environments for each service
+- Separate EC2 instances and Docker Compose environments for each service
 - Service-level scaling and operation
 - Secure communication and access control
 
@@ -43,7 +42,7 @@ AMATERASU is an automation tool for building Large Language Model (LLM) platform
 
 ### Architecture Overview
 
-AMATERASU employs a three-tier architecture:
+AMATERASU is comprised of a three-tier architecture:
 
 1. **Infrastructure Layer** (Spellbook)
    - AWS infrastructure base
@@ -109,10 +108,10 @@ cd AMATERASU
 2. Set environment variables:
 ```bash
 cp .env.example .env
-# Edit the .env file and configure the necessary credentials
+# Edit the .env file and set the necessary credentials
 ```
 
-3. Deploy the infrastructure:
+3. Deploy the infrastructure: (CloudFront related components have been removed.)
 ```bash
 cd spellbook/base-infrastructure
 terraform init && terraform apply
@@ -138,27 +137,21 @@ docker-compose up -d
 
 ## 📚 Detailed Documentation
 
-- [Spellbook Infrastructure Setup Guide](spellbook/README.md)
+- [Spellbook Infrastructure Construction Guide](spellbook/README.md)
 - [LiteLLM Configuration Guide](spellbook/litellm/README.md)
 - [Langfuse Setup Guide](spellbook/langfuse/README.md)
 
 ## 🆕 What's New
 
-### v0.5.1 Updates
+### v0.6.0 Update Notes
 
-- 🎉 Added AMATERASU architecture overview and diagram to README.md.
-- 🚀 Significantly updated the Spellbook README.md.
-- 🚀 Completely revised the README.md.
-- 🚀 Updated the English README.
+- Removed unnecessary resources due to the removal of the CloudFront infrastructure.
+- Simplified the code to improve maintainability.
+- Added application HTTPS and HTTP URLs to the output.
+- Made it easier to change the paths of the environment variable file and setup script in `terraform.tfvars`.
+- Removed unnecessary variable definitions.
+- Simplified the setup script.
 
-
-### v0.5.0 Updates
-
-- 🎉 Added whitelist IP address configuration functionality.
-- 🎉 Added Terraform variable file configuration functionality.
-- 🎉 Added a setup script for after EC2 instance startup.
-- 🎉 Added overall output configuration.
-- 🎉 Major update to the VPC module.
 
 ## 📊 Resource Requirements
 
@@ -170,7 +163,7 @@ Minimum Configuration:
 Recommended Configuration:
 - EC2: t3.large (2vCPU/8GB)
 - Storage: 100GB gp2
-- Network: Public/Private subnet
+- Network: Public/Private subnets
 
 ## 💰 Cost Management
 
@@ -181,23 +174,23 @@ Provides detailed cost analysis and management features through Langfuse:
 
 ## 👏 Acknowledgements
 
-Thanks to iris-s-coon and Maki for their contributions.
+Thanks to Maki for their contributions.
 
 ## 📄 License
 
-This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## 🤝 Contributions
 
 1. Fork this repository
 2. Create a new branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes and commit (`git commit -m 'Add amazing feature'`)
-4. Push your branch (`git push origin feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push the branch (`git push origin feature/amazing-feature`)
 5. Create a pull request
 
 ## 📧 Support
 
-For questions or feedback, please contact us:
+For questions or feedback, please feel free to contact us:
 - Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
