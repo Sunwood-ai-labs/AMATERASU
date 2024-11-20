@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">🌄 AMATERASU v0.6.0 🌄</h1>
+<h1 align="center">AMATERASU v0.6.0</h1>
 </p>
 
 <p align="center">
@@ -13,144 +13,94 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green">
   </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/Sunwood-ai-labs/AMATERASU?style=social">
-  </a>
 </p>
 
 <h2 align="center">
-  ～ Automating the Construction of an LLM Platform on AWS ～
+  Enterprise-Grade Private AI Platform
 </h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service in a separate EC2 instance using Docker Compose, enabling easier deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
-## 🚀 Project Overview
 
-AMATERASU is an automation tool for building Large Language Model (LLM) platforms on AWS.  Building on the functionality of MOA, it provides more flexible scaling and management by running each service on a separate EC2 instance.
+## 🔒 Security-Focused Design Philosophy
 
-### Key Features:
-- Simple EC2 instance management using Terraform
-- Separate EC2 instances and Docker Compose environments for each service
-- Service-level scaling and operation
-- Secure communication and access control
+AMATERASU is a private AI platform specifically developed for Japanese enterprises with stringent security requirements. It enables the secure use of LLMs based on AWS Bedrock:
 
-## 🏗️ Architecture
+- **Secure LLM Foundation with AWS Bedrock**:
+  - Supports the Claude-3 model optimized for enterprises
+  - AWS's enterprise-grade security
+  - Granular access control based on IAM roles
 
-### Architecture Overview
+- **Operation in a Completely Closed Environment**:
+  - Operates only within the internal network
+  - Supports private cloud/on-premises deployments
 
-AMATERASU is comprised of a three-tier architecture:
+- **Enterprise-Grade Security**:
+  - Access control via IP whitelist
+  - HTTPS/TLS encrypted communication
+  - Network segmentation using AWS Security Groups
+  - IAM role management based on the principle of least privilege
 
-1. **Infrastructure Layer** (Spellbook)
-   - AWS infrastructure base
-   - Networking and security
+## 🏢 Key Features
 
-2. **Platform Layer**
-   - LLM proxy service (LiteLLM)
-   - Monitoring infrastructure (Langfuse)
+### 1. Secure ChatGPT-like Interface (Open WebUI)
+- Provides an internal chat UI
+- Prompt template management
+- Conversation history saving and search
 
-3. **Application Layer**
-   - Web UI interface (Open WebUI)
-   - API endpoints
+### 2. Secure API Proxy Server (LiteLLM)
+- Secure LLM access based on AWS Bedrock
+- Integrated management of the Claude-3 series (Opus/Sonnet/Haiku)
+- Load balancing and rate limiting of requests
+- Centralized API key management
 
-### Infrastructure Diagram
+### 3. Cost Management and Monitoring Infrastructure (Langfuse)
+- Visualization of token usage
+- Departmental cost aggregation
+- Usage analysis
+
+## 🏗️ System Architecture
+
+### Secure 3-Tier Architecture based on AWS Bedrock
 
 ```mermaid
 %%{init:{'theme':'base'}}%%
-
 graph TB
-    subgraph AWS Cloud
-        subgraph "Base Infrastructure"
-            VPC["VPC<br/>(base-infrastructure)"]
-            SG["Security Groups"]
-            PUBSUB["Public Subnets"]
-        end
-
-        subgraph "Service Infrastructure"
-            subgraph "OpenWebUI Service"
-                ALB_UI["ALB"] --> UI_EC2["EC2<br/>Open WebUI"]
+    subgraph "AWS Cloud"
+        subgraph "Internal Network"
+            subgraph "Presentation Layer"
+                WebUI["Open WebUI<br/>(Chat Interface)"]
             end
-
-            subgraph "Langfuse Service"
-                ALB_LF["ALB"] --> LF_EC2["EC2<br/>Langfuse"]
+            
+            subgraph "Application Layer"
+                LiteLLM["LiteLLM Proxy<br/>(API Management)"]
+                Langfuse["Langfuse<br/>(Monitoring & Analysis)"]
             end
-
-            subgraph "LiteLLM Service"
-                ALB_LL["ALB"] --> LL_EC2["EC2<br/>LiteLLM"]
+            
+            subgraph "Infrastructure Layer"
+                VPC["VPC/Security Groups"]
+                IAM["IAM Role Management"]
             end
         end
+
+        subgraph "AWS Bedrock"
+            Claude3["Claude-3<br/>Models"]
+        end
+        
+        WebUI --> LiteLLM
+        WebUI --> Langfuse
+        LiteLLM --> VPC
+        Langfuse --> VPC
+        VPC --> IAM
+        LiteLLM --> Claude3
     end
 
-    Users["Users 👥"] --> ALB_UI
-    Users --> ALB_LF
-    Users --> ALB_LL
-
-    UI_EC2 --> ALB_LL
-    LF_EC2 --> ALB_LL
-
-    SG -.-> UI_EC2
-    SG -.-> LF_EC2
-    SG -.-> LL_EC2
-
+    Users["Internal Users 👥"] --> WebUI
 ```
-
-## 📦 Installation Instructions
-
-1. Clone the repository:
-```bash
-git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
-cd AMATERASU
-```
-
-2. Set environment variables:
-```bash
-cp .env.example .env
-# Edit the .env file and set the necessary credentials
-```
-
-3. Deploy the infrastructure: (CloudFront related components have been removed.)
-```bash
-cd spellbook/base-infrastructure
-terraform init && terraform apply
-
-cd ../open-webui/terraform/main-infrastructure
-terraform init && terraform apply
-```
-
-4. Start the services:
-```bash
-# Deploy Langfuse
-cd ../../langfuse
-docker-compose up -d
-
-# Deploy LiteLLM
-cd ../litellm
-docker-compose up -d
-
-# Deploy Open WebUI
-cd ../open-webui
-docker-compose up -d
-```
-
-## 📚 Detailed Documentation
-
-- [Spellbook Infrastructure Construction Guide](spellbook/README.md)
-- [LiteLLM Configuration Guide](spellbook/litellm/README.md)
-- [Langfuse Setup Guide](spellbook/langfuse/README.md)
-
-## 🆕 What's New
-
-### v0.6.0 Update Notes
-
-- Removed unnecessary resources due to the removal of the CloudFront infrastructure.
-- Simplified the code to improve maintainability.
-- Added application HTTPS and HTTP URLs to the output.
-- Made it easier to change the paths of the environment variable file and setup script in `terraform.tfvars`.
-- Removed unnecessary variable definitions.
-- Simplified the setup script.
 
 
 ## 📊 Resource Requirements
@@ -163,7 +113,76 @@ Minimum Configuration:
 Recommended Configuration:
 - EC2: t3.large (2vCPU/8GB)
 - Storage: 100GB gp2
-- Network: Public/Private subnets
+- Network: Public/Private subnet
+
+
+## 💼 Enterprise Use Cases
+
+1. **Development Department**
+   - Code review assistance
+   - Bug analysis efficiency improvement
+   - Documentation generation
+
+2. **Business Departments**
+   - Report generation assistance
+   - Data analysis support
+   - Minutes creation
+
+3. **Customer Support**
+   - Inquiry response efficiency improvement
+   - Automatic FAQ generation
+   - Improvement of reply text quality
+
+## 🔧 Installation and Operation
+
+### Setup Instructions
+```bash
+# 1. Clone the repository
+git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
+cd AMATERASU
+
+# 2. Set environment variables
+cp .env.example .env
+# Edit the .env file and set credentials
+
+# 3. Deploy infrastructure
+cd spellbook/base-infrastructure
+terraform init && terraform apply
+
+cd ../open-webui/terraform/main-infrastructure
+terraform init && terraform apply
+
+# 4. Start services
+# Langfuse (monitoring infrastructure)
+cd ../../langfuse
+docker-compose up -d
+
+# LiteLLM (API proxy)
+cd ../litellm
+docker-compose up -d
+
+# Open WebUI (user interface)
+cd ../open-webui
+docker-compose up -d
+```
+
+## 📚 Detailed Documentation
+
+- [Spellbook Infrastructure Setup Guide](spellbook/README.md)
+- [LiteLLM Configuration Guide](spellbook/litellm/README.md)
+- [Langfuse Setup Guide](spellbook/langfuse/README.md)
+
+## 🆕 Latest Information
+
+### v0.6.0 Update Notes
+
+- Removed unnecessary resources due to the removal of the CloudFront infrastructure.
+- Simplified the code to improve maintainability.
+- Added application HTTPS and HTTP URLs to the output.
+- Made it easier to change the path of the environment variable file and setup script in `terraform.tfvars`.
+- Removed unnecessary variable definitions.
+- Simplified the setup script.
+
 
 ## 💰 Cost Management
 
@@ -178,7 +197,7 @@ Thanks to Maki for their contributions.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributions
 
@@ -191,7 +210,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 📧 Support
 
 For questions or feedback, please feel free to contact us:
-- Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
+- Create an Issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
-Build a more flexible and powerful AI infrastructure with AMATERASU! ✨
+---
+
+Build a secure and efficient AI infrastructure with AMATERASU. ✨
