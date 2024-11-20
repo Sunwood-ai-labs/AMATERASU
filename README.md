@@ -1,7 +1,6 @@
-
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">AMATERASU v0.6.0</h1>
+<h1 align="center">AMATERASU v0.6.1</h1>
 </p>
 
 <p align="center">
@@ -34,7 +33,7 @@ AMATERASUは、セキュリティ要件の厳しい日本企業向けに特化�
 - **AWS Bedrock による安全なLLM基盤**:
   - 企業向けに最適化された Claude-3 モデルをサポート
   - AWSのエンタープライズグレードのセキュリティ
-  - IAMロールベースのきめ細かなアクセス制御
+  - IAMロールベースのきめ細やかなアクセス制御
 
 - **完全クローズド環境での運用**: 
   - 社内ネットワーク内でのみ動作
@@ -46,7 +45,7 @@ AMATERASUは、セキュリティ要件の厳しい日本企業向けに特化�
   - AWS Security Groupによるネットワークセグメンテーション
   - 最小権限原則に基づいたIAMロール管理
 
-## 🏢 主要機能
+## ✨ 主要機能
 
 ### 1. セキュアなChatGPTライクインターフェース (Open WebUI)
 - 社内向けチャットUIの提供
@@ -175,6 +174,14 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
+### v0.6.1 の更新内容
+
+- ドキュメントの更新とREADMEファイルへの重要な情報の追加。
+- 英語READMEと日本語READMEの更新。
+- SourceSageとclaude.aiを用いた開発プロセスに関する情報の追加。
+- セキュリティ関連の記述の簡素化。
+
+
 ### v0.6.0 の更新内容
 
 - CloudFrontインフラの削除に伴い、不要になったリソースを削除しました。
@@ -194,7 +201,7 @@ Langfuseによる詳細なコスト分析と管理機能を提供：
 
 ## 👏 謝辞
 
-Makiへの貢献に感謝します。
+iris-s-coonとMakiへの貢献に感謝します。
 
 ## 📄 ライセンス
 
@@ -217,4 +224,3 @@ Makiへの貢献に感謝します。
 ---
 
 AMATERASUで、セキュアで効率的なAIインフラを構築しましょう。✨
-
