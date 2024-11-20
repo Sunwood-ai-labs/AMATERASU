@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">AMATERASU v0.6.0</h1>
+<h1 align="center">AMATERASU v0.6.1</h1>
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
 </h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
 >AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
@@ -28,44 +28,44 @@
 
 ## 🔒 Security-Focused Design Philosophy
 
-AMATERASU is a private AI platform specifically developed for Japanese enterprises with stringent security requirements. It enables the secure use of LLMs based on AWS Bedrock:
+AMATERASU is a private AI platform foundation developed specifically for Japanese enterprises with stringent security requirements. It enables the secure use of LLMs based on AWS Bedrock:
 
 - **Secure LLM Foundation with AWS Bedrock**:
-  - Supports the Claude-3 model optimized for enterprises
-  - AWS's enterprise-grade security
-  - Granular access control based on IAM roles
+  - Supports the Claude-3 model, optimized for enterprise use.
+  - Leverages AWS's enterprise-grade security.
+  - Fine-grained access control using IAM roles.
 
 - **Operation in a Completely Closed Environment**:
-  - Operates only within the internal network
-  - Supports private cloud/on-premises deployments
+  - Operates only within the internal network.
+  - Supports private cloud/on-premises deployments.
 
 - **Enterprise-Grade Security**:
-  - Access control via IP whitelist
-  - HTTPS/TLS encrypted communication
-  - Network segmentation using AWS Security Groups
-  - IAM role management based on the principle of least privilege
+  - Access control via IP whitelisting.
+  - HTTPS/TLS encrypted communication.
+  - Network segmentation using AWS Security Groups.
+  - IAM role management based on the principle of least privilege.
 
-## 🏢 Key Features
+## ✨ Key Features
 
 ### 1. Secure ChatGPT-like Interface (Open WebUI)
-- Provides an internal chat UI
-- Prompt template management
-- Conversation history saving and search
+- Provides an internal chat UI.
+- Manages prompt templates.
+- Saves and searches conversation history.
 
 ### 2. Secure API Proxy Server (LiteLLM)
-- Secure LLM access based on AWS Bedrock
-- Integrated management of the Claude-3 series (Opus/Sonnet/Haiku)
-- Load balancing and rate limiting of requests
-- Centralized API key management
+- Secure LLM access based on AWS Bedrock.
+- Integrated management of the Claude-3 series (Opus/Sonnet/Haiku).
+- Load balancing and rate limiting of requests.
+- Centralized API key management.
 
-### 3. Cost Management and Monitoring Infrastructure (Langfuse)
-- Visualization of token usage
-- Departmental cost aggregation
-- Usage analysis
+### 3. Cost Management and Monitoring Foundation (Langfuse)
+- Visualization of token usage.
+- Departmental cost aggregation.
+- Usage analysis.
 
 ## 🏗️ System Architecture
 
-### Secure 3-Tier Architecture based on AWS Bedrock
+### Secure 3-Tier Architecture Based on AWS Bedrock
 
 ```mermaid
 %%{init:{'theme':'base'}}%%
@@ -121,17 +121,18 @@ Recommended Configuration:
 1. **Development Department**
    - Code review assistance
    - Bug analysis efficiency improvement
-   - Documentation generation
+   - Document generation
 
 2. **Business Departments**
    - Report generation assistance
    - Data analysis support
-   - Minutes creation
+   - Meeting minutes creation
 
 3. **Customer Support**
-   - Inquiry response efficiency improvement
+   - Improved inquiry response efficiency
    - Automatic FAQ generation
-   - Improvement of reply text quality
+   - Improved response quality
+
 
 ## 🔧 Installation and Operation
 
@@ -143,7 +144,7 @@ cd AMATERASU
 
 # 2. Set environment variables
 cp .env.example .env
-# Edit the .env file and set credentials
+# Edit the .env file and set your credentials
 
 # 3. Deploy infrastructure
 cd spellbook/base-infrastructure
@@ -153,7 +154,7 @@ cd ../open-webui/terraform/main-infrastructure
 terraform init && terraform apply
 
 # 4. Start services
-# Langfuse (monitoring infrastructure)
+# Langfuse (monitoring foundation)
 cd ../../langfuse
 docker-compose up -d
 
@@ -168,18 +169,26 @@ docker-compose up -d
 
 ## 📚 Detailed Documentation
 
-- [Spellbook Infrastructure Setup Guide](spellbook/README.md)
+- [Spellbook Infrastructure Construction Guide](spellbook/README.md)
 - [LiteLLM Configuration Guide](spellbook/litellm/README.md)
 - [Langfuse Setup Guide](spellbook/langfuse/README.md)
 
 ## 🆕 Latest Information
+
+### v0.6.1 Update Notes
+
+- Updated documentation and added important information to the README file.
+- Updated English and Japanese READMEs.
+- Added information about the development process using SourceSage and claude.ai.
+- Simplified security-related descriptions.
+
 
 ### v0.6.0 Update Notes
 
 - Removed unnecessary resources due to the removal of the CloudFront infrastructure.
 - Simplified the code to improve maintainability.
 - Added application HTTPS and HTTP URLs to the output.
-- Made it easier to change the path of the environment variable file and setup script in `terraform.tfvars`.
+- Made it easier to change the paths of the environment variable file and setup script in `terraform.tfvars`.
 - Removed unnecessary variable definitions.
 - Simplified the setup script.
 
@@ -193,11 +202,11 @@ Provides detailed cost analysis and management features through Langfuse:
 
 ## 👏 Acknowledgements
 
-Thanks to Maki for their contributions.
+Thanks to iris-s-coon and Maki for their contributions.
 
 ## 📄 License
 
-This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributions
 
@@ -210,7 +219,7 @@ This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file
 ## 📧 Support
 
 For questions or feedback, please feel free to contact us:
-- Create an Issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
+- Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
 ---
