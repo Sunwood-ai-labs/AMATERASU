@@ -37,3 +37,13 @@ output "alb_target_group_arn" {
   description = "ARN of the ALB target group"
   value       = module.networking.alb_target_group_arn
 }
+
+output "application_url" {
+  description = "URL of the application"
+  value       = "https://${var.subdomain}.${var.domain}"
+}
+
+output "application_url_http" {
+  description = "HTTP URL of the application (redirects to HTTPS)"
+  value       = "http://${var.subdomain}.${var.domain}"
+}
