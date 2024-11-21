@@ -143,6 +143,12 @@ instance_type = "t3.medium"
 domain = "your-domain.com"
 ```
 
+## 便利コマンド
+
+```bash
+terraform destroy -auto-approve ; terraform init ; terraform plan ; terraform apply -auto-approve
+```
+
 ## 🤝 コントリビューション
 
 1. リポジトリをフォーク
