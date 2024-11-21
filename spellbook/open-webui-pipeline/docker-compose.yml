@@ -11,6 +11,8 @@ services:
       - HOST=0.0.0.0
       - PORT=9099
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   # open-webui:
   #   depends_on:
