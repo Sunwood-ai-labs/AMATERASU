@@ -10,15 +10,6 @@ module "data_sources" {
   domain            = var.domain
 }
 
-# セキュリティグループモジュール
-module "security" {
-  source = "../security"
-
-  project_name  = var.project_name
-  vpc_id        = module.data_sources.vpc_id
-  whitelist_ips = [for entry in local.whitelist_entries : entry.ip]
-}
-
 # ACMモジュール
 module "acm" {
   source = "../acm"
@@ -37,7 +28,7 @@ module "alb" {
   vpc_id                = module.data_sources.vpc_id
   public_subnet_id      = module.data_sources.public_subnet_id
   public_subnet_2_id    = module.data_sources.public_subnet_2_id
-  alb_security_group_id = module.security.alb_security_group_id
+  alb_security_group_id = var.security_group_id
   certificate_arn       = module.acm.certificate_arn
 }
 
@@ -54,16 +45,4 @@ module "route53" {
   alb_depends_on  = [module.alb]
 
   enable_health_check = var.enable_health_check
-}
-
-# ホワイトリストの処理
-locals {
-  whitelist_csv = file("${path.root}/whitelist.csv")
-  whitelist_lines = [for l in split("\n", local.whitelist_csv) : trim(l, " \t\r\n") if trim(l, " \t\r\n") != ""]
-  whitelist_entries = [
-    for l in slice(local.whitelist_lines, 1, length(local.whitelist_lines)) : {
-      ip          = trim(element(split(",", l), 0), " \t\r\n")
-      description = trim(element(split(",", l), 1), " \t\r\n")
-    }
-  ]
 }
