@@ -17,7 +17,11 @@ chmod 777 -R /home/ubuntu/AMATERASU
 
 # AMATERASUディレクトリに移動
 cd /home/ubuntu/AMATERASU/spellbook/open-webui
+# 指定されたdocker-composeファイルでコンテナを起動
+sudo docker-compose up -d
 
+# AMATERASUディレクトリに移動
+cd /home/ubuntu/AMATERASU/spellbook/open-webui-pipeline
 # 指定されたdocker-composeファイルでコンテナを起動
 sudo docker-compose up -d
 
