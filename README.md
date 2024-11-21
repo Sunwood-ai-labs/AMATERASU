@@ -25,6 +25,7 @@
 >[!NOTE]
 >AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
 
+https://github.com/user-attachments/assets/90f382c2-6b4a-42c4-9543-887ecc67b6eb
 
 ## 🔒 セキュリティ重視の設計思想
 
