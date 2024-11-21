@@ -1,9 +1,9 @@
-
 resource "aws_security_group" "default" {
   name_prefix = "${var.project_name}-default-sg"
   description = "Default security group for ${var.project_name}"
   vpc_id      = var.vpc_id
 
+  # 外部からのアクセスはホワイトリストIPからの特定ポートのみ許可
   dynamic "ingress" {
     for_each = var.whitelist_entries
     content {
@@ -11,7 +11,18 @@ resource "aws_security_group" "default" {
       to_port     = 22
       protocol    = "tcp"
       cidr_blocks = [ingress.value.ip]
-      description = ingress.value.description
+      description = "SSH access from ${ingress.value.description}"
+    }
+  }
+
+  dynamic "ingress" {
+    for_each = var.whitelist_entries
+    content {
+      from_port   = 2222
+      to_port     = 2222
+      protocol    = "tcp"
+      cidr_blocks = [ingress.value.ip]
+      description = "gitlab access from ${ingress.value.description}"
     }
   }
 
@@ -22,7 +33,7 @@ resource "aws_security_group" "default" {
       to_port     = 80
       protocol    = "tcp"
       cidr_blocks = [ingress.value.ip]
-      description = ingress.value.description
+      description = "HTTP access from ${ingress.value.description}"
     }
   }
 
@@ -33,27 +44,20 @@ resource "aws_security_group" "default" {
       to_port     = 443
       protocol    = "tcp"
       cidr_blocks = [ingress.value.ip]
-      description = ingress.value.description
+      description = "HTTPS access from ${ingress.value.description}"
     }
   }
 
-  # Add these ingress rules to allow internal VPC traffic
+  # VPC内の全トラフィックを許可（全ポート）
   ingress {
-  from_port   = 80
-  to_port     = 80
-  protocol    = "tcp"
-  cidr_blocks = ["10.0.0.0/16"]
-  description = "Allow HTTP traffic within VPC"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.0.0/16"]
+    description = "Allow all traffic within VPC"
   }
 
-  ingress {
-  from_port   = 443  
-  to_port     = 443
-  protocol    = "tcp" 
-  cidr_blocks = ["10.0.0.0/16"]
-  description = "Allow HTTPS traffic within VPC"
-  }
-
+  # 全ての送信トラフィックを許可
   egress {
     from_port   = 0
     to_port     = 0
@@ -69,8 +73,6 @@ resource "aws_security_group" "default" {
     },
     var.tags
   )
-
-
 
   lifecycle {
     create_before_destroy = true
