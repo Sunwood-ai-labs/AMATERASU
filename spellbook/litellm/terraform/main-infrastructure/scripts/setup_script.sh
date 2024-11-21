@@ -10,18 +10,14 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git /home/ubuntu/AMATERAS
 
 # Terraformから提供される環境変数ファイルの作成
 # 注: .envファイルの内容はTerraformから提供される
-echo "${env_content}" > /home/ubuntu/AMATERASU/spellbook/open-webui/.env
+echo "${env_content}" > /home/ubuntu/AMATERASU/spellbook/litellm/.env
 
 # ファイルの権限設定
 chmod 777 -R /home/ubuntu/AMATERASU
 
 # AMATERASUディレクトリに移動
-cd /home/ubuntu/AMATERASU/spellbook/open-webui
-# 指定されたdocker-composeファイルでコンテナを起動
-sudo docker-compose up -d
+cd /home/ubuntu/AMATERASU/spellbook/litellm
 
-# AMATERASUディレクトリに移動
-cd /home/ubuntu/AMATERASU/spellbook/open-webui-pipeline
 # 指定されたdocker-composeファイルでコンテナを起動
 sudo docker-compose up -d
 
