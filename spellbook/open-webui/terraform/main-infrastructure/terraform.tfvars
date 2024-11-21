@@ -13,5 +13,5 @@ key_name           = "AMATERASU-terraform-keypair-tokyo-PEM"
 domain             = "sunwood-ai-labs.click"
 subdomain          = "amaterasu-open-web-ui-dev"
 
-env_file_path      = "C:/Prj/AMATERASU/spellbook/open-webui/terraform/main-infrastructure/.env"
+env_file_path      = "C:/Prj/AMATERASU/spellbook/open-webui/.env"
 setup_script_path  = "C:/Prj/AMATERASU/spellbook/open-webui/terraform/main-infrastructure/scripts/setup_script.sh"
