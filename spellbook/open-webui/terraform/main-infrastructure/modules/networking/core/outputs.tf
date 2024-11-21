@@ -22,12 +22,12 @@ output "public_subnet_2_id" {
 # セキュリティグループの出力
 output "alb_security_group_id" {
   description = "ID of the ALB security group"
-  value       = module.security.alb_security_group_id
+  value       = var.security_group_id
 }
 
 output "ec2_security_group_id" {
   description = "ID of the EC2 security group"
-  value       = module.security.ec2_security_group_id
+  value       = var.security_group_id
 }
 
 # ACM証明書の出力
