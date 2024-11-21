@@ -13,5 +13,5 @@ project_name       = "amts-langfuse"
 instance_type      = "t3.medium"
 subdomain          = "amaterasu-langfuse-dev"
 
-env_file_path      = "C:/Prj/AMATERASU/spellbook/langfuse/terraform/main-infrastructure/.env"
+env_file_path      = "C:/Prj/AMATERASU/spellbook/langfuse/.env"
 setup_script_path  = "C:/Prj/AMATERASU/spellbook/langfuse/terraform/main-infrastructure/scripts/setup_script.sh"

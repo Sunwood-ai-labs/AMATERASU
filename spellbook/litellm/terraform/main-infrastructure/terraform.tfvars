@@ -13,5 +13,5 @@ project_name       = "amts-litellm"
 instance_type      = "t3.medium"
 subdomain          = "amaterasu-litellm-dev"
 
-env_file_path      = "C:/Prj/AMATERASU/spellbook/litellm/terraform/main-infrastructure/.env"
+env_file_path      = "C:/Prj/AMATERASU/spellbook/litellm/.env"
 setup_script_path  = "C:/Prj/AMATERASU/spellbook/litellm/terraform/main-infrastructure/scripts/setup_script.sh"
