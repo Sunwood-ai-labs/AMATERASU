@@ -23,7 +23,9 @@
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service in a separate EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+
+[Image Placeholder -  The link provided points to a user attachment and cannot be displayed here.]
 
 
 ## 🔒 Security-Focused Design Philosophy
@@ -33,14 +35,14 @@ AMATERASU is a private AI platform foundation developed specifically for Japanes
 - **Secure LLM Foundation with AWS Bedrock**:
   - Supports the Claude-3 model, optimized for enterprise use.
   - Leverages AWS's enterprise-grade security.
-  - Fine-grained access control using IAM roles.
+  - Granular access control using IAM roles.
 
 - **Operation in a Completely Closed Environment**:
   - Operates only within the internal network.
   - Supports private cloud/on-premises deployments.
 
 - **Enterprise-Grade Security**:
-  - Access control via IP whitelisting.
+  - IP whitelist access control.
   - HTTPS/TLS encrypted communication.
   - Network segmentation using AWS Security Groups.
   - IAM role management based on the principle of least privilege.
@@ -59,13 +61,13 @@ AMATERASU is a private AI platform foundation developed specifically for Japanes
 - Centralized API key management.
 
 ### 3. Cost Management and Monitoring Foundation (Langfuse)
-- Visualization of token usage.
-- Departmental cost aggregation.
-- Usage analysis.
+- Visualizes token usage.
+- Aggregates costs by department.
+- Analyzes usage patterns.
 
 ## 🏗️ System Architecture
 
-### Secure 3-Tier Architecture Based on AWS Bedrock
+### Secure 3-Tier Architecture based on AWS Bedrock
 
 ```mermaid
 %%{init:{'theme':'base'}}%%
@@ -116,27 +118,27 @@ Recommended Configuration:
 - Network: Public/Private subnet
 
 
-## 💼 Enterprise Use Cases
+## 💼 Use Cases in Enterprises
 
 1. **Development Department**
    - Code review assistance
-   - Bug analysis efficiency improvement
+   - Improved bug analysis efficiency
    - Document generation
 
 2. **Business Departments**
-   - Report generation assistance
+   - Report creation assistance
    - Data analysis support
    - Meeting minutes creation
 
 3. **Customer Support**
-   - Improved inquiry response efficiency
+   - Improved efficiency of inquiry response
    - Automatic FAQ generation
-   - Improved response quality
+   - Improved quality of reply text
 
 
 ## 🔧 Installation and Operation
 
-### Setup Instructions
+### Setup Procedure
 ```bash
 # 1. Clone the repository
 git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
@@ -144,7 +146,7 @@ cd AMATERASU
 
 # 2. Set environment variables
 cp .env.example .env
-# Edit the .env file and set your credentials
+# Edit the .env file and set credentials
 
 # 3. Deploy infrastructure
 cd spellbook/base-infrastructure
@@ -154,7 +156,7 @@ cd ../open-webui/terraform/main-infrastructure
 terraform init && terraform apply
 
 # 4. Start services
-# Langfuse (monitoring foundation)
+# Langfuse (Monitoring foundation)
 cd ../../langfuse
 docker-compose up -d
 
@@ -162,7 +164,7 @@ docker-compose up -d
 cd ../litellm
 docker-compose up -d
 
-# Open WebUI (user interface)
+# Open WebUI (User interface)
 cd ../open-webui
 docker-compose up -d
 ```
@@ -180,7 +182,7 @@ docker-compose up -d
 - Updated documentation and added important information to the README file.
 - Updated English and Japanese READMEs.
 - Added information about the development process using SourceSage and claude.ai.
-- Simplified security-related descriptions.
+- Simplified descriptions related to security.
 
 
 ### v0.6.0 Update Notes
@@ -188,17 +190,17 @@ docker-compose up -d
 - Removed unnecessary resources due to the removal of the CloudFront infrastructure.
 - Simplified the code to improve maintainability.
 - Added application HTTPS and HTTP URLs to the output.
-- Made it easier to change the paths of the environment variable file and setup script in `terraform.tfvars`.
+- Enabled easy modification of the environment variable file and setup script paths in `terraform.tfvars`.
 - Removed unnecessary variable definitions.
 - Simplified the setup script.
 
 
 ## 💰 Cost Management
 
-Provides detailed cost analysis and management features through Langfuse:
-- Model-specific usage cost tracking
-- Budget alert settings
-- Usage visualization
+Provides detailed cost analysis and management functionality through Langfuse:
+- Tracks usage costs for each model.
+- Allows setting budget alerts.
+- Visualizes usage.
 
 ## 👏 Acknowledgements
 
@@ -206,7 +208,7 @@ Thanks to iris-s-coon and Maki for their contributions.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributions
 
@@ -219,7 +221,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 📧 Support
 
 For questions or feedback, please feel free to contact us:
-- Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
+- Create an Issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
 ---
