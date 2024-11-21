@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">AMATERASU v0.6.1</h1>
+<h1 align="center">AMATERASU v1.0.0</h1>
 </p>
 
 <p align="center">
@@ -41,7 +41,7 @@ AMATERASUは、セキュリティ要件の厳しい日本企業向けに特化�
   - プライベートクラウド/オンプレミス対応
 
 - **エンタープライズグレードのセキュリティ**: 
-  - IPホワイトリストによるアクセス制御
+  - IPホワイトリストによるアクセス制御 (セキュリティグループ設定に直接記述)
   - HTTPS/TLS暗号化通信
   - AWS Security Groupによるネットワークセグメンテーション
   - 最小権限原則に基づいたIAMロール管理
@@ -153,9 +153,15 @@ terraform init && terraform apply
 cd ../open-webui/terraform/main-infrastructure
 terraform init && terraform apply
 
+cd ../../litellm/terraform/main-infrastructure
+terraform init && terraform apply
+
+cd ../../langfuse/terraform/main-infrastructure
+terraform init && terraform apply
+
 # 4. サービスの起動
 # Langfuse (監視基盤)
-cd ../../langfuse
+cd ../../../langfuse
 docker-compose up -d
 
 # LiteLLM (APIプロキシ)
@@ -165,6 +171,7 @@ docker-compose up -d
 # Open WebUI (ユーザーインターフェース)
 cd ../open-webui
 docker-compose up -d
+
 ```
 
 ## 📚 詳細ドキュメント
@@ -175,22 +182,28 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### v0.6.1 の更新内容
+### v1.0.0 の更新内容
 
-- ドキュメントの更新とREADMEファイルへの重要な情報の追加。
-- 英語READMEと日本語READMEの更新。
-- SourceSageとclaude.aiを用いた開発プロセスに関する情報の追加。
-- セキュリティ関連の記述の簡素化。
-
-
-### v0.6.0 の更新内容
-
-- CloudFrontインフラの削除に伴い、不要になったリソースを削除しました。
-- コードを簡素化し、保守性を向上させました。
-- アプリケーションのHTTPSとHTTP URLを出力に追加しました。
-- 環境変数ファイルとセットアップスクリプトのパスを`terraform.tfvars`で容易に変更できるようにしました。
-- 不要な変数定義を削除しました。
-- セットアップスクリプトを簡素化しました。
+- 🎉 Langfuse統合フィルタパイプラインの追加 (`langfuse_litellm_filter_pipeline.py`)：Langfuse APIと統合し、会話のトレースとモニタリングを行います。
+- 🎉 会話ターン数制限フィルタの追加 (`conversation_turn_limit_filter.py`)：会話ターン数を制限します。
+- 🎉 Terraformの便利コマンドを追加：`terraform destroy -auto-approve ; terraform init ; terraform plan ; terraform apply -auto-approve`
+- 🚀 README.mdの更新：リンク追加と改行修正
+- 🚀 セットアップスクリプト修正：`docker-compose up` の実行順序変更
+- 🚀 Docker Compose 設定修正：`extra_hosts` オプション追加
+- 🚀 英語READMEの更新
+- 🚀 リリース後のREADME更新
+- 🚀 ヘッダー画像の更新
+- ⚠️ ホワイトリストCSVファイル削除とセキュリティグループ設定への直接記述
+- ⚠️ セキュリティグループ出力の修正
+- ⚠️ セキュリティグループモジュールの削除と直接設定への変更
+- ⚠️ Docker Compose設定修正
+- ⚠️ 開発環境のURLを本番環境URLに変更
+- ⚠️ LitleLLM 開発環境へのアクセス制限のためのホワイトリスト
+- ⚠️ LitleLLM 開発環境のTerraform変数設定ファイル
+- ⚠️ LitleLLM 開発環境セットアップスクリプトの作成
+- ⚠️ LitleLLM 開発環境の出力値定義を追加
+- ⚠️ LitleLLM 開発環境構築のためのTerraformモジュール構成
+- ⚠️ LitleLLM 開発環境用Terraform変数の定義を追加
 
 
 ## 💰 コスト管理
