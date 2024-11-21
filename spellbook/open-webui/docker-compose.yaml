@@ -33,7 +33,7 @@ services:
     env_file:
       - .env
     # environment:
-    #   - OPENAI_API_BASE_URL=http://litellm:14365
+    #   - OPENAI_API_BASE_URLS=http://litellm:14365;http://host.docker.internal:9099
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
