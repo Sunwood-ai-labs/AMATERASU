@@ -1,4 +1,4 @@
-# AMATERASU v1.0.0
+# 🚀 AMATERASU v1.1.0
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
@@ -208,12 +208,15 @@ docker-compose up -d
 - コスト管理とリソース最適化
 - セキュアな開発環境の提供
 
-## 🆕 最新のアップデート (v1.0.0)
+## 🆕 最新のアップデート (v1.1.0)
 
-- Langfuse統合パイプラインの追加
-- 会話ターン制限フィルタの実装
-- Terraformスクリプトの最適化
-- セキュリティ設定の強化
+- 🎉 **FG-prompt-pandoraモジュールを追加**: AWS Fargate上で動作するプロンプト生成支援ツール。Claude-3.5-SonnetモデルとStreamlit UIを使用し、Docker ComposeとTerraformで容易にデプロイできます。AWS Fargateによる自動スケーリングに対応。
+- 🚀 README.mdを全面的に改修し、可読性を向上。見出しの見直し、箇条書きの追加、表現の簡素化、システムアーキテクチャ図のmermaid記法への書き直し、各機能の説明の詳細化と利用シーンの具体化、セキュリティに関する記述の強化を行いました。
+- 🚀 英語READMEを更新。最新の情報を反映しました。
+- 🚀 リリースノートと関連ファイルのバージョン番号をv1.1.0に更新。
+- 🚀 ドキュメント生成用モデルを`gemini/gemini-1.5-flash`から`gemini/gemini-exp-1121`に更新。
+- 🚀 Docker Composeファイルに`restart: always`オプションを追加。サービスの自動再起動を実現します。
+
 
 ## 📝 ライセンス
 
@@ -235,7 +238,7 @@ docker-compose up -d
 
 ## 👥 謝辞
 
-iris-s-coonとMakiの貢献に感謝いたします。
+iris-s-coon氏とMaki氏の貢献に感謝いたします。
 
 ---
 
