@@ -25,7 +25,8 @@ services:
       - LANGFUSE_INIT_USER_EMAIL=${LANGFUSE_INIT_USER_EMAIL:-}
       - LANGFUSE_INIT_USER_NAME=${LANGFUSE_INIT_USER_NAME:-}
       - LANGFUSE_INIT_USER_PASSWORD=${LANGFUSE_INIT_USER_PASSWORD:-}
-
+    restart: always
+    
   db:
     image: postgres
     restart: always
