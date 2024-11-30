@@ -1,4 +1,3 @@
-# 🚀 AMATERASU v1.1.0
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
@@ -45,6 +44,7 @@ graph TB
                 OW["Open WebUI<br/>チャットインターフェース"]
                 LL["LiteLLM Proxy<br/>APIプロキシ"]
                 LF["Langfuse<br/>モニタリング"]
+                GL["GitLab<br/>バージョン管理"]
             end
             
             subgraph "Fargate-based Service"
@@ -71,6 +71,7 @@ graph TB
         OW --> ALB
         LL --> ALB
         LF --> ALB
+        GL --> ALB
         
         %% Fargateベースのサービスの接続
         PP --> ECS
@@ -114,7 +115,15 @@ graph TB
 - コスト分析
 - パフォーマンスモニタリング
 
-### 4. FG-prompt-pandora (Fargate版サンプルアプリケーション)
+### 4. GitLab (バージョン管理)
+- セルフホストGitLabインスタンス
+- プロジェクト管理とコード管理
+- CIパイプラインとGitLab Runner
+- バックアップと復元機能
+- LDAP/Active Directory統合
+- カスタマイズ可能な認証とアクセス制御
+
+### 5. FG-prompt-pandora (Fargate版サンプルアプリケーション)
 - AWS Fargateでの自動スケーリング
 - Claude-3.5-Sonnetを活用したプロンプト生成
 - Streamlitベースの直感的UI
@@ -172,9 +181,43 @@ docker-compose up -d
 cd ../open-webui
 docker-compose up -d
 
+# GitLab
+cd ../gitlab
+docker-compose up -d
+
 # FG-prompt-pandora
 cd ../FG-prompt-pandora
 docker-compose up -d
+```
+
+### GitLabのセットアップ
+
+1. 環境設定ファイルの作成：
+```bash
+cd spellbook/gitlab
+cp .env.example .env
+```
+
+2. 環境変数の設定：
+```env
+GITLAB_HOME=/srv/gitlab
+GITLAB_HOSTNAME=your.gitlab.domain
+GITLAB_ROOT_PASSWORD=your_secure_password
+```
+
+3. GitLabの起動：
+```bash
+docker-compose up -d
+```
+
+4. バックアップの設定（オプション）：
+```bash
+# バックアップディレクトリの作成
+mkdir -p backups
+chmod 777 backups
+
+# バックアップの実行
+docker-compose exec gitlab gitlab-backup create
 ```
 
 ## 📈 運用管理
@@ -207,15 +250,6 @@ docker-compose up -d
 - 使用状況の可視化と分析
 - コスト管理とリソース最適化
 - セキュアな開発環境の提供
-
-## 🆕 最新のアップデート (v1.1.0)
-
-- 🎉 **FG-prompt-pandoraモジュールを追加**: AWS Fargate上で動作するプロンプト生成支援ツール。Claude-3.5-SonnetモデルとStreamlit UIを使用し、Docker ComposeとTerraformで容易にデプロイできます。AWS Fargateによる自動スケーリングに対応。
-- 🚀 README.mdを全面的に改修し、可読性を向上。見出しの見直し、箇条書きの追加、表現の簡素化、システムアーキテクチャ図のmermaid記法への書き直し、各機能の説明の詳細化と利用シーンの具体化、セキュリティに関する記述の強化を行いました。
-- 🚀 英語READMEを更新。最新の情報を反映しました。
-- 🚀 リリースノートと関連ファイルのバージョン番号をv1.1.0に更新。
-- 🚀 ドキュメント生成用モデルを`gemini/gemini-1.5-flash`から`gemini/gemini-exp-1121`に更新。
-- 🚀 Docker Composeファイルに`restart: always`オプションを追加。サービスの自動再起動を実現します。
 
 
 ## 📝 ライセンス
