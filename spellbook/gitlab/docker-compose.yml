@@ -3,30 +3,13 @@ services:
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
     restart: always
-    hostname: ${GITLAB_HOSTNAME}
+    hostname: 'amaterasu-gitlab-dev.sunwood-ai-labs.click'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url "http://${GITLAB_HOSTNAME}"
+        external_url 'http://amaterasu-gitlab-dev.sunwood-ai-labs.click'
         gitlab_rails['time_zone'] = 'Asia/Tokyo'
         gitlab_rails['backup_keep_time'] = 604800
-        # メール設定
-        gitlab_rails['smtp_enable'] = ${SMTP_ENABLED}
-        gitlab_rails['smtp_address'] = "${SMTP_HOST}"
-        gitlab_rails['smtp_port'] = ${SMTP_PORT}
-        gitlab_rails['smtp_user_name'] = "${SMTP_USER}"
-        gitlab_rails['smtp_password'] = "${SMTP_PASS}"
-        gitlab_rails['smtp_domain'] = "${SMTP_DOMAIN}"
-        gitlab_rails['smtp_authentication'] = "${SMTP_AUTHENTICATION}"
-        gitlab_rails['smtp_enable_starttls_auto'] = ${SMTP_ENABLE_STARTTLS_AUTO}
-        gitlab_rails['gitlab_email_from'] = "${SMTP_USER}"
-        # GitLab Workhorse設定
-        gitlab_workhorse['listen_network'] = "tcp"
-        gitlab_workhorse['listen_addr'] = "0.0.0.0:8181"
-        # Nginxの設定
-        nginx['listen_port'] = 80
-        nginx['listen_https'] = false
-        # SSHの設定
-        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        # Add any other gitlab.rb configuration here, each on its own line
     ports:
       - '80:80'
       - '443:443'
@@ -37,26 +20,10 @@ services:
       - './data:/var/opt/gitlab'
       - './backups:/var/opt/gitlab/backups'
     shm_size: '256m'
-    deploy:
-      resources:
-        limits:
-          memory: ${GITLAB_MEMORY_LIMIT}
-        reservations:
-          memory: '2048M'
-    networks:
-      - gitlab-network
 
-  gitlab-runner:
-    image: gitlab/gitlab-runner:latest
-    restart: always
-    depends_on:
-      - gitlab
-    volumes:
-      - './runner:/etc/gitlab-runner'
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - gitlab-network
-
-networks:
-  gitlab-network:
-    driver: bridge
+  # gitlab-runner:
+  #   image: gitlab/gitlab-runner:latest
+  #   restart: always
+  #   volumes:
+  #     - './runner:/etc/gitlab-runner'
+  #     - /var/run/docker.sock:/var/run/docker.sock
