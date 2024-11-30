@@ -43,6 +43,6 @@ module "route53" {
   alb_dns_name    = module.alb.alb_dns_name
   alb_zone_id     = module.alb.alb_zone_id
   alb_depends_on  = [module.alb]
-
+  vpc_id          = var.vpc_id  # 追加
   enable_health_check = var.enable_health_check
 }
