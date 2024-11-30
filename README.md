@@ -1,4 +1,3 @@
-# AMATERASU v1.0.0
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
@@ -45,6 +44,7 @@ graph TB
                 OW["Open WebUI<br/>チャットインターフェース"]
                 LL["LiteLLM Proxy<br/>APIプロキシ"]
                 LF["Langfuse<br/>モニタリング"]
+                GL["GitLab<br/>バージョン管理"]
             end
             
             subgraph "Fargate-based Service"
@@ -71,6 +71,7 @@ graph TB
         OW --> ALB
         LL --> ALB
         LF --> ALB
+        GL --> ALB
         
         %% Fargateベースのサービスの接続
         PP --> ECS
@@ -114,7 +115,15 @@ graph TB
 - コスト分析
 - パフォーマンスモニタリング
 
-### 4. FG-prompt-pandora (Fargate版サンプルアプリケーション)
+### 4. GitLab (バージョン管理)
+- セルフホストGitLabインスタンス
+- プロジェクト管理とコード管理
+- CIパイプラインとGitLab Runner
+- バックアップと復元機能
+- LDAP/Active Directory統合
+- カスタマイズ可能な認証とアクセス制御
+
+### 5. FG-prompt-pandora (Fargate版サンプルアプリケーション)
 - AWS Fargateでの自動スケーリング
 - Claude-3.5-Sonnetを活用したプロンプト生成
 - Streamlitベースの直感的UI
@@ -172,9 +181,43 @@ docker-compose up -d
 cd ../open-webui
 docker-compose up -d
 
+# GitLab
+cd ../gitlab
+docker-compose up -d
+
 # FG-prompt-pandora
 cd ../FG-prompt-pandora
 docker-compose up -d
+```
+
+### GitLabのセットアップ
+
+1. 環境設定ファイルの作成：
+```bash
+cd spellbook/gitlab
+cp .env.example .env
+```
+
+2. 環境変数の設定：
+```env
+GITLAB_HOME=/srv/gitlab
+GITLAB_HOSTNAME=your.gitlab.domain
+GITLAB_ROOT_PASSWORD=your_secure_password
+```
+
+3. GitLabの起動：
+```bash
+docker-compose up -d
+```
+
+4. バックアップの設定（オプション）：
+```bash
+# バックアップディレクトリの作成
+mkdir -p backups
+chmod 777 backups
+
+# バックアップの実行
+docker-compose exec gitlab gitlab-backup create
 ```
 
 ## 📈 運用管理
@@ -208,12 +251,6 @@ docker-compose up -d
 - コスト管理とリソース最適化
 - セキュアな開発環境の提供
 
-## 🆕 最新のアップデート (v1.0.0)
-
-- Langfuse統合パイプラインの追加
-- 会話ターン制限フィルタの実装
-- Terraformスクリプトの最適化
-- セキュリティ設定の強化
 
 ## 📝 ライセンス
 
@@ -235,7 +272,7 @@ docker-compose up -d
 
 ## 👥 謝辞
 
-iris-s-coonとMakiの貢献に感謝いたします。
+iris-s-coon氏とMaki氏の貢献に感謝いたします。
 
 ---
 
