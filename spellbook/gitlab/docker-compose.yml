@@ -1,0 +1,29 @@
+version: '3.6'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'amaterasu-gitlab-dev.sunwood-ai-labs.click'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://amaterasu-gitlab-dev.sunwood-ai-labs.click'
+        gitlab_rails['time_zone'] = 'Asia/Tokyo'
+        gitlab_rails['backup_keep_time'] = 604800
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+      - './backups:/var/opt/gitlab/backups'
+    shm_size: '256m'
+
+  # gitlab-runner:
+  #   image: gitlab/gitlab-runner:latest
+  #   restart: always
+  #   volumes:
+  #     - './runner:/etc/gitlab-runner'
+  #     - /var/run/docker.sock:/var/run/docker.sock

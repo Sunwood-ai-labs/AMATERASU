@@ -1,156 +1,159 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-<h1 align="center">AMATERASU v1.0.0</h1>
+  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
 </p>
 
 <p align="center">
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU">
-    <img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github">
-  </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases">
-    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square">
-  </a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE">
-    <img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green">
-  </a>
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU"><img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github"></a>
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square"></a>
+  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">
-  Enterprise-Grade Private AI Platform
-</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.2.0)</h2>
 
 >[!IMPORTANT]
->This repository utilizes [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage). Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service in an independent EC2 instance using Docker Compose, making deployment with Terraform significantly easier.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
+## 🚀 Project Overview
 
-https://github.com/user-attachments/assets/90f382c2-6b4a-42c4-9543-887ecc67b6eb
-
-## 🔒 Security-Focused Design
-
-AMATERASU is a private AI platform infrastructure specifically developed for Japanese enterprises with stringent security requirements. It enables the secure use of LLMs based on AWS Bedrock:
-
-- **Secure LLM Infrastructure with AWS Bedrock**:
-  - Supports the Claude-3 model, optimized for enterprise use.
-  - Leverages AWS's enterprise-grade security.
-  - Granular access control based on IAM roles.
-
-- **Operation in a Fully Closed Environment**:
-  - Operates only within the internal network.
-  - Supports private cloud/on-premises deployments.
-
-- **Enterprise-Grade Security**:
-  - IP whitelisting for access control (directly specified in security group settings).
-  - HTTPS/TLS encrypted communication.
-  - Network segmentation using AWS Security Groups.
-  - IAM role management based on the principle of least privilege.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
 
 
 ## ✨ Key Features
 
-### 1. Secure ChatGPT-like Interface (Open WebUI)
-- Provides an internal chat UI.
-- Manages prompt templates.
-- Saves and searches conversation history.
+### Secure Foundation
+- Secure LLM foundation based on AWS Bedrock
+- Operation in a completely closed environment
+- Enterprise-grade security
 
-### 2. Secure API Proxy Server (LiteLLM)
-- Secure LLM access based on AWS Bedrock.
-- Integrated management of the Claude-3 series (Opus/Sonnet/Haiku).
-- Load balancing and rate limiting of requests.
-- Centralized API key management.
+### Microservice Architecture
+- Independent service components
+- Container-based deployment
+- Flexible scaling
 
-### 3. Cost Management and Monitoring Infrastructure (Langfuse)
-- Visualizes token usage.
-- Aggregates costs by department.
-- Analyzes usage patterns.
+### Infrastructure as Code
+- Fully automated deployment with Terraform
+- Environment-specific configuration management
+- Version-controlled configuration
+
+### GitLab Integration
+- Enhanced version control, CI/CD pipelines, and project management features
+- Integration with self-hosted GitLab instances
 
 
-## 🏗️ System Architecture
-
-### Secure 3-Tier Architecture Based on AWS Bedrock
+## 🏗 System Architecture
 
 ```mermaid
-%%{init:{'theme':'base'}}%%
 graph TB
     subgraph "AWS Cloud"
-        subgraph "Internal Network"
-            subgraph "Presentation Layer"
-                WebUI["Open WebUI<br/>(Chat Interface)"]
+        subgraph "Application Layer"
+            subgraph "EC2-based Services"
+                OW["Open WebUI<br/>Chat Interface"]
+                LL["LiteLLM Proxy<br/>API Proxy"]
+                LF["Langfuse<br/>Monitoring"]
+                GL["GitLab<br/>Version Control"]
             end
             
-            subgraph "Application Layer"
-                LiteLLM["LiteLLM Proxy<br/>(API Management)"]
-                Langfuse["Langfuse<br/>(Monitoring & Analysis)"]
+            subgraph "Fargate-based Service"
+                PP["Prompt Pandora<br/>Prompt Generation Support"]
+                ECS["ECS Fargate Cluster"]
             end
-            
-            subgraph "Infrastructure Layer"
-                VPC["VPC/Security Groups"]
-                IAM["IAM Role Management"]
-            end
-        end
-
-        subgraph "AWS Bedrock"
-            Claude3["Claude-3<br/>Models"]
         end
         
-        WebUI --> LiteLLM
-        WebUI --> Langfuse
-        LiteLLM --> VPC
-        Langfuse --> VPC
-        VPC --> IAM
-        LiteLLM --> Claude3
+        subgraph "Infrastructure Layer<br>(AMATERASU Architecture)"
+            ALB["Application Load Balancer"]
+            EC2["EC2 Instances"]
+            SG["Security Groups"]
+            R53["Route 53"]
+            ACM["ACM Certificates"]
+            ECR["Elastic Container Registry"]
+        end
+        
+        subgraph "AWS Services"
+            Bedrock["AWS Bedrock<br/>LLM Service"]
+            IAM["IAM<br/>Authentication & Authorization"]
+        end
+        
+        OW --> ALB
+        LL --> ALB
+        LF --> ALB
+        GL --> ALB
+        PP --> ECS
+        ECS --> ALB
+        ALB --> EC2
+        ALB --> ECS
+        EC2 --> SG
+        ECS --> SG
+        R53 --> ALB
+        ACM --> ALB
+        ECR --> ECS
+        EC2 --> Bedrock
+        ECS --> Bedrock
+        EC2 --> IAM
+        ECS --> IAM
     end
 
-    Users["Internal Users 👥"] --> WebUI
+    Users["Enterprise Users"] --> R53
 ```
 
+## 📦 Component Composition
 
-## 📊 Resource Requirements
+### 1. Open WebUI (Frontend)
+- Chat-based user interface
+- Responsive design
+- Prompt template management
 
-Minimum Configuration:
-- EC2: t3.medium (2vCPU/4GB)
-- Storage: 50GB gp2
-- Network: Public subnet
+### 2. LiteLLM (API Proxy)
+- Unified access to Claude-3 series models
+- API key management
+- Rate limiting and load balancing
 
-Recommended Configuration:
-- EC2: t3.large (2vCPU/8GB)
-- Storage: 100GB gp2
-- Network: Public/Private subnet
+### 3. Langfuse (Monitoring)
+- Usage tracking
+- Cost analysis
+- Performance monitoring
 
+### 4. GitLab (Version Control)
+- Self-hosted GitLab instance
+- Project and code management
+- CI pipeline and GitLab Runner
+- Backup and restore functionality
+- LDAP/Active Directory integration
+- Customizable authentication and access control
 
-## 💼 Enterprise Use Cases
+### 5. FG-prompt-pandora (Fargate Sample Application)
+- Auto-scaling on AWS Fargate
+- Prompt generation using Claude-3.5-Sonnet
+- Intuitive UI based on Streamlit
+- Easy deployment with a simple Docker image
+- Integration sample for the AMATERASU environment
 
-1. **Development Department**
-   - Code review assistance
-   - Bug analysis efficiency improvement
-   - Document generation
+## 🔧 Deployment Guide
 
-2. **Business Departments**
-   - Report generation assistance
-   - Data analysis support
-   - Meeting minute creation
-
-3. **Customer Support**
-   - Improved efficiency in handling inquiries
-   - Automatic FAQ generation
-   - Improved quality of reply text
-
-
-## 🔧 Deployment and Operation
+### Prerequisites
+- AWS Account
+- Terraform >= 0.12
+- Docker & Docker Compose
+- AWS CLI configured
 
 ### Setup Instructions
+
+1. Clone the repository
 ```bash
-# 1. Clone the repository
 git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
+```
 
-# 2. Set environment variables
+2. Set environment variables
+```bash
 cp .env.example .env
-# Edit the .env file and set your credentials
+# Edit .env with your configuration
+```
 
-# 3. Deploy the infrastructure
+3. Deploy infrastructure
+```bash
 cd spellbook/base-infrastructure
 terraform init && terraform apply
 
@@ -162,84 +165,111 @@ terraform init && terraform apply
 
 cd ../../langfuse/terraform/main-infrastructure
 terraform init && terraform apply
+```
 
-# 4. Start the services
-# Langfuse (Monitoring infrastructure)
+4. Start services
+```bash
+# Langfuse
 cd ../../../langfuse
 docker-compose up -d
 
-# LiteLLM (API proxy)
+# LiteLLM
 cd ../litellm
 docker-compose up -d
 
-# Open WebUI (User interface)
+# Open WebUI
 cd ../open-webui
 docker-compose up -d
 
+# GitLab
+cd ../gitlab
+docker-compose up -d
+
+# FG-prompt-pandora
+cd ../FG-prompt-pandora
+docker-compose up -d
 ```
 
-## 📚 Detailed Documentation
+### GitLab Setup
 
-- [Spellbook Infrastructure Setup Guide](spellbook/README.md)
-- [LiteLLM Configuration Guide](spellbook/litellm/README.md)
-- [Langfuse Setup Guide](spellbook/langfuse/README.md)
+1. Create environment configuration file:
+```bash
+cd spellbook/gitlab
+cp .env.example .env
+```
+
+2. Set environment variables: Edit the `.env` file and set the necessary environment variables such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
+
+3. Start GitLab:
+```bash
+docker-compose up -d
+```
+
+4. Configure backups (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
+
+
+## 📈 Operation and Management
+
+### Monitoring
+- Metrics collection with Prometheus
+- Usage analysis with Langfuse
+- Resource monitoring with CloudWatch
+
+### Scheduling
+- Automatic start/stop from 8:00 AM to 10:00 PM on weekdays
+- Manual scaling based on demand
+- Batch job scheduling
+
+### Security
+- IP whitelist control
+- TLS/SSL encryption
+- IAM role-based access control
+
+## 💡 Use Cases
+
+### Prompt Engineering Support
+- Optimal prompt generation from task descriptions
+- Suggestions for improving existing prompts
+- Management and sharing of prompt templates
+- Standardization of prompt quality across the team
+
+### LLM Application Development
+- Secure model access via API proxy
+- Visualization and analysis of usage
+- Cost management and resource optimization
+- Provision of a secure development environment
+
 
 ## 🆕 What's New
 
-### v1.0.0 Update Contents
+### AMATERASU v1.2.0 (Latest Release)
 
-- 🎉 Added Langfuse integrated filter pipeline (`langfuse_litellm_filter_pipeline.py`): Integrates with the Langfuse API for conversation tracing and monitoring.
-- 🎉 Added conversation turn limit filter (`conversation_turn_limit_filter.py`): Limits the number of conversation turns.
-- 🎉 Added convenient Terraform commands: `terraform destroy -auto-approve ; terraform init ; terraform plan ; terraform apply -auto-approve`
-- 🚀 README.md updated: Added links and corrected line breaks.
-- 🚀 Setup script corrected: Changed the execution order of `docker-compose up`.
-- 🚀 Docker Compose configuration corrected: Added `extra_hosts` option.
-- 🚀 English README updated.
-- 🚀 README updated after release.
-- 🚀 Header image updated.
-- ⚠️ Removed whitelist CSV file and changed to direct description in security group settings.
-- ⚠️ Corrected security group output.
-- ⚠️ Removed security group module and changed to direct settings.
-- ⚠️ Docker Compose configuration corrected.
-- ⚠️ Changed the development environment URL to the production environment URL.
-- ⚠️ Whitelist for access restriction to the LitleLLM development environment.
-- ⚠️ Terraform variable configuration file for the LitleLLM development environment.
-- ⚠️ Creation of a setup script for the LitleLLM development environment.
-- ⚠️ Added output value definition for the LitleLLM development environment.
-- ⚠️ Terraform module configuration for building the LitleLLM development environment.
-- ⚠️ Added definition of Terraform variables for the LitleLLM development environment.
+- 🎉 **GitLab Integration**: Integrated a self-hosted GitLab instance for version control, CI/CD pipelines, and project management.  Added GitLab setup instructions to the README.md.
+- 🚀 Significantly updated the README.md to improve readability.
 
-
-## 💰 Cost Management
-
-Provides detailed cost analysis and management capabilities through Langfuse:
-- Tracks usage costs per model.
-- Allows setting budget alerts.
-- Visualizes usage.
-
-
-## 👏 Acknowledgements
-
-Thanks to iris-s-coon and Maki for their contributions.
 
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributions
+## 🤝 Contributing
 
-1. Fork this repository.
-2. Create a new branch (`git checkout -b feature/amazing-feature`).
-3. Commit your changes (`git commit -m 'Add amazing feature'`).
-4. Push the branch (`git push origin feature/amazing-feature`).
-5. Create a pull request.
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push the branch (`git push origin feature/amazing-feature`)
+5. Create a pull request
 
-## 📧 Support
+## 📞 Support
 
-For questions or feedback, please feel free to contact us:
-- Create an issue: [GitHub Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
+For questions or feedback, please contact us:
+- GitHub Issues: [Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
+
+## 👥 Acknowledgements
+
+We thank iris-s-coon and Maki for their contributions.
 
 ---
 
-Build a secure and efficient AI infrastructure with AMATERASU. ✨
+Build your enterprise-grade AI platform with AMATERASU. ✨

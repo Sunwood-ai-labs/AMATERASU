@@ -1,5 +1,3 @@
-# AMATERASU v1.0.0
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
 </p>
@@ -10,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.2.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +16,12 @@
 >[!NOTE]
 >AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
 
-## 🌟 主な特長
+## 🚀 プロジェクト概要
+
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS Bedrockをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。
+
+
+## ✨ 主な機能
 
 ### セキュアな基盤
 - AWS Bedrockベースの安全なLLM基盤
@@ -35,6 +38,11 @@
 - 環境ごとの設定管理
 - バージョン管理された構成
 
+### GitLab統合
+- バージョン管理、CI/CDパイプライン、プロジェクト管理機能の向上
+- セルフホスト型GitLabインスタンスの統合
+
+
 ## 🏗 システムアーキテクチャ
 
 ```mermaid
@@ -45,6 +53,7 @@ graph TB
                 OW["Open WebUI<br/>チャットインターフェース"]
                 LL["LiteLLM Proxy<br/>APIプロキシ"]
                 LF["Langfuse<br/>モニタリング"]
+                GL["GitLab<br/>バージョン管理"]
             end
             
             subgraph "Fargate-based Service"
@@ -67,27 +76,19 @@ graph TB
             IAM["IAM<br/>認証・認可"]
         end
         
-        %% EC2ベースのサービスの接続
         OW --> ALB
         LL --> ALB
         LF --> ALB
-        
-        %% Fargateベースのサービスの接続
+        GL --> ALB
         PP --> ECS
         ECS --> ALB
-        
-        %% インフラストラクチャの接続
         ALB --> EC2
         ALB --> ECS
         EC2 --> SG
         ECS --> SG
         R53 --> ALB
         ACM --> ALB
-        
-        %% コンテナイメージの流れ
         ECR --> ECS
-        
-        %% AWS サービスとの接続
         EC2 --> Bedrock
         ECS --> Bedrock
         EC2 --> IAM
@@ -114,14 +115,22 @@ graph TB
 - コスト分析
 - パフォーマンスモニタリング
 
-### 4. FG-prompt-pandora (Fargate版サンプルアプリケーション)
+### 4. GitLab (バージョン管理)
+- セルフホストGitLabインスタンス
+- プロジェクト管理とコード管理
+- CIパイプラインとGitLab Runner
+- バックアップと復元機能
+- LDAP/Active Directory統合
+- カスタマイズ可能な認証とアクセス制御
+
+### 5. FG-prompt-pandora (Fargate版サンプルアプリケーション)
 - AWS Fargateでの自動スケーリング
 - Claude-3.5-Sonnetを活用したプロンプト生成
 - Streamlitベースの直感的UI
 - シンプルなDockerイメージによる容易なデプロイ
 - AMATERASU環境への統合サンプル
 
-## 🛠 デプロイメントガイド
+## 🔧 デプロイメントガイド
 
 ### 前提条件
 - AWS アカウント
@@ -172,10 +181,32 @@ docker-compose up -d
 cd ../open-webui
 docker-compose up -d
 
+# GitLab
+cd ../gitlab
+docker-compose up -d
+
 # FG-prompt-pandora
 cd ../FG-prompt-pandora
 docker-compose up -d
 ```
+
+### GitLabのセットアップ
+
+1. 環境設定ファイルの作成：
+```bash
+cd spellbook/gitlab
+cp .env.example .env
+```
+
+2. 環境変数の設定：  `.env` ファイルを編集して、`GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD` などの必要な環境変数を設定してください。
+
+3. GitLabの起動：
+```bash
+docker-compose up -d
+```
+
+4. バックアップの設定（オプション）：バックアップディレクトリを作成し、`docker-compose exec gitlab gitlab-backup create` コマンドでバックアップを実行してください。
+
 
 ## 📈 運用管理
 
@@ -208,14 +239,16 @@ docker-compose up -d
 - コスト管理とリソース最適化
 - セキュアな開発環境の提供
 
-## 🆕 最新のアップデート (v1.0.0)
 
-- Langfuse統合パイプラインの追加
-- 会話ターン制限フィルタの実装
-- Terraformスクリプトの最適化
-- セキュリティ設定の強化
+## 🆕 最新情報
 
-## 📝 ライセンス
+### AMATERASU v1.2.0 (最新のリリース)
+
+- 🎉 **GitLab統合**: バージョン管理、CI/CDパイプライン、プロジェクト管理のためにセルフホスト型GitLabインスタンスを統合しました。README.mdにもGitLabのセットアップ手順を追加しました。
+- 🚀 README.mdを大幅に更新し、可読性を向上させました。
+
+
+## 📄 ライセンス
 
 このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSE](LICENSE)ファイルをご参照ください。
 
@@ -235,7 +268,7 @@ docker-compose up -d
 
 ## 👥 謝辞
 
-iris-s-coonとMakiの貢献に感謝いたします。
+iris-s-coon氏とMaki氏の貢献に感謝いたします。
 
 ---
 
