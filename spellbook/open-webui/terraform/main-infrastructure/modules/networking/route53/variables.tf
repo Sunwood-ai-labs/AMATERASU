@@ -39,3 +39,8 @@ variable "alb_depends_on" {
   type        = any
   default     = []
 }
+
+variable "vpc_id" {
+  description = "ID of the VPC"
+  type        = string
+}
