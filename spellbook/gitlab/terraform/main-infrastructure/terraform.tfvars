@@ -10,7 +10,7 @@ key_name           = "AMATERASU-terraform-keypair-tokyo-PEM"
 domain             = "sunwood-ai-labs.click"
 
 project_name       = "amts-gitlab"
-instance_type      = "t3.medium"
+instance_type      = "t3.large"
 subdomain          = "amaterasu-gitlab-dev"
 
 env_file_path      = "C:/Prj/AMATERASU/spellbook/gitlab/.env"
