@@ -23,7 +23,7 @@ resource "aws_instance" "app_server" {
 resource "aws_cloudwatch_event_rule" "start_instance" {
   name                = "${var.project_name}-start-instance"
   description         = "Start the EC2 instance at 8 AM Japan time"
-  schedule_expression = "cron(0 23 ? * SUN-THU *)"
+  schedule_expression = "cron(0 6 ? * MON-FRI *)"
 }
 
 resource "aws_cloudwatch_event_target" "start_instance" {
