@@ -8,22 +8,27 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.2.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
-## 🌟 Key Features
+## 🚀 Project Overview
+
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
+
+
+## ✨ Key Features
 
 ### Secure Foundation
 - Secure LLM foundation based on AWS Bedrock
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservices Architecture
+### Microservice Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -31,7 +36,12 @@
 ### Infrastructure as Code
 - Fully automated deployment with Terraform
 - Environment-specific configuration management
-- Version-controlled infrastructure
+- Version-controlled configuration
+
+### GitLab Integration
+- Enhanced version control, CI/CD pipelines, and project management features
+- Integration with self-hosted GitLab instances
+
 
 ## 🏗 System Architecture
 
@@ -66,28 +76,19 @@ graph TB
             IAM["IAM<br/>Authentication & Authorization"]
         end
         
-        %% EC2ベースのサービスの接続
         OW --> ALB
         LL --> ALB
         LF --> ALB
         GL --> ALB
-        
-        %% Fargateベースのサービスの接続
         PP --> ECS
         ECS --> ALB
-        
-        %% インフラストラクチャの接続
         ALB --> EC2
         ALB --> ECS
         EC2 --> SG
         ECS --> SG
         R53 --> ALB
         ACM --> ALB
-        
-        %% コンテナイメージの流れ
         ECR --> ECS
-        
-        %% AWS サービスとの接続
         EC2 --> Bedrock
         ECS --> Bedrock
         EC2 --> IAM
@@ -129,7 +130,7 @@ graph TB
 - Easy deployment with a simple Docker image
 - Integration sample for the AMATERASU environment
 
-## 🛠 Deployment Guide
+## 🔧 Deployment Guide
 
 ### Prerequisites
 - AWS Account
@@ -151,7 +152,7 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
-3. Deploy the infrastructure
+3. Deploy infrastructure
 ```bash
 cd spellbook/base-infrastructure
 terraform init && terraform apply
@@ -166,7 +167,7 @@ cd ../../langfuse/terraform/main-infrastructure
 terraform init && terraform apply
 ```
 
-4. Start the services
+4. Start services
 ```bash
 # Langfuse
 cd ../../../langfuse
@@ -191,33 +192,21 @@ docker-compose up -d
 
 ### GitLab Setup
 
-1. Create the environment configuration file:
+1. Create environment configuration file:
 ```bash
 cd spellbook/gitlab
 cp .env.example .env
 ```
 
-2. Set environment variables:
-```env
-GITLAB_HOME=/srv/gitlab
-GITLAB_HOSTNAME=your.gitlab.domain
-GITLAB_ROOT_PASSWORD=your_secure_password
-```
+2. Set environment variables: Edit the `.env` file and set the necessary environment variables such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
 
 3. Start GitLab:
 ```bash
 docker-compose up -d
 ```
 
-4. Configure backups (optional):
-```bash
-# Create the backup directory
-mkdir -p backups
-chmod 777 backups
+4. Configure backups (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
 
-# Run the backup
-docker-compose exec gitlab gitlab-backup create
-```
 
 ## 📈 Operation and Management
 
@@ -228,7 +217,7 @@ docker-compose exec gitlab gitlab-backup create
 
 ### Scheduling
 - Automatic start/stop from 8:00 AM to 10:00 PM on weekdays
-- Manual scaling according to demand
+- Manual scaling based on demand
 - Batch job scheduling
 
 ### Security
@@ -251,11 +240,19 @@ docker-compose exec gitlab gitlab-backup create
 - Provision of a secure development environment
 
 
-## 📝 License
+## 🆕 What's New
+
+### AMATERASU v1.2.0 (Latest Release)
+
+- 🎉 **GitLab Integration**: Integrated a self-hosted GitLab instance for version control, CI/CD pipelines, and project management.  Added GitLab setup instructions to the README.md.
+- 🚀 Significantly updated the README.md to improve readability.
+
+
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contribution
+## 🤝 Contributing
 
 1. Fork this repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
