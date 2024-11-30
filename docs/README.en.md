@@ -1,5 +1,3 @@
-# 🚀 AMATERASU v1.1.0
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
 </p>
@@ -13,11 +11,10 @@
 <h2 align="center">Enterprise-Grade Private AI Platform</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage). Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service as an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
-
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🌟 Key Features
 
@@ -26,7 +23,7 @@
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservice Architecture
+### Microservices Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -46,6 +43,7 @@ graph TB
                 OW["Open WebUI<br/>Chat Interface"]
                 LL["LiteLLM Proxy<br/>API Proxy"]
                 LF["Langfuse<br/>Monitoring"]
+                GL["GitLab<br/>Version Control"]
             end
             
             subgraph "Fargate-based Service"
@@ -72,6 +70,7 @@ graph TB
         OW --> ALB
         LL --> ALB
         LF --> ALB
+        GL --> ALB
         
         %% Fargateベースのサービスの接続
         PP --> ECS
@@ -115,7 +114,15 @@ graph TB
 - Cost analysis
 - Performance monitoring
 
-### 4. FG-prompt-pandora (Fargate Sample Application)
+### 4. GitLab (Version Control)
+- Self-hosted GitLab instance
+- Project and code management
+- CI pipeline and GitLab Runner
+- Backup and restore functionality
+- LDAP/Active Directory integration
+- Customizable authentication and access control
+
+### 5. FG-prompt-pandora (Fargate Sample Application)
 - Auto-scaling on AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
@@ -173,9 +180,43 @@ docker-compose up -d
 cd ../open-webui
 docker-compose up -d
 
+# GitLab
+cd ../gitlab
+docker-compose up -d
+
 # FG-prompt-pandora
 cd ../FG-prompt-pandora
 docker-compose up -d
+```
+
+### GitLab Setup
+
+1. Create the environment configuration file:
+```bash
+cd spellbook/gitlab
+cp .env.example .env
+```
+
+2. Set environment variables:
+```env
+GITLAB_HOME=/srv/gitlab
+GITLAB_HOSTNAME=your.gitlab.domain
+GITLAB_ROOT_PASSWORD=your_secure_password
+```
+
+3. Start GitLab:
+```bash
+docker-compose up -d
+```
+
+4. Configure backups (optional):
+```bash
+# Create the backup directory
+mkdir -p backups
+chmod 777 backups
+
+# Run the backup
+docker-compose exec gitlab gitlab-backup create
 ```
 
 ## 📈 Operation and Management
@@ -209,15 +250,6 @@ docker-compose up -d
 - Cost management and resource optimization
 - Provision of a secure development environment
 
-## 🆕 Latest Updates (v1.1.0)
-
-- 🎉 **Added FG-prompt-pandora module**: A prompt generation support tool running on AWS Fargate. It uses the Claude-3.5-Sonnet model and a Streamlit UI, and is easily deployable with Docker Compose and Terraform. Supports auto-scaling with AWS Fargate.
-- 🚀 Completely revised README.md to improve readability. This includes revised headings, added bullet points, simplified expressions, rewriting the system architecture diagram using mermaid notation, detailed explanations of each function and specific usage scenarios, and strengthened security descriptions.
-- 🚀 Updated the English README with the latest information.
-- 🚀 Updated version numbers of release notes and related files to v1.1.0.
-- 🚀 Updated the document generation model from `gemini/gemini-1.5-flash` to `gemini/gemini-exp-1121`.
-- 🚀 Added the `restart: always` option to the Docker Compose file. This enables automatic service restart.
-
 
 ## 📝 License
 
@@ -233,7 +265,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 📞 Support
 
-For questions or feedback, please feel free to contact us:
+For questions or feedback, please contact us:
 - GitHub Issues: [Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
