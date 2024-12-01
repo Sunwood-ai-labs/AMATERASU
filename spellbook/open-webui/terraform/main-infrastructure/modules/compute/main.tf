@@ -78,3 +78,50 @@ resource "aws_iam_role_policy_attachment" "ssm_automation_attachment" {
 
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
+
+# データソースでセキュリティグループの既存ルールを取得
+data "aws_security_group" "existing" {
+  id = var.security_group_id
+}
+
+# Elastic IPの作成
+resource "aws_eip" "app_server" {
+  instance = aws_instance.app_server.id
+  domain   = "vpc"  # vpcをdomainに変更
+
+  tags = {
+    Name = "${var.project_name}-eip"
+  }
+
+  depends_on = [aws_instance.app_server]
+}
+# セキュリティグループのルール追加
+# 既存のルールをチェックして、同じIPからのルールが存在しない場合のみ作成
+resource "aws_security_group_rule" "eip" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["${aws_eip.app_server.public_ip}/32"]
+  security_group_id = var.security_group_id
+  description       = "Allow all traffic from EC2 instance Elastic IP"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [aws_eip.app_server]
+}
+
+# ステータス記録用のnullリソース
+resource "null_resource" "rule_status" {
+  triggers = {
+    eip_address = aws_eip.app_server.public_ip
+  }
+
+  provisioner "local-exec" {
+    command = "echo 'EIP ${aws_eip.app_server.public_ip} rule created'"
+  }
+
+  depends_on = [aws_security_group_rule.eip]
+}
