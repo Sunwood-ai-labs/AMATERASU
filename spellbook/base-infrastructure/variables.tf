@@ -39,3 +39,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "domain_name" {
+  description = "Domain name for the Route53 private hosted zone"
+  type        = string
+  default     = "sunwood-ai-labs.click"  # または必要なドメイン名
+}
