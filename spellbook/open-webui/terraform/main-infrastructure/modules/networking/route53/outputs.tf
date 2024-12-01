@@ -1,19 +1,16 @@
-output "dns_name" {
-  description = "The DNS name of the created record"
-  value       = "${var.subdomain}.${var.domain}"
+# modules/networking/route53/outputs.tf
+
+output "private_zone_id" {
+  description = "ID of the private hosted zone"
+  value       = aws_route53_zone.private.id
 }
 
-output "record_name" {
-  description = "The name of the created Route53 record"
-  value       = aws_route53_record.alb.name
+output "public_record_fqdn" {
+  description = "FQDN of the public DNS record"
+  value       = aws_route53_record.public.fqdn
 }
 
-output "record_fqdn" {
-  description = "The FQDN of the created Route53 record"
-  value       = aws_route53_record.alb.fqdn
-}
-
-output "health_check_id" {
-  description = "The ID of the created health check (if enabled)"
-  value       = var.enable_health_check ? aws_route53_health_check.alb[0].id : null
+output "private_record_fqdn" {
+  description = "FQDN of the private DNS record"
+  value       = aws_route53_record.private.fqdn
 }
