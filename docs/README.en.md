@@ -8,24 +8,24 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.3.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.4.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage). Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows for the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
 
 
 ## ✨ Key Features
 
 ### Secure Foundation
 - Secure LLM foundation based on AWS Bedrock
-- Operation in a fully closed environment
+- Operation in a completely closed environment
 - Enterprise-grade security
 
 ### Microservice Architecture
@@ -34,12 +34,12 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it a
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment using Terraform
+- Fully automated deployment with Terraform
 - Environment-specific configuration management
 - Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management capabilities
+- Enhanced version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
 
 
@@ -128,12 +128,12 @@ graph TB
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
 - Easy deployment with a simple Docker image
-- Integration sample for the AMATERASU environment
+- Sample integration with the AMATERASU environment
 
 ## 🔧 Deployment Guide
 
 ### Prerequisites
-- AWS account
+- AWS Account
 - Terraform >= 0.12
 - Docker & Docker Compose
 - AWS CLI configured
@@ -192,23 +192,23 @@ docker-compose up -d
 
 ### GitLab Setup
 
-1. Create the environment configuration file:
+1. Create environment configuration file:
 ```bash
 cd spellbook/gitlab
 cp .env.example .env
 ```
 
-2. Set environment variables: Edit the `.env` file and set the necessary environment variables such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
+2. Set environment variables: Edit the `.env` file and configure necessary environment variables such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
 
 3. Start GitLab:
 ```bash
 docker-compose up -d
 ```
 
-4. Set up backups (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
+4. Configure backups (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
 
 
-## 📈 Operational Management
+## 📈 Operation and Management
 
 ### Monitoring
 - Metrics collection with Prometheus
@@ -216,7 +216,7 @@ docker-compose up -d
 - Resource monitoring with CloudWatch
 
 ### Scheduling
-- Automatic start/stop from 8:00 AM to 10:00 PM on weekdays
+- Automatic start/stop from 8:00 to 22:00 on weekdays
 - Manual scaling according to demand
 - Batch job scheduling
 
@@ -230,40 +230,42 @@ docker-compose up -d
 ### Prompt Engineering Support
 - Optimal prompt generation from task descriptions
 - Suggestions for improving existing prompts
-- Prompt template management and sharing
+- Management and sharing of prompt templates
 - Standardization of prompt quality across the team
 
 ### LLM Application Development
 - Secure model access via API proxy
-- Usage visualization and analysis
+- Visualization and analysis of usage
 - Cost management and resource optimization
 - Provision of a secure development environment
 
 
 ## 🆕 What's New
 
-### AMATERASU v1.3.0 (Latest Release)
+### AMATERASU v1.4.0 (Latest Release)
 
-- 🎉 Added definition and status check of VPC, subnet, and Route53 zone data sources.
-- 🎉 Added Elastic IP allocation and security group rules.
-- 🎉 Added Route53 Private Hosted Zone domain name variable, added output value, and added variable definition.
-- 🎉 Added Route53 Private Hosted Zone module.
-- 🎉 Added private zone information to Route53 output.
-- 🎉 Created records for private and public zones.
-- 🎉 Improved Route53 output and simplified ALB output.
-- 🎉 Integrated public and internal ALBs into a single ALB.
-- 🎉 Added permission for access from within the VPC to the ALB security group.
-- 🎉 Added method for obtaining the initial GitLab password.
-- 🎉 Added Maki NOTE PC to the whitelist.
-- 🚀 Resized the GitLab instance, corrected the path of the environment variable file, simplified the GitLab Docker Compose settings, and fixed the hostname.
-- 🚀 Adjusted the EC2 instance startup schedule, changed the target ID of the ALB target group to the private IP.
-- 🐛 Fixed attachment to the ALB target group.
-- ⚠️ Updated the whitelist IP address.
+- 🎉 Added `domain_name` variable for Route53 Private Hosted Zone ([a3b436d])
+  - Added the `domain_name` variable to allow external configuration of the Route53 Private Hosted Zone domain name.
+  - Set "sunwood-ai-labs.click" as the default value.
+- 🎉 Added Route53 Private Hosted Zone module ([50e2706])
+  - Added a Route53 Private Hosted Zone management module to base-infrastructure.
+  - Improved access control and security to resources within the VPC.
+- 🚀 Added Elastic IP assignment and security group rules ([b2f643e])
+  - Added functionality to assign Elastic IPs to EC2 instances.
+  - Implemented functionality to add inbound rules to security groups.
+- 🚀 Changed ALB target group target ID to private IP ([425dfd0])
+  - Reduced configuration changes required when restarting or replacing instances.
+- 🐛 Fixed ALB target group attachment ([71a53a2])
+  - Corrected to use `instance_private_ip` instead of `instance_id`.
+  - Achieved correct attachment using private IP addresses.
+- ⚠️ Changed Route53 Private Hosted Zone management method ([90d60a8])
+  - Changed from creation as a resource to a method using an existing zone as a data source.
+  - Migrated to a design that reuses existing zones and avoids unnecessary changes.
 
 
 ## 📄 License
 
-This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
@@ -275,7 +277,7 @@ This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For questions or feedback, please contact us:
+For questions or feedback, please feel free to contact us:
 - GitHub Issues: [Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
