@@ -1,3 +1,5 @@
+# modules/networking/core/outputs.tf
+
 # VPCとサブネットの出力
 output "vpc_id" {
   description = "ID of the VPC"
@@ -55,15 +57,20 @@ output "alb_target_group_arn" {
 # Route53の出力
 output "dns_name" {
   description = "The DNS name of the created record"
-  value       = module.route53.dns_name
+  value       = "${var.subdomain}.${var.domain}"
 }
 
 output "route53_record_fqdn" {
-  description = "The FQDN of the created Route53 record"
-  value       = module.route53.record_fqdn
+  description = "The FQDN of the created public Route53 record"
+  value       = module.route53.public_record_fqdn
 }
 
-output "health_check_id" {
-  description = "The ID of the created health check (if enabled)"
-  value       = module.route53.health_check_id
+output "route53_private_record_fqdn" {
+  description = "The FQDN of the created private Route53 record"
+  value       = module.route53.private_record_fqdn
+}
+
+output "route53_private_zone_id" {
+  description = "ID of the private hosted zone"
+  value       = module.route53.private_zone_id
 }
