@@ -48,3 +48,13 @@ module "security" {
   whitelist_entries = local.whitelist_entries
   tags              = var.tags
 }
+
+module "route53" {
+  source = "./modules/route53"
+  
+  project_name = var.project_name
+  environment  = var.environment
+  vpc_id       = module.vpc.vpc_id
+  domain_name  = var.domain_name  # variables.tfに追加が必要
+  tags         = var.tags
+}

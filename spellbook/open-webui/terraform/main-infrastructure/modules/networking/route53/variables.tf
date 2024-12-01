@@ -1,3 +1,4 @@
+# modules/networking/route53/variables.tf
 variable "project_name" {
   description = "Name of the project"
   type        = string
@@ -14,7 +15,7 @@ variable "subdomain" {
 }
 
 variable "route53_zone_id" {
-  description = "ID of the Route53 hosted zone"
+  description = "ID of the public Route53 hosted zone"
   type        = string
 }
 
@@ -38,4 +39,9 @@ variable "alb_depends_on" {
   description = "Resource dependencies for the ALB record"
   type        = any
   default     = []
+}
+
+variable "vpc_id" {
+  description = "ID of the VPC"
+  type        = string
 }

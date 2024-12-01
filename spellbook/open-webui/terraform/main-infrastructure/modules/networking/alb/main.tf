@@ -15,19 +15,19 @@ resource "aws_lb" "main" {
   }
 }
 
-# ALBターゲットグループの作成
+# ターゲットグループの作成
 resource "aws_lb_target_group" "main" {
   name        = "${var.project_name}-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
-  target_type = "instance"
+  target_type = "ip"
 
   health_check {
     enabled             = true
     healthy_threshold   = 2
     interval            = 30
-    matcher            = "200"
+    matcher            = "200-399"
     path               = "/"
     port               = "traffic-port"
     protocol           = "HTTP"
@@ -40,24 +40,7 @@ resource "aws_lb_target_group" "main" {
   }
 }
 
-# HTTPリスナー（HTTPSへのリダイレクト）
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.main.arn
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    type = "redirect"
-
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
-  }
-}
-
-# HTTPSリスナー
+# HTTPSリスナーの作成
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.main.arn
   port              = "443"
@@ -68,5 +51,21 @@ resource "aws_lb_listener" "https" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.main.arn
+  }
+}
+
+# HTTPリスナーの作成（HTTPSへのリダイレクト）
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }

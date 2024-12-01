@@ -1,8 +1,15 @@
-# Route53レコードの設定
+# modules/networking/route53/main.tf
 
-# ALBのエイリアスレコード
-resource "aws_route53_record" "alb" {
-  zone_id = var.route53_zone_id
+# プライベートホストゾーンのデータソース
+data "aws_route53_zone" "private" {
+  name         = var.domain
+  private_zone = true
+  vpc_id       = var.vpc_id  # vpcブロックの代わりにvpc_idを使用
+}
+
+# プライベートホストゾーンにALBのエントリを追加
+resource "aws_route53_record" "private" {
+  zone_id = data.aws_route53_zone.private.zone_id
   name    = "${var.subdomain}.${var.domain}"
   type    = "A"
 
@@ -15,17 +22,17 @@ resource "aws_route53_record" "alb" {
   depends_on = [var.alb_depends_on]
 }
 
-# ヘルスチェック用のレコード（必要な場合）
-resource "aws_route53_health_check" "alb" {
-  count             = var.enable_health_check ? 1 : 0
-  fqdn              = var.alb_dns_name
-  port              = 443
-  type             = "HTTPS"
-  resource_path    = "/"
-  failure_threshold = "3"
-  request_interval = "30"
+# パブリックホストゾーンのレコード
+resource "aws_route53_record" "public" {
+  zone_id = var.route53_zone_id
+  name    = "${var.subdomain}.${var.domain}"
+  type    = "A"
 
-  tags = {
-    Name = "${var.project_name}-health-check"
+  alias {
+    name                   = var.alb_dns_name
+    zone_id                = var.alb_zone_id
+    evaluate_target_health = true
   }
+
+  depends_on = [var.alb_depends_on]
 }

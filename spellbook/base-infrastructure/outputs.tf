@@ -27,3 +27,13 @@ output "default_security_group_id" {
   description = "ID of the default security group"
   value       = module.security.default_security_group_id
 }
+
+output "route53_zone_id" {
+  description = "ID of the Route53 private hosted zone"
+  value       = module.route53.zone_id
+}
+
+output "route53_zone_name" {
+  description = "Name of the Route53 private hosted zone"
+  value       = module.route53.zone_name
+}
