@@ -1,3 +1,5 @@
+# GitLab Docker Compose Setup
+
 <div align="center">
 
 ![](assets/header.svg)
@@ -14,8 +16,6 @@ GitLab CEをDocker Composeで自己ホスティングするための設定リポ
 
 </div>
 
-
-
 ## 🚀 クイックスタート
 
 ### 前提条件
@@ -25,6 +25,7 @@ GitLab CEをDocker Composeで自己ホスティングするための設定リポ
   - CPU: 4コア
   - メモリ: 8GB以上
   - ストレージ: 50GB以上
+- AWS Systems Manager Session Manager（SSHアクセス用）
 
 ### セットアップ手順
 
@@ -45,60 +46,17 @@ cp .env.example .env
 docker compose up -d
 ```
 
+4. 初期rootパスワードの取得:
 ```bash
-ubuntu@ip-10-0-1-210:~/AMATERASU/spellbook/gitlab$ sudo docker-compose exec gitlab /bin/bash
-WARN[0000] /home/ubuntu/AMATERASU/spellbook/gitlab/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
-root@amaterasu-gitlab-dev:/# cat /etc/gitlab/initial_root_password
-# WARNING: This value is valid only in the following conditions
-#          1. If provided manually (either via `GITLAB_ROOT_PASSWORD` environment variable or via `gitlab_rails['initial_root_password']` setting in `gitlab.rb`, it was provided before database was seeded for the first time (usually, the first reconfigure run).
-#          2. Password hasn't been changed manually, either via UI or via command line.
-#
-#          If the password shown here doesn't work, you must reset the admin password following https://docs.gitlab.com/ee/security/reset_user_password.html#reset-your-root-password.
-
-Password: 2LF3ETqlWh2VQhbuysu3s/WckTkRrzELDgr5M6kCTZM=
-
-# NOTE: This file will be automatically deleted in the first reconfigure run after 24 hours.
-root@amaterasu-gitlab-dev:/# 
-
-
+docker compose exec gitlab cat /etc/gitlab/initial_root_password
 ```
 
+## 📚 詳細ガイド
 
-## 💾 バックアップと復元
-
-### バックアップの作成
-```bash
-# バックアップの実行
-docker-compose exec gitlab gitlab-backup create
-
-# バックアップファイルの確認
-ls -la ./backups/
-
-# バックアップファイルの確認（コンテナ内）
-docker-compose exec gitlab ls -la /var/opt/gitlab/backups/
-```
-
-### バックアップの復元
-1. GitLabサービスを停止:
-```bash
-docker-compose down
-```
-
-2. バックアップファイルの権限を設定:
-```bash
-sudo chmod 777 -R ./backups/
-```
-
-3. GitLabサービスを起動:
-```bash
-docker-compose up -d
-```
-
-4. バックアップを復元:
-```bash
-docker-compose exec gitlab gitlab-backup restore BACKUP=<バックアップ名>
-```
-
+- [SSH設定ガイド](docs/ssh-setup.md) - GitLabへのSSHアクセス設定
+- [バックアップ・復元ガイド](docs/backup-restore.md) - バックアップと復元手順
+- [Runner設定ガイド](docs/runner-setup.md) - GitLab RunnerのCI/CD設定
+- 
 ## 🔧 トラブルシューティング
 
 ### ログの確認
@@ -116,3 +74,36 @@ docker compose ps
 - 初回起動時は、GitLabの初期化に数分かかる場合があります
 - システムリソースの使用状況を定期的に監視することをお勧めします
 - 定期的なバックアップの実行を推奨します
+
+## 📑 Docker Compose 設定
+
+```yaml
+version: '3.6'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'amaterasu-gitlab-dev.sunwood-ai-labs.click'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://amaterasu-gitlab-dev.sunwood-ai-labs.click'
+        gitlab_rails['time_zone'] = 'Asia/Tokyo'
+        gitlab_rails['backup_keep_time'] = 604800
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+    volumes:
+      - './config:/etc/gitlab'
+      - './logs:/var/log/gitlab'
+      - './data:/var/opt/gitlab'
+      - './backups:/var/opt/gitlab/backups'
+    shm_size: '256m'
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    restart: always
+    volumes:
+      - './runner:/etc/gitlab-runner'
+      - /var/run/docker.sock:/var/run/docker.sock
+```

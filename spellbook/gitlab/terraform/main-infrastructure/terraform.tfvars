@@ -12,7 +12,7 @@ domain             = "sunwood-ai-labs.click"
 
 # プロジェクト設定パラメータ
 project_name       = "amts-gitlab"
-instance_type      = "t3.medium"
+instance_type      = "t3.large"
 subdomain          = "amaterasu-gitlab-dev"
 
 # ローカルファイルパス

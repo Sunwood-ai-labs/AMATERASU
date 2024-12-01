@@ -21,9 +21,9 @@ services:
       - './backups:/var/opt/gitlab/backups'
     shm_size: '256m'
 
-  # gitlab-runner:
-  #   image: gitlab/gitlab-runner:latest
-  #   restart: always
-  #   volumes:
-  #     - './runner:/etc/gitlab-runner'
-  #     - /var/run/docker.sock:/var/run/docker.sock
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    restart: always
+    volumes:
+      - './runner:/etc/gitlab-runner'
+      - /var/run/docker.sock:/var/run/docker.sock
