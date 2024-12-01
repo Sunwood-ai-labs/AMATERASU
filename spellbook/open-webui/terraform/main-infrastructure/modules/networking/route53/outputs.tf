@@ -1,8 +1,7 @@
 # modules/networking/route53/outputs.tf
-
 output "private_zone_id" {
   description = "ID of the private hosted zone"
-  value       = aws_route53_zone.private.id
+  value       = data.aws_route53_zone.private.id
 }
 
 output "public_record_fqdn" {
