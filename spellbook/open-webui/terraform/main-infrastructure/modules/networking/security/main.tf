@@ -22,6 +22,24 @@ resource "aws_security_group" "alb" {
     description = "Allow HTTPS traffic from whitelisted IP addresses"
   }
 
+  # VPC内部からのHTTPアクセスを許可
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+    description = "Allow HTTP traffic from within VPC"
+  }
+
+  # VPC内部からのHTTPSアクセスを許可
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+    description = "Allow HTTPS traffic from within VPC"
+  }
+
   # アウトバウンドの通信許可
   egress {
     from_port   = 0
