@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.2.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.3.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -242,10 +242,23 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### AMATERASU v1.2.0 (最新のリリース)
+### AMATERASU v1.3.0 (最新のリリース)
 
-- 🎉 **GitLab統合**: バージョン管理、CI/CDパイプライン、プロジェクト管理のためにセルフホスト型GitLabインスタンスを統合しました。README.mdにもGitLabのセットアップ手順を追加しました。
-- 🚀 README.mdを大幅に更新し、可読性を向上させました。
+- 🎉 VPC、サブネット、Route53ゾーンのデータソースの定義とステータスチェックを追加しました。
+- 🎉 Elastic IPの割り当てとセキュリティグループルールの追加を行いました。
+- 🎉 Route53 Private Hosted Zone のドメイン名変数の追加、出力値の追加、変数の定義を追加しました。
+- 🎉 Route53 Private Hosted Zone モジュールの追加を行いました。
+- 🎉 Route53出力にプライベートゾーン情報を追加しました。
+- 🎉 プライベートゾーンとパブリックゾーンのレコード作成を行いました。
+- 🎉 Route53出力の改善、ALB出力の簡素化を行いました。
+- 🎉 パブリックALBとインターナルALBを統合し、単一のALBにしました。
+- 🎉 ALBセキュリティグループへのVPC内からのアクセス許可を追加しました。
+- 🎉 GitLab初期パスワード取得方法を追加しました。
+- 🎉 ホワイトリストにMaki NOTE PCを追加しました。
+- 🚀 GitLabインスタンスのサイズ変更、環境変数ファイルのパス修正、GitLab Docker Compose設定の簡素化とhostnameの固定を行いました。
+- 🚀 EC2インスタンス起動スケジュール調整、ALBターゲットグループのターゲットIDをプライベートIPに変更しました。
+- 🐛 ALB ターゲットグループへのアタッチメントを修正しました。
+- ⚠️ ホワイトリストIPアドレスの更新を行いました。
 
 
 ## 📄 ライセンス
@@ -266,9 +279,9 @@ docker-compose up -d
 - GitHub Issues: [Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
-## 👥 謝辞
+## 👏 謝辞
 
-iris-s-coon氏とMaki氏の貢献に感謝いたします。
+Maki、iris-s-coon の貢献に感謝します。
 
 ---
 
