@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Simple gradients -->
+  <defs>
+    <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00C9FF"/>
+      <stop offset="100%" style="stop-color:#4facfe"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Tech circle with code symbols -->
+  <g transform="translate(150, 100)">
+    <!-- Animated circle -->
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#00C9FF" stroke-width="2">
+      <animate attributeName="r" values="38;42;38" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Binary code with fade animation -->
+    <g font-family="monospace" font-size="12" fill="#4facfe">
+      <text x="-15" y="-25">
+        01
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+      </text>
+      <text x="5" y="-25">
+        10
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" begin="1s" repeatCount="indefinite"/>
+      </text>
+      <text x="-15" y="35">
+        11
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" begin="2s" repeatCount="indefinite"/>
+      </text>
+      <text x="5" y="35">
+        00
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" begin="3s" repeatCount="indefinite"/>
+      </text>
+    </g>
+
+    <!-- Rotating cross -->
+    <g>
+      <animateTransform attributeName="transform"
+                        attributeType="XML"
+                        type="rotate"
+                        from="0"
+                        to="360"
+                        dur="20s"
+                        repeatCount="indefinite"/>
+      <path d="M-10,0 L10,0 M0,-10 L0,10" stroke="#00C9FF" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Title with pulse animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#00C9FF" text-anchor="middle">
+    LiteLLM Test Tools
+    <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    Validation &amp; Integration Suite
+  </text>
+  
+  <!-- Animated circuit patterns -->
+  <g stroke="#4facfe" stroke-width="1.5" fill="none">
+    <path d="M100,160 L300,160 L300,140 L500,140 L500,160 L700,160">
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="10s" repeatCount="indefinite"/>
+    </path>
+    <path d="M150,140 L250,140 L250,160 L450,160 L450,140 L650,140">
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="10s" begin="5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

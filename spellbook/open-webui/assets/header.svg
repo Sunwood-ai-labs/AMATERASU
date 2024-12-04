@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1">
+        <animate attributeName="stop-color" values="#4A90E2;#50E3C2;#4A90E2" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#50E3C2;stop-opacity:1">
+        <animate attributeName="stop-color" values="#50E3C2;#4A90E2;#50E3C2" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <!-- Additional gradients for decorative elements -->
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#4A90E2;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Decorative background elements -->
+  <path d="M0 100 Q 400 150, 800 100" stroke="url(#gradient2)" stroke-width="40" fill="none" opacity="0.3">
+    <animate attributeName="d" 
+             values="M0 100 Q 400 150, 800 100;M0 120 Q 400 80, 800 120;M0 100 Q 400 150, 800 100" 
+             dur="10s" 
+             repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Main title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle">
+    Open WebUI Infrastructure
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    Terraform Infrastructure as Code
+  </text>
+  
+  <!-- Animated decorative lines -->
+  <path d="M100,160 H700" stroke="url(#gradient1)" stroke-width="3" fill="none">
+    <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="3s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Additional decorative elements -->
+  <circle cx="150" cy="40" r="5" fill="#4A90E2" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="650" cy="160" r="5" fill="#50E3C2" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="1s"/>
+  </circle>
+</svg>
