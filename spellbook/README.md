@@ -1,160 +1,94 @@
+<div align="center">
+
+![AMATERASU Spellbook](assets/header.svg)
+
 # AMATERASU Spellbook
 
-AWS上にLLMプラットフォームをデプロイするためのInfrastructure as Code (IaC)コンポーネント群
+魔法のように Infrastructure as Code を実現する呪文集
 
-## 📚 ディレクトリ構成
+</div>
 
-```
-spellbook/
-├── base-infrastructure/     # 基本AWS インフラ設定
-├── langfuse/               # Langfuse 監視設定
-├── litellm/               # LiteLLM プロキシ設定
-├── open-webui/            # Open WebUI デプロイメント
-└── open-webui-pipeline/   # WebUI パイプライン設定
-```
+## 🌟 概要
 
-## 🏗 コンポーネント
+AMATERASUスペルブックは、さまざまなインフラストラクチャとアプリケーションの展開を自動化するための包括的な呪文（コード）コレクションです。
 
-### ベースインフラストラクチャ
+## 📚 スペル（プロジェクト）一覧
 
-基本インフラストラクチャモジュールは以下のAWSリソースをセットアップします：
+- [Open WebUI](./open-webui/README.md) - Ollama WebUIのインフラストラクチャ自動構築
+  - CloudFrontとALBを利用した高可用性アーキテクチャ
+  - セキュアなSSL/TLS通信
+  - Dockerコンテナ化されたアプリケーション
 
-- パブリック/プライベートサブネットを持つVPC
-- セキュリティグループとアクセス制御
-- IAMロールとポリシー
-- ネットワークルーティングとインターネットアクセス
+## 🎯 特徴
 
-`base-infrastructure/terraform.tfvars`での設定例：
-```hcl
-aws_region = "ap-northeast-1"
-project_name = "amts-base-infrastructure" 
-vpc_cidr = "10.0.0.0/16"
-```
+- 完全自動化されたインフラストラクチャのデプロイメント
+- セキュリティベストプラクティスの実装
+- モジュール化された再利用可能なコード
+- 包括的なドキュメント
 
-### Langfuse
+## 🛠️ 前提条件
 
-LLMアプリケーションの監視・可観測性プラットフォーム：
+- AWS CLI
+- Terraform
+- Docker
+- Docker Compose
 
-- コスト追跡と分析
-- モデルパフォーマンスモニタリング
-- 利用状況メトリクスとダッシュボード
+## 🔮 使用方法
 
-セットアップ（`langfuse/docker-compose.yml`）：
+1. 必要なツールのインストール
 ```bash
-cd spellbook/langfuse
-docker-compose up -d
+# AWS CLIのインストール
+# Terraformのインストール
+# Dockerのインストール
 ```
 
-### LiteLLM
-
-統合LLM APIアクセスのためのプロキシサービス：
-
-- モデルルーティングとロードバランシング
-- 認証とレート制限
-- 使用状況の追跡とモニタリング
-
-`litellm/config.yaml`での設定例：
-```yaml
-model_list:
-  - model_name: "bedrock/claude-3-5-sonnet"
-    litellm_params:
-      model: "bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0"
-```
-
-### Open WebUI
-
-LLMモデルと対話するためのWebインターフェース：
-
-- モデル管理とテスト
-- インタラクティブなチャットインターフェース
-- API統合と設定
-
-インフラストラクチャオプション：
-- Main: CloudFront CDNを使用したフル機能デプロイメント
-- Mini: テスト/開発用の簡易デプロイメント
-
-## 🚀 デプロイメント
-
-1. ベースインフラストラクチャ
+2. リポジトリのクローン
 ```bash
-cd spellbook/base-infrastructure
-terraform init
-terraform apply
+git clone https://github.com/your-username/amaterasu-spellbook.git
+cd amaterasu-spellbook
 ```
 
-2. Open WebUI デプロイメント
-   
-A. 標準デプロイメント（推奨）
+3. 目的のスペル（プロジェクト）ディレクトリに移動
 ```bash
-# メインインフラストラクチャのみ
-cd spellbook/open-webui/terraform/main-infrastructure
-terraform init
-terraform apply
+cd <spell-directory>
 ```
 
-B. カスタムデプロイメント（オプション）
+4. スペルの詳細な使用方法は各プロジェクトのREADMEを参照
+
+## ⚡ クイックスタート
+
+最も一般的なスペルの使用例：
+
 ```bash
-# ミニインフラストラクチャ + CloudFront
-cd spellbook/open-webui/terraform/mini-infrastructure
-terraform init
-terraform apply
-
-cd ../cloudfront
-terraform init
-terraform apply
-```
-
-3. サービス
-```bash
-# Langfuseのデプロイ
-cd spellbook/langfuse
-docker-compose up -d
-
-# LiteLLMのデプロイ
-cd spellbook/litellm
-docker-compose up -d
-
 # Open WebUIのデプロイ
-cd spellbook/open-webui
-docker-compose up -d
+cd open-webui
+# 環境変数の設定
+cp .env.example .env
+# インフラストラクチャのデプロイ
+cd terraform/main-infrastructure
+terraform init
+terraform apply
 ```
-
-## ⚙️ 設定
-
-1. 各インフラストラクチャディレクトリの`whitelist.csv`でアクセス制御を設定
-2. `litellm/config.yaml`でモデルエンドポイントを設定
-3. `.env.example`を参考に`.env`ファイルで環境変数を設定
 
 ## 🔒 セキュリティ
 
-- IPホワイトリストによるアクセス制御
-- CloudFront/ALB経由のSSL/TLS暗号化
-- 最小権限アクセスのIAMロール
-- セキュリティグループによるネットワーク分離
+- すべてのスペルはAWSのセキュリティベストプラクティスに従っています
+- SSL/TLS暗号化が標準で有効
+- 最小権限の原則に基づくIAM設定
+- セキュリティグループの適切な設定
 
-## 📝 変数設定
+## 📝 ライセンス
 
-terraform.tfvarsでの主要な設定変数：
-
-```hcl
-aws_region = "ap-northeast-1"
-project_name = "amaterasu"
-instance_type = "t3.medium"
-domain = "your-domain.com"
-```
-
-## 便利コマンド
-
-```bash
-terraform destroy -auto-approve ; terraform init ; terraform plan ; terraform apply -auto-approve
-```
+このプロジェクトはMITライセンスの下で公開されています。
 
 ## 🤝 コントリビューション
 
-1. リポジトリをフォーク
-2. フィーチャーブランチを作成
-3. プルリクエストを提出
+1. このリポジトリをフォーク
+2. 機能ブランチを作成 (`git checkout -b feature/amazing-spell`)
+3. 変更をコミット (`git commit -m 'Add some amazing spell'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-spell`)
+5. Pull Requestを作成
 
-## 📄 ライセンス
+## 📞 サポート
 
-このプロジェクトはMITライセンスの下で公開されています - 詳細はLICENSEファイルを参照してください。
+質問や問題がありましたら、GitHubのIssueセクションをご利用ください。
