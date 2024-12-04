@@ -6,26 +6,17 @@ services:
       args:
         target: runtime
     image: ghcr.io/berriai/litellm:main-stable
-    #########################################
-    ## Uncomment these lines to start proxy with a config.yaml file ##
     volumes:
      - ./config.yaml:/app/config.yaml
-    # The below two are my suggestion
     command:
      - "--config=/app/config.yaml"
-    ##############################################
-    #########################################
-    ## Uncomment these lines to start proxy with a config.yaml file ##
-    # volumes:
-    ###############################################
     ports:
-      # - "4000:4000" # Map the container port to the host, change the host port if necessary
-      - "80:4000" # Map the container port to the host, change the host port if necessary
+      - "80:4000"
     environment:
         DATABASE_URL: "postgresql://llmproxy:dbpassword9090@db:5432/litellm"
-        STORE_MODEL_IN_DB: "True" # allows adding models to proxy via UI
+        STORE_MODEL_IN_DB: "True"
     env_file:
-      - .env # Load local .env file
+      - .env
     restart: always
     
   db:
@@ -35,6 +26,8 @@ services:
       POSTGRES_DB: litellm
       POSTGRES_USER: llmproxy
       POSTGRES_PASSWORD: dbpassword9090
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # データの永続化用のボリュームをマウント
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d litellm -U llmproxy"]
       interval: 1s
@@ -55,8 +48,7 @@ services:
     restart: always
 
 volumes:
+  postgres_data:    # PostgreSQLデータ用の永続ボリュームを定義
+    driver: local
   prometheus_data:
     driver: local
-
-
-# ...rest of your docker-compose config if any
