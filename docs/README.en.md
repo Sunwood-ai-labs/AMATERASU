@@ -8,17 +8,17 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.4.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.5.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows for the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
 
 
 ## ✨ Key Features
@@ -43,7 +43,7 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it a
 - Integration with self-hosted GitLab instances
 
 
-## 🏗 System Architecture
+## 🏗️ System Architecture
 
 ```mermaid
 graph TB
@@ -57,7 +57,7 @@ graph TB
             end
             
             subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>Prompt Generation Support"]
+                PP["Prompt Pandora<br/>Prompt Generation Assistance"]
                 ECS["ECS Fargate Cluster"]
             end
         end
@@ -133,7 +133,7 @@ graph TB
 ## 🔧 Deployment Guide
 
 ### Prerequisites
-- AWS Account
+- AWS account
 - Terraform >= 0.12
 - Docker & Docker Compose
 - AWS CLI configured
@@ -198,7 +198,7 @@ cd spellbook/gitlab
 cp .env.example .env
 ```
 
-2. Set environment variables: Edit the `.env` file and configure necessary environment variables such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
+2. Set environment variables: Edit the `.env` file and set the necessary environment variables such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
 
 3. Start GitLab:
 ```bash
@@ -211,13 +211,13 @@ docker-compose up -d
 ## 📈 Operation and Management
 
 ### Monitoring
-- Metrics collection with Prometheus
+- Metric collection with Prometheus
 - Usage analysis with Langfuse
 - Resource monitoring with CloudWatch
 
 ### Scheduling
-- Automatic start/stop from 8:00 to 22:00 on weekdays
-- Manual scaling according to demand
+- Automatic start/stop from 8:00 AM to 10:00 PM on weekdays
+- Manual scaling based on demand
 - Batch job scheduling
 
 ### Security
@@ -242,30 +242,51 @@ docker-compose up -d
 
 ## 🆕 What's New
 
-### AMATERASU v1.4.0 (Latest Release)
+### AMATERASU v1.5.0 (Latest Release)
 
-- 🎉 Added `domain_name` variable for Route53 Private Hosted Zone ([a3b436d])
-  - Added the `domain_name` variable to allow external configuration of the Route53 Private Hosted Zone domain name.
-  - Set "sunwood-ai-labs.click" as the default value.
-- 🎉 Added Route53 Private Hosted Zone module ([50e2706])
-  - Added a Route53 Private Hosted Zone management module to base-infrastructure.
-  - Improved access control and security to resources within the VPC.
-- 🚀 Added Elastic IP assignment and security group rules ([b2f643e])
-  - Added functionality to assign Elastic IPs to EC2 instances.
-  - Implemented functionality to add inbound rules to security groups.
-- 🚀 Changed ALB target group target ID to private IP ([425dfd0])
-  - Reduced configuration changes required when restarting or replacing instances.
-- 🐛 Fixed ALB target group attachment ([71a53a2])
-  - Corrected to use `instance_private_ip` instead of `instance_id`.
-  - Achieved correct attachment using private IP addresses.
-- ⚠️ Changed Route53 Private Hosted Zone management method ([90d60a8])
-  - Changed from creation as a resource to a method using an existing zone as a data source.
-  - Migrated to a design that reuses existing zones and avoids unnecessary changes.
+- 🎉 Creation of GitLab environment initialization script (commit: 918b412)
+  - Automatic configuration of pipeline triggers and webhooks
+  - CI/CD variable setting function
+  - Configuration information output function
+
+- 🎉 Creation of Issue auto-labeling script using Gemini (commit: 51d2001)
+  - Automatic analysis of Issue content using the Gemini API
+  - Automatic assignment of appropriate labels
+  - Management of usable labels through environment variables
+
+- 🚀 Infrastructure environment update (commit: 39b662e)
+  - Update of VPC, subnet, and security group IDs in the AWS environment
+  - Added environment variable file and setup script path settings
+
+- ⚡ Upgrade of GitLab instance (commit: d7fcd4b)
+  - Changed instance type from t3.medium to t3.large
+
+- 📚 Detailed GitLab environment setup guide (commit: 448b7d7)
+  - Added SSH access method using AWS Systems Manager Session Manager
+  - Simplified initial root password acquisition procedure
+  - Added Docker Compose configuration information
+
+- 🔒 Creation of SSH access setup guide for GitLab (commit: e0b43aa)
+  - SSH key generation and setup procedure
+  - Connection test and troubleshooting information
+
+- 🚀 Creation of GitLab Runner setup guide (commit: 6b9368f)
+  - Runner registration procedure in a Docker environment
+  - CI/CD pipeline configuration method
+  - Cache settings and best practices
+
+- 📚 Creation of GitLab backup and restore guide (commit: 5c3a83c)
+  - Backup and restore procedures in a Docker Compose environment
+  - Automatic backup configuration method
+  - Backup management best practices
+
+- ➕ Enabling of the gitlab-runner service (commit: cf8bd94)
+  - Enabled the gitlab-runner service in docker-compose.yml
 
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
@@ -277,7 +298,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 📞 Support
 
-For questions or feedback, please feel free to contact us:
+For questions or feedback, please contact:
 - GitHub Issues: [Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
