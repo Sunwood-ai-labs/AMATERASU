@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.3.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.4.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -242,23 +242,25 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### AMATERASU v1.3.0 (最新のリリース)
+### AMATERASU v1.4.0 (最新のリリース)
 
-- 🎉 VPC、サブネット、Route53ゾーンのデータソースの定義とステータスチェックを追加しました。
-- 🎉 Elastic IPの割り当てとセキュリティグループルールの追加を行いました。
-- 🎉 Route53 Private Hosted Zone のドメイン名変数の追加、出力値の追加、変数の定義を追加しました。
-- 🎉 Route53 Private Hosted Zone モジュールの追加を行いました。
-- 🎉 Route53出力にプライベートゾーン情報を追加しました。
-- 🎉 プライベートゾーンとパブリックゾーンのレコード作成を行いました。
-- 🎉 Route53出力の改善、ALB出力の簡素化を行いました。
-- 🎉 パブリックALBとインターナルALBを統合し、単一のALBにしました。
-- 🎉 ALBセキュリティグループへのVPC内からのアクセス許可を追加しました。
-- 🎉 GitLab初期パスワード取得方法を追加しました。
-- 🎉 ホワイトリストにMaki NOTE PCを追加しました。
-- 🚀 GitLabインスタンスのサイズ変更、環境変数ファイルのパス修正、GitLab Docker Compose設定の簡素化とhostnameの固定を行いました。
-- 🚀 EC2インスタンス起動スケジュール調整、ALBターゲットグループのターゲットIDをプライベートIPに変更しました。
-- 🐛 ALB ターゲットグループへのアタッチメントを修正しました。
-- ⚠️ ホワイトリストIPアドレスの更新を行いました。
+- 🎉 Route53 Private Hosted Zoneのドメイン名変数の追加 ([a3b436d])
+  - `domain_name`変数を追加し、Route53 Private Hosted Zoneのドメイン名を外部から設定可能に
+  - デフォルト値として "sunwood-ai-labs.click" を設定
+- 🎉 Route53 Private Hosted Zone モジュールの追加 ([50e2706])
+  - base-infrastructureにRoute53 Private Hosted Zone管理モジュールを追加
+  - VPC内のリソースへのアクセス制御向上とセキュリティ強化を実現
+- 🚀 Elastic IPの割り当てとセキュリティグループルールの追加 ([b2f643e])
+  - EC2インスタンスへのElastic IP割り当て機能を追加
+  - セキュリティグループにインバウンドルール追加機能を実装
+- 🚀 ALBターゲットグループのターゲットIDをプライベートIPに変更 ([425dfd0])
+  - インスタンスの再起動や置き換え時の設定変更を軽減
+- 🐛 ALBターゲットグループへのアタッチメント修正 ([71a53a2])
+  - `instance_id`の代わりに`instance_private_ip`を使用するように修正
+  - プライベートIPアドレスでの正しいアタッチメントを実現
+- ⚠️ Route53 Private Hosted Zoneの管理方法変更 ([90d60a8])
+  - リソースとしての作成から、データソースを使用した既存ゾーンの参照方式に変更
+  - 既存のゾーンを再利用し、不要な変更を回避する設計に移行
 
 
 ## 📄 ライセンス
