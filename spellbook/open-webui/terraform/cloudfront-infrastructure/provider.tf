@@ -1,0 +1,1 @@
+# Providerの設定はmain.tfに統合しました
