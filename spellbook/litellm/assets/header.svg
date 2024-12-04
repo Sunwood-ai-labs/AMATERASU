@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="sunGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF3CAC;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FF3CAC;#FFD700;#FF3CAC" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FFD700;#FFA500;#FFD700" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FFA500;#FF3CAC;#FFA500" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <!-- Glow effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Animated sun -->
+  <g transform="translate(150, 100)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="40" fill="url(#sunGradient)">
+      <animate attributeName="r" values="38;42;38" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Sun rays -->
+    <g stroke="url(#sunGradient)" stroke-width="3">
+      <line x1="0" y1="45" x2="0" y2="60">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="45" x2="0" y2="60" transform="rotate(45)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.25s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="45" x2="0" y2="60" transform="rotate(90)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="45" x2="0" y2="60" transform="rotate(135)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.75s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="45" x2="0" y2="60" transform="rotate(180)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="45" x2="0" y2="60" transform="rotate(225)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1.25s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="45" x2="0" y2="60" transform="rotate(270)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="0" y1="45" x2="0" y2="60" transform="rotate(315)">
+        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1.75s" repeatCount="indefinite"/>
+      </line>
+    </g>
+  </g>
+
+  <!-- Main title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#sunGradient)" text-anchor="middle" filter="url(#glow)">
+    AMATERASU LiteLLM
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    Unified LLM Infrastructure
+  </text>
+  
+  <!-- Decorative energy streams -->
+  <g stroke="url(#sunGradient)" stroke-width="1.5" fill="none">
+    <path d="M100,160 C 300,140 500,180 700,140" opacity="0.6">
+      <animate attributeName="d" 
+               values="M100,160 C 300,140 500,180 700,140;
+                      M100,140 C 300,180 500,140 700,160;
+                      M100,160 C 300,140 500,180 700,140" 
+               dur="6s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
