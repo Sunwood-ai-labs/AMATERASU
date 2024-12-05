@@ -1,135 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 900 170">
-    <defs>
-        <style>
-            <![CDATA[
-                @import url("https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&display=swap");
-                .title-text {
-                    font-family: "Kaisei Decol", serif;
-                    font-weight: 700;
-                    letter-spacing: 1px;
-                }
-            ]]>
-        </style>
-
-        <!-- Background gradient with GitLab colors -->
-        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#FC6D26;">
-                <animate attributeName="stop-color" 
-                         values="#FC6D26;#E24329;#FC6D26" 
-                         dur="8s" 
-                         repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" style="stop-color:#6B1D0F;">
-                <animate attributeName="stop-color" 
-                         values="#6B1D0F;#8C1B06;#6B1D0F" 
-                         dur="8s" 
-                         repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
-
-        <!-- Text gradient -->
-        <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#ffffff">
-                <animate attributeName="stop-color" 
-                         values="#ffffff;#f8fafc;#ffffff" 
-                         dur="4s" 
-                         repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" style="stop-color:#f0f0f0">
-                <animate attributeName="stop-color" 
-                         values="#f0f0f0;#ffffff;#f0f0f0" 
-                         dur="4s" 
-                         repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
-
-        <!-- Accent gradient -->
-        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#FC6D26">
-                <animate attributeName="stop-color" 
-                         values="#FC6D26;#E24329;#FC6D26" 
-                         dur="3s" 
-                         repeatCount="indefinite" />
-            </stop>
-            <stop offset="100%" style="stop-color:#E24329">
-                <animate attributeName="stop-color" 
-                         values="#E24329;#FC6D26;#E24329" 
-                         dur="3s" 
-                         repeatCount="indefinite" />
-            </stop>
-        </linearGradient>
-
-        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
-            <feComponentTransfer>
-                <feFuncA type="linear" slope="0.6"/>
-            </feComponentTransfer>
-            <feMerge>
-                <feMergeNode/>
-                <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-        </filter>
-    </defs>
-
-    <!-- Background -->
-    <rect width="900" height="170" rx="12" ry="12" fill="url(#bgGradient)"/>
-
-    <!-- Decorative background pattern -->
-    <path d="M0,85 Q225,65 450,85 T900,85" 
-          stroke="url(#accentGradient)" 
-          stroke-width="2" 
-          fill="none" 
-          opacity="0.3">
-        <animate attributeName="d" 
-                 values="M0,85 Q225,65 450,85 T900,85;M0,85 Q225,105 450,85 T900,85;M0,85 Q225,65 450,85 T900,85" 
-                 dur="10s" 
-                 repeatCount="indefinite"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#292961"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FC6D26;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FC6D26;#E24329;#FC6D26" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#E24329;stop-opacity:1">
+        <animate attributeName="stop-color" values="#E24329;#FCA326;#E24329" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#FCA326;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FCA326;#FC6D26;#FCA326" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- GitLab logo styled elements -->
+  <g transform="translate(60, 100)" filter="url(#glow)">
+    <path d="M15,0 L-15,40 L45,40 Z" fill="url(#gradient1)" opacity="0.8">
+      <animate attributeName="opacity" values="0.6;0.9;0.6" dur="3s" repeatCount="indefinite"/>
     </path>
+  </g>
 
-    <!-- GitLab Logo (left) -->
-    <g transform="translate(120,50) scale(0.12)" fill="url(#accentGradient)" filter="url(#glow)">
-        <path d="M50 0L100 100H0L50 0 M25 50L50 100H0L25 50 M75 50L100 100H50L75 50">
-            <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from="0 50 50"
-                to="360 50 50"
-                dur="20s"
-                repeatCount="indefinite"/>
-        </path>
-    </g>
-
-    <!-- GitLab Logo (right) -->
-    <g transform="translate(720,50) scale(0.12)" fill="url(#accentGradient)" filter="url(#glow)">
-        <path d="M50 0L100 100H0L50 0 M25 50L50 100H0L25 50 M75 50L100 100H50L75 50">
-            <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from="360 50 50"
-                to="0 50 50"
-                dur="20s"
-                repeatCount="indefinite"/>
-        </path>
-    </g>
-
-    <!-- Main text -->
-    <text x="450" y="100"
-          font-size="44"
-          fill="url(#textGradient)"
-          text-anchor="middle"
-          class="title-text">
-        GitLab Docker Compose Setup
-    </text>
-
-    <!-- Decorative line -->
-    <path d="M250 130 Q450 150 650 130" 
-          stroke="url(#accentGradient)" 
-          stroke-width="2" 
-          fill="none" 
-          opacity="0.5">
-        <animate attributeName="d"
-                 values="M250 130 Q450 150 650 130;M250 125 Q450 145 650 125;M250 130 Q450 150 650 130"
-                 dur="4s"
-                 repeatCount="indefinite"/>
+  <!-- Title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle" filter="url(#glow)">
+    GitLab Environment
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#FCA326" text-anchor="middle">
+    Docker-based Development Platform
+  </text>
+  
+  <!-- Decorative lines -->
+  <g stroke="url(#gradient1)" stroke-width="1.5" fill="none">
+    <path d="M100,160 C 300,140 500,180 700,140" opacity="0.6">
+      <animate attributeName="d" 
+               values="M100,160 C 300,140 500,180 700,140;
+                      M100,140 C 300,180 500,140 700,160;
+                      M100,160 C 300,140 500,180 700,140" 
+               dur="6s" repeatCount="indefinite"/>
     </path>
+  </g>
 </svg>
