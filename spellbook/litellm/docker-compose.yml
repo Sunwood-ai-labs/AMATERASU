@@ -1,15 +1,12 @@
 version: "3.11"
 services:
   litellm:
-    build:
-      context: .
-      args:
-        target: runtime
-    image: ghcr.io/berriai/litellm:main-stable
+    image: ghcr.io/berriai/litellm:main-latest
     volumes:
      - ./config.yaml:/app/config.yaml
-    command:
+    command: 
      - "--config=/app/config.yaml"
+    #  - "--debug"
     ports:
       - "80:4000"
     environment:
