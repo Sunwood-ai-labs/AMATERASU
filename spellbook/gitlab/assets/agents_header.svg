@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#2D333F"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:1">
+        <animate attributeName="stop-color" values="#7C3AED;#4F46E5;#7C3AED" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#4F46E5;stop-opacity:1">
+        <animate attributeName="stop-color" values="#4F46E5;#2563EB;#4F46E5" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1">
+        <animate attributeName="stop-color" values="#2563EB;#7C3AED;#2563EB" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- AI/Agent symbol -->
+  <g transform="translate(60, 100)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="url(#gradient1)" stroke-width="2">
+      <animate attributeName="r" values="28;32;28" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M-15,-15 L15,15 M-15,15 L15,-15" stroke="url(#gradient1)" stroke-width="2">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle" filter="url(#glow)">
+    GitLab Agents
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#6D7280" text-anchor="middle">
+    Intelligent Automation Layer
+  </text>
+  
+  <!-- Neural network style connections -->
+  <g stroke="url(#gradient1)" stroke-width="1" fill="none">
+    <path d="M100,160 Q 300,60 500,160 T 700,100" opacity="0.4">
+      <animate attributeName="d" 
+               values="M100,160 Q 300,60 500,160 T 700,100;
+                      M100,100 Q 300,200 500,100 T 700,160;
+                      M100,160 Q 300,60 500,160 T 700,100" 
+               dur="8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

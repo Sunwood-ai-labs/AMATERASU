@@ -18,6 +18,24 @@ model_list:
       aws_region_name: us-east-1
 
   # ----------------------------------------------
+  # ===== Amazon Bedrock Nova Models =====
+  # ----------------------------------------------
+  - model_name: bedrock/nova-micro
+    litellm_params:
+      model: bedrock/us.amazon.nova-micro-v1:0
+      aws_region_name: us-east-1
+
+  - model_name: bedrock/nova-lite
+    litellm_params:
+      model: bedrock/us.amazon.nova-lite-v1:0
+      aws_region_name: us-east-1
+
+  - model_name: bedrock/nova-pro
+    litellm_params:
+      model: bedrock/us.amazon.nova-pro-v1:0
+      aws_region_name: us-east-1
+
+  # ----------------------------------------------
   # ===== Amazon Bedrock Embedding Models =====
   # ----------------------------------------------
   - model_name: bedrock/amazon.titan-embed-text-v1
@@ -41,6 +59,10 @@ model_list:
   - model_name: gpt-4o-mini
     litellm_params:
       model: openai/gpt-4o-mini                         # OpenAIのAPI呼び出しに使用
+      api_key: os.environ/OPENAI_API_KEY
+  - model_name: gpt-4o
+    litellm_params:
+      model: openai/gpt-4o                         # OpenAIのAPI呼び出しに使用
       api_key: os.environ/OPENAI_API_KEY
 
   # ----------------------------------------------

@@ -8,8 +8,10 @@ from dotenv import load_dotenv
 from pyngrok import ngrok
 import uvicorn
 import json
-import logging
+from loguru import logger
 from functools import lru_cache
+
+from fastapi.responses import RedirectResponse
 
 # 環境変数の読み込み
 load_dotenv()
@@ -96,6 +98,11 @@ def get_labels_from_llm(title: str, description: str) -> List[str]:
     except Exception as e:
         logger.error(f"Error in label generation: {str(e)}")
         return []
+
+@app.get("/")
+async def root():
+    """ルートパスへのアクセスを/docsにリダイレクト"""
+    return RedirectResponse(url="/docs")
 
 @app.on_event("startup")
 async def startup_event():
