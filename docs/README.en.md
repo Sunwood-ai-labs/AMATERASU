@@ -8,40 +8,41 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.6.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.6.1)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been enhanced to run each AI service as an independent EC2 instance using Docker Compose, enabling easier deployment with Terraform.
+
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows you to develop and operate LLM-powered applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management. AMATERASU v1.6.0 enhances GitLab environment setup and LLM reviewer functionality.
+AMATERASU is an enterprise-grade private AI platform.  Built on AWS Bedrock, it allows you to develop and operate LLM-powered applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  AMATERASU v1.6.1 adds test scripts for Bedrock Nova models, along with several other enhancements and bug fixes.
 
 
 ## ✨ Key Features
 
 ### Secure Foundation
 - Secure LLM foundation based on AWS Bedrock
-- Operation in a completely closed environment
+- Operation in a fully closed environment
 - Enterprise-grade security
 
-### Microservice Architecture
+### Microservices Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment with Terraform
+- Fully automated deployment using Terraform
 - Environment-specific configuration management
-- Version-controlled configuration
+- Version-controlled infrastructure
 
 ### GitLab Integration
-- Improved version control, CI/CD pipelines, and project management features
+- Enhanced version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
-- LLM-powered merge request analysis functionality
+- LLM-powered merge request analysis
 - Automated labeling service using GitLab Webhooks
 
 
@@ -120,13 +121,13 @@ graph TB
 ### 4. GitLab (Version Control)
 - Self-hosted GitLab instance
 - Project and code management
-- CI pipeline and GitLab Runner
+- CI pipelines and GitLab Runner
 - Backup and restore functionality
 - LDAP/Active Directory integration
 - Customizable authentication and access control
 
 ### 5. FG-prompt-pandora (Fargate Sample Application)
-- Auto-scaling on AWS Fargate
+- Autoscaling on AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
 - Easy deployment with a simple Docker image
@@ -136,7 +137,7 @@ graph TB
 ## 🔧 Deployment Guide
 
 ### Prerequisites
-- AWS account
+- AWS Account
 - Terraform >= 0.12
 - Docker & Docker Compose
 - AWS CLI configured
@@ -202,23 +203,23 @@ docker-compose up -d
 
 ### GitLab Setup
 
-1. Create environment configuration file:
+1. Create the environment configuration file:
 ```bash
 cd spellbook/gitlab
 cp .env.example .env
 ```
 
-2. Set environment variables: Edit the `.env` file and set the necessary environment variables such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
+2. Set environment variables: Edit the `.env` file and set the necessary environment variables, such as `GITLAB_HOME`, `GITLAB_HOSTNAME`, `GITLAB_ROOT_PASSWORD`.
 
 3. Start GitLab:
 ```bash
 docker-compose up -d
 ```
 
-4. Configure backup (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
+4. Configure backups (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
 
 
-## 📈 Operation and Management
+## 📈 Operations Management
 
 ### Monitoring
 - Metrics collection with Prometheus
@@ -226,8 +227,8 @@ docker-compose up -d
 - Resource monitoring with CloudWatch
 
 ### Scheduling
-- Automatic start/stop from 8:00 AM to 10:00 PM on weekdays
-- Manual scaling according to demand
+- Automatic start/stop from 8:00 to 22:00 on weekdays
+- Manual scaling based on demand
 - Batch job scheduling
 
 ### Security
@@ -240,7 +241,7 @@ docker-compose up -d
 ### Prompt Engineering Support
 - Optimal prompt generation from task descriptions
 - Suggestions for improving existing prompts
-- Management and sharing of prompt templates
+- Prompt template management and sharing
 - Standardization of prompt quality across the team
 
 ### LLM Application Development
@@ -252,28 +253,36 @@ docker-compose up -d
 
 ## 🆕 What's New
 
-### AMATERASU v1.6.0 (Latest Release)
+### AMATERASU v1.6.1 (Latest Release)
 
-- 🎉 **Implementation of LLM-powered merge request analysis functionality**: Includes OpenAI API integration, prompt engineering for generating review results, saving analysis results to JSON files, defining data structures using data classes, error handling and logging, and configuration via environment variables.
+- 🎉 **Added Bedrock Nova Model Test Scripts**: Added scripts to automate testing of Bedrock Nova models (`bedrock/nova-micro`, `bedrock/nova-lite`, `bedrock/nova-pro`).  Logs response time, content, and token usage. Uses `text2art` and `loguru` libraries.
+- 🎉 **Expanded LiteLLM Configuration File and Added AWS Configuration**: Added OpenAI, Anthropic, Google Gemini, and AWS API key and credential fields to the `.env.example` file. AWS configuration includes access key ID, secret access key, and default region (Tokyo) settings.
+- 🚀 **Removed Unnecessary Log Settings**: Removed unnecessary log settings from the `loguru` library for simplification.
+- ⚠️  **Changed Bedrock Model Specification in `config.yaml` and Corrected Region Specification**: Changed notation like `bedrock/us.amazon.nova-micro-v1:0` to `bedrock/amazon.nova-micro-v1:0` and corrected the region specification for Bedrock models.
+
+
+### AMATERASU v1.6.0 (Previous Release)
+
+- 🎉 **Implemented LLM-powered Merge Request Analysis Feature**: Includes OpenAI API integration, prompt engineering for generating review results, saving analysis results to JSON files, defining data structures using data classes, error handling and logging, and configuration via environment variables.
     - Outputs reviews and improvement suggestions from the perspectives of code quality, security, testing, and architecture.
-- 🎉 **Implementation of automated labeling service using GitLab Webhooks**: Includes a FastAPI-based webhook server, integration with the GitLab API and OpenAI API (via LiteLLM Proxy), automatic label assignment from Issue titles and descriptions using LLM, ngrok configuration for public URLs in the development environment (development environment only), addition of health check endpoints and logging functionality, authentication via webhook tokens, error handling and exception handling, preservation of existing labels and addition of new labels, enhanced logging functionality, environment variable-based configuration management, type hints and docstrings for improved code quality.
-    - Automatically assigns appropriate labels using LLM triggered by Issue events.
-- 🚀 **Creation of README.md for GitLab service**: Describes directory structure and Webhook configuration.
-- 🚀 **Creation of README.md for GitLab Runner**: Describes configuration, Runner registration methods, and precautions.
-- 🚀 **Creation of README.md for the `services` directory**: Describes service configuration and configuration management.
-- 🚀 **Design change of `services_header.svg`**: Added animation, changed gradient colors, and added shadows.
-- 🚀 **Design change of `agents_header.svg`**: Added animation, changed gradient colors, and added shadows.
-- 🚀 **Creation of GitLab configuration directory**: Created a configuration directory.
-- 🚀 **Creation of GitLab data directory**: Created a data directory.
-- 🚀 **Creation of GitLab log directory**: Created a log directory.
-- 🚀 **Creation of GitLab backup directory**: Created a backup directory.
-- 🚀 **Creation of GitLab Runner configuration directory**: Created a configuration directory.
-- 🚀 **Update of dependent libraries**: Updated versions of FastAPI, uvicorn, python-gitlab, openai, python-dotenv, pydantic, pyngrok, loguru, rich, and argparse.
+- 🎉 **Implemented Automated Labeling Service using GitLab Webhooks**: Includes a FastAPI-based webhook server, integration with the GitLab API and OpenAI API (via LiteLLM Proxy), automatic labeling of issues based on title and description using LLMs, ngrok setup for public URLs in development environments (development environment only), health check endpoints and logging, webhook token authentication, error handling and exception handling, preserving existing labels and adding new labels, enhanced logging, environment variable configuration management, type hints, and docstrings for improved code quality.
+    - Automatically assigns appropriate labels using LLMs, triggered by issue events.
+- 🚀 **Created README.md for GitLab service**: Describes directory structure and webhook settings.
+- 🚀 **Created README.md for GitLab Runner**: Describes configuration, Runner registration, and precautions.
+- 🚀 **Created README.md for the `services` directory**: Describes service composition and configuration management.
+- 🚀 **Redesigned `services_header.svg`**: Added animation, changed gradient colors, and added shadows.
+- 🚀 **Redesigned `agents_header.svg`**: Added animation, changed gradient colors, and added shadows.
+- 🚀 **Created GitLab configuration directory**: Created a configuration directory.
+- 🚀 **Created GitLab data directory**: Created a data directory.
+- 🚀 **Created GitLab log directory**: Created a log directory.
+- 🚀 **Created GitLab backup directory**: Created a backup directory.
+- 🚀 **Created GitLab Runner configuration directory**: Created a configuration directory.
+- 🚀 **Updated dependency libraries**: Updated versions of FastAPI, uvicorn, python-gitlab, openai, python-dotenv, pydantic, pyngrok, loguru, rich, and argparse.
 
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributions
 
@@ -285,7 +294,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 📞 Support
 
-For questions or feedback, please feel free to contact us:
+For questions or feedback, please contact us:
 - GitHub Issues: [Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 
@@ -295,4 +304,4 @@ Thanks to Maki and iris-s-coon for their contributions.
 
 ---
 
-Build your enterprise-grade AI platform with AMATERASU. ✨
+Build your enterprise-grade AI platform with AMATERASU! ✨
