@@ -8,17 +8,17 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.5.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.6.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
 
 >[!NOTE]
 >AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it allows you to develop and operate LLM-powered applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management. AMATERASU v1.6.0 enhances GitLab environment setup and LLM reviewer functionality.
 
 
 ## ✨ Key Features
@@ -39,8 +39,10 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock, it a
 - Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management features
+- Improved version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
+- LLM-powered merge request analysis functionality
+- Automated labeling service using GitLab Webhooks
 
 
 ## 🏗️ System Architecture
@@ -57,7 +59,7 @@ graph TB
             end
             
             subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>Prompt Generation Assistance"]
+                PP["Prompt Pandora<br/>Prompt Generation Support"]
                 ECS["ECS Fargate Cluster"]
             end
         end
@@ -130,6 +132,7 @@ graph TB
 - Easy deployment with a simple Docker image
 - Sample integration with the AMATERASU environment
 
+
 ## 🔧 Deployment Guide
 
 ### Prerequisites
@@ -152,7 +155,7 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
-3. Deploy infrastructure
+3. Deploy infrastructure (You need to deploy the infrastructure for each service in the `spellbook` directory individually.)
 ```bash
 cd spellbook/base-infrastructure
 terraform init && terraform apply
@@ -165,9 +168,16 @@ terraform init && terraform apply
 
 cd ../../langfuse/terraform/main-infrastructure
 terraform init && terraform apply
+
+cd ../../gitlab/terraform/main-infrastructure
+terraform init && terraform apply
+
+cd ../../FG-prompt-pandora/terraform
+terraform init && terraform apply
 ```
 
-4. Start services
+4. Start services (You need to start each service in the `spellbook` directory individually.)
+
 ```bash
 # Langfuse
 cd ../../../langfuse
@@ -205,19 +215,19 @@ cp .env.example .env
 docker-compose up -d
 ```
 
-4. Configure backups (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
+4. Configure backup (optional): Create a backup directory and run the `docker-compose exec gitlab gitlab-backup create` command to perform a backup.
 
 
 ## 📈 Operation and Management
 
 ### Monitoring
-- Metric collection with Prometheus
+- Metrics collection with Prometheus
 - Usage analysis with Langfuse
 - Resource monitoring with CloudWatch
 
 ### Scheduling
 - Automatic start/stop from 8:00 AM to 10:00 PM on weekdays
-- Manual scaling based on demand
+- Manual scaling according to demand
 - Batch job scheduling
 
 ### Security
@@ -242,53 +252,30 @@ docker-compose up -d
 
 ## 🆕 What's New
 
-### AMATERASU v1.5.0 (Latest Release)
+### AMATERASU v1.6.0 (Latest Release)
 
-- 🎉 Creation of GitLab environment initialization script (commit: 918b412)
-  - Automatic configuration of pipeline triggers and webhooks
-  - CI/CD variable setting function
-  - Configuration information output function
-
-- 🎉 Creation of Issue auto-labeling script using Gemini (commit: 51d2001)
-  - Automatic analysis of Issue content using the Gemini API
-  - Automatic assignment of appropriate labels
-  - Management of usable labels through environment variables
-
-- 🚀 Infrastructure environment update (commit: 39b662e)
-  - Update of VPC, subnet, and security group IDs in the AWS environment
-  - Added environment variable file and setup script path settings
-
-- ⚡ Upgrade of GitLab instance (commit: d7fcd4b)
-  - Changed instance type from t3.medium to t3.large
-
-- 📚 Detailed GitLab environment setup guide (commit: 448b7d7)
-  - Added SSH access method using AWS Systems Manager Session Manager
-  - Simplified initial root password acquisition procedure
-  - Added Docker Compose configuration information
-
-- 🔒 Creation of SSH access setup guide for GitLab (commit: e0b43aa)
-  - SSH key generation and setup procedure
-  - Connection test and troubleshooting information
-
-- 🚀 Creation of GitLab Runner setup guide (commit: 6b9368f)
-  - Runner registration procedure in a Docker environment
-  - CI/CD pipeline configuration method
-  - Cache settings and best practices
-
-- 📚 Creation of GitLab backup and restore guide (commit: 5c3a83c)
-  - Backup and restore procedures in a Docker Compose environment
-  - Automatic backup configuration method
-  - Backup management best practices
-
-- ➕ Enabling of the gitlab-runner service (commit: cf8bd94)
-  - Enabled the gitlab-runner service in docker-compose.yml
+- 🎉 **Implementation of LLM-powered merge request analysis functionality**: Includes OpenAI API integration, prompt engineering for generating review results, saving analysis results to JSON files, defining data structures using data classes, error handling and logging, and configuration via environment variables.
+    - Outputs reviews and improvement suggestions from the perspectives of code quality, security, testing, and architecture.
+- 🎉 **Implementation of automated labeling service using GitLab Webhooks**: Includes a FastAPI-based webhook server, integration with the GitLab API and OpenAI API (via LiteLLM Proxy), automatic label assignment from Issue titles and descriptions using LLM, ngrok configuration for public URLs in the development environment (development environment only), addition of health check endpoints and logging functionality, authentication via webhook tokens, error handling and exception handling, preservation of existing labels and addition of new labels, enhanced logging functionality, environment variable-based configuration management, type hints and docstrings for improved code quality.
+    - Automatically assigns appropriate labels using LLM triggered by Issue events.
+- 🚀 **Creation of README.md for GitLab service**: Describes directory structure and Webhook configuration.
+- 🚀 **Creation of README.md for GitLab Runner**: Describes configuration, Runner registration methods, and precautions.
+- 🚀 **Creation of README.md for the `services` directory**: Describes service configuration and configuration management.
+- 🚀 **Design change of `services_header.svg`**: Added animation, changed gradient colors, and added shadows.
+- 🚀 **Design change of `agents_header.svg`**: Added animation, changed gradient colors, and added shadows.
+- 🚀 **Creation of GitLab configuration directory**: Created a configuration directory.
+- 🚀 **Creation of GitLab data directory**: Created a data directory.
+- 🚀 **Creation of GitLab log directory**: Created a log directory.
+- 🚀 **Creation of GitLab backup directory**: Created a backup directory.
+- 🚀 **Creation of GitLab Runner configuration directory**: Created a configuration directory.
+- 🚀 **Update of dependent libraries**: Updated versions of FastAPI, uvicorn, python-gitlab, openai, python-dotenv, pydantic, pyngrok, loguru, rich, and argparse.
 
 
 ## 📄 License
 
-This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## 🤝 Contributions
 
 1. Fork this repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -298,7 +285,7 @@ This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For questions or feedback, please contact:
+For questions or feedback, please feel free to contact us:
 - GitHub Issues: [Issues](https://github.com/Sunwood-ai-labs/AMATERASU/issues)
 - Email: support@sunwoodai.com
 

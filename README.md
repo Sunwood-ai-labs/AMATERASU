@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.5.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.6.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,7 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS Bedrockをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS Bedrockをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  AMATERASU v1.6.0では、GitLab環境構築とLLMレビューアー機能を強化しました。
 
 
 ## ✨ 主な機能
@@ -41,6 +41,8 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 ### GitLab統合
 - バージョン管理、CI/CDパイプライン、プロジェクト管理機能の向上
 - セルフホスト型GitLabインスタンスの統合
+- LLMを用いたマージリクエスト分析機能
+- GitLab Webhookを用いた自動ラベル付けサービス
 
 
 ## 🏗️ システムアーキテクチャ
@@ -130,6 +132,7 @@ graph TB
 - シンプルなDockerイメージによる容易なデプロイ
 - AMATERASU環境への統合サンプル
 
+
 ## 🔧 デプロイメントガイド
 
 ### 前提条件
@@ -152,7 +155,7 @@ cp .env.example .env
 # Edit .env with your configuration
 ```
 
-3. インフラのデプロイ
+3. インフラのデプロイ (spellbookディレクトリ内の各サービスのインフラを個別にデプロイする必要があります。)
 ```bash
 cd spellbook/base-infrastructure
 terraform init && terraform apply
@@ -165,9 +168,16 @@ terraform init && terraform apply
 
 cd ../../langfuse/terraform/main-infrastructure
 terraform init && terraform apply
+
+cd ../../gitlab/terraform/main-infrastructure
+terraform init && terraform apply
+
+cd ../../FG-prompt-pandora/terraform
+terraform init && terraform apply
 ```
 
-4. サービスの起動
+4. サービスの起動 (spellbookディレクトリ内の各サービスを個別に起動する必要があります。)
+
 ```bash
 # Langfuse
 cd ../../../langfuse
@@ -242,46 +252,23 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### AMATERASU v1.5.0 (最新のリリース)
+### AMATERASU v1.6.0 (最新のリリース)
 
-- 🎉 GitLab環境の初期設定スクリプトの作成 (commit: 918b412)
-  - パイプライントリガーとWebhookの自動設定機能
-  - CI/CD変数設定機能
-  - 設定情報の出力機能
-
-- 🎉 Geminiを用いたIssue自動ラベル付けスクリプト作成 (commit: 51d2001)
-  - Gemini APIによるIssue内容の自動分析
-  - 適切なラベルの自動付与機能
-  - 環境変数による利用可能ラベルの管理
-
-- 🚀 インフラ環境更新 (commit: 39b662e)
-  - AWS環境のVPC、サブネット、セキュリティグループのID更新
-  - 環境変数ファイルとセットアップスクリプトパスの設定追加
-
-- ⚡ GitLabインスタンスのアップグレード (commit: d7fcd4b)
-  - インスタンスタイプをt3.mediumからt3.largeに変更
-
-- 📚 GitLab環境構築ガイドの詳細化 (commit: 448b7d7)
-  - AWS Systems Manager Session Managerを用いたSSHアクセス方法の追加
-  - 初期rootパスワード取得手順の簡素化
-  - Docker Compose設定情報の追加
-
-- 🔒 GitLabへのSSHアクセス設定ガイド作成 (commit: e0b43aa)
-  - SSH鍵の生成と設定手順
-  - 接続テストとトラブルシューティング情報
-
-- 🚀 GitLab Runner設定ガイド作成 (commit: 6b9368f)
-  - Docker環境でのRunner登録手順
-  - CI/CDパイプライン設定方法
-  - キャッシュ設定とベストプラクティス
-
-- 📚 GitLabバックアップ・復元ガイド作成 (commit: 5c3a83c)
-  - Docker Compose環境でのバックアップと復元手順
-  - 自動バックアップの設定方法
-  - バックアップ管理のベストプラクティス
-
-- ➕ gitlab-runnerサービスの有効化 (commit: cf8bd94)
-  - docker-compose.ymlにてgitlab-runnerサービスを有効化
+- 🎉 **LLMを用いたマージリクエスト分析機能実装**: OpenAI APIとの連携、プロンプトエンジニアリングによるレビュー結果の生成、分析結果のJSONファイルへの保存、データクラスを用いたデータ構造の定義、エラーハンドリングとログ出力、環境変数による設定などを含みます。
+    - コード品質、セキュリティ、テスト、アーキテクチャの観点からのレビューと改善提案を出力します。
+- 🎉 **GitLab Webhookを用いた自動ラベル付けサービス実装**: FastAPIを用いたWebhookサーバー、GitLab APIとOpenAI API(LiteLLM Proxy経由)との連携、LLMによるIssueタイトルと説明からのラベル自動付与、ngrokを用いた開発環境での公開URL設定(開発環境のみ)、ヘルスチェックエンドポイントとログ出力機能の追加、Webhookトークンによる認証、エラー処理と例外ハンドリング、既存ラベルの保持と新規ラベルの追加、ログ出力機能強化、環境変数による設定管理、型ヒントとDocstringsによるコード品質向上など。
+    - Issueイベントをトリガーとして、LLMを使用して自動的に適切なラベルを付与します。
+- 🚀 **GitLabサービスのREADME.md作成**: ディレクトリ構造、Webhook設定について記述しました。
+- 🚀 **GitLab RunnerのREADME.md作成**: 設定、Runner登録方法、注意事項について記述しました。
+- 🚀 **servicesディレクトリのREADME.md作成**: サービス構成、設定管理について記述しました。
+- 🚀 **services_header.svgのデザイン変更**: アニメーション追加、グラデーションの色変更、影の追加を行いました。
+- 🚀 **agents_header.svgのデザイン変更**: アニメーション追加、グラデーションの色変更、影の追加を行いました。
+- 🚀 **GitLab設定ディレクトリ作成**: 設定ディレクトリを作成しました。
+- 🚀 **GitLabデータディレクトリ作成**: データディレクトリを作成しました。
+- 🚀 **GitLabログディレクトリ作成**: ログディレクトリを作成しました。
+- 🚀 **GitLabバックアップディレクトリ作成**: バックアップディレクトリを作成しました。
+- 🚀 **GitLab Runner設定ディレクトリ作成**: 設定ディレクトリを作成しました。
+- 🚀 **依存ライブラリの更新**: FastAPI, uvicorn, python-gitlab, openai, python-dotenv, pydantic, pyngrok, loguru, rich, argparseのバージョン更新を行いました。
 
 
 ## 📄 ライセンス
