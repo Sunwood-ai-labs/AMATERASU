@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.4.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.5.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -43,7 +43,7 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 - セルフホスト型GitLabインスタンスの統合
 
 
-## 🏗 システムアーキテクチャ
+## 🏗️ システムアーキテクチャ
 
 ```mermaid
 graph TB
@@ -242,25 +242,46 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### AMATERASU v1.4.0 (最新のリリース)
+### AMATERASU v1.5.0 (最新のリリース)
 
-- 🎉 Route53 Private Hosted Zoneのドメイン名変数の追加 ([a3b436d])
-  - `domain_name`変数を追加し、Route53 Private Hosted Zoneのドメイン名を外部から設定可能に
-  - デフォルト値として "sunwood-ai-labs.click" を設定
-- 🎉 Route53 Private Hosted Zone モジュールの追加 ([50e2706])
-  - base-infrastructureにRoute53 Private Hosted Zone管理モジュールを追加
-  - VPC内のリソースへのアクセス制御向上とセキュリティ強化を実現
-- 🚀 Elastic IPの割り当てとセキュリティグループルールの追加 ([b2f643e])
-  - EC2インスタンスへのElastic IP割り当て機能を追加
-  - セキュリティグループにインバウンドルール追加機能を実装
-- 🚀 ALBターゲットグループのターゲットIDをプライベートIPに変更 ([425dfd0])
-  - インスタンスの再起動や置き換え時の設定変更を軽減
-- 🐛 ALBターゲットグループへのアタッチメント修正 ([71a53a2])
-  - `instance_id`の代わりに`instance_private_ip`を使用するように修正
-  - プライベートIPアドレスでの正しいアタッチメントを実現
-- ⚠️ Route53 Private Hosted Zoneの管理方法変更 ([90d60a8])
-  - リソースとしての作成から、データソースを使用した既存ゾーンの参照方式に変更
-  - 既存のゾーンを再利用し、不要な変更を回避する設計に移行
+- 🎉 GitLab環境の初期設定スクリプトの作成 (commit: 918b412)
+  - パイプライントリガーとWebhookの自動設定機能
+  - CI/CD変数設定機能
+  - 設定情報の出力機能
+
+- 🎉 Geminiを用いたIssue自動ラベル付けスクリプト作成 (commit: 51d2001)
+  - Gemini APIによるIssue内容の自動分析
+  - 適切なラベルの自動付与機能
+  - 環境変数による利用可能ラベルの管理
+
+- 🚀 インフラ環境更新 (commit: 39b662e)
+  - AWS環境のVPC、サブネット、セキュリティグループのID更新
+  - 環境変数ファイルとセットアップスクリプトパスの設定追加
+
+- ⚡ GitLabインスタンスのアップグレード (commit: d7fcd4b)
+  - インスタンスタイプをt3.mediumからt3.largeに変更
+
+- 📚 GitLab環境構築ガイドの詳細化 (commit: 448b7d7)
+  - AWS Systems Manager Session Managerを用いたSSHアクセス方法の追加
+  - 初期rootパスワード取得手順の簡素化
+  - Docker Compose設定情報の追加
+
+- 🔒 GitLabへのSSHアクセス設定ガイド作成 (commit: e0b43aa)
+  - SSH鍵の生成と設定手順
+  - 接続テストとトラブルシューティング情報
+
+- 🚀 GitLab Runner設定ガイド作成 (commit: 6b9368f)
+  - Docker環境でのRunner登録手順
+  - CI/CDパイプライン設定方法
+  - キャッシュ設定とベストプラクティス
+
+- 📚 GitLabバックアップ・復元ガイド作成 (commit: 5c3a83c)
+  - Docker Compose環境でのバックアップと復元手順
+  - 自動バックアップの設定方法
+  - バックアップ管理のベストプラクティス
+
+- ➕ gitlab-runnerサービスの有効化 (commit: cf8bd94)
+  - docker-compose.ymlにてgitlab-runnerサービスを有効化
 
 
 ## 📄 ライセンス
