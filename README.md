@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.6.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.6.1)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,7 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS Bedrockをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  AMATERASU v1.6.0では、GitLab環境構築とLLMレビューアー機能を強化しました。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS Bedrockをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  AMATERASU v1.6.1では、Bedrock Novaモデルのテストスクリプトを追加し、その他いくつかの機能強化と修正を行いました。
 
 
 ## ✨ 主な機能
@@ -252,7 +252,15 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### AMATERASU v1.6.0 (最新のリリース)
+### AMATERASU v1.6.1 (最新のリリース)
+
+- 🎉 **Bedrock Novaモデルテストスクリプト追加**:  Bedrock Novaモデル(`bedrock/nova-micro`, `bedrock/nova-lite`, `bedrock/nova-pro`)のテストを自動化するスクリプトを追加しました。応答時間、応答内容、トークン使用量などをログ出力します。`text2art`と`loguru`ライブラリを使用しています。
+- 🎉 **LiteLLM設定ファイルの拡張とAWS設定の追加**: `.env.example`ファイルにOpenAI、Anthropic、Google Gemini、AWSのAPIキーと認証情報の項目を追加しました。AWS設定にはアクセスキーID、シークレットアクセスキー、デフォルトリージョン（東京）の設定が含まれています。
+- 🚀 **不要なログ設定削除**: `loguru`ライブラリの不要なログ設定を削除し、簡素化しました。
+- ⚠️  **`config.yaml`ファイル内のBedrockモデルの指定方法変更と地域指定の修正**: `bedrock/us.amazon.nova-micro-v1:0` のような表記を `bedrock/amazon.nova-micro-v1:0` に変更し、Bedrockモデルのリージョン指定を修正しました。
+
+
+### AMATERASU v1.6.0 (以前のリリース)
 
 - 🎉 **LLMを用いたマージリクエスト分析機能実装**: OpenAI APIとの連携、プロンプトエンジニアリングによるレビュー結果の生成、分析結果のJSONファイルへの保存、データクラスを用いたデータ構造の定義、エラーハンドリングとログ出力、環境変数による設定などを含みます。
     - コード品質、セキュリティ、テスト、アーキテクチャの観点からのレビューと改善提案を出力します。
