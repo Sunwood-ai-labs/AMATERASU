@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-gitlab
+openai
+python-dotenv
+pydantic
+pyngrok
+loguru
+rich
+argparse
