@@ -3,14 +3,6 @@ from loguru import logger
 import sys
 from typing import List, Optional
 
-# loguruのログ設定
-logger.remove()
-logger.add(
-    sys.stdout,
-    format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{message}</cyan>",
-    level="INFO"
-)
-
 class ModelInfo:
     def __init__(self, name: str, provider: Optional[str], description: str):
         self.name = name
