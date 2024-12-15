@@ -4,11 +4,12 @@ services:
     image: ghcr.io/berriai/litellm:main-latest
     volumes:
      - ./config.yaml:/app/config.yaml
+     - ./vertex-ai-key.json:/app/vertex-ai-key.json
     command: 
      - "--config=/app/config.yaml"
-    #  - "--debug"
+     - "--debug"
     ports:
-      - "80:4000"
+      - "${LITELLM_PORT:-4000}:4000"
     environment:
         DATABASE_URL: "postgresql://llmproxy:dbpassword9090@db:5432/litellm"
         STORE_MODEL_IN_DB: "True"
@@ -24,7 +25,7 @@ services:
       POSTGRES_USER: llmproxy
       POSTGRES_PASSWORD: dbpassword9090
     volumes:
-      - postgres_data:/var/lib/postgresql/data  # データの永続化用のボリュームをマウント
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d litellm -U llmproxy"]
       interval: 1s
@@ -45,7 +46,7 @@ services:
     restart: always
 
 volumes:
-  postgres_data:    # PostgreSQLデータ用の永続ボリュームを定義
+  postgres_data:
     driver: local
   prometheus_data:
     driver: local
