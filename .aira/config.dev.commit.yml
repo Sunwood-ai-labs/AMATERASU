@@ -21,6 +21,7 @@ aira:
         process_commits: true
 
 # aira --mode sourcesage commit  --config=.aira\config.dev.commit.yml --ss-model-name="gemini/gemini-1.5-pro-latest" --llm-output="llm_output.md" --ignore-file=".iris.SourceSageignore"
-# aira --mode sourcesage commit  --config=.aira\config.dev.commit.yml --ss-model-name="gemini/gemini-1.5-flash-002" --llm-output="llm_output.md"
+# aira --mode sourcesage commit  --config=.aira/config.dev.commit.yml --ss-model-name="gemini/gemini-1.5-flash-002" --llm-output="llm_output.md"
+# aira --mode sourcesage commit  --config=.aira/config.dev.commit.yml --ss-model-name="gemini/gemini-1.5-flash-002" --stage-info-file=".SourceSageAssets/COMMIT_CRAFT/STAGE_INFO/STAGE_INFO_AND_PROMT_GAIAH_B.md" --llm-output="llm_output.md" 
 # aira --mode sourcesage commit  --config=.aira\config.dev.commit.yml --ss-model-name="gpt-4o-mini" --llm-output="llm_output.md"
 # sourcesage --ignore-file=".iris.SourceSageignore"

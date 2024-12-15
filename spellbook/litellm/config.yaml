@@ -83,5 +83,68 @@ model_list:
       model: claude-3-haiku-20240307
       api_key: "os.environ/ANTHROPIC_API_KEY"
 
+  # ----------------------------------------------
+  # ===== Google Vertex AI Models =====
+  # ----------------------------------------------
+  - model_name: Vertex_AI/gemini-pro
+    litellm_params:
+      model: vertex_ai/gemini-pro
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-2.0-flash-exp
+    litellm_params:
+      model: vertex_ai/gemini-2.0-flash-exp
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-pro-001
+    litellm_params:
+      model: vertex_ai/gemini-1.5-pro-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-pro-002
+    litellm_params:
+      model: vertex_ai/gemini-1.5-pro-002
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-flash-001
+    litellm_params:
+      model: vertex_ai/gemini-1.5-flash-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-flash-002
+    litellm_params:
+      model: vertex_ai/gemini-1.5-flash-002
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro-001
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro-002
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro-002
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro-vision-001
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro-vision-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
 litellm_settings:
     drop_params: true
