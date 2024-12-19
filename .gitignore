@@ -171,3 +171,4 @@ spellbook/base-infrastructure/whitelist.csv
 aws
 spellbook/base-infrastructure/.pluralith
 spellbook/base-infrastructure/Pluralith_Diagram.*
+spellbook/open-webui/terraform/main-infrastructure/Pluralith_Diagram.pdf
