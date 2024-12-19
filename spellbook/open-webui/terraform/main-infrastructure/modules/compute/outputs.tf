@@ -22,8 +22,3 @@ output "elastic_ip" {
   description = "Elastic IP address assigned to the instance"
   value       = aws_eip.app_server.public_ip
 }
-
-output "security_rule_created" {
-  description = "Indicates whether a new security group rule was created"
-  value       = aws_vpc_security_group_ingress_rule.eip.id != null
-}
