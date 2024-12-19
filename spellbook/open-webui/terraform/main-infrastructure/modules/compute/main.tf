@@ -71,24 +71,22 @@ resource "aws_eip" "app_server" {
   tags = {
     Name = "${var.project_name}-eip"
   }
-
-  depends_on = [aws_instance.app_server]
 }
 
 # セキュリティグループルール
-resource "aws_vpc_security_group_ingress_rule" "eip" {
+resource "aws_vpc_security_group_ingress_rule" "all_traffic" {
+  count = length(data.aws_security_group.existing.ingress) > 0 ? 0 : 1
+
   security_group_id = var.security_group_id
-  cidr_ipv4        = "${aws_eip.app_server.public_ip}/32"
-  ip_protocol      = "-1"
-  description      = "Allow all traffic from EC2 instance Elastic IP"
+  cidr_ipv4        = "0.0.0.0/0"  # すべてのIPからのトラフィックを許可
+  ip_protocol      = "-1"         # すべてのプロトコルを許可
+  description      = "Allow all inbound traffic"
   from_port        = -1
   to_port          = -1
 
   tags = {
-    Name = "${var.project_name}-eip-rule"
+    Name = "${var.project_name}-all-traffic-rule"
   }
-
-  depends_on = [aws_eip.app_server]
 }
 
 # CloudWatchイベント
@@ -124,17 +122,4 @@ resource "aws_cloudwatch_event_target" "stop_instance" {
   input = jsonencode({
     InstanceId = [aws_instance.app_server.id]
   })
-}
-
-# ステータス記録
-resource "null_resource" "rule_status" {
-  triggers = {
-    eip_address = aws_eip.app_server.public_ip
-  }
-
-  provisioner "local-exec" {
-    command = "echo 'EIP ${aws_eip.app_server.public_ip} rule created'"
-  }
-
-  depends_on = [aws_vpc_security_group_ingress_rule.eip]
 }
