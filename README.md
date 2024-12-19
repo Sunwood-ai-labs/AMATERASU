@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.6.1)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.7.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,13 +18,13 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS Bedrockをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  AMATERASU v1.6.1では、Bedrock Novaモデルのテストスクリプトを追加し、その他いくつかの機能強化と修正を行いました。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  AMATERASU v1.7.0では、Google Vertex AIモデルのサポートを追加し、Dockerボリュームのパージ手順書をドキュメントに追加しました。
 
 
 ## ✨ 主な機能
 
 ### セキュアな基盤
-- AWS Bedrockベースの安全なLLM基盤
+- AWS BedrockとGoogle Vertex AIベースの安全なLLM基盤
 - 完全クローズド環境での運用
 - エンタープライズグレードのセキュリティ
 
@@ -108,7 +108,7 @@ graph TB
 - プロンプトテンプレート管理
 
 ### 2. LiteLLM (APIプロキシ)
-- Claude-3系列モデルへの統一的なアクセス
+- Claude-3系列モデルへの統一的なアクセス、Google Vertex AIモデルへのアクセス
 - APIキー管理
 - レート制限と負荷分散
 
@@ -137,9 +137,11 @@ graph TB
 
 ### 前提条件
 - AWS アカウント
+- Google Cloud Platform アカウント
 - Terraform >= 0.12
 - Docker & Docker Compose
 - AWS CLI configured
+- gcloud CLI configured
 
 ### セットアップ手順
 
@@ -252,7 +254,23 @@ docker-compose up -d
 
 ## 🆕 最新情報
 
-### AMATERASU v1.6.1 (最新のリリース)
+### AMATERASU v1.7.0 (最新のリリース)
+
+- 🎉 **Google Cloud Vertex AIのサポート追加**: `config.yaml`に複数のVertex AIモデルを指定できるようになり、テストスクリプトも追加されました。Gemini Pro、Gemini 2.0 Flash-expなど、複数のGeminiモデルを指定できるようになりました。各モデルは`Vertex_AI/model_name`の形式で指定し、`vertex_project`、`vertex_location`パラメータでプロジェクトIDとリージョンを指定します。環境変数`GOOGLE_PROJECT_ID`を使用してプロジェクトIDを動的に設定します。
+- 🎉 **Dockerボリュームパージ手順書追加**: Docker Composeで作成されたボリューム（postgres_data、prometheus_data）のパージ手順を記述したドキュメントを追加しました。
+- 🎉 **Google Vertex AIモデルのテストスクリプト追加**: Google Vertex AIモデルをテストするためのPythonスクリプトを追加しました。`litellm`クライアントを使用して、`config.yaml`で定義されたVertex AIモデルに対してテストメッセージを送信し、応答時間を計測します。各モデルのテスト結果（成功/失敗、応答時間、トークン数）をログに出力します。テストメッセージは、日本の四季について説明するシンプルなメッセージを使用しています。
+- 🚀 **`config.yaml`ファイルの更新**: Google Vertex AIモデルのサポートを追加しました。
+- 🚀 **英語READMEの更新**: 英語のREADMEを更新しました。
+- ⚠️ **`config.yaml`ファイル内のBedrockモデルの指定方法変更と地域指定の修正**: `bedrock/us.amazon.nova-micro-v1:0` のような表記を `bedrock/amazon.nova-micro-v1:0` に変更し、Bedrockモデルのリージョン指定を修正しました。
+- 🚀 不要なログ出力設定を削除 (commit: 62bce15) 🟢
+    - `test_embeddings.py`から冗長なログ出力設定を削除しました。ログ出力は、必要に応じて他の方法で実現します。
+- ⚙️ Docker Composeの設定変更 (commit: 92061af) 🟢
+    - Docker Composeファイルに以下の変更を加えました。`vertex-ai-key.json`ファイルをコンテナにマウントするように設定を追加しました。これにより、コンテナ内でVertex AIの認証情報を参照できるようになります。デバッグログを有効化(`--debug`)しました。LiteLLMのポートを環境変数`LITELLM_PORT`で設定可能にしました。デフォルトは4000番ポートです。
+- ➕ LiteLLMのVertex AIキーファイルの追加 (commit: 74b6cb8) 🟢
+    - LiteLLMで使用されるVertex AIのキーファイル(`spellbook/litellm/vertex-ai-key.json`と`spellbook/litellm/vertex-ai-key copy.json`)を`.gitignore`に追加しました。これらのファイルは機密情報であるため、バージョン管理システムに含めないようにします。また、`.SourceSageAssets`ディレクトリも追加しました。これはSourceSage関連のアセットを格納するためのディレクトリです。
+
+
+### AMATERASU v1.6.1 (以前のリリース)
 
 - 🎉 **Bedrock Novaモデルテストスクリプト追加**:  Bedrock Novaモデル(`bedrock/nova-micro`, `bedrock/nova-lite`, `bedrock/nova-pro`)のテストを自動化するスクリプトを追加しました。応答時間、応答内容、トークン使用量などをログ出力します。`text2art`と`loguru`ライブラリを使用しています。
 - 🎉 **LiteLLM設定ファイルの拡張とAWS設定の追加**: `.env.example`ファイルにOpenAI、Anthropic、Google Gemini、AWSのAPIキーと認証情報の項目を追加しました。AWS設定にはアクセスキーID、シークレットアクセスキー、デフォルトリージョン（東京）の設定が含まれています。
@@ -299,7 +317,7 @@ docker-compose up -d
 
 ## 👏 謝辞
 
-Maki、iris-s-coon の貢献に感謝します。
+Maki、iris-s-coon、 の貢献に感謝します。
 
 ---
 

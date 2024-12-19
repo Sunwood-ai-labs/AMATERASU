@@ -167,3 +167,7 @@ cython_debug/
 spellbook/litellm/vertex-ai-key.json
 spellbook/litellm/vertex-ai-key copy.json
 .SourceSageAssets
+spellbook/base-infrastructure/whitelist.csv
+aws
+spellbook/base-infrastructure/.pluralith
+spellbook/base-infrastructure/Pluralith_Diagram.*

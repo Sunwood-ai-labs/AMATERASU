@@ -25,5 +25,5 @@ output "elastic_ip" {
 
 output "security_rule_created" {
   description = "Indicates whether a new security group rule was created"
-  value       = aws_security_group_rule.eip[*].id != []
+  value       = aws_vpc_security_group_ingress_rule.eip.id != null
 }

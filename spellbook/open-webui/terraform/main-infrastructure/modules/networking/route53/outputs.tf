@@ -13,3 +13,8 @@ output "private_record_fqdn" {
   description = "FQDN of the private DNS record"
   value       = aws_route53_record.private.fqdn
 }
+
+output "public_record_id" {
+  description = "ID of the public Route53 record"
+  value       = aws_route53_record.public.id
+}
