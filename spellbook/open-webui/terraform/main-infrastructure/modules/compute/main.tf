@@ -1,3 +1,46 @@
+# データソース定義
+data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
+data "aws_security_group" "existing" {
+  id = var.security_group_id
+}
+
+# IAMロール関連
+resource "time_rotating" "rotation" {
+  rotation_days = 1
+}
+
+resource "aws_iam_role" "eventbridge_role" {
+  name_prefix = "${var.project_name}-eventbridge-"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "events.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = {
+    rotation = time_rotating.rotation.id
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_automation_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole"
+  role       = aws_iam_role.eventbridge_role.name
+}
+
+# EC2インスタンス
 resource "aws_instance" "app_server" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
@@ -20,6 +63,35 @@ resource "aws_instance" "app_server" {
   }
 }
 
+# Elastic IP
+resource "aws_eip" "app_server" {
+  instance = aws_instance.app_server.id
+  domain   = "vpc"
+
+  tags = {
+    Name = "${var.project_name}-eip"
+  }
+
+  depends_on = [aws_instance.app_server]
+}
+
+# セキュリティグループルール
+resource "aws_vpc_security_group_ingress_rule" "eip" {
+  security_group_id = var.security_group_id
+  cidr_ipv4        = "${aws_eip.app_server.public_ip}/32"
+  ip_protocol      = "-1"
+  description      = "Allow all traffic from EC2 instance Elastic IP"
+  from_port        = -1
+  to_port          = -1
+
+  tags = {
+    Name = "${var.project_name}-eip-rule"
+  }
+
+  depends_on = [aws_eip.app_server]
+}
+
+# CloudWatchイベント
 resource "aws_cloudwatch_event_rule" "start_instance" {
   name                = "${var.project_name}-start-instance"
   description         = "Start the EC2 instance at 8 AM Japan time"
@@ -54,66 +126,7 @@ resource "aws_cloudwatch_event_target" "stop_instance" {
   })
 }
 
-resource "aws_iam_role" "eventbridge_role" {
-  name = "${var.project_name}-eventbridge-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "events.amazonaws.com"
-        }
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "ssm_automation_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole"
-  role       = aws_iam_role.eventbridge_role.name
-}
-
-data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
-
-# データソースでセキュリティグループの既存ルールを取得
-data "aws_security_group" "existing" {
-  id = var.security_group_id
-}
-
-# Elastic IPの作成
-resource "aws_eip" "app_server" {
-  instance = aws_instance.app_server.id
-  domain   = "vpc"  # vpcをdomainに変更
-
-  tags = {
-    Name = "${var.project_name}-eip"
-  }
-
-  depends_on = [aws_instance.app_server]
-}
-# セキュリティグループのルール追加
-# 既存のルールをチェックして、同じIPからのルールが存在しない場合のみ作成
-resource "aws_security_group_rule" "eip" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["${aws_eip.app_server.public_ip}/32"]
-  security_group_id = var.security_group_id
-  description       = "Allow all traffic from EC2 instance Elastic IP"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  depends_on = [aws_eip.app_server]
-}
-
-# ステータス記録用のnullリソース
+# ステータス記録
 resource "null_resource" "rule_status" {
   triggers = {
     eip_address = aws_eip.app_server.public_ip
@@ -123,5 +136,5 @@ resource "null_resource" "rule_status" {
     command = "echo 'EIP ${aws_eip.app_server.public_ip} rule created'"
   }
 
-  depends_on = [aws_security_group_rule.eip]
+  depends_on = [aws_vpc_security_group_ingress_rule.eip]
 }
