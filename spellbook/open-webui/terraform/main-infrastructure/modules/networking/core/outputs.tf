@@ -74,3 +74,13 @@ output "route53_private_zone_id" {
   description = "ID of the private hosted zone"
   value       = module.route53.private_zone_id
 }
+
+output "route53_zone_id" {
+  description = "ID of the public Route53 hosted zone"
+  value       = module.data_sources.route53_zone_id
+}
+
+output "route53_public_record_id" {
+  description = "ID of the public Route53 A record"
+  value       = module.route53.public_record_id
+}
