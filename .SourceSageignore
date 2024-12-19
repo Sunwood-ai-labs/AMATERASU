@@ -70,3 +70,6 @@ terraform.tfstate
 .terraform
 .terraform.lock.hcl
 terraform.tfstate.backup
+
+aws
+.pluralith
