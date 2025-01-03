@@ -28,11 +28,21 @@ resource "aws_lb_target_group" "main" {
     healthy_threshold   = 2
     interval            = 30
     matcher            = "200-399"
-    path               = "/"
+    path               = "/health"
     port               = "traffic-port"
     protocol           = "HTTP"
     timeout            = 5
     unhealthy_threshold = 2
+  }
+
+  # コンテナの起動時間を考慮
+  deregistration_delay = 60
+
+  # スティッキーセッションの設定
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 86400
+    enabled         = true
   }
 
   tags = {
@@ -49,8 +59,30 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.certificate_arn
 
   default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Invalid request"
+      status_code  = "403"
+    }
+  }
+}
+
+# HTTPSリスナールール - カスタムヘッダーの検証
+resource "aws_lb_listener_rule" "verify_header" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 1
+
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.main.arn
+  }
+
+  condition {
+    http_header {
+      http_header_name = "X-Origin-Verify"
+      values           = [data.aws_secretsmanager_secret_version.origin_secret.secret_string]
+    }
   }
 }
 
@@ -68,4 +100,29 @@ resource "aws_lb_listener" "http" {
       status_code = "HTTP_301"
     }
   }
+}
+
+# CloudWatchメトリクスアラーム
+resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
+  alarm_name          = "${var.project_name}-unhealthy-hosts"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "UnHealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period             = "300"
+  statistic          = "Average"
+  threshold          = "0"
+  alarm_description  = "Number of unhealthy hosts in target group"
+  
+  dimensions = {
+    TargetGroup  = aws_lb_target_group.main.arn_suffix
+    LoadBalancer = aws_lb.main.arn_suffix
+  }
+
+  alarm_actions = [var.sns_topic_arn]
+}
+
+# CloudFrontからのOrigin認証シークレットを取得
+data "aws_secretsmanager_secret_version" "origin_secret" {
+  secret_id = var.origin_secret_id
 }
