@@ -74,16 +74,42 @@ resource "aws_eip" "app_server" {
 }
 
 # セキュリティグループルール
-resource "aws_vpc_security_group_ingress_rule" "all_traffic" {
+resource "aws_vpc_security_group_ingress_rule" "http" {
   security_group_id = var.security_group_id
-  cidr_ipv4        = "0.0.0.0/0"  # すべてのIPからのトラフィックを許可
-  ip_protocol      = "tcp"        # TCPトラフィックを許可
-  description      = "Allow TCP inbound traffic"
-  from_port        = 0
-  to_port          = 65535
+  cidr_ipv4        = "10.0.0.0/16"  # VPC内からのみアクセスを許可
+  ip_protocol      = "tcp"
+  description      = "Allow HTTP inbound traffic from VPC"
+  from_port        = 80
+  to_port          = 80
 
   tags = {
-    Name = "${var.project_name}-tcp-traffic-rule"
+    Name = "${var.project_name}-http-rule"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "https" {
+  security_group_id = var.security_group_id
+  cidr_ipv4        = "10.0.0.0/16"  # VPC内からのみアクセスを許可
+  ip_protocol      = "tcp"
+  description      = "Allow HTTPS inbound traffic from VPC"
+  from_port        = 443
+  to_port          = 443
+
+  tags = {
+    Name = "${var.project_name}-https-rule"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "ssh" {
+  security_group_id = var.security_group_id
+  cidr_ipv4        = "0.0.0.0/0"  # SSHは管理用に外部からのアクセスを許可
+  ip_protocol      = "tcp"
+  description      = "Allow SSH inbound traffic"
+  from_port        = 22
+  to_port          = 22
+
+  tags = {
+    Name = "${var.project_name}-ssh-rule"
   }
 }
 

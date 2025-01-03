@@ -4,10 +4,10 @@ data "aws_route53_zone" "public" {
   private_zone = false
 }
 
-# パブリックDNSレコード
-resource "aws_route53_record" "public" {
+# パブリックDNSレコード（内部用）
+resource "aws_route53_record" "public_internal" {
   zone_id = data.aws_route53_zone.public.zone_id
-  name    = "${var.subdomain}.${var.domain}"
+  name    = "internal-${var.subdomain}.${var.domain}"
   type    = "A"
 
   alias {

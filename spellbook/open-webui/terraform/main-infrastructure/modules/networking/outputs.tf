@@ -53,8 +53,8 @@ output "dns_name" {
 }
 
 output "route53_record_fqdn" {
-  description = "The FQDN of the created Route53 record"
-  value       = module.core.route53_record_fqdn
+  description = "The FQDN of the created internal Route53 record"
+  value       = module.core.route53_internal_record_fqdn
 }
 
 # 証明書の出力

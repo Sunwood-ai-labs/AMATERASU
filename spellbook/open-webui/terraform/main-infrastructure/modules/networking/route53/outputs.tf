@@ -1,6 +1,6 @@
-output "public_record_fqdn" {
-  description = "The FQDN of the created public Route53 record"
-  value       = aws_route53_record.public.fqdn
+output "public_internal_record_fqdn" {
+  description = "The FQDN of the created internal public Route53 record"
+  value       = aws_route53_record.public_internal.fqdn
 }
 
 output "private_record_fqdn" {
@@ -13,9 +13,9 @@ output "private_zone_id" {
   value       = var.create_private_zone ? aws_route53_zone.private[0].id : null
 }
 
-output "public_record_id" {
-  description = "ID of the public Route53 A record"
-  value       = aws_route53_record.public.id
+output "public_internal_record_id" {
+  description = "ID of the internal public Route53 A record"
+  value       = aws_route53_record.public_internal.id
 }
 
 output "public_zone_id" {
