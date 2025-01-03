@@ -14,13 +14,13 @@ Modern infrastructure setup for Open WebUI deployment using Docker and AWS
 
 ## 📦 構成要素
 
-- `terraform/` - インフラストラクチャコードとモジュール
-  - [Main Infrastructure](./terraform/main-infrastructure/README.md) - メインのインフラストラクチャ設定
-  - [CloudFront Infrastructure](./terraform/cloudfront-infrastructure/README.md) - CloudFront配信設定
-- `docker-compose.yaml` - コンテナ化された環境設定
-- `.env.example` - 環境変数のテンプレート
-
-詳細な設定とデプロイメント手順については[Terraform Infrastructure](./terraform/README.md)を参照してください。
+```plaintext
+├─ terraform/               # インフラストラクチャコード
+│  ├─ main-infrastructure/ # メインのインフラ設定
+│  ├─ cloudfront/         # CloudFront配信設定
+├─ docker-compose.yaml     # コンテナ化された環境設定
+├─ .env.example           # 環境変数のテンプレート
+```
 
 ## 🛠️ クイックスタート
 
@@ -45,21 +45,12 @@ docker-compose up -d
 
 ## 🔒 セキュリティ機能
 
+- CloudFrontによるコンテンツ配信
+- WAFによるアクセス制御
 - SSL/TLS暗号化（Let's Encrypt）
 - セキュリティグループの自動設定
-- WAFによる保護
 - VPC内の隔離された環境
-
-詳細なセキュリティ設定については[Main Infrastructure](./terraform/main-infrastructure/README.md)を参照してください。
 
 ## 📝 ライセンス
 
 このプロジェクトはMITライセンスの下で公開されています。
-
-## 🤝 貢献ガイドライン
-
-1. このリポジトリをフォーク
-2. 新しいブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add some amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. Pull Requestを作成
