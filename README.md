@@ -1,5 +1,3 @@
-# 日本語版 README
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
 </p>
