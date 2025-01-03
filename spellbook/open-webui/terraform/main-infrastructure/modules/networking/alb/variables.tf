@@ -33,11 +33,13 @@ variable "certificate_arn" {
 variable "sns_topic_arn" {
   description = "ARN of the SNS topic for CloudWatch alarms"
   type        = string
+  default     = null
 }
 
 variable "origin_secret_id" {
   description = "ID of the Secrets Manager secret containing the Origin verification header value"
   type        = string
+  default     = null
 }
 
 variable "health_check_path" {
