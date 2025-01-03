@@ -1,3 +1,100 @@
+# ランダムな文字列を生成（Origin認証用）
+resource "random_string" "origin_secret" {
+  length  = 32
+  special = false
+}
+
+# WAF ACLの作成
+resource "aws_wafv2_web_acl" "main" {
+  provider    = aws.us_east_1
+  name        = "${var.project_name}-waf"
+  description = "WAF for CloudFront"
+  scope       = "CLOUDFRONT"
+
+  default_action {
+    allow {}
+  }
+
+  # レートベースのルール
+  rule {
+    name     = "RateBasedRule"
+    priority = 1
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      rate_based_statement {
+        limit              = 2000
+        aggregate_key_type = "IP"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name               = "RateBasedRuleMetric"
+      sampled_requests_enabled  = true
+    }
+  }
+
+  # AWS マネージドルール - 一般的な脆弱性対策
+  rule {
+    name     = "AWSManagedRules"
+    priority = 2
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesCommonRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name               = "AWSManagedRulesMetric"
+      sampled_requests_enabled  = true
+    }
+  }
+
+  # SQLインジェクション対策
+  rule {
+    name     = "SQLiRule"
+    priority = 3
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesSQLiRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name               = "SQLiRuleMetric"
+      sampled_requests_enabled  = true
+    }
+  }
+
+  visibility_config {
+    cloudwatch_metrics_enabled = true
+    metric_name               = "${var.project_name}-waf-metrics"
+    sampled_requests_enabled  = true
+  }
+
+  tags = {
+    Name = "${var.project_name}-waf"
+  }
+}
+
 # CloudFront用のACM証明書（us-east-1リージョンに作成）
 resource "aws_acm_certificate" "cloudfront" {
   provider          = aws.us_east_1
@@ -45,6 +142,7 @@ resource "aws_cloudfront_distribution" "main" {
   price_class        = "PriceClass_200"
   aliases            = ["${var.subdomain}.${var.domain}"]
   wait_for_deployment = false
+  web_acl_id         = aws_wafv2_web_acl.main.arn
 
   origin {
     domain_name = var.alb_dns_name
@@ -55,6 +153,12 @@ resource "aws_cloudfront_distribution" "main" {
       https_port             = 443
       origin_protocol_policy = "https-only"
       origin_ssl_protocols   = ["TLSv1.2"]
+    }
+
+    # カスタムヘッダーによる認証
+    custom_header {
+      name  = "X-Origin-Verify"
+      value = random_string.origin_secret.result
     }
   }
 
@@ -100,7 +204,7 @@ resource "aws_route53_record" "cloudfront" {
   zone_id         = var.route53_zone_id
   name            = "${var.subdomain}.${var.domain}"
   type            = "A"
-  allow_overwrite = true  # 既存のレコードを上書き
+  allow_overwrite = true
 
   alias {
     name                   = aws_cloudfront_distribution.main.domain_name
