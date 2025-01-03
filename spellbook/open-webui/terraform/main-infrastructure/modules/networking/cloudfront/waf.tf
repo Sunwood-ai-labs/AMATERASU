@@ -15,51 +15,7 @@ resource "aws_wafv2_web_acl" "main" {
     allow {}
   }
 
-  # レートベースのルール - リクエスト制限
-  rule {
-    name     = "RateLimitRule"
-    priority = 1
-
-    action {
-      block {}
-    }
-
-    statement {
-      rate_based_statement {
-        limit              = 2000
-        aggregate_key_type = "IP"
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "${var.project_name}-rate-limit-rule"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  # 一般的なWebエクスプロイト防御ルール
-  rule {
-    name     = "AWSManagedRulesCommonRuleSet"
-    priority = 2
-
-    override_action {
-      none {}
-    }
-
-    statement {
-      managed_rule_group_statement {
-        name        = "AWSManagedRulesCommonRuleSet"
-        vendor_name = "AWS"
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "${var.project_name}-common-rule-set"
-      sampled_requests_enabled   = true
-    }
-  }
+  # テスト用に一時的にWAFルールを無効化
 
   visibility_config {
     cloudwatch_metrics_enabled = true
