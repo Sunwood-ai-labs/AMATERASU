@@ -17,9 +17,9 @@ resource "aws_lb" "main" {
 
 # ターゲットグループの作成
 resource "aws_lb_target_group" "main" {
-  name        = "${var.project_name}-tg-https"
+  name        = "${var.project_name}-tg-http"
   port        = 80
-  protocol    = "HTTPS"
+  protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
 
@@ -28,9 +28,9 @@ resource "aws_lb_target_group" "main" {
     healthy_threshold   = 2
     interval            = 30
     matcher            = "200-399"
-    path               = "/health"
+    path               = "/"
     port               = "traffic-port"
-    protocol           = "HTTPS"
+    protocol           = "HTTP"
     timeout            = 5
     unhealthy_threshold = 2
   }
