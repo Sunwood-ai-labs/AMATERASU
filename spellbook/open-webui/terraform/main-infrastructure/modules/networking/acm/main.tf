@@ -1,5 +1,3 @@
-# ACM証明書の作成と検証
-
 # ACM証明書の作成
 resource "aws_acm_certificate" "cert" {
   domain_name       = "${var.subdomain}.${var.domain}"
@@ -12,6 +10,12 @@ resource "aws_acm_certificate" "cert" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+# Route53ゾーンのデータソース
+data "aws_route53_zone" "selected" {
+  name         = var.domain
+  private_zone = false
 }
 
 # DNS検証レコードの作成
@@ -29,7 +33,7 @@ resource "aws_route53_record" "cert_validation" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = var.route53_zone_id
+  zone_id         = data.aws_route53_zone.selected.zone_id
 }
 
 # 証明書の検証待ち
