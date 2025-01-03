@@ -1,12 +1,24 @@
 version: '3.6'
 services:
+  # nginx-proxy:
+  #   image: nginx:latest
+  #   restart: always
+  #   ports:
+  #     - '80:80'
+  #     # - '443:443'
+  #   volumes:
+  #     - './services/gitlab/nginx/conf.d:/etc/nginx/conf.d'
+  #     - './services/gitlab/nginx/certs:/etc/nginx/certs'
+  #   depends_on:
+  #     - gitlab
+
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
     restart: always
-    hostname: 'amaterasu-gitlab-dev.sunwood-ai-labs.click'
+    hostname: '192.168.0.131'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://amaterasu-gitlab-dev.sunwood-ai-labs.click'
+        external_url 'http://192.168.0.131'
         gitlab_rails['time_zone'] = 'Asia/Tokyo'
         gitlab_rails['backup_keep_time'] = 604800
         # Add any other gitlab.rb configuration here, each on its own line
@@ -15,15 +27,15 @@ services:
       - '443:443'
       - '2222:22'
     volumes:
-      - './config:/etc/gitlab'
-      - './logs:/var/log/gitlab'
-      - './data:/var/opt/gitlab'
-      - './backups:/var/opt/gitlab/backups'
+      - './services/gitlab/config:/etc/gitlab'
+      - './services/gitlab/logs:/var/log/gitlab'
+      - './services/gitlab/data:/var/opt/gitlab'
+      - './services/gitlab/backups:/var/opt/gitlab/backups'
     shm_size: '256m'
 
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
     restart: always
     volumes:
-      - './runner:/etc/gitlab-runner'
+      - './services/gitlab/runner:/etc/gitlab-runner'
       - /var/run/docker.sock:/var/run/docker.sock
