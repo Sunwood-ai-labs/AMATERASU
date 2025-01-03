@@ -14,10 +14,6 @@ variable "subdomain" {
   type        = string
 }
 
-variable "route53_zone_id" {
-  description = "ID of the public Route53 hosted zone"
-  type        = string
-}
 
 variable "alb_dns_name" {
   description = "DNS name of the ALB"
@@ -44,4 +40,10 @@ variable "alb_depends_on" {
 variable "vpc_id" {
   description = "ID of the VPC"
   type        = string
+}
+
+variable "create_private_zone" {
+  description = "Whether to create a private Route53 zone"
+  type        = bool
+  default     = false
 }
