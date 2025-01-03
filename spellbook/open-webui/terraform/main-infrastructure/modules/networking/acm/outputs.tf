@@ -17,3 +17,8 @@ output "certificate_domain" {
   description = "Domain name for which the certificate was issued"
   value       = "${var.subdomain}.${var.domain}"
 }
+
+output "certificate_status" {
+  description = "Status of the certificate validation"
+  value       = aws_acm_certificate_validation.cert.id
+}

@@ -8,12 +8,12 @@ public_subnet_2_id = "subnet-0c346c102abafa139"
 security_group_id  = "sg-023d4ef2a650829e2"
 ami_id             = "ami-0d52744d6551d851e"
 key_name           = "AMATERASU-terraform-keypair-tokyo-PEM"
-domain             = "sunwood-ai-labs.click"
+domain             = "sunwood-ai-labs.com"
 
 # プロジェクト設定パラメータ
 project_name       = "amts-open-webui"
 instance_type      = "t3.medium"
-subdomain          = "amaterasu-open-web-ui-dev"
+subdomain          = "amaterasu-open-web-ui"
 
 # ローカルファイルパス
 env_file_path      = "../../.env"

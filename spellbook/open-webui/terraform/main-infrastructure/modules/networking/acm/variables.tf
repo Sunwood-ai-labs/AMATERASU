@@ -13,7 +13,3 @@ variable "subdomain" {
   type        = string
 }
 
-variable "route53_zone_id" {
-  description = "ID of the Route53 hosted zone"
-  type        = string
-}

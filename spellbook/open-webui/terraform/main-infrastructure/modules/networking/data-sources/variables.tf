@@ -17,3 +17,8 @@ variable "domain" {
   description = "Base domain name"
   type        = string
 }
+
+variable "subdomain" {
+  description = "Subdomain name"
+  type        = string
+}

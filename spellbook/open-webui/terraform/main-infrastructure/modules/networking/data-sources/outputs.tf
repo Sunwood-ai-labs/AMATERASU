@@ -18,12 +18,3 @@ output "public_subnet_2_id" {
   value       = data.aws_subnet.public_2.id
 }
 
-output "route53_zone_id" {
-  description = "ID of the Route53 hosted zone"
-  value       = data.aws_route53_zone.main.zone_id
-}
-
-output "domain_name" {
-  description = "Domain name from Route53 zone"
-  value       = data.aws_route53_zone.main.name
-}
