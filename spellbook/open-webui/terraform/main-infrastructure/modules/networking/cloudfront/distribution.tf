@@ -18,6 +18,11 @@ resource "aws_cloudfront_distribution" "main" {
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1.2"]
     }
+
+    custom_header {
+      name  = "X-Origin-Verify"
+      value = random_string.origin_secret.result
+    }
   }
 
   default_cache_behavior {
@@ -26,9 +31,8 @@ resource "aws_cloudfront_distribution" "main" {
     target_origin_id = "ALBOrigin"
     compress         = true
 
-    # カスタムポリシーを使用
-    origin_request_policy_id   = aws_cloudfront_origin_request_policy.custom.id
-    cache_policy_id            = aws_cloudfront_cache_policy.custom.id
+    origin_request_policy_id = aws_cloudfront_origin_request_policy.custom.id
+    cache_policy_id          = aws_cloudfront_cache_policy.custom.id
 
     viewer_protocol_policy = "redirect-to-https"
   }
