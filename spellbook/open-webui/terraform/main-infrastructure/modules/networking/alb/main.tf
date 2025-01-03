@@ -68,8 +68,10 @@ resource "aws_lb_listener" "https" {
   }
 }
 
-# HTTPSリスナールール - カスタムヘッダーの検証
+# HTTPSリスナールール - カスタムヘッダーの検証（シークレットIDが指定されている場合のみ）
 resource "aws_lb_listener_rule" "verify_header" {
+  count = var.origin_secret_id != null ? 1 : 0
+
   listener_arn = aws_lb_listener.https.arn
   priority     = 1
 
@@ -81,7 +83,7 @@ resource "aws_lb_listener_rule" "verify_header" {
   condition {
     http_header {
       http_header_name = "X-Origin-Verify"
-      values           = [data.aws_secretsmanager_secret_version.origin_secret.secret_string]
+      values           = [data.aws_secretsmanager_secret_version.origin_secret[0].secret_string]
     }
   }
 }
@@ -102,8 +104,10 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# CloudWatchメトリクスアラーム
+# CloudWatchメトリクスアラーム（SNSトピックが指定されている場合のみ作成）
 resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
+  count = var.sns_topic_arn != null ? 1 : 0
+
   alarm_name          = "${var.project_name}-unhealthy-hosts"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
@@ -122,7 +126,8 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
   alarm_actions = [var.sns_topic_arn]
 }
 
-# CloudFrontからのOrigin認証シークレットを取得
+# CloudFrontからのOrigin認証シークレットを取得（シークレットIDが指定されている場合のみ）
 data "aws_secretsmanager_secret_version" "origin_secret" {
+  count = var.origin_secret_id != null ? 1 : 0
   secret_id = var.origin_secret_id
 }

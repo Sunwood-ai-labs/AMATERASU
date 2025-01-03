@@ -40,7 +40,7 @@ resource "aws_wafv2_web_acl" "main" {
 
   # AWS マネージドルール - 一般的な脆弱性対策
   rule {
-    name     = "AWSManagedRules"
+    name     = "AWSManagedRulesCommonRuleSet"
     priority = 2
 
     override_action {
@@ -51,19 +51,20 @@ resource "aws_wafv2_web_acl" "main" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
+        version     = "Version_1.5"
       }
     }
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name               = "AWSManagedRulesMetric"
+      metric_name               = "AWSManagedRulesCommonRuleSetMetric"
       sampled_requests_enabled  = true
     }
   }
 
   # SQLインジェクション対策
   rule {
-    name     = "SQLiRule"
+    name     = "AWSManagedRulesSQLiRuleSet"
     priority = 3
 
     override_action {
@@ -74,12 +75,13 @@ resource "aws_wafv2_web_acl" "main" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesSQLiRuleSet"
         vendor_name = "AWS"
+        version     = "Version_1.0"
       }
     }
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name               = "SQLiRuleMetric"
+      metric_name               = "AWSManagedRulesSQLiRuleSetMetric"
       sampled_requests_enabled  = true
     }
   }
@@ -143,6 +145,7 @@ resource "aws_cloudfront_distribution" "main" {
   aliases            = ["${var.subdomain}.${var.domain}"]
   wait_for_deployment = false
   web_acl_id         = aws_wafv2_web_acl.main.arn
+  default_root_object = "index.html"
 
   origin {
     domain_name = var.alb_dns_name
@@ -151,7 +154,7 @@ resource "aws_cloudfront_distribution" "main" {
     custom_origin_config {
       http_port              = 80
       https_port             = 443
-      origin_protocol_policy = "https-only"
+      origin_protocol_policy = "match-viewer"
       origin_ssl_protocols   = ["TLSv1.2"]
     }
 
@@ -163,9 +166,10 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "ALBOrigin"
+    compress         = true
 
     forwarded_values {
       query_string = true
