@@ -4,22 +4,21 @@ resource "aws_security_group" "alb" {
   description = "Security group for ALB to restrict access from specific IP ranges"
   vpc_id      = var.vpc_id
 
-  # HTTPの通信許可（ホワイトリストからのアクセスのみ）
+  # テスト用に一時的に全てのIPからのアクセスを許可
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.whitelist_ips
-    description = "Allow HTTP traffic from whitelisted IP addresses"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP traffic from all IPs (temporary)"
   }
 
-  # HTTPSの通信許可（ホワイトリストからのアクセスのみ）
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.whitelist_ips
-    description = "Allow HTTPS traffic from whitelisted IP addresses"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTPS traffic from all IPs (temporary)"
   }
 
   # VPC内部からのHTTPアクセスを許可

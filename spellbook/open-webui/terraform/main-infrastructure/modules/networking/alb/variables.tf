@@ -30,14 +30,22 @@ variable "certificate_arn" {
   type        = string
 }
 
+variable "certificate_validation_id" {
+  description = "ID of the certificate validation"
+  type        = string
+  default     = null
+}
+
 variable "sns_topic_arn" {
   description = "ARN of the SNS topic for CloudWatch alarms"
   type        = string
+  default     = null
 }
 
 variable "origin_secret_id" {
   description = "ID of the Secrets Manager secret containing the Origin verification header value"
   type        = string
+  default     = null
 }
 
 variable "health_check_path" {

@@ -44,8 +44,8 @@ output "application_url" {
 }
 
 output "application_url_alb" {
-  description = "URL of the application through ALB"
-  value       = "https://${var.subdomain}.${var.domain}"
+  description = "URL of the application through ALB (internal access)"
+  value       = "https://internal-${var.subdomain}.${var.domain}"
 }
 
 output "cloudfront_domain_name" {

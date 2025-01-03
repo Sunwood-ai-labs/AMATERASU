@@ -180,3 +180,6 @@ spellbook/gitlab/services/gitlab/data
 spellbook/gitlab/services/gitlab/logs
 spellbook/gitlab/services/gitlab/nginx
 spellbook/gitlab/services/gitlab/runner
+
+.codegpt
+spellbook/open-webui/terraform/main-infrastructure/whitelist..csv

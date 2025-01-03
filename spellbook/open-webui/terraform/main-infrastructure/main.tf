@@ -64,7 +64,7 @@ module "compute" {
 # Register EC2 instance with ALB target group
 resource "aws_lb_target_group_attachment" "main" {
   target_group_arn = module.networking.alb_target_group_arn
-  target_id        = module.compute.instance_private_ip  # EC2インスタンスIDではなくプライベートIPを使用
+  target_id        = module.compute.instance_id  # インスタンスIDを使用
   port             = 80
 
   depends_on = [

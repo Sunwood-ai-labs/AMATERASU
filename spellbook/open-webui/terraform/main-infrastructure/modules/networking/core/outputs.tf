@@ -60,9 +60,9 @@ output "dns_name" {
   value       = "${var.subdomain}.${var.domain}"
 }
 
-output "route53_record_fqdn" {
-  description = "The FQDN of the created public Route53 record"
-  value       = module.route53.public_record_fqdn
+output "route53_internal_record_fqdn" {
+  description = "The FQDN of the created internal public Route53 record"
+  value       = module.route53.public_internal_record_fqdn
 }
 
 output "route53_private_record_fqdn" {
@@ -75,12 +75,12 @@ output "route53_private_zone_id" {
   value       = module.route53.private_zone_id
 }
 
-output "route53_zone_id" {
-  description = "ID of the public Route53 hosted zone"
-  value       = module.data_sources.route53_zone_id
+output "route53_internal_record_id" {
+  description = "ID of the internal public Route53 A record"
+  value       = module.route53.public_internal_record_id
 }
 
-output "route53_public_record_id" {
-  description = "ID of the public Route53 A record"
-  value       = module.route53.public_record_id
+output "route53_zone_id" {
+  description = "ID of the public Route53 zone"
+  value       = module.route53.public_zone_id
 }

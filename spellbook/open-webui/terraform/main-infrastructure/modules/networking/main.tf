@@ -27,7 +27,7 @@ module "cloudfront" {
   route53_zone_id = module.core.route53_zone_id
   
   # 既存のRoute53レコードの情報を渡す
-  existing_record_id     = module.core.route53_public_record_id
+  existing_record_id     = module.core.route53_internal_record_id
   wait_for_existing_record = true
 
   providers = {
@@ -36,6 +36,6 @@ module "cloudfront" {
 
   depends_on = [
     module.core,
-    module.core.route53_public_record_id
+    module.core.route53_internal_record_id
   ]
 }
