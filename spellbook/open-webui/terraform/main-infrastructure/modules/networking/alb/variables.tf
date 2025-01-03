@@ -30,6 +30,12 @@ variable "certificate_arn" {
   type        = string
 }
 
+variable "certificate_validation_id" {
+  description = "ID of the certificate validation"
+  type        = string
+  default     = null
+}
+
 variable "sns_topic_arn" {
   description = "ARN of the SNS topic for CloudWatch alarms"
   type        = string
