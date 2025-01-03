@@ -182,3 +182,4 @@ spellbook/gitlab/services/gitlab/nginx
 spellbook/gitlab/services/gitlab/runner
 
 .codegpt
+spellbook/open-webui/terraform/main-infrastructure/whitelist..csv
