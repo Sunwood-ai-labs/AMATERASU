@@ -16,5 +16,5 @@ instance_type      = "t3.medium"
 subdomain          = "amaterasu-open-web-ui-dev"
 
 # ローカルファイルパス
-env_file_path      = "C:/Prj/AMATERASU/spellbook/open-webui/.env"
-setup_script_path  = "C:/Prj/AMATERASU/spellbook/open-webui/terraform/main-infrastructure/scripts/setup_script.sh"
+env_file_path      = "../../.env"
+setup_script_path  = "./scripts/setup_script.sh"

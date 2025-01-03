@@ -73,5 +73,3 @@ terraform.tfstate.backup
 
 aws
 .pluralith
-./spellbook/gitlab/services/gitlab/backups
-./spellbook/gitlab/services

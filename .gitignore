@@ -171,3 +171,12 @@ spellbook/base-infrastructure/whitelist.csv
 aws
 spellbook/base-infrastructure/.pluralith
 spellbook/base-infrastructure/Pluralith_Diagram.*
+spellbook/open-webui/terraform/main-infrastructure/Pluralith_Diagram.pdf
+spellbook/open-webui/terraform/main-infrastructure/.pluralith/pluralith.cache.json
+spellbook/open-webui/terraform/main-infrastructure/.pluralith/pluralith.plan.bin
+spellbook/open-webui/terraform/main-infrastructure/.pluralith/pluralith.state.json
+spellbook/gitlab/services/gitlab/config/
+spellbook/gitlab/services/gitlab/data
+spellbook/gitlab/services/gitlab/logs
+spellbook/gitlab/services/gitlab/nginx
+spellbook/gitlab/services/gitlab/runner

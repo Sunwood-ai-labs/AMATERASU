@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3B7BA4;stop-opacity:1">
+        <animate attributeName="stop-color" values="#3B7BA4;#4E96C3;#3B7BA4" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#4E96C3;stop-opacity:1">
+        <animate attributeName="stop-color" values="#4E96C3;#63B3E4;#4E96C3" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#63B3E4;stop-opacity:1">
+        <animate attributeName="stop-color" values="#63B3E4;#3B7BA4;#63B3E4" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <!-- Infrastructure circuit pattern -->
+    <pattern id="circuitPattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M10,10 L40,10 M25,10 L25,40" stroke="url(#gradient1)" stroke-width="0.5" fill="none" opacity="0.2"/>
+      <circle cx="25" cy="25" r="2" fill="url(#gradient1)" opacity="0.3"/>
+    </pattern>
+
+    <!-- Glow effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Circuit background -->
+  <rect width="800" height="200" fill="url(#circuitPattern)"/>
+  
+  <!-- Infrastructure nodes -->
+  <g transform="translate(60, 100)" filter="url(#glow)">
+    <rect x="-15" y="-15" width="30" height="30" rx="5" fill="none" stroke="url(#gradient1)" stroke-width="2">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="-10" y="-10" width="20" height="20" rx="3" fill="none" stroke="url(#gradient1)" stroke-width="1.5">
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- Connection points -->
+  <g fill="url(#gradient1)" filter="url(#glow)">
+    <circle cx="680" cy="60" r="4">
+      <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="700" cy="160" r="4">
+      <animate attributeName="r" values="3;5;3" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="120" cy="140" r="4">
+      <animate attributeName="r" values="3;5;3" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Main title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle" filter="url(#glow)">
+    Base Infrastructure
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    Core Foundation Layer
+  </text>
+  
+  <!-- Network connections -->
+  <g stroke="url(#gradient1)" stroke-width="1.5" fill="none">
+    <path d="M100,160 C 300,140 500,180 700,140" opacity="0.6">
+      <animate attributeName="d" 
+               values="M100,160 C 300,140 500,180 700,140;
+                      M100,140 C 300,180 500,140 700,160;
+                      M100,160 C 300,140 500,180 700,140" 
+               dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M150,140 C 350,180 450,140 650,160" opacity="0.4">
+      <animate attributeName="d" 
+               values="M150,140 C 350,180 450,140 650,160;
+                      M150,160 C 350,140 450,180 650,140;
+                      M150,140 C 350,180 450,140 650,160" 
+               dur="6s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="4s" begin="1s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Data flow particles -->
+  <circle cx="0" cy="0" r="3" fill="#fff" opacity="0.8">
+    <animateMotion 
+      path="M100,160 C 300,140 500,180 700,140" 
+      dur="4s"
+      repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="0" cy="0" r="2" fill="#fff" opacity="0.6">
+    <animateMotion 
+      path="M150,140 C 350,180 450,140 650,160" 
+      dur="5s"
+      repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;1;0" dur="5s" repeatCount="indefinite"/>
+  </circle>
+</svg>

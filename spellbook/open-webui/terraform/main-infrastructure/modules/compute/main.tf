@@ -75,17 +75,15 @@ resource "aws_eip" "app_server" {
 
 # セキュリティグループルール
 resource "aws_vpc_security_group_ingress_rule" "all_traffic" {
-  count = length(data.aws_security_group.existing.ingress) > 0 ? 0 : 1
-
   security_group_id = var.security_group_id
   cidr_ipv4        = "0.0.0.0/0"  # すべてのIPからのトラフィックを許可
-  ip_protocol      = "-1"         # すべてのプロトコルを許可
-  description      = "Allow all inbound traffic"
-  from_port        = -1
-  to_port          = -1
+  ip_protocol      = "tcp"        # TCPトラフィックを許可
+  description      = "Allow TCP inbound traffic"
+  from_port        = 0
+  to_port          = 65535
 
   tags = {
-    Name = "${var.project_name}-all-traffic-rule"
+    Name = "${var.project_name}-tcp-traffic-rule"
   }
 }
 

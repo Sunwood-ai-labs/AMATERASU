@@ -2,6 +2,17 @@ terraform {
   required_version = ">= 0.12"
 }
 
+# デフォルトプロバイダー設定
+provider "aws" {
+  region = var.aws_region
+}
+
+# CloudFront用のACM証明書のためのus-east-1プロバイダー
+provider "aws" {
+  alias  = "us_east_1"
+  region = "us-east-1"
+}
+
 # Networking module
 module "networking" {
   source = "./modules/networking"
@@ -15,6 +26,11 @@ module "networking" {
   security_group_id = var.security_group_id
   domain           = var.domain
   subdomain        = var.subdomain
+
+  providers = {
+    aws           = aws
+    aws.us_east_1 = aws.us_east_1
+  }
 }
 
 # IAM module
