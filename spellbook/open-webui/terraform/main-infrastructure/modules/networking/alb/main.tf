@@ -17,9 +17,9 @@ resource "aws_lb" "main" {
 
 # ターゲットグループの作成
 resource "aws_lb_target_group" "main" {
-  name        = "${var.project_name}-tg"
+  name        = "${var.project_name}-tg-https"
   port        = 80
-  protocol    = "HTTP"
+  protocol    = "HTTPS"
   vpc_id      = var.vpc_id
   target_type = "ip"
 
@@ -30,7 +30,7 @@ resource "aws_lb_target_group" "main" {
     matcher            = "200-399"
     path               = "/health"
     port               = "traffic-port"
-    protocol           = "HTTP"
+    protocol           = "HTTPS"
     timeout            = 5
     unhealthy_threshold = 2
   }
@@ -59,33 +59,11 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.certificate_arn
 
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Invalid request"
-      status_code  = "403"
-    }
-  }
-}
-
-# HTTPSリスナールール - カスタムヘッダーの検証（シークレットIDが指定されている場合のみ）
-resource "aws_lb_listener_rule" "verify_header" {
-  count = var.origin_secret_id != null ? 1 : 0
-
-  listener_arn = aws_lb_listener.https.arn
-  priority     = 1
-
-  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.main.arn
   }
 
-  condition {
-    http_header {
-      http_header_name = "X-Origin-Verify"
-      values           = [data.aws_secretsmanager_secret_version.origin_secret[0].secret_string]
-    }
-  }
+  depends_on = [aws_lb_target_group.main]
 }
 
 # HTTPリスナーの作成（HTTPSへのリダイレクト）
@@ -124,10 +102,4 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
   }
 
   alarm_actions = [var.sns_topic_arn]
-}
-
-# CloudFrontからのOrigin認証シークレットを取得（シークレットIDが指定されている場合のみ）
-data "aws_secretsmanager_secret_version" "origin_secret" {
-  count = var.origin_secret_id != null ? 1 : 0
-  secret_id = var.origin_secret_id
 }
