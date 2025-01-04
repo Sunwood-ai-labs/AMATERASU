@@ -1,27 +1,32 @@
+# CloudFrontのマネージドプレフィックスリストを参照
+data "aws_ec2_managed_prefix_list" "cloudfront" {
+  name = "com.amazonaws.global.cloudfront.origin-facing"
+}
+
 # ALBのセキュリティグループ
 resource "aws_security_group" "alb" {
   name        = "${var.project_name}-alb-sg"
-  description = "Security group for ALB to restrict access from specific IP ranges"
+  description = "Security group for ALB to restrict access from CloudFront"
   vpc_id      = var.vpc_id
 
-  # テスト用に一時的に全てのIPからのアクセスを許可
+  # CloudFrontからのトラフィックのみを許可
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow HTTP traffic from all IPs (temporary)"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
+    description     = "Allow HTTP traffic from CloudFront"
   }
 
   ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow HTTPS traffic from all IPs (temporary)"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
+    description     = "Allow HTTPS traffic from CloudFront"
   }
 
-  # VPC内部からのHTTPアクセスを許可
+  # VPC内部からのアクセスを許可
   ingress {
     from_port   = 80
     to_port     = 80
@@ -30,7 +35,6 @@ resource "aws_security_group" "alb" {
     description = "Allow HTTP traffic from within VPC"
   }
 
-  # VPC内部からのHTTPSアクセスを許可
   ingress {
     from_port   = 443
     to_port     = 443
@@ -59,7 +63,7 @@ resource "aws_security_group" "ec2" {
   description = "Security group for EC2 instance to allow traffic from ALB and SSH access"
   vpc_id      = var.vpc_id
 
-  # SSHの通信許可
+  # SSHの通信許可（ホワイトリストされたIPからのみ）
   ingress {
     from_port   = 22
     to_port     = 22
@@ -68,7 +72,7 @@ resource "aws_security_group" "ec2" {
     description = "Allow SSH access from whitelisted IP addresses"
   }
 
-  # HTTPの通信許可
+  # ALBからのHTTP通信を許可
   ingress {
     from_port       = 80
     to_port         = 80
@@ -77,7 +81,7 @@ resource "aws_security_group" "ec2" {
     description     = "Allow HTTP traffic from ALB"
   }
 
-  # HTTPSの通信許可
+  # ALBからのHTTPS通信を許可
   ingress {
     from_port       = 443
     to_port         = 443
