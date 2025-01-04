@@ -39,11 +39,26 @@ output "alb_target_group_arn" {
 }
 
 output "application_url" {
-  description = "URL of the application"
-  value       = "https://${var.subdomain}.${var.domain}"
+  description = "URL of the application through CloudFront"
+  value       = module.networking.cloudfront_url
 }
 
-output "application_url_http" {
-  description = "HTTP URL of the application (redirects to HTTPS)"
-  value       = "http://${var.subdomain}.${var.domain}"
+output "application_url_alb" {
+  description = "URL of the application through ALB (internal access)"
+  value       = "https://internal-${var.subdomain}.${var.domain}"
+}
+
+output "cloudfront_domain_name" {
+  description = "Domain name of the CloudFront distribution"
+  value       = module.networking.cloudfront_domain_name
+}
+
+output "cloudfront_distribution_id" {
+  description = "ID of the CloudFront distribution"
+  value       = module.networking.cloudfront_distribution_id
+}
+
+output "cloudfront_certificate_arn" {
+  description = "ARN of the CloudFront ACM certificate"
+  value       = module.networking.cloudfront_certificate_arn
 }

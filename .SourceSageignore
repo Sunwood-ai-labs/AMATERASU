@@ -75,3 +75,8 @@ aws
 .pluralith
 ./spellbook/gitlab/services/gitlab/backups
 ./spellbook/gitlab/services
+base-infrastructure
+FG-prompt-pandora
+gitlab
+langfuse
+cloudfront-infrastructure
