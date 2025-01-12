@@ -1,11 +1,11 @@
 # terraform.tfvars
 # 環境固有のパラメータ
 aws_region         = "ap-northeast-1"
-vpc_id             = "vpc-0c660c24a3058a48f"
+vpc_id             = "vpc-0dc8cb87d464edc77"
 vpc_cidr           = "10.0.0.0/16"
-public_subnet_id   = "subnet-0d64af8e37f66597c"
-public_subnet_2_id = "subnet-0c346c102abafa139"
-security_group_id  = "sg-023d4ef2a650829e2"
+public_subnet_id   = "subnet-0d92d159dda7f5688"
+public_subnet_2_id = "subnet-0d3144797a2f55895"
+security_group_id  = "sg-0f16ffea1167ec5ba"
 ami_id             = "ami-0d52744d6551d851e"
 key_name           = "AMATERASU-terraform-keypair-tokyo-PEM"
 domain             = "sunwood-ai-labs.com"
