@@ -1,8 +1,30 @@
-# terraform/cloudfront-infrastructure/terraform.tfvars
+# terraform.tfvars
+#--------------------------------------------------------------
+# AWSの設定
+#--------------------------------------------------------------
+# 東京リージョンを使用
+aws_region = "ap-northeast-1"
 
-aws_region         = "ap-northeast-1"
-vpc_id             = "vpc-0013fddff64e654d1"
-public_subnet_id   = "subnet-005bc82dcd4ebe9cb"
-security_group_id  = "sg-09afd6eb5ab5cb990"
-project_name       = "amts-open-webui"
-origin_domain      = "ec2-54-65-45-214.ap-northeast-1.compute.amazonaws.com"
+#--------------------------------------------------------------
+# ネットワーク設定
+#--------------------------------------------------------------
+# VPC関連の設定値
+vpc_id             = "vpc-0dc8cb87d464edc77"
+public_subnet_id   = "subnet-0d92d159dda7f5688"
+security_group_id  = "sg-0f16ffea1167ec5ba"
+
+#--------------------------------------------------------------
+# プロジェクト設定
+#--------------------------------------------------------------
+# リソースのタグ付けと識別に使用するプロジェクト名
+project_name = "amts-open-webui"
+
+#--------------------------------------------------------------
+# ドメイン設定
+#--------------------------------------------------------------
+# オリジンサーバー（EC2インスタンス）
+origin_domain = "ec2-13-230-49-98.ap-northeast-1.compute.amazonaws.com"
+
+# ドメイン設定
+domain     = "sunwood-ai-labs.com"
+subdomain  = "amaterasu-open-web-ui"  # 生成されるURL: amaterasu-open-web-ui.sunwood-ai-labs.com

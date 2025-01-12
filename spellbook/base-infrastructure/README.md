@@ -12,10 +12,10 @@ AMATERASUプロジェクトの基盤となるAWSインフラストラクチャ�
 
 このモジュールは、以下のコアインフラストラクチャコンポーネントを提供します：
 
-- VPC設定とネットワーキング
-- セキュリティグループ管理
-- Route53プライベートホストゾーン
-- IPホワイトリスト管理
+- [VPC設定とネットワーキング](#vpc設定)
+- [セキュリティグループ管理](#セキュリティ設定)
+- [Route53プライベートホストゾーン](#dns設定)
+- [IPホワイトリスト管理](#ipホワイトリスト管理)
 
 ## 📦 モジュール構成
 
@@ -23,12 +23,32 @@ AMATERASUプロジェクトの基盤となるAWSインフラストラクチャ�
 .
 ├── modules/
 │   ├── vpc/              # VPCとネットワーク設定
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   └── variables.tf
 │   ├── security/         # セキュリティグループと管理
-│   └── route53/         # DNS設定
-├── main.tf              # メインの設定ファイル
-├── variables.tf         # 変数定義
-└── outputs.tf          # 出力定義
+│   │   ├── default.tf
+│   │   ├── main.tf
+│   │   ├── outputs.tf
+│   │   └── variables.tf
+│   └── route53/          # DNS設定
+│       ├── main.tf
+│       ├── outputs.tf
+│       └── variables.tf
+├── main.tf               # メインの設定ファイル
+├── variables.tf          # 変数定義
+├── outputs.tf           # 出力定義
+└── terraform.tfvars      # 環境変数設定
 ```
+
+### VPC設定
+VPCリソースの定義は[main.tf](modules/vpc/main.tf)に、出力定義は[outputs.tf](modules/vpc/outputs.tf)に、変数定義は[variables.tf](modules/vpc/variables.tf)に記述されています。
+
+### セキュリティ設定
+デフォルトセキュリティグループの定義は[default.tf](modules/security/default.tf)に、セキュリティグループの定義は[main.tf](modules/security/main.tf)に、出力定義は[outputs.tf](modules/security/outputs.tf)に、変数定義は[variables.tf](modules/security/variables.tf)に記述されています。
+
+### DNS設定
+Route53リソースの定義は[main.tf](modules/route53/main.tf)に、出力定義は[outputs.tf](modules/route53/outputs.tf)に、変数定義は[variables.tf](modules/route53/variables.tf)に記述されています。
 
 ## 🚀 デプロイメント手順
 
@@ -63,24 +83,15 @@ terraform apply
 
 ## 🔒 セキュリティ設定
 
-### デフォルトセキュリティグループルール
+### デフォルトセキュリティグループルール (ID: sg-06ba6015aa88f338d)
 - インバウンド：
   - SSH (22): ホワイトリストIPのみ
-  - HTTP (80): ホワイトリストIPのみ
-  - HTTPS (443): ホワイトリストIPのみ
+  - HTTP/HTTPS (80-443): CloudFrontプレフィックスリストからのアクセスを許可
   - その他のポート: VPC内部通信のみ許可
 - アウトバウンド：
   - すべての通信を許可
 
-### WAFとCloudFront設定
-- IPベースのアクセス制御
-- カスタムルールセット
-- 地域制限オプション
-
-### SSL/TLS証明書管理
-- ACMによる証明書管理
-- 自動更新設定
-- マルチドメイン対応
+>[!NOTE]  CloudFrontからのアクセスは、AWSのマネージドプレフィックスリスト（com.amazonaws.global.cloudfront.origin-facing）を使用して許可されています。これにより、CloudFrontの全エッジロケーションからのアクセスが単一のルールで管理されます。
 
 ## 📝 ライセンス
 

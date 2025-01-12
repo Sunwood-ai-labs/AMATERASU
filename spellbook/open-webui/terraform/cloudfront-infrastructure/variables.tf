@@ -34,3 +34,13 @@ variable "allowed_ip_ranges" {
   type        = list(string)
   default     = ["0.0.0.0/0"]  # デフォルトですべてのIPを許可（開発用）
 }
+
+variable "domain" {
+  description = "メインドメイン名"
+  type        = string
+}
+
+variable "subdomain" {
+  description = "サブドメイン名"
+  type        = string
+}
