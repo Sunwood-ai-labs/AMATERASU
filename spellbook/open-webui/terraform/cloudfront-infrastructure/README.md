@@ -4,81 +4,114 @@
 
 </div>
 
-EC2上で動作するOpenWebUI用のCloudFrontディストリビューションを設定するTerraformモジュールです。
+EC2上で動作するOpenWebUI用のCloudFrontディストリビューションを設定するTerraformモジュールです。WAFによるIPホワイトリスト制御とカスタムドメインの設定が可能です。
 
 ## 🚀 機能
 
-- CloudFrontディストリビューションの作成（*.cloudfront.netドメインを使用）
-- WAFv2の設定
-- 既存のセキュリティグループとの連携
+- CloudFrontディストリビューションの作成（カスタムドメイン対応）
+- WAFv2によるIPホワイトリスト制御
+- Route53でのDNSレコード自動設定
+- ACM証明書の自動作成と検証
 - CloudFrontからEC2（OpenWebUI）へのアクセス設定
 
 ## 📋 前提条件
 
-- AWS CLI がインストールされていること
-- Terraform がインストールされていること
-- 既存のEC2インスタンスとセキュリティグループが存在すること
+- AWS CLIがインストールされていること
+- Terraformがインストールされていること（バージョン0.12以上）
+- 既存のEC2インスタンスが稼働していること
+- Route53で管理されているドメインが存在すること
 
 ## 📁 ファイル構成
 
 ```
 cloudfront-infrastructure/
-├── main.tf           # メインの設定とプロバイダー
-├── cloudfront.tf     # CloudFrontディストリビューション設定
-├── waf.tf           # WAF設定
-├── variables.tf     # 変数定義
-├── outputs.tf       # 出力定義
-└── terraform.tfvars # 環境固有の変数
+├── acm.tf                    # ACM証明書の作成と検証設定
+├── cloudfront.tf             # CloudFrontディストリビューション設定
+├── main.tf                   # Terraform初期化とプロバイダー設定
+├── outputs.tf                # 出力値の定義
+├── route53.tf                # Route53 DNSレコード設定
+├── variables.tf              # 変数定義
+├── waf.tf                    # WAF設定とIPホワイトリスト制御
+├── whitelist-waf.csv         # WAFホワイトリストIP定義
+└── terraform.tfvars          # 環境固有の変数設定
 ```
+
+## ⚙️ 主な設定内容
+
+### 🌐 CloudFront設定 ([cloudfront.tf](cloudfront.tf))
+- HTTPSへのリダイレクト有効
+- カスタムドメインの使用
+- オリジンへのHTTPプロトコル転送
+- カスタムキャッシュ設定
+
+### 🛡️ WAF設定 ([waf.tf](waf.tf))
+- IPホワイトリストによるアクセス制御（[whitelist-waf.csv](whitelist-waf.csv)で定義）
+- デフォルトでアクセスをブロック
+- ホワイトリストに登録されたIPのみアクセス可能
+
+### 🔒 DNS設定 ([route53.tf](route53.tf))
+- Route53での自動DNSレコード作成
+- CloudFrontへのエイリアスレコード設定
+
+### 📜 SSL/TLS証明書 ([acm.tf](acm.tf))
+- ACM証明書の自動作成
+- DNS検証の自動化
+- 証明書の自動更新設定
+
+### ⚡ 変数設定 ([variables.tf](variables.tf))
+- 環境設定用の変数定義（[terraform.tfvars](terraform.tfvars)で値を設定）
+- ネットワーク設定
+- ドメイン設定
+
+### 📊 出力設定 ([outputs.tf](outputs.tf))
+- CloudFront関連の情報出力
+- URL情報の出力
 
 ## 🛠️ セットアップ手順
 
-1. `terraform.tfvars` を環境に合わせて編集:
+1. [terraform.tfvars](terraform.tfvars)を環境に合わせて編集します:
 
 ```hcl
 aws_region         = "ap-northeast-1"
 vpc_id             = "vpc-xxxxxxxx"
 public_subnet_id   = "subnet-xxxxxxxx"
 security_group_id  = "sg-xxxxxxxx"
-project_name       = "amts-open-webui"
-origin_domain      = "ec2-xx-xx-xx-xx.compute-1.amazonaws.com"
+project_name       = "your-project-name"
+origin_domain      = "your-ec2-domain.compute.amazonaws.com"
+domain             = "your-domain.com"
+subdomain          = "your-subdomain"
 ```
 
-2. Terraformの初期化:
+2. [whitelist-waf.csv](whitelist-waf.csv)にアクセスを許可するIPアドレスを設定:
+
+```csv
+ip,description
+192.168.1.1/32,Office
+10.0.0.1/32,Home
+```
+
+3. Terraformの初期化:
 ```bash
 terraform init
 ```
 
-3. 設定内容の確認:
+4. 設定内容の確認:
 ```bash
 terraform plan
 ```
 
-4. インフラストラクチャの作成:
+5. インフラストラクチャの作成:
 ```bash
 terraform apply
 ```
-
-## ⚙️ 主な設定内容
-
-### 🌐 CloudFront設定
-- HTTPSへのリダイレクト有効
-- OpenWebUIポート(8282)への転送
-- デフォルトのCloudFrontドメイン使用
-
-### 🛡️ WAF設定
-- デフォルトですべてのアクセスを許可
-- 基本的な保護を有効化
-
-### 🔒 セキュリティ設定
-- 既存のセキュリティグループを使用
-- CloudFrontからEC2へのアクセスルールを自動追加
 
 ## 📤 出力値
 
 - `cloudfront_domain_name`: CloudFrontのドメイン名（*.cloudfront.net）
 - `cloudfront_distribution_id`: CloudFrontディストリビューションのID
 - `cloudfront_arn`: CloudFrontディストリビューションのARN
+- `cloudfront_url`: CloudFrontのURL（https://）
+- `subdomain_url`: カスタムドメインのURL（https://）
 
 ## 🧹 環境の削除
 
@@ -88,25 +121,23 @@ terraform destroy
 
 ## 📝 注意事項
 
-- このモジュールは既存のEC2インスタンスとセキュリティグループを前提としています
-- CloudFrontのデフォルトドメインを使用するため、カスタムドメインの設定は含まれていません
-- デフォルトでは全てのIPからのアクセスを許可しています
+- CloudFrontのデプロイには15-30分程度かかることがあります
+- DNSの伝播には最大72時間かかる可能性があります
+- [whitelist-waf.csv](whitelist-waf.csv)のIPホワイトリストは定期的なメンテナンスが必要です
+- SSL証明書の検証には数分から数十分かかることがあります
 
-## 🔍 セキュリティグループIDの確認方法
-
-AWS Management ConsoleでセキュリティグループIDを確認する手順：
-
-1. EC2ダッシュボードを開く
-2. 左側のメニューから「セキュリティグループ」を選択
-3. 使用するセキュリティグループを見つけ、IDをコピー
-4. `terraform.tfvars`の`security_group_id`に貼り付け
-
-## ❓ トラブルシューティング
+## 🔍 トラブルシューティング
 
 1. CloudFrontにアクセスできない場合：
-   - セキュリティグループのルールを確認
-   - OpenWebUIが8282ポートで正しく動作していることを確認
+   - [whitelist-waf.csv](whitelist-waf.csv)のホワイトリストにIPが正しく登録されているか確認
+   - Route53のDNSレコードが正しく作成されているか確認
+   - ACM証明書の検証が完了しているか確認
 
-2. WAF関連の問題：
-   - AWS ConsoleでWAFルールを確認
-   - CloudFrontディストリビューションとWAFの連携を確認
+2. SSL証明書の検証に失敗する場合：
+   - Route53のゾーン設定が正しいか確認
+   - ドメインの所有権が正しく確認できているか確認
+
+3. オリジンサーバーにアクセスできない場合：
+   - EC2インスタンスが起動しているか確認
+   - セキュリティグループのインバウンドルールを確認
+   - [terraform.tfvars](terraform.tfvars)のオリジンドメインが正しく設定されているか確認
