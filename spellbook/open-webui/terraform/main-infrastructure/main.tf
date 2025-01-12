@@ -60,14 +60,3 @@ module "compute" {
     module.iam
   ]
 }
-
-# Register EC2 instance with ALB target group
-resource "aws_lb_target_group_attachment" "main" {
-  target_group_arn = module.networking.alb_target_group_arn
-  target_id        = module.compute.instance_id  # インスタンスIDを使用
-  port             = 80
-
-  depends_on = [
-    module.compute
-  ]
-}

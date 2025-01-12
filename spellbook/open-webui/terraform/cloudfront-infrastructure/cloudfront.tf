@@ -6,13 +6,14 @@ resource "aws_cloudfront_distribution" "main" {
   retain_on_delete   = false
   wait_for_deployment = false
   web_acl_id         = aws_wafv2_web_acl.cloudfront_waf.arn
+  aliases            = ["${var.subdomain}.${var.domain}"]
 
   origin {
     domain_name = var.origin_domain
     origin_id   = "EC2Origin"
 
     custom_origin_config {
-      http_port              = 80    # OpenWebUI用のポートを80に変更
+      http_port              = 80    # OpenWebUI用のポートを80に設定（Dockerでマッピング）
       https_port             = 443
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1.2"]
@@ -46,21 +47,12 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = aws_acm_certificate.cloudfront_cert.arn
+    minimum_protocol_version = "TLSv1.2_2021"
+    ssl_support_method = "sni-only"
   }
 
   tags = {
     Name = "${var.project_name}-cloudfront"
   }
-}
-
-# EC2のセキュリティグループにCloudFrontからの通信を許可するルールを追加
-resource "aws_security_group_rule" "cloudfront_to_ec2" {
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]  # CloudFrontのIP範囲は動的に変更されるため
-  security_group_id = var.security_group_id
-  description       = "Allow CloudFront to OpenWebUI port"
 }

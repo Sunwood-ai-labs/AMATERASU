@@ -146,5 +146,15 @@ model_list:
       vertex_project: "os.environ/GOOGLE_PROJECT_ID"
       vertex_location: "us-central1"
 
+
+  # ----------------------------------------------
+  # ===== Deepseek AI Models =====
+  # ----------------------------------------------
+  - model_name: deepseek/deepseek-chat    # Deepseek
+    litellm_params: 
+      model: deepseek/deepseek-chat
+      api_key: "os.environ/DEEPSEEK_API_KEY" 
+
+
 litellm_settings:
     drop_params: true

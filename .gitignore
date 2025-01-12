@@ -183,3 +183,8 @@ spellbook/gitlab/services/gitlab/runner
 
 .codegpt
 spellbook/open-webui/terraform/main-infrastructure/whitelist..csv
+spellbook/litellm/terraform/main-infrastructure/whitelist..csv
+
+.codegpt
+spellbook/open-webui/terraform/cloudfront-infrastructure/whitelist-waf.csv
+spellbook/base-infrastructure/whitelist-base-sg.csv

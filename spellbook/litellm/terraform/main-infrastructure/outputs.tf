@@ -28,22 +28,12 @@ output "public_subnet_id" {
   value       = module.networking.public_subnet_id
 }
 
-output "alb_dns_name" {
-  description = "DNS name of the Application Load Balancer"
-  value       = module.networking.alb_dns_name
+output "application_url_alb" {
+  description = "URL of the application through ALB (internal access)"
+  value       = "https://internal-${var.subdomain}.${var.domain}"
 }
 
-output "alb_target_group_arn" {
-  description = "ARN of the ALB target group"
-  value       = module.networking.alb_target_group_arn
-}
-
-output "application_url" {
-  description = "URL of the application"
-  value       = "https://${var.subdomain}.${var.domain}"
-}
-
-output "application_url_http" {
-  description = "HTTP URL of the application (redirects to HTTPS)"
-  value       = "http://${var.subdomain}.${var.domain}"
+output "certificate_arn" {
+  description = "ARN of the ACM certificate"
+  value       = module.networking.certificate_arn
 }

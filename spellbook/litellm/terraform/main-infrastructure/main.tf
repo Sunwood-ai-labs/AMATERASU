@@ -2,6 +2,17 @@ terraform {
   required_version = ">= 0.12"
 }
 
+# デフォルトプロバイダー設定
+provider "aws" {
+  region = var.aws_region
+}
+
+# CloudFront用のACM証明書のためのus-east-1プロバイダー
+provider "aws" {
+  alias  = "us_east_1"
+  region = "us-east-1"
+}
+
 # Networking module
 module "networking" {
   source = "../../../open-webui/terraform/main-infrastructure/modules/networking"
@@ -15,6 +26,11 @@ module "networking" {
   security_group_id = var.security_group_id
   domain           = var.domain
   subdomain        = var.subdomain
+
+  providers = {
+    aws           = aws
+    aws.us_east_1 = aws.us_east_1
+  }
 }
 
 # IAM module
@@ -42,16 +58,5 @@ module "compute" {
   depends_on = [
     module.networking,
     module.iam
-  ]
-}
-
-# Register EC2 instance with ALB target group
-resource "aws_lb_target_group_attachment" "main" {
-  target_group_arn = module.networking.alb_target_group_arn
-  target_id        = module.compute.instance_private_ip  # EC2インスタンスIDではなくプライベートIPを使用
-  port             = 80
-
-  depends_on = [
-    module.compute
   ]
 }

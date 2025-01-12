@@ -50,3 +50,19 @@ docker compose exec gitlab cat /etc/gitlab/initial_root_password
   - CPU: 4コア
   - メモリ: 8GB以上
   - ストレージ: 50GB以上
+
+## インフラストラクチャ構成
+
+- CloudFront経由のアクセス制御
+- WAFによるIPホワイトリスト管理
+- SSL/TLS証明書の自動管理
+- Route53によるDNS管理
+
+## セキュリティ設定
+
+- セキュリティグループ設定
+- ネットワークアクセス制御
+- HTTPS通信の強制
+- WAFルールセットによる保護
+
+詳細な設定手順については[Terraform Infrastructure](terraform/README.md)を参照してください。

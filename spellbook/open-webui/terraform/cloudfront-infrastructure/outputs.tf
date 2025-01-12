@@ -12,3 +12,13 @@ output "cloudfront_arn" {
   description = "ARN of the CloudFront distribution"
   value       = aws_cloudfront_distribution.main.arn
 }
+
+output "cloudfront_url" {
+  description = "CloudFrontのURL"
+  value       = "https://${aws_cloudfront_distribution.main.domain_name}"
+}
+
+output "subdomain_url" {
+  description = "サブドメインのURL"
+  value       = "https://${var.subdomain}.${var.domain}"
+}
