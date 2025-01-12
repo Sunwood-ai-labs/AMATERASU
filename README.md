@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.8.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.9.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -123,24 +123,32 @@ graph TB
 
 ## 🆕 最新情報
 
-### AMATERASU v1.8.0 (最新のリリース)
+### AMATERASU v1.9.0 (最新のリリース)
 
-- 🎉 **CloudFrontとWAFの導入によるセキュリティ強化**
-  - CloudFrontディストリビューションの追加
-  - WAFによるIPベースのアクセス制御
-  - インフラストラクチャのセキュリティ向上
-  
-- 🎉 **Route53とACM設定の改善**
-  - DNSレコード管理の改善
-  - SSL/TLS証明書の自動管理
-  - ドメイン設定の柔軟性向上
+- 🎉 **CloudFrontとWAFによるセキュリティ強化**: CloudFrontとWAF v2の導入により、セキュリティが大幅に向上しました。ホワイトリストIPアドレスは`whitelist-waf.exmaple.csv`で管理します。
+- 🎉 **ベースインフラのセキュリティグループ設定の改善**: ベースとなるセキュリティグループにデフォルト設定を追加。ホワイトリストからのアクセスを許可するルールを追加。ホワイトリストIPアドレスは`whitelist-base-sg.example.csv`で管理します。
+- 🎉 **DeepSeek APIキー設定の追加**: `.env.example`ファイルにDeepSeek APIキーの設定項目を追加しました。
+- 🚀 **README.mdファイルの更新**: 各プロジェクトのREADME.mdファイルに、インフラストラクチャ構成、セキュリティ設定、使用方法などの情報を追加・更新しました。バージョン番号を更新しました。
+- 🚀 **英語READMEの更新**: 英語のREADMEを更新しました。
+- 🚀 **terraform.example.tfvarsへの説明追加**: `terraform.example.tfvars`ファイルに、各変数の役割と設定方法の説明を追加しました。
+- 🚀 **terraform.tfvarsの更新**: `terraform.tfvars`ファイルの変数を更新し、`domain`と`subdomain`を追加しました。
+- 🚀 **LiteLLM READMEの更新**: セキュリティ強化と構成の簡素化に関する記述を追加しました。
+- 🚀 **ベースインフラREADMEの更新**: セキュリティとCloudFront/WAF導入に関する記述に更新しました。
+- ⚠️ **インフラストラクチャの大幅な変更**: ALBとCloudFront関連のTerraformモジュールを削除し、インフラストラクチャ構成を簡素化しました。アップグレード前に既存のインフラストラクチャと設定をバックアップしてください。
+- ⚠️ **VPC IDとサブネットIDの更新**: LiteLLMプロジェクトのVPC IDとサブネットIDを更新しました。
 
-- 🚀 **インフラストラクチャの最適化**
-  - CloudFrontを介したコンテンツ配信の効率化
-  - WAFルールセットの柔軟な設定オプション
-  - セキュリティグループ設定の更新
 
-[その他の詳細はリリースノートを参照]
+## 🛠️ 使用方法
+
+各コンポーネントの使用方法については、それぞれのREADMEファイルを参照してください。
+
+
+## 📦 インストール手順
+
+1.  リポジトリをクローンします。
+2.  各プロジェクトのREADMEに記載されている手順に従って、依存関係をインストールし、アプリケーションをデプロイします。
+3.  `terraform.tfvars`ファイルに必要な設定を入力します。
+
 
 ## 📄 ライセンス
 
@@ -148,4 +156,4 @@ graph TB
 
 ## 👏 謝辞
 
-コントリビューターの皆様に感謝いたします。
+iris-s-coonとMakiの貢献に感謝します。
