@@ -9,7 +9,7 @@ module "core" {
   vpc_cidr          = var.vpc_cidr
   public_subnet_id  = var.public_subnet_id
   public_subnet_2_id = var.public_subnet_2_id
-  security_group_id = var.security_group_id
+  security_group_ids = var.security_group_ids
   domain           = var.domain
   subdomain        = var.subdomain
   domain_internal  = var.domain_internal
