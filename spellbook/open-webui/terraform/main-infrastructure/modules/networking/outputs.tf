@@ -30,10 +30,7 @@ output "dns_record_info" {
 
 output "certificate_info" {
   description = "ALB証明書情報"
-  value       = {
-    domain = "${var.subdomain}.${var.domain_internal}"
-    arn    = module.core.alb_certificate_arn
-  }
+  value       = module.core.certificate_info
 }
 
 output "alb_info" {

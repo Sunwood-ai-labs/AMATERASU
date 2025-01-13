@@ -21,7 +21,7 @@ resource "aws_lb_listener" "https" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-  certificate_arn   = aws_acm_certificate.alb_cert.arn
+  certificate_arn   = aws_acm_certificate.alb.arn
 
   default_action {
     type             = "forward"
@@ -29,7 +29,7 @@ resource "aws_lb_listener" "https" {
   }
 
   depends_on = [
-    aws_acm_certificate.alb_cert,
+    aws_acm_certificate.alb,
     aws_lb_target_group.app
   ]
 
