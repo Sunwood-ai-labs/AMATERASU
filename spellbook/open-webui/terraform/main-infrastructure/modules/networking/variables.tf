@@ -71,6 +71,11 @@ variable "enable_health_check" {
   default     = false
 }
 
+variable "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  type        = string
+}
+
 variable "instance_id" {
   description = "ID of the EC2 instance to attach to the target group"
   type        = string
