@@ -32,15 +32,3 @@ resource "aws_acm_certificate" "alb" {
   }
 }
 
-# CA証明書の自動配布
-resource "null_resource" "distribute_ca_cert" {
-  provisioner "local-exec" {
-    command = "bash ${var.ca_cert_script_path}"
-    environment = {
-      CA_ARN = aws_acmpca_certificate_authority.ca.arn
-    }
-  }
-
-  depends_on = [aws_acmpca_certificate_authority.ca]
-}
-

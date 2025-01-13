@@ -33,11 +33,6 @@ output "dns_record_info" {
   value       = module.networking.dns_record_info
 }
 
-output "certificate_info" {
-  description = "SSL証明書情報"
-  value       = module.networking.certificate_info
-}
-
 output "internal_access_info" {
   description = "VPC内部からのアクセス情報"
   value       = <<-EOT

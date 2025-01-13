@@ -115,12 +115,6 @@ variable "alb_alt_names" {
   default     = []
 }
 
-# CA証明書取得スクリプトのパス
-variable "ca_cert_script_path" {
-  type        = string
-  description = "CA証明書取得スクリプトのパス"
-}
-
 # 共通のローカル変数
 locals {
   # リソース命名用の共通プレフィックス
