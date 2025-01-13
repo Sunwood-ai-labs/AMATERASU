@@ -28,6 +28,21 @@ output "default_security_group_id" {
   value       = module.security.default_security_group_id
 }
 
+output "whitelist_security_group_id" {
+  description = "ID of the whitelist security group"
+  value       = module.security.whitelist_security_group_id
+}
+
+output "cloudfront_security_group_id" {
+  description = "ID of the CloudFront security group"
+  value       = module.security.cloudfront_security_group_id
+}
+
+output "vpc_internal_security_group_id" {
+  description = "ID of the VPC internal security group"
+  value       = module.security.vpc_internal_security_group_id
+}
+
 output "route53_zone_id" {
   description = "ID of the Route53 private hosted zone"
   value       = module.route53.zone_id
