@@ -1,45 +1,42 @@
 resource "aws_security_group" "default" {
   name_prefix = "${var.project_name}-default-sg"
-  description = "Default security group for ${var.project_name}"
+  description = "Default security group to control access from whitelisted IPs, CloudFront, and VPC internal resources"
   vpc_id      = var.vpc_id
 
-  # ホワイトリストからのアクセスを許可
-  dynamic "ingress" {
-    for_each = var.whitelist_entries
-    content {
-      from_port   = 0
-      to_port     = 0
-      protocol    = -1
-      cidr_blocks = [ingress.value.ip]
-      description = "All access from ${ingress.value.description}"
-    }
-  }
-
-  # クラウドフロントからのHTTP/HTTPSアクセスを許可
+  # Allow traffic from whitelisted IP addresses
   ingress {
-    from_port   = 80
-    to_port     = 443
-    protocol    = "tcp"
-    prefix_list_ids = [data.aws_ec2_managed_prefix_list.cloudfront.id]
-    description = "Allow HTTP/HTTPS access from CloudFront"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.whitelist.id]
+    description     = "Allow all traffic from whitelisted IP addresses for management and monitoring"
   }
 
-  # VPC内の全トラフィックを許可（全ポート）
+  # Allow traffic from CloudFront edge locations
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["10.0.0.0/16"]
-    description = "Allow all traffic within VPC"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.cloudfront.id]
+    description     = "Allow all traffic from CloudFront edge locations for content delivery"
   }
 
-  # 全ての送信トラフィックを許可
+  # Allow traffic from VPC internal resources
+  ingress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.vpc_internal.id]
+    description     = "Allow all traffic from internal VPC resources for inter-service communication"
+  }
+
+  # Allow all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all outbound traffic"
+    description = "Allow all outbound traffic for internet access"
   }
 
   tags = merge(
@@ -53,8 +50,5 @@ resource "aws_security_group" "default" {
   lifecycle {
     create_before_destroy = true
   }
-}
 
-data "aws_ec2_managed_prefix_list" "cloudfront" {
-  name = "com.amazonaws.global.cloudfront.origin-facing"
 }
