@@ -14,21 +14,6 @@ variable "origin_domain" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "ID of the existing VPC"
-  type        = string
-}
-
-variable "public_subnet_id" {
-  description = "ID of the public subnet"
-  type        = string
-}
-
-variable "security_group_id" {
-  description = "ID of the existing security group"
-  type        = string
-}
-
 variable "allowed_ip_ranges" {
   description = "List of IP ranges to allow access to CloudFront (in CIDR notation)"
   type        = list(string)
