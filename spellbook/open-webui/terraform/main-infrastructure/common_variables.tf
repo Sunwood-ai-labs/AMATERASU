@@ -37,10 +37,10 @@ variable "public_subnet_2_id" {
   type        = string
 }
 
-# 既存のセキュリティグループID
-variable "security_group_id" {
-  description = "ID of the existing security group"
-  type        = string
+# セキュリティグループID
+variable "security_group_ids" {
+  description = "List of security group IDs to attach to the instance"
+  type        = list(string)
 }
 
 # ベースドメイン名
@@ -72,8 +72,9 @@ variable "route53_internal_zone_id" {
 # EC2インスタンス関連の変数
 # EC2インスタンスのAMI ID
 variable "ami_id" {
-  description = "AMI ID for the EC2 instance"
+  description = "AMI ID for the EC2 instance (defaults to Ubuntu 22.04 LTS)"
   type        = string
+  default     = "ami-0d52744d6551d851e"  # Ubuntu 22.04 LTS in ap-northeast-1
 }
 
 # EC2インスタンスタイプ

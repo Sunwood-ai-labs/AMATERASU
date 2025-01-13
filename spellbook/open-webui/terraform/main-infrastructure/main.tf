@@ -32,7 +32,7 @@ module "compute" {
   instance_type       = var.instance_type
   key_name            = var.key_name
   iam_instance_profile = module.iam.ec2_instance_profile_name
-  security_group_id    = var.security_group_id
+  security_group_ids   = var.security_group_ids
   env_file_path       = var.env_file_path
   setup_script_path   = var.setup_script_path
 
@@ -51,7 +51,7 @@ module "networking" {
   vpc_cidr          = var.vpc_cidr
   public_subnet_id  = var.public_subnet_id
   public_subnet_2_id = var.public_subnet_2_id
-  security_group_id = var.security_group_id
+  security_group_ids = var.security_group_ids
   domain           = var.domain
   subdomain        = var.subdomain
   domain_internal  = var.domain_internal

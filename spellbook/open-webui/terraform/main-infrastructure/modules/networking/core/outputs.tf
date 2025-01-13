@@ -19,6 +19,6 @@ output "public_subnet_2_id" {
 }
 
 output "ec2_security_group_id" {
-  description = "ID of the EC2 security group"
-  value       = var.security_group_id
+  description = "ID of the default security group (first in the list)"
+  value       = var.security_group_ids[0]
 }

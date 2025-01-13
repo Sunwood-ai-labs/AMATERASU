@@ -43,9 +43,9 @@ variable "subdomain" {
   type        = string
 }
 
-variable "security_group_id" {
-  description = "ID of the existing security group"
-  type        = string
+variable "security_group_ids" {
+  description = "List of security group IDs"
+  type        = list(string)
 }
 
 variable "instance_private_ip" {

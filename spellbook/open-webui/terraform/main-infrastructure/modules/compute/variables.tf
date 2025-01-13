@@ -25,9 +25,9 @@ variable "iam_instance_profile" {
   type        = string
 }
 
-variable "security_group_id" {
-  description = "ID of the security group"
-  type        = string
+variable "security_group_ids" {
+  description = "List of security group IDs to attach to the instance"
+  type        = list(string)
 }
 
 # 環境変数ファイルのパス

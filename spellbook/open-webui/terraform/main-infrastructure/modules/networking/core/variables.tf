@@ -49,9 +49,9 @@ variable "aws_region" {
   type        = string
 }
 
-variable "security_group_id" {
-  description = "ID of the existing security group"
-  type        = string
+variable "security_group_ids" {
+  description = "List of security group IDs"
+  type        = list(string)
 }
 
 variable "instance_private_ip" {
@@ -79,5 +79,3 @@ variable "instance_id" {
   description = "ID of the EC2 instance to attach to the target group"
   type        = string
 }
-
-
