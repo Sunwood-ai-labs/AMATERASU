@@ -76,15 +76,6 @@ variable "instance_id" {
   type        = string
 }
 
-variable "alb_domain_name" {
-  type        = string
-  description = "ALB用のプライマリドメイン名"
-}
-
-variable "alb_alt_names" {
-  type        = list(string)
-  description = "ALB用の代替ドメイン名のリスト"
-}
 
 # Common module reference
 module "common" {

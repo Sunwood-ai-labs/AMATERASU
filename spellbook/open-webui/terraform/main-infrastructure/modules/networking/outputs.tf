@@ -22,18 +22,3 @@ output "ec2_security_group_id" {
   description = "ID of the EC2 security group"
   value       = module.core.ec2_security_group_id
 }
-
-output "dns_record_info" {
-  description = "プライベートホストゾーンのDNSレコード情報"
-  value       = module.core.dns_record_info
-}
-
-output "alb_info" {
-  description = "Application Load Balancer情報"
-  value       = module.core.alb_info
-}
-
-output "target_group_info" {
-  description = "ターゲットグループ情報"
-  value       = module.core.target_group_info
-}
