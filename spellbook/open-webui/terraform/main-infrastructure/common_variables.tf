@@ -101,6 +101,26 @@ variable "setup_script_path" {
   type        = string
 }
 
+# ALB用のドメイン名
+variable "alb_domain_name" {
+  type        = string
+  description = "ALB用のプライマリドメイン名"
+  default     = "amaterasu-open-web-ui.sunwood-ai-labs-internal.com"
+}
+
+# ALB用の代替ドメイン名
+variable "alb_alt_names" {
+  type        = list(string)
+  description = "ALB用の代替ドメイン名のリスト"
+  default     = []
+}
+
+# CA証明書取得スクリプトのパス
+variable "ca_cert_script_path" {
+  type        = string
+  description = "CA証明書取得スクリプトのパス"
+}
+
 # 共通のローカル変数
 locals {
   # リソース命名用の共通プレフィックス
