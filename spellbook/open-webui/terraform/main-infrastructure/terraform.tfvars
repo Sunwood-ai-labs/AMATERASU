@@ -20,4 +20,3 @@ instance_type      = "t3.medium"
 # ローカルファイルパス
 env_file_path      = "../../.env"
 setup_script_path  = "./scripts/setup_script.sh"
-ca_cert_script_path = "C:/Prj/AMATERASU/spellbook/open-webui/terraform/main-infrastructure/scripts/get_ca_cert.ps1"
