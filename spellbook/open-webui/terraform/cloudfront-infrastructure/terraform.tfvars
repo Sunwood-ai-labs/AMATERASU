@@ -9,8 +9,8 @@ aws_region = "ap-northeast-1"
 # ネットワーク設定
 #--------------------------------------------------------------
 # VPC関連の設定値
-vpc_id             = "vpc-0dc8cb87d464edc77"
-public_subnet_id   = "subnet-0d92d159dda7f5688"
+vpc_id             = "vpc-0fde6326ce23fcb11"
+public_subnet_id   = "subnet-07ccf2ba130266f91"
 security_group_id  = "sg-0f16ffea1167ec5ba"
 
 #--------------------------------------------------------------
@@ -23,7 +23,7 @@ project_name = "amts-open-webui"
 # ドメイン設定
 #--------------------------------------------------------------
 # オリジンサーバー（EC2インスタンス）
-origin_domain = "ec2-13-230-49-98.ap-northeast-1.compute.amazonaws.com"
+origin_domain = "ec2-35-74-36-129.ap-northeast-1.compute.amazonaws.com"
 
 # ドメイン設定
 domain     = "sunwood-ai-labs.com"
