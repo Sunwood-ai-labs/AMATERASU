@@ -28,21 +28,3 @@ output "public_subnet_id" {
   value       = module.networking.public_subnet_id
 }
 
-output "internal_access_info" {
-  description = "VPC内部からのアクセス情報"
-  value       = <<-EOT
-    VPC内のインスタンスから以下のURLでアクセスできます：
-    https://${var.subdomain}.${var.domain_internal}
-
-    セキュリティ対策：
-    - HTTPS通信によるエンドツーエンドの暗号化
-    - ACM証明書によるサーバー認証
-    - VPC内部でも安全な通信を確保
-    - セキュリティグループ（${var.security_group_id}）による通信制御
-
-    注意：
-    - このURLはVPC内部からのみアクセス可能です
-    - HTTPアクセスは自動的にHTTPSにリダイレクトされます
-    - 外部からのアクセスはできません
-  EOT
-}
