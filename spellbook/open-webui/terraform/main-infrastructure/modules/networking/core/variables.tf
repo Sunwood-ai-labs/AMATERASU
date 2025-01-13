@@ -65,6 +65,11 @@ variable "instance_private_dns" {
   default     = null
 }
 
+variable "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  type        = string
+}
+
 variable "route53_zone_id" {
   description = "Route53 private hosted zone ID"
   type        = string

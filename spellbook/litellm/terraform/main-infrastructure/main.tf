@@ -31,6 +31,7 @@ module "networking" {
   instance_id      = module.compute.instance_id
   instance_private_ip = module.compute.instance_private_ip
   instance_private_dns = module.compute.instance_private_dns
+  instance_public_ip = module.compute.instance_public_ip
 
   providers = {
     aws           = aws
