@@ -11,11 +11,22 @@ module "data_sources" {
   subdomain         = var.subdomain
 }
 
-# ACMモジュール
-module "acm" {
-  source = "../acm"
-
-  project_name    = var.project_name
-  domain          = var.domain
-  subdomain       = var.subdomain
+# データソース定義
+data "aws_route53_zone" "private" {
+  zone_id = var.route53_zone_id
+  private_zone = true
 }
+
+# Route53レコード作成（ALBへのエイリアス）
+resource "aws_route53_record" "alb" {
+  zone_id = data.aws_route53_zone.private.zone_id
+  name    = "${var.subdomain}.${var.domain_internal}"
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.internal.dns_name
+    zone_id                = aws_lb.internal.zone_id
+    evaluate_target_health = true
+  }
+}
+

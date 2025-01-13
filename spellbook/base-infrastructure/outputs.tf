@@ -37,3 +37,13 @@ output "route53_zone_name" {
   description = "Name of the Route53 private hosted zone"
   value       = module.route53.zone_name
 }
+
+output "route53_internal_zone_id" {
+  description = "ID of the internal Route53 private hosted zone"
+  value       = module.route53.internal_zone_id
+}
+
+output "route53_internal_zone_name" {
+  description = "Name of the internal Route53 private hosted zone"
+  value       = module.route53.internal_zone_name
+}

@@ -40,14 +40,28 @@ resource "aws_iam_role_policy_attachment" "ssm_automation_attachment" {
   role       = aws_iam_role.eventbridge_role.name
 }
 
+# ネットワークインターフェース
+resource "aws_network_interface" "app_server" {
+  subnet_id       = var.public_subnet_id
+  security_groups = [var.security_group_id]
+
+  tags = {
+    Name = "${var.project_name}-eni"
+  }
+}
+
 # EC2インスタンス
 resource "aws_instance" "app_server" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
-  subnet_id              = var.public_subnet_id
-  vpc_security_group_ids = [var.security_group_id]
   iam_instance_profile   = var.iam_instance_profile
   key_name               = var.key_name
+
+  # ネットワークインターフェースをアタッチ
+  network_interface {
+    network_interface_id = aws_network_interface.app_server.id
+    device_index        = 0
+  }
 
   root_block_device {
     volume_type = "gp2"
@@ -65,27 +79,13 @@ resource "aws_instance" "app_server" {
 
 # Elastic IP
 resource "aws_eip" "app_server" {
-  instance = aws_instance.app_server.id
-  domain   = "vpc"
+  domain = "vpc"
+  network_interface = aws_network_interface.app_server.id
 
   tags = {
     Name = "${var.project_name}-eip"
   }
 }
-
-# SSHのセキュリティグループルール
-# resource "aws_vpc_security_group_ingress_rule" "ssh" {
-#   security_group_id = var.security_group_id
-#   cidr_ipv4        = "0.0.0.0/0"  # SSHは管理用に外部からのアクセスを許可
-#   ip_protocol      = "tcp"
-#   description      = "Allow SSH inbound traffic"
-#   from_port        = 22
-#   to_port          = 22
-
-#   tags = {
-#     Name = "${var.project_name}-ssh-rule"
-#   }
-# }
 
 # CloudWatchイベント
 resource "aws_cloudwatch_event_rule" "start_instance" {
