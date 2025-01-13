@@ -12,5 +12,10 @@ module "core" {
   security_group_id = var.security_group_id
   domain           = var.domain
   subdomain        = var.subdomain
+  domain_internal  = var.domain_internal
+  instance_id      = var.instance_id
+  instance_private_ip = var.instance_private_ip
+  instance_private_dns = var.instance_private_dns
+  route53_zone_id  = var.route53_zone_id
   enable_health_check = false
 }
