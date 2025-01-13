@@ -50,14 +50,10 @@ output "alb_info" {
 output "certificate_info" {
   description = "証明書情報"
   value = {
-    ca_arn = aws_acmpca_certificate_authority.ca.arn
     alb_cert_arn = aws_acm_certificate.alb.arn
-    domain = "${var.subdomain}.${var.domain_internal}"
-    validity_years = 5
-    status = "プライベートCA発行の証明書"
-    crl_enabled = true
-    crl_bucket = "amaterasu-crl-${data.aws_caller_identity.current.account_id}"
-    crl_expiration_days = 7
+    domain = "${var.subdomain}.${var.domain}"
+    status = "パブリックCA発行の証明書"
+    validation_method = "DNS"
   }
 }
 
