@@ -28,11 +28,6 @@ output "public_subnet_id" {
   value       = module.networking.public_subnet_id
 }
 
-output "dns_record_info" {
-  description = "プライベートホストゾーンのDNSレコード情報"
-  value       = module.networking.dns_record_info
-}
-
 output "internal_access_info" {
   description = "VPC内部からのアクセス情報"
   value       = <<-EOT
