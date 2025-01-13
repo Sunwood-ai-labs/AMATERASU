@@ -19,6 +19,6 @@ output "public_subnet_2_id" {
 }
 
 output "ec2_security_group_id" {
-  description = "ID of the EC2 security group"
+  description = "ID of the security group"
   value       = module.core.ec2_security_group_id
 }

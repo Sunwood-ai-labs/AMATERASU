@@ -1,10 +1,6 @@
 # データソース定義
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
-data "aws_security_group" "existing" {
-  id = var.security_group_id
-}
-
 # IAMロール関連
 resource "time_rotating" "rotation" {
   rotation_days = 1
@@ -43,7 +39,7 @@ resource "aws_iam_role_policy_attachment" "ssm_automation_attachment" {
 # ネットワークインターフェース
 resource "aws_network_interface" "app_server" {
   subnet_id       = var.public_subnet_id
-  security_groups = [var.security_group_id]
+  security_groups = var.security_group_ids
 
   tags = {
     Name = "${var.project_name}-eni"
