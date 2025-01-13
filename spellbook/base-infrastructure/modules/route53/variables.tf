@@ -18,6 +18,11 @@ variable "domain_name" {
   type        = string
 }
 
+variable "domain_internal" {
+  description = "Internal domain name for the Route53 private hosted zone"
+  type        = string
+}
+
 variable "tags" {
   description = "Additional tags for resources"
   type        = map(string)

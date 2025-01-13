@@ -48,9 +48,21 @@ variable "vpc_id" {
   type        = string
 }
 
+variable "vpc_cidr" {
+  description = "CIDR block of the VPC"
+  type        = string
+}
+
 variable "public_subnet_id" {
   description = "ID of the public subnet"
   type        = string
+}
+
+# プライベートIPアドレス
+variable "private_ip_address" {
+  description = "Fixed private IP address for the instance"
+  type        = string
+  default     = null  # デフォルトはnullで、自動割り当てを許可
 }
 
 # Common module reference
@@ -63,7 +75,7 @@ module "common" {
   # Optional variables with default values
   aws_region        = "ap-northeast-1"
   vpc_id            = var.vpc_id
-  vpc_cidr          = ""
+  vpc_cidr          = var.vpc_cidr
   public_subnet_id  = var.public_subnet_id
   public_subnet_2_id = ""
   domain            = ""

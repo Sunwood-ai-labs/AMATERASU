@@ -28,12 +28,3 @@ output "public_subnet_id" {
   value       = module.networking.public_subnet_id
 }
 
-output "application_url_alb" {
-  description = "URL of the application through ALB (internal access)"
-  value       = "https://internal-${var.subdomain}.${var.domain}"
-}
-
-output "certificate_arn" {
-  description = "ARN of the ACM certificate"
-  value       = module.networking.certificate_arn
-}

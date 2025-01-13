@@ -33,6 +33,11 @@ variable "subdomain" {
   type        = string
 }
 
+variable "domain_internal" {
+  description = "Internal domain name for private hosted zone"
+  type        = string
+}
+
 variable "enable_health_check" {
   description = "Whether to enable Route53 health check"
   type        = bool
@@ -48,4 +53,31 @@ variable "security_group_id" {
   description = "ID of the existing security group"
   type        = string
 }
+
+variable "instance_private_ip" {
+  description = "Private IP address of the EC2 instance"
+  type        = string
+}
+
+variable "instance_private_dns" {
+  description = "Private DNS name of the EC2 instance"
+  type        = string
+  default     = null
+}
+
+variable "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  type        = string
+}
+
+variable "route53_zone_id" {
+  description = "Route53 private hosted zone ID"
+  type        = string
+}
+
+variable "instance_id" {
+  description = "ID of the EC2 instance to attach to the target group"
+  type        = string
+}
+
 

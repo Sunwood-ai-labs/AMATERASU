@@ -11,11 +11,9 @@ module "data_sources" {
   subdomain         = var.subdomain
 }
 
-# ACMモジュール
-module "acm" {
-  source = "../acm"
-
-  project_name    = var.project_name
-  domain          = var.domain
-  subdomain       = var.subdomain
+# データソース定義
+data "aws_route53_zone" "private" {
+  zone_id = var.route53_zone_id
+  private_zone = true
 }
+

@@ -43,5 +43,9 @@ variable "tags" {
 variable "domain_name" {
   description = "Domain name for the Route53 private hosted zone"
   type        = string
-  default     = "sunwood-ai-labs.click"  # または必要なドメイン名
+}
+
+variable "domain_internal" {
+  description = "Internal domain name for the Route53 private hosted zone"
+  type        = string
 }
