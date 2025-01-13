@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.9.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.10.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -63,11 +63,9 @@ graph TB
         end
         
         subgraph "Infrastructure Layer"
-            ALB["Application Load Balancer"]
             CF["CloudFront"]
             WAF["WAF"]
             R53["Route 53"]
-            ACM["ACM証明書"]
         end
         
         subgraph "AWS Services"
@@ -75,16 +73,14 @@ graph TB
             IAM["IAM<br/>認証・認可"]
         end
         
-        OW --> ALB
-        LL --> ALB
-        LF --> ALB
-        GL --> ALB
+        OW --> CF
+        LL --> CF
+        LF --> CF
+        GL --> CF
         PP --> ECS
         
-        ALB --> CF
         CF --> WAF
         WAF --> R53
-        R53 --> ACM
         
         EC2 --> Bedrock
         ECS --> Bedrock
@@ -123,19 +119,13 @@ graph TB
 
 ## 🆕 最新情報
 
-### AMATERASU v1.9.0 (最新のリリース)
+### AMATERASU v1.10.0 (最新のリリース)
 
-- 🎉 **CloudFrontとWAFによるセキュリティ強化**: CloudFrontとWAF v2の導入により、セキュリティが大幅に向上しました。ホワイトリストIPアドレスは`whitelist-waf.exmaple.csv`で管理します。
-- 🎉 **ベースインフラのセキュリティグループ設定の改善**: ベースとなるセキュリティグループにデフォルト設定を追加。ホワイトリストからのアクセスを許可するルールを追加。ホワイトリストIPアドレスは`whitelist-base-sg.example.csv`で管理します。
-- 🎉 **DeepSeek APIキー設定の追加**: `.env.example`ファイルにDeepSeek APIキーの設定項目を追加しました。
-- 🚀 **README.mdファイルの更新**: 各プロジェクトのREADME.mdファイルに、インフラストラクチャ構成、セキュリティ設定、使用方法などの情報を追加・更新しました。バージョン番号を更新しました。
-- 🚀 **英語READMEの更新**: 英語のREADMEを更新しました。
-- 🚀 **terraform.example.tfvarsへの説明追加**: `terraform.example.tfvars`ファイルに、各変数の役割と設定方法の説明を追加しました。
-- 🚀 **terraform.tfvarsの更新**: `terraform.tfvars`ファイルの変数を更新し、`domain`と`subdomain`を追加しました。
-- 🚀 **LiteLLM READMEの更新**: セキュリティ強化と構成の簡素化に関する記述を追加しました。
-- 🚀 **ベースインフラREADMEの更新**: セキュリティとCloudFront/WAF導入に関する記述に更新しました。
-- ⚠️ **インフラストラクチャの大幅な変更**: ALBとCloudFront関連のTerraformモジュールを削除し、インフラストラクチャ構成を簡素化しました。アップグレード前に既存のインフラストラクチャと設定をバックアップしてください。
-- ⚠️ **VPC IDとサブネットIDの更新**: LiteLLMプロジェクトのVPC IDとサブネットIDを更新しました。
+- 🎉 **セキュリティ強化**: ホワイトリストセキュリティグループ、VPC内部セキュリティグループ、CloudFrontセキュリティグループを追加しました。`var.whitelist_entries`変数でホワイトリストIPアドレスを動的に設定できます。
+- 🎉 **EC2インスタンスの公開IPアドレス取得機能追加**: open-webui環境とlitellm環境のTerraformにEC2インスタンスの公開IPアドレス取得機能を追加しました。`networking`モジュールにも対応変数と出力設定を追加しました。
+- 🎉 **Route53 CNAMEレコード追加**: 内部ネットワークからのHTTPアクセスを可能にするRoute53 CNAMEレコードを追加しました。
+- 🚀 **デフォルトセキュリティグループの強化**: デフォルトセキュリティグループの構成を簡素化し、セキュリティを強化しました。
+- ⚠️ **ALB関連リソースの削除**: ALB、リスナー、ターゲットグループ、および関連する構成を完全に削除しました。アップグレード前に既存のインフラストラクチャと設定をバックアップしてください。  プライベートCAとALB証明書も削除されました。関連する出力値と変数も削除されています。Route53レコードも削除されています。
 
 
 ## 🛠️ 使用方法
@@ -156,4 +146,4 @@ graph TB
 
 ## 👏 謝辞
 
-iris-s-coonとMakiの貢献に感謝します。
+iris-s-coonとMakiによる貢献に感謝します。
