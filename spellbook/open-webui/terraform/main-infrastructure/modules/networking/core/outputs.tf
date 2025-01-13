@@ -43,13 +43,22 @@ output "alb_info" {
     target_group_arn = aws_lb_target_group.app.arn
     https_listener_arn = aws_lb_listener.https.arn
     http_listener_arn  = aws_lb_listener.http.arn
-    certificate_arn = aws_acm_certificate.alb_cert.arn
+    certificate_arn = aws_acm_certificate.alb.arn
   }
 }
 
-output "alb_certificate_arn" {
-  description = "ALB証明書のARN"
-  value       = aws_acm_certificate.alb_cert.arn
+output "certificate_info" {
+  description = "証明書情報"
+  value = {
+    ca_arn = aws_acmpca_certificate_authority.ca.arn
+    alb_cert_arn = aws_acm_certificate.alb.arn
+    domain = "${var.subdomain}.${var.domain_internal}"
+    validity_years = 5
+    status = "プライベートCA発行の証明書"
+    crl_enabled = true
+    crl_bucket = "amaterasu-crl-${data.aws_caller_identity.current.account_id}"
+    crl_expiration_days = 7
+  }
 }
 
 output "target_group_info" {
