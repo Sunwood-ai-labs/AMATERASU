@@ -14,8 +14,6 @@ module "core" {
   subdomain        = var.subdomain
   domain_internal  = var.domain_internal
   instance_id            = var.instance_id
-  alb_domain_name        = var.alb_domain_name
-  alb_alt_names          = var.alb_alt_names
   instance_private_ip = var.instance_private_ip
   instance_private_dns = var.instance_private_dns
   route53_zone_id  = var.route53_zone_id
