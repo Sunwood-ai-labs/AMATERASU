@@ -16,6 +16,7 @@ module "core" {
   instance_id            = var.instance_id
   instance_private_ip = var.instance_private_ip
   instance_private_dns = var.instance_private_dns
+  instance_public_ip = var.instance_public_ip
   route53_zone_id  = var.route53_zone_id
   enable_health_check = false
 }
