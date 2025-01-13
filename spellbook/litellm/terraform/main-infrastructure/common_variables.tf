@@ -57,6 +57,18 @@ variable "subdomain" {
   default     = "amaterasu-open-web-ui-dev"
 }
 
+# プライベートホストゾーンのドメイン名
+variable "domain_internal" {
+  description = "Domain name for private hosted zone"
+  type        = string
+}
+
+# Route53のゾーンID
+variable "route53_internal_zone_id" {
+  description = "Zone ID for Route53 private hosted zone"
+  type        = string
+}
+
 # EC2インスタンス関連の変数
 # EC2インスタンスのAMI ID
 variable "ami_id" {
