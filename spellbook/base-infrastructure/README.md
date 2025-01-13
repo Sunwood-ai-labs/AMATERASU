@@ -1,98 +1,112 @@
 <div align="center">
 
-![Base Infrastructure Header](assets/header.svg)
+![Base Infrastructure](./assets/header.svg)
 
-# Base Infrastructure Module
+# ベースインフラストラクチャ
 
-AMATERASUプロジェクトの基盤となるAWSインフラストラクチャを管理します。
+AMATERASUの基盤となるAWSインフラストラクチャ構成
 
 </div>
 
 ## 🌟 概要
 
-このモジュールは、以下のコアインフラストラクチャコンポーネントを提供します：
+このモジュールは、AMATERASUプラットフォームの基盤となるAWSインフラストラクチャを提供します。VPC、サブネット、セキュリティグループ、Route53などの基本的なネットワークリソースを管理します。
 
-- [VPC設定とネットワーキング](#vpc設定)
-- [セキュリティグループ管理](#セキュリティ設定)
-- [Route53プライベートホストゾーン](#dns設定)
-- [IPホワイトリスト管理](#ipホワイトリスト管理)
+## 📦 主要コンポーネント
 
-## 📦 モジュール構成
+### 🔒 セキュリティグループ構成
 
-```plaintext
-.
-├── modules/
-│   ├── vpc/              # VPCとネットワーク設定
-│   │   ├── main.tf
-│   │   ├── outputs.tf
-│   │   └── variables.tf
-│   ├── security/         # セキュリティグループと管理
-│   │   ├── default.tf
-│   │   ├── main.tf
-│   │   ├── outputs.tf
-│   │   └── variables.tf
-│   └── route53/          # DNS設定
-│       ├── main.tf
-│       ├── outputs.tf
-│       └── variables.tf
-├── main.tf               # メインの設定ファイル
-├── variables.tf          # 変数定義
-├── outputs.tf           # 出力定義
-└── terraform.tfvars      # 環境変数設定
-```
+階層化されたセキュリティグループにより、きめ細かなアクセス制御を実現：
 
-### VPC設定
-VPCリソースの定義は[main.tf](modules/vpc/main.tf)に、出力定義は[outputs.tf](modules/vpc/outputs.tf)に、変数定義は[variables.tf](modules/vpc/variables.tf)に記述されています。
+1. **デフォルトセキュリティグループ** (`default.tf`)
+   - 基本的なセキュリティ設定
+   - 他のセキュリティグループからの参照元
 
-### セキュリティ設定
-デフォルトセキュリティグループの定義は[default.tf](modules/security/default.tf)に、セキュリティグループの定義は[main.tf](modules/security/main.tf)に、出力定義は[outputs.tf](modules/security/outputs.tf)に、変数定義は[variables.tf](modules/security/variables.tf)に記述されています。
+2. **ホワイトリストSG** (`whitelist_sg.tf`)
+   - 許可されたIPアドレスからのアクセス管理
+   - `whitelist-base-sg.example.csv`でIPアドレスを管理
 
-### DNS設定
-Route53リソースの定義は[main.tf](modules/route53/main.tf)に、出力定義は[outputs.tf](modules/route53/outputs.tf)に、変数定義は[variables.tf](modules/route53/variables.tf)に記述されています。
+3. **CloudFront SG** (`cloudfront_sg.tf`)
+   - CloudFrontエッジロケーションからのアクセス制御
+   - マネージドプレフィックスリストの使用
 
-## 🚀 デプロイメント手順
+4. **VPC内部SG** (`vpc_internal_sg.tf`)
+   - VPC内部の通信制御
+   - サービス間の安全な通信を確保
+
+### 🌐 Route53 DNS設定
+
+1. **パブリックホストゾーン**
+   - メインドメイン: `sunwood-ai-labs.com`
+   - パブリックアクセス用
+
+2. **プライベートホストゾーン**
+   - 内部ドメイン: `sunwood-ai-labs-internal.com`
+   - VPC内部での名前解決
+   - EC2インスタンス間の通信に使用
+
+## 🛠️ セットアップ手順
 
 1. 環境変数の設定
 ```bash
-# AWS認証情報の設定
-export AWS_ACCESS_KEY_ID="your-access-key"
-export AWS_SECRET_ACCESS_KEY="your-secret-key"
-export AWS_DEFAULT_REGION="ap-northeast-1"
+# terraform.tfvarsを編集
+cp terraform.example.tfvars terraform.tfvars
 ```
 
-2. `terraform.tfvars`の設定
-```hcl
-aws_region   = "ap-northeast-1"
-project_name = "amts-base-infrastructure"
-environment  = "dev"
-vpc_cidr     = "10.0.0.0/16"
-```
-
-3. ホワイトリストIPの設定
+2. 必要なCSVファイルの準備
 ```bash
-cp whitelist.example.csv whitelist.csv
-# whitelist.csvを編集
+# ホワイトリストIPの設定
+cp whitelist-base-sg.example.csv whitelist-base-sg.csv
 ```
 
-4. インフラストラクチャのデプロイ
+3. Terraformの実行
 ```bash
 terraform init
 terraform plan
 terraform apply
 ```
 
-## 🔒 セキュリティ設定
+## ⚙️ 設定パラメータ
 
-### デフォルトセキュリティグループルール (ID: sg-06ba6015aa88f338d)
-- インバウンド：
-  - SSH (22): ホワイトリストIPのみ
-  - HTTP/HTTPS (80-443): CloudFrontプレフィックスリストからのアクセスを許可
-  - その他のポート: VPC内部通信のみ許可
-- アウトバウンド：
-  - すべての通信を許可
+主要な設定パラメータ（`terraform.tfvars`）：
 
->[!NOTE]  CloudFrontからのアクセスは、AWSのマネージドプレフィックスリスト（com.amazonaws.global.cloudfront.origin-facing）を使用して許可されています。これにより、CloudFrontの全エッジロケーションからのアクセスが単一のルールで管理されます。
+```hcl
+# プロジェクト設定
+project_name = "amts-base-infrastructure"
+environment  = "dev"
 
-## 📝 ライセンス
+# ドメイン設定
+domain_name = "sunwood-ai-labs.com"
+domain_internal = "sunwood-ai-labs-internal.com"
 
-このプロジェクトはMITライセンスの下で公開されています。
+# ネットワーク設定
+vpc_cidr             = "10.0.0.0/16"
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs = ["10.0.3.0/24", "10.0.4.0/24"]
+```
+
+## 🔍 動作確認
+
+1. セキュリティグループの確認
+```bash
+# デフォルトSGのルール確認
+aws ec2 describe-security-group-rules --filter Name="group-id",Values="<default-sg-id>"
+```
+
+2. Route53レコードの確認
+```bash
+# プライベートホストゾーンのレコード一覧
+aws route53 list-resource-record-sets --hosted-zone-id <private-zone-id>
+```
+
+## 📝 注意事項
+
+1. セキュリティグループの更新
+   - 既存の依存関係に注意
+   - 更新前にバックアップを推奨
+
+2. Route53設定の変更
+   - DNSの伝播時間を考慮
+   - 既存のレコードへの影響を確認
+
+詳細な設定や追加のカスタマイズについては、各モジュールのREADMEを参照してください。
