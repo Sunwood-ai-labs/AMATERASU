@@ -58,28 +58,23 @@ cloudfront-infrastructure/
 - DNS検証の自動化
 - 証明書の自動更新設定
 
-### ⚡ 変数設定 ([variables.tf](variables.tf))
-- 環境設定用の変数定義（[terraform.tfvars](terraform.tfvars)で値を設定）
-- ネットワーク設定
-- ドメイン設定
-
-### 📊 出力設定 ([outputs.tf](outputs.tf))
-- CloudFront関連の情報出力
-- URL情報の出力
-
 ## 🛠️ セットアップ手順
 
 1. [terraform.tfvars](terraform.tfvars)を環境に合わせて編集します:
 
 ```hcl
-aws_region         = "ap-northeast-1"
-vpc_id             = "vpc-xxxxxxxx"
-public_subnet_id   = "subnet-xxxxxxxx"
-security_group_id  = "sg-xxxxxxxx"
-project_name       = "your-project-name"
-origin_domain      = "your-ec2-domain.compute.amazonaws.com"
-domain             = "your-domain.com"
-subdomain          = "your-subdomain"
+# AWSリージョン設定
+aws_region = "ap-northeast-1"
+
+# プロジェクト名
+project_name = "your-project-name"
+
+# オリジンサーバー設定（EC2インスタンス）
+origin_domain = "your-ec2-domain.compute.amazonaws.com"
+
+# ドメイン設定
+domain    = "your-domain.com"
+subdomain = "your-subdomain"  # 生成されるURL: your-subdomain.your-domain.com
 ```
 
 2. [whitelist-waf.csv](whitelist-waf.csv)にアクセスを許可するIPアドレスを設定:
@@ -139,5 +134,4 @@ terraform destroy
 
 3. オリジンサーバーにアクセスできない場合：
    - EC2インスタンスが起動しているか確認
-   - セキュリティグループのインバウンドルールを確認
    - [terraform.tfvars](terraform.tfvars)のオリジンドメインが正しく設定されているか確認

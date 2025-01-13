@@ -34,6 +34,17 @@ Open WebUIのコアインフラストラクチャを管理するTerraformモジ�
 ### Networking Module (`modules/networking/`)
 - VPC設定とサブネット管理
 - ALBとターゲットグループ
+- セキュリティグループ管理
+  - 複数のセキュリティグループの統合管理
+  - 用途別のセキュリティグループ：
+    1. デフォルトセキュリティグループ（基本的なインバウンド/アウトバウンドルール）
+    2. CloudFrontセキュリティグループ（CDNからのアクセス制御）
+    3. VPC内部通信用セキュリティグループ（内部サービス間の通信）
+    4. ホワイトリストセキュリティグループ（特定IPからのアクセス許可）
+  - 優先順位とルールの結合
+    - すべてのグループのルールが統合されて適用
+    - より制限の厳しいルールが優先
+    - 明示的な許可が必要（デフォルトでは拒否）
 - Route53 DNS管理
   - パブリックDNSレコード管理
   - プライベートホストゾーン設定
@@ -47,11 +58,38 @@ Open WebUIのコアインフラストラクチャを管理するTerraformモジ�
 ## 🛠️ デプロイメント手順
 
 1. 環境変数の設定
-```bash
-# terraform.tfvarsを環境に合わせて編集
+```hcl
+# terraform.tfvarsの設定例
+aws_region         = "ap-northeast-1"
+vpc_id             = "vpc-0fde6326ce23fcb11"
+vpc_cidr           = "10.0.0.0/16"
+public_subnet_id   = "subnet-07ccf2ba130266f91"
+public_subnet_2_id = "subnet-035f1861e57534990"
+
+# セキュリティグループの設定
+security_group_ids = [
+  "sg-07f88719c48f3c042",  # デフォルトセキュリティグループ
+  "sg-03e35cd397ab91b2d",  # CloudFrontセキュリティグループ
+  "sg-0097221f0bf87d747",  # VPC内部通信用セキュリティグループ
+  "sg-0a7a8064abc5c1aee"   # ホワイトリストセキュリティグループ
+]
+
+# その他の設定
+project_name       = "amts-open-webui"
+instance_type     = "t3.medium"
+key_name          = "your-key-pair-name"
 ```
 
-2. モジュールの初期化とデプロイ
+2. セキュリティグループの確認
+```bash
+# 各セキュリティグループのルールを確認
+aws ec2 describe-security-groups --group-ids sg-07f88719c48f3c042
+aws ec2 describe-security-groups --group-ids sg-03e35cd397ab91b2d
+aws ec2 describe-security-groups --group-ids sg-0097221f0bf87d747
+aws ec2 describe-security-groups --group-ids sg-0a7a8064abc5c1aee
+```
+
+3. モジュールの初期化とデプロイ
 ```bash
 terraform init
 terraform plan
@@ -113,6 +151,32 @@ curl http://<subdomain>.sunwood-ai-labs-internal.com
   # HTTPSは現在サポートされていません
   # アプリケーションでHTTPSを有効にする場合は、追加の設定が必要です
   ```
+
+### セキュリティグループについて
+- 複数のセキュリティグループを使用する際の注意点：
+  - 各セキュリティグループのルールは加算的に適用されます
+  - 特定のルールが複数のグループで重複する場合は、最も制限の緩いルールが適用されます
+  - インバウンドルールとアウトバウンドルールは独立して評価されます
+
+- よくある問題と解決方法：
+  1. EC2インスタンスへの接続ができない
+     ```bash
+     # セキュリティグループのルールを確認
+     aws ec2 describe-security-group-rules --filters Name="group-id",Values="sg-07f88719c48f3c042"
+     # 必要なポートが開放されているか確認
+     ```
+  2. 特定のサービスからのアクセスが拒否される
+     ```bash
+     # CloudFrontセキュリティグループのルールを確認
+     aws ec2 describe-security-group-rules --filters Name="group-id",Values="sg-03e35cd397ab91b2d"
+     # CloudFrontのIPレンジが許可されているか確認
+     ```
+  3. VPC内部での通信が機能しない
+     ```bash
+     # VPC内部通信用セキュリティグループを確認
+     aws ec2 describe-security-group-rules --filters Name="group-id",Values="sg-0097221f0bf87d747"
+     # VPC CIDRからのトラフィックが許可されているか確認
+     ```
 
 ### 接続確認スクリプト
 プライベートDNSの動作確認には、提供されている接続確認スクリプトを使用できます：
