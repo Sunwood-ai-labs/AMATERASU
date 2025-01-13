@@ -26,11 +26,20 @@ module "networking" {
   security_group_id = var.security_group_id
   domain           = var.domain
   subdomain        = var.subdomain
+  domain_internal  = var.domain_internal
+  route53_zone_id  = var.route53_internal_zone_id
+  instance_id      = module.compute.instance_id
+  instance_private_ip = module.compute.instance_private_ip
+  instance_private_dns = module.compute.instance_private_dns
 
   providers = {
     aws           = aws
     aws.us_east_1 = aws.us_east_1
   }
+
+  depends_on = [
+    module.compute
+  ]
 }
 
 # IAM module
@@ -46,6 +55,7 @@ module "compute" {
   
   project_name         = var.project_name
   vpc_id              = var.vpc_id
+  vpc_cidr            = var.vpc_cidr
   public_subnet_id    = var.public_subnet_id
   ami_id              = var.ami_id
   instance_type       = var.instance_type
@@ -56,7 +66,6 @@ module "compute" {
   setup_script_path   = var.setup_script_path
 
   depends_on = [
-    module.networking,
     module.iam
   ]
 }
