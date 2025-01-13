@@ -8,17 +8,18 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.9.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.10.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service as an independent EC2 instance using Docker Compose, allowing for easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-based applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
 
 ## ✨ Key Features
 
@@ -27,13 +28,13 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservice Architecture
+### Microservices Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment with Terraform
+- Fully automated deployment using Terraform
 - Environment-specific configuration management
 - Version-controlled configuration
 
@@ -41,7 +42,7 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Enhanced version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
-- Automated labeling using GitLab Webhooks
+- Automated labeling using GitLab webhooks
 
 ## 🏗️ System Architecture
 
@@ -55,37 +56,33 @@ graph TB
                 LF["Langfuse<br/>Monitoring"]
                 GL["GitLab<br/>Version Control"]
             end
-
+            
             subgraph "Fargate-based Service"
                 PP["Prompt Pandora<br/>Prompt Generation Support"]
                 ECS["ECS Fargate Cluster"]
             end
         end
-
+        
         subgraph "Infrastructure Layer"
-            ALB["Application Load Balancer"]
             CF["CloudFront"]
             WAF["WAF"]
             R53["Route 53"]
-            ACM["ACM Certificate"]
         end
-
+        
         subgraph "AWS Services"
             Bedrock["AWS Bedrock<br/>LLM Service"]
             IAM["IAM<br/>Authentication & Authorization"]
         end
-
-        OW --> ALB
-        LL --> ALB
-        LF --> ALB
-        GL --> ALB
+        
+        OW --> CF
+        LL --> CF
+        LF --> CF
+        GL --> CF
         PP --> ECS
-
-        ALB --> CF
+        
         CF --> WAF
         WAF --> R53
-        R53 --> ACM
-
+        
         EC2 --> Bedrock
         ECS --> Bedrock
         EC2 --> IAM
@@ -116,31 +113,25 @@ graph TB
 - CI pipeline and Runner configuration
 - Backup and restore functionality
 
-### 5. FG-prompt-pandora (Fargate Sample Application)
-- Auto-scaling on AWS Fargate
+### 5. FG-prompt-pandora (Fargate-based sample application)
+- Automatic scaling on AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
 
-## 🆕 Latest News
+## 🆕 What's New
 
-### AMATERASU v1.9.0 (Latest Release)
+### AMATERASU v1.10.0 (Latest Release)
 
-- 🎉 **Enhanced Security with CloudFront and WAF**: Security significantly improved with the introduction of CloudFront and WAF v2. Whitelisted IP addresses are managed in `whitelist-waf.exmaple.csv`.
-- 🎉 **Improved Security Group Configuration for Base Infrastructure**: Added default settings to the base security group. Added rules to allow access from whitelisted IP addresses. Whitelisted IP addresses are managed in `whitelist-base-sg.example.csv`.
-- 🎉 **Added DeepSeek API Key Setting**: Added a DeepSeek API key setting item to the `.env.example` file.
-- 🚀 **Updated README.md files**: Added and updated information on infrastructure configuration, security settings, and usage in each project's README.md file. Version numbers updated.
-- 🚀 **Updated English README**: Updated the English README.
-- 🚀 **Added Explanations to terraform.example.tfvars**: Added explanations of the role and configuration method of each variable to the `terraform.example.tfvars` file.
-- 🚀 **Updated terraform.tfvars**: Updated variables in the `terraform.tfvars` file, adding `domain` and `subdomain`.
-- 🚀 **Updated LiteLLM README**: Added descriptions regarding security enhancements and simplified configuration.
-- 🚀 **Updated Base Infrastructure README**: Updated descriptions regarding security and CloudFront/WAF implementation.
-- ⚠️ **Significant Infrastructure Changes**: Removed ALB and CloudFront-related Terraform modules, simplifying the infrastructure configuration.  Back up your existing infrastructure and settings before upgrading.
-- ⚠️ **Updated VPC and Subnet IDs**: Updated the VPC and subnet IDs for the LiteLLM project.
+- 🎉 **Enhanced Security**: Added whitelist security groups for open-webui, litellm, and CloudFront.  The `var.whitelist_entries` variable allows dynamic configuration of whitelist IP addresses.
+- 🎉 **Added EC2 Instance Public IP Address Retrieval**: Added functionality to retrieve the public IP addresses of EC2 instances in the open-webui and litellm Terraform configurations. Corresponding variables and output settings have also been added to the `networking` module.
+- 🎉 **Added Route53 CNAME Record**: Added a Route53 CNAME record to enable HTTP access from the internal network.
+- 🚀 **Strengthened Default Security Group**: Simplified and strengthened the configuration of the default security group.
+- ⚠️ **Removed ALB-related Resources**: Completely removed the ALB, listener, target group, and related configurations.  Please back up your existing infrastructure and settings before upgrading. The private CA and ALB certificate have also been removed. Related output values and variables have also been removed. Route53 records have also been removed.
 
 
 ## 🛠️ Usage
 
-Refer to the README file for each component for instructions on its usage.
+Refer to the README file for each component for usage instructions.
 
 
 ## 📦 Installation Instructions
