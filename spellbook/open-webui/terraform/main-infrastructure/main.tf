@@ -59,7 +59,6 @@ module "networking" {
   instance_id      = module.compute.instance_id
   instance_private_ip = module.compute.instance_private_ip
   instance_private_dns = module.compute.instance_private_dns
-  ca_cert_script_path  = var.ca_cert_script_path
   alb_domain_name      = var.alb_domain_name
   alb_alt_names        = var.alb_alt_names
 
