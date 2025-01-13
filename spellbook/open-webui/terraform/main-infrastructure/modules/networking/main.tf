@@ -14,7 +14,6 @@ module "core" {
   subdomain        = var.subdomain
   domain_internal  = var.domain_internal
   instance_id            = var.instance_id
-  ca_cert_script_path    = var.ca_cert_script_path
   alb_domain_name        = var.alb_domain_name
   alb_alt_names          = var.alb_alt_names
   instance_private_ip = var.instance_private_ip
