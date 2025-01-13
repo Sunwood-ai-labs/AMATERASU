@@ -28,11 +28,6 @@ output "dns_record_info" {
   value       = module.core.dns_record_info
 }
 
-output "certificate_info" {
-  description = "ALB証明書情報"
-  value       = module.core.certificate_info
-}
-
 output "alb_info" {
   description = "Application Load Balancer情報"
   value       = module.core.alb_info
