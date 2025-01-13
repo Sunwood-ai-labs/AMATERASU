@@ -41,19 +41,7 @@ output "alb_info" {
     zone_id  = aws_lb.internal.zone_id
     arn      = aws_lb.internal.arn
     target_group_arn = aws_lb_target_group.app.arn
-    https_listener_arn = aws_lb_listener.https.arn
     http_listener_arn  = aws_lb_listener.http.arn
-    certificate_arn = aws_acm_certificate.alb.arn
-  }
-}
-
-output "certificate_info" {
-  description = "証明書情報"
-  value = {
-    alb_cert_arn = aws_acm_certificate.alb.arn
-    domain = "${var.subdomain}.${var.domain}"
-    status = "パブリックCA発行の証明書"
-    validation_method = "DNS"
   }
 }
 
