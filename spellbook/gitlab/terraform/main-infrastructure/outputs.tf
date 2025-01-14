@@ -28,22 +28,7 @@ output "public_subnet_id" {
   value       = module.networking.public_subnet_id
 }
 
-output "alb_dns_name" {
-  description = "DNS name of the Application Load Balancer"
-  value       = module.networking.alb_dns_name
-}
-
-output "alb_target_group_arn" {
-  description = "ARN of the ALB target group"
-  value       = module.networking.alb_target_group_arn
-}
-
-output "application_url" {
-  description = "URL of the application"
-  value       = "https://${var.subdomain}.${var.domain}"
-}
-
-output "application_url_http" {
-  description = "HTTP URL of the application (redirects to HTTPS)"
-  value       = "http://${var.subdomain}.${var.domain}"
+output "security_group_id" {
+  description = "ID of the security group"
+  value       = module.networking.ec2_security_group_id
 }
