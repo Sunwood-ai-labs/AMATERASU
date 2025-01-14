@@ -1,6 +1,6 @@
 # CSVファイルからホワイトリストを読み込む
 locals {
-  whitelist_csv = file("${path.root}/whitelist-waf.csv")
+  whitelist_csv = file("${path.root}/../../../whitelist-waf.csv")
   whitelist_lines = [for l in split("\n", local.whitelist_csv) : trim(l, " \t\r\n") if trim(l, " \t\r\n") != "" && !startswith(trim(l, " \t\r\n"), "ip")]
   whitelist_entries = [
     for l in local.whitelist_lines : {
