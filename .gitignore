@@ -188,3 +188,6 @@ spellbook/litellm/terraform/main-infrastructure/whitelist..csv
 .codegpt
 spellbook/open-webui/terraform/cloudfront-infrastructure/whitelist-waf.csv
 spellbook/base-infrastructure/whitelist-base-sg.csv
+spellbook/litellm/terraform/cloudfront-infrastructure/terraform.tfvars
+spellbook/litellm/terraform/main-infrastructure/terraform.tfvars
+spellbook/whitelist-waf.csv
