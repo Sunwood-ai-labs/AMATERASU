@@ -115,6 +115,18 @@ domain_internal = "sunwood-ai-labs-internal.com"
 subdomain = "amaterasu-open-web-ui"
 ```
 
+## 💾 バックアップとリストア
+
+アプリケーションデータのバックアップとリストアについての詳細な手順は以下のドキュメントを参照してください：
+
+- [Open WebUI & Ollamaのバックアップ・リストアガイド](docs/docker-volume-backup-restore.md)
+
+このガイドでは以下の内容を説明しています：
+- バックアップの作成方法
+- リストア手順
+- トラブルシューティング
+- 推奨されるバックアップ戦略
+
 ## 📝 トラブルシューティング
 
 1. DNS解決の問題
