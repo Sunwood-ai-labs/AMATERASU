@@ -8,18 +8,17 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.10.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.11.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
-
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service as an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-based applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
+AMATERASU is an enterprise-grade private AI platform.  Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-based applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management.
 
 ## ✨ Key Features
 
@@ -34,7 +33,7 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment using Terraform
+- Fully automated deployment with Terraform
 - Environment-specific configuration management
 - Version-controlled configuration
 
@@ -113,20 +112,27 @@ graph TB
 - CI pipeline and Runner configuration
 - Backup and restore functionality
 
-### 5. FG-prompt-pandora (Fargate-based sample application)
-- Automatic scaling on AWS Fargate
+### 5. FG-prompt-pandora (Fargate Sample Application)
+- Auto-scaling on AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
 
-## 🆕 What's New
+## 🆕 Latest Information
 
-### AMATERASU v1.10.0 (Latest Release)
+### AMATERASU v1.11.0 (Latest Release)
 
-- 🎉 **Enhanced Security**: Added whitelist security groups for open-webui, litellm, and CloudFront.  The `var.whitelist_entries` variable allows dynamic configuration of whitelist IP addresses.
-- 🎉 **Added EC2 Instance Public IP Address Retrieval**: Added functionality to retrieve the public IP addresses of EC2 instances in the open-webui and litellm Terraform configurations. Corresponding variables and output settings have also been added to the `networking` module.
-- 🎉 **Added Route53 CNAME Record**: Added a Route53 CNAME record to enable HTTP access from the internal network.
-- 🚀 **Strengthened Default Security Group**: Simplified and strengthened the configuration of the default security group.
-- ⚠️ **Removed ALB-related Resources**: Completely removed the ALB, listener, target group, and related configurations.  Please back up your existing infrastructure and settings before upgrading. The private CA and ALB certificate have also been removed. Related output values and variables have also been removed. Route53 records have also been removed.
+- 🎉 **IP Whitelist Configuration with WAFv2**: Implemented an IP whitelist feature to control access to CloudFront using AWS WAFv2.  IP addresses are read from the `whitelist-waf.csv` file, and an IP set is created using the `aws_wafv2_ip_set` resource.  By default, access is blocked, and only access from IP addresses registered in the whitelist is permitted. (commit: 57883b3)
+- 🎉 **Creation of README.md for CloudFront Infrastructure Construction**: Added a README.md document describing the procedure for building the CloudFront infrastructure to run OpenWebUI on EC2.  This comprehensively explains CloudFront, WAFv2, and Route 53 configuration methods, prerequisites, setup procedures, output values, environment removal methods, precautions, and troubleshooting. (commit: b275845)
+- 🎉 **Route 53 DNS Record Configuration**: Added a setting to automatically create alias records for the CloudFront distribution in Route 53. (commit: 105d6a6)
+- 🎉 **Definition of CloudFront-Related Output Values**: Defined output values to obtain important information such as the domain name, ID, ARN, and URL of the CloudFront distribution. (commit: 27df674)
+- 🎉 **Automation of ACM Certificate and DNS Verification**: Implemented automatic creation of ACM certificates used for CloudFront and DNS verification using Route 53. (commit: 6ad223a)
+- 🎉 **Enhanced Security Group Configuration and Explicit AMI ID**: Changed the security group ID from a single ID to a list of multiple IDs. (commit: 5897676)
+- 🎉 **Added Security Group ID Output**: Added an item to output the security group ID to `outputs.tf`. (commit: 6e97f07)
+- 🎉 **Added Whitelist Sample CSV**: Added a sample CSV file for WAF whitelist configuration. (commit: 49dd8b4)
+- 🚀 **Provider Configuration Integration**: Integrated `provider.tf` into `main.tf` to reduce the number of files. (commit: 7f9dfd6)
+- 🚀 **Added Example tfvars File**: Added a `terraform.example.tfvars` file for setting environment variables. (commit: fc59dcd)
+- 🐛 **Corrected Whitelist CSV Path in WAF Configuration**: Corrected the path to the whitelist CSV file referenced in the WAF configuration. (commit: f6254c4)
+- ⚠️ **Significant Infrastructure Changes**: Improvements and refactoring of already implemented features have been made.  Please back up your existing infrastructure and configuration before upgrading.
 
 
 ## 🛠️ Usage
@@ -147,4 +153,4 @@ This project is licensed under the MIT License.
 
 ## 👏 Acknowledgements
 
-Thanks to iris-s-coon and Maki for their contributions.
+Thanks to Maki and iris-s-coon for their contributions.
