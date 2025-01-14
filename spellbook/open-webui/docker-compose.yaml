@@ -3,8 +3,6 @@ version: '3.8'
 services:
   ollama:
     image: ollama/ollama:latest
-    # ports:
-    #   - "11434:11434" 
     volumes:
       - ollama-amaterasu1:/root/.ollama
     env_file:
@@ -21,22 +19,31 @@ services:
       args:
         OLLAMA_BASE_URL: '/ollama'
       dockerfile: Dockerfile.openweb.ui
-      
     image: ghcr.io/open-webui/open-webui:dev
     volumes:
       - open-webui-amaterasu1:/app/backend/data
       - ./:/work
+      - ./backup:/backup
     depends_on:
       - ollama
     ports:
       - ${OPEN_WEBUI_PORT-8181}:8080
     env_file:
       - .env
-    # environment:
-    #   - OPENAI_API_BASE_URLS=http://litellm:14365;http://host.docker.internal:9099
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  # バックアップ・リストア用のサービス
+  backup-tool:
+    image: ubuntu:latest
+    volumes:
+      - ollama-amaterasu1:/source/ollama
+      - open-webui-amaterasu1:/source/webui
+      - ./backup:/backup
+    tty: true
+    stdin_open: true
+    command: bash
 
 volumes:
   ollama-amaterasu1: {}
