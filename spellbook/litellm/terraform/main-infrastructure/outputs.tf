@@ -28,3 +28,7 @@ output "public_subnet_id" {
   value       = module.networking.public_subnet_id
 }
 
+output "security_group_id" {
+  description = "ID of the security group"
+  value       = module.networking.ec2_security_group_id
+}
