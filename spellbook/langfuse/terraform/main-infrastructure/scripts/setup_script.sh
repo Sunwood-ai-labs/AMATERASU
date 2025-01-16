@@ -10,13 +10,13 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git /home/ubuntu/AMATERAS
 
 # Terraformから提供される環境変数ファイルの作成
 # 注: .envファイルの内容はTerraformから提供される
-echo "${env_content}" > /home/ubuntu/AMATERASU/spellbook/langfuse/.env
+echo "${env_content}" > /home/ubuntu/AMATERASU/spellbook/litellm/.env
 
 # ファイルの権限設定
 chmod 777 -R /home/ubuntu/AMATERASU
 
 # AMATERASUディレクトリに移動
-cd /home/ubuntu/AMATERASU/spellbook/langfuse
+cd /home/ubuntu/AMATERASU/spellbook/litellm
 
 # 指定されたdocker-composeファイルでコンテナを起動
 sudo docker-compose up -d
