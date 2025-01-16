@@ -1,41 +1,40 @@
 version: '3.6'
 services:
-  # nginx-proxy:
-  #   image: nginx:latest
-  #   restart: always
-  #   ports:
-  #     - '80:80'
-  #     # - '443:443'
-  #   volumes:
-  #     - './services/gitlab/nginx/conf.d:/etc/nginx/conf.d'
-  #     - './services/gitlab/nginx/certs:/etc/nginx/certs'
-  #   depends_on:
-  #     - gitlab
-
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
     restart: always
-    hostname: '192.168.0.131'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://192.168.0.131'
+        external_url 'https://db2a3dlqnnbh9.cloudfront.net'
         gitlab_rails['time_zone'] = 'Asia/Tokyo'
         gitlab_rails['backup_keep_time'] = 604800
-        # Add any other gitlab.rb configuration here, each on its own line
+
+        # SSL設定
+        nginx['enable'] = true
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+
     ports:
       - '80:80'
-      # - '443:443'
+      - '443:443'
       - '2222:22'
     volumes:
-      - './services/gitlab/config:/etc/gitlab'
-      - './services/gitlab/logs:/var/log/gitlab'
-      - './services/gitlab/data:/var/opt/gitlab'
-      - './services/gitlab/backups:/var/opt/gitlab/backups'
+      - gitlab-config-amaterasu1:/etc/gitlab
+      - gitlab-logs-amaterasu1:/var/log/gitlab
+      - gitlab-data-amaterasu1:/var/opt/gitlab
+      - gitlab-backups-amaterasu1:/var/opt/gitlab/backups
     shm_size: '256m'
 
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
     restart: always
     volumes:
-      - './services/gitlab/runner:/etc/gitlab-runner'
+      - gitlab-runner-config-amaterasu1:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  gitlab-config-amaterasu1: {}
+  gitlab-logs-amaterasu1: {}
+  gitlab-data-amaterasu1: {}
+  gitlab-backups-amaterasu1: {}
+  gitlab-runner-config-amaterasu1: {}
