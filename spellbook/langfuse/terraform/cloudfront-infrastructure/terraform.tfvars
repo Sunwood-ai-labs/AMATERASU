@@ -14,7 +14,7 @@ project_name = "amts-litellm"
 # ドメイン設定
 #--------------------------------------------------------------
 # オリジンサーバー（EC2インスタンス）
-origin_domain = "ec2-52-192-129-235.ap-northeast-1.compute.amazonaws.com"
+origin_domain = "ec2-35-76-63-147.ap-northeast-1.compute.amazonaws.com"
 
 # ドメイン設定
 domain     = "sunwood-ai-labs.com"
