@@ -8,23 +8,24 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.12.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.13.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage). Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, allowing for easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows for the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.12.0 includes a new Terraform variable generator web application.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.13.0 includes UI/UX improvements for the Streamlit application, improvements to the Langfuse backend infrastructure, and updated documentation.
 
 ## ✨ Key Features
 
 ### Secure Foundation
 - Secure LLM foundation based on AWS Bedrock and Google Vertex AI
-- Operation in a completely closed environment
+- Operation in a fully closed environment
 - Enterprise-grade security
 
 ### Microservice Architecture
@@ -33,12 +34,12 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment with Terraform
+- Fully automated deployment using Terraform
 - Environment-specific configuration management
 - Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management
+- Enhanced version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
 - Automated labeling using GitLab webhooks
@@ -57,7 +58,7 @@ graph TB
             end
             
             subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>Prompt Generation Assistance"]
+                PP["Prompt Pandora<br/>Prompt Generation Support"]
                 ECS["ECS Fargate Cluster"]
             end
         end
@@ -109,7 +110,7 @@ graph TB
 ### 4. GitLab (Version Control)
 - Self-hosted GitLab instance
 - Project and code management
-- CI pipeline and Runner configuration
+- CI pipeline and runner configuration
 - Backup and restore functionality
 
 ### 5. FG-prompt-pandora (Fargate Sample Application)
@@ -117,18 +118,21 @@ graph TB
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
 
-## 🆕 Latest News
+## 🆕 What's New
 
-### AMATERASU v1.12.0 (Latest Release)
+### AMATERASU v1.13.0 (Latest Release)
 
-- 🎉 **Added Terraform Variable Generator Web App**: A web application to assist in the automatic generation of `terraform.tfvars` files has been added. It automatically detects projects with a `main-infrastructure` directory and enables the bulk generation of common and project-specific individual settings. (commit: b9b2c59)
-- 🎉 Numerous other new features and improvements (commit: 4441658, 70c69bc, 54ca945, 337eb64, 0ad4f8e, 6b8c544, b1c473d, a8360f0)
-- 🚀 **UI Component Package Organization**: The `utils/ui_components` package has been reorganized to simplify module imports.
+- 🎉 UI style of the Streamlit app defined with CSS:  A more refined design.
+- 🎉 Improved setup script: Enhanced error handling.
+- 🎉 Terraformization of the Langfuse backend infrastructure:  More robust and manageable infrastructure.
+- 🎉 Updated CloudFront infrastructure documentation:  Updated to the latest information.
+- 🎉 Added Streamlit progress bar display:  Progress of file generation can now be monitored.
+- ⚠️ Significant infrastructure changes:  Back up your existing infrastructure and settings before upgrading.
 
 
-## 🛠️ How to Use
+## 🛠️ Usage
 
-Refer to the individual README files for instructions on using each component.  Specifically, for instructions on using the Terraform variable generator web app, see `spellbook/tfvars_generator/README.md`.
+Refer to the README file for each component for usage instructions.  Specifically, for instructions on using the Terraform variable generator web app, see `spellbook/tfvars_generator/README.md`.
 
 
 ## 📦 Installation Instructions
