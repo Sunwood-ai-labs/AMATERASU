@@ -1,0 +1,91 @@
+{
+  "cloudfront_security_group_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sg-03e35cd397ab91b2d"
+  },
+  "default_security_group_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sg-07f88719c48f3c042"
+  },
+  "private_subnet_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-0381f222f24688fec",
+      "subnet-00f1d3e0b3952b6e0"
+    ]
+  },
+  "public_subnet_cidrs": {
+    "sensitive": false,
+    "type": [
+      "list",
+      "string"
+    ],
+    "value": [
+      "10.0.1.0/24",
+      "10.0.2.0/24"
+    ]
+  },
+  "public_subnet_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-07ccf2ba130266f91",
+      "subnet-035f1861e57534990"
+    ]
+  },
+  "route53_internal_zone_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "Z09366661CLT9PAXECKAS"
+  },
+  "route53_internal_zone_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sunwood-ai-labs-internal.com"
+  },
+  "route53_zone_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "Z09420663OVHTMGC9CBAS"
+  },
+  "route53_zone_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sunwood-ai-labs.com"
+  },
+  "vpc_cidr": {
+    "sensitive": false,
+    "type": "string",
+    "value": "10.0.0.0/16"
+  },
+  "vpc_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "vpc-0fde6326ce23fcb11"
+  },
+  "vpc_internal_security_group_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sg-0097221f0bf87d747"
+  },
+  "whitelist_security_group_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sg-0a7a8064abc5c1aee"
+  }
+}
