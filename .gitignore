@@ -191,3 +191,4 @@ spellbook/base-infrastructure/whitelist-base-sg.csv
 spellbook/litellm/terraform/cloudfront-infrastructure/terraform.tfvars
 spellbook/litellm/terraform/main-infrastructure/terraform.tfvars
 spellbook/whitelist-waf.csv
+spellbook/base-infrastructure/output.json
