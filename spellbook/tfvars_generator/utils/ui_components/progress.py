@@ -28,11 +28,6 @@ def generate_files_with_progress(projects, domain_name, project_settings):
     st.divider()
     st.subheader("🔄 生成状況")
     
-    with st.spinner("📝 terraform.tfvarsファイルの内容を生成中..."):
-        # 共通設定の生成
-        common_content = generate_tfvars_content(domain_name)
-        time.sleep(1)  # UIの動きを視覚化するための遅延
-    
     # プログレスバーで進捗表示
     progress_text = "ファイル生成の進捗状況"
     progress_bar = st.progress(0, text=progress_text)
@@ -45,15 +40,8 @@ def generate_files_with_progress(projects, domain_name, project_settings):
             # プロジェクト固有の設定を取得
             project_values = project_settings[project['name']]
             
-            # ProjectValuesのインスタンスを作成し、値を更新
-            values = ProjectValues(project['path'])
-            values.update_values(project_values)
-            
-            # プロジェクト固有の設定を生成
-            project_content = values.generate_project_content()
-            
-            # 共通設定とプロジェクト固有の設定を結合
-            content = common_content + "\n" + project_content
+            # terraform.tfvarsの内容を生成
+            content = generate_tfvars_content(project_values)
             
             # ファイルに書き込み
             write_tfvars(project, content)
