@@ -106,3 +106,16 @@ def show_progress_bar(
     suffix: str = ""
 ) -> None:
     """
+    進捗バーを表示する
+
+    Args:
+        current (int): 現在の進捗値
+        total (int): 全体の値
+        prefix (str): 進捗バーの前に表示するテキスト
+        suffix (str): 進捗バーの後に表示するテキスト
+
+    Returns:
+        None
+    """
+    progress = min(current / total, 1.0)
+    st.progress(progress, text=f"{prefix} {int(progress * 100)}% {suffix}")
