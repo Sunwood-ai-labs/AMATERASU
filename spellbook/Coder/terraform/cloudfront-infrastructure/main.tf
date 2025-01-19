@@ -26,7 +26,7 @@ provider "aws" {
 
 # CloudFrontモジュールの呼び出し
 module "cloudfront" {
-  source = "../../modules/cloudfront"
+  source = "./modules/cloudfront"
 
   providers = {
     aws           = aws
@@ -38,5 +38,5 @@ module "cloudfront" {
   origin_domain     = var.origin_domain
   domain            = var.domain
   subdomain         = var.subdomain
-  whitelist_csv_path = "${path.module}/whitelist-waf.csv"
+  whitelist_csv_path = "../../../whitelist-waf.csv"
 }
