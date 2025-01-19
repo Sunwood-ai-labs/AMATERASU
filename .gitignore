@@ -219,3 +219,4 @@ spellbook/**/nginx/conf.d/default.conf
 spellbook/**/nginx/ssl/*
 !spellbook/**/nginx/ssl/.gitkeep
 spellbook/**/middleware.env
+!spellbook/dify-beta1/nginx/ssl/.gitkeep
