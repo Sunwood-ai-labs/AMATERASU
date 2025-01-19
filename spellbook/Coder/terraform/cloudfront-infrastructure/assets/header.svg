@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF9900;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FF9900;#FFC300;#FF9900" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#FFC300;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FFC300;#FF9900;#FFC300" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF9900;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#FF9900;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- AWS CloudFront Icon representation -->
+  <path d="M380 70 A 30 30 0 1 1 380 130 A 30 30 0 1 1 380 70" fill="none" stroke="url(#gradient1)" stroke-width="3">
+    <animate attributeName="stroke-dasharray" values="0,1000;188.5,0" dur="3s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Main title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle">
+    CloudFront Infrastructure
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    Content Delivery Network Setup
+  </text>
+  
+  <!-- Animated network lines -->
+  <g stroke="url(#gradient1)" stroke-width="2">
+    <path d="M100,160 H700" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M150,140 H650" opacity="0.4">
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M200,120 H600" opacity="0.2">
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Edge location dots -->
+  <g fill="#FF9900">
+    <circle cx="150" cy="40" r="4">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="650" cy="40" r="4">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="400" cy="160" r="4">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>
