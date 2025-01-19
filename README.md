@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.12.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.13.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,7 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.12.0では、Terraform変数ジェネレーターWebアプリが追加されました。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.13.0では、StreamlitアプリケーションのUI/UX改善、Langfuseバックエンドインフラの整備、およびドキュメントの更新を行いました。
 
 ## ✨ 主な機能
 
@@ -119,11 +119,14 @@ graph TB
 
 ## 🆕 最新情報
 
-### AMATERASU v1.12.0 (最新のリリース)
+### AMATERASU v1.13.0 (最新のリリース)
 
-- 🎉 **Terraform変数ジェネレーターWebアプリ追加**: `terraform.tfvars`ファイルの自動生成を支援するWebアプリケーションを追加しました。`main-infrastructure`ディレクトリを持つプロジェクトを自動検出し、共通設定とプロジェクトごとの個別設定の一括生成を実現します。(commit: b9b2c59)
-- 🎉 その他多数の新機能と改善点 (commit: 4441658, 70c69bc, 54ca945, 337eb64, 0ad4f8e, 6b8c544, b1c473d, a8360f0)
-- 🚀 **UIコンポーネントパッケージの整理**: `utils/ui_components`パッケージを整理し、モジュールのインポートを簡素化しました。
+- 🎉 Streamlit アプリのUIスタイルをCSSで定義:  より洗練されたデザインになりました。
+- 🎉 セットアップスクリプトの改善: エラー処理が強化されました。
+- 🎉 LangfuseバックエンドインフラのTerraform化: より堅牢で管理しやすいインフラになりました。
+- 🎉 CloudFrontインフラのドキュメントを更新: 最新の情報に更新されました。
+- 🎉 Streamlitの進捗バー表示機能を追加: ファイル生成の進捗状況が確認できるようになりました。
+- ⚠️ インフラストラクチャの大幅な変更: 既存のインフラストラクチャと設定をバックアップしてからアップグレードしてください。
 
 
 ## 🛠️ 使用方法

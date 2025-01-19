@@ -1,99 +1,169 @@
-## README for docker Deployment
+<p align="center">
+  <img src="assets/header.svg" alt="AMATERASU Spellbook - Dify Deployment" width="800">
+</p>
 
-Welcome to the new `docker` directory for deploying Dify using Docker Compose. This README outlines the updates, deployment instructions, and migration details for existing users.
+<h1 align="center">🌟 AMATERASU Spellbook - Difyサービス</h1>
 
-### What's Updated
+<p align="center">
+  <img src="https://img.shields.io/badge/Docker-24.0.0+-blue?logo=docker" alt="Docker">
+  <img src="https://img.shields.io/badge/Docker%20Compose-2.20.0+-blue?logo=docker" alt="Docker Compose">
+  <img src="https://img.shields.io/badge/PostgreSQL-15-blue?logo=postgresql" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Redis-6.0+-red?logo=redis" alt="Redis">
+  <img src="https://img.shields.io/badge/Nginx-Latest-green?logo=nginx" alt="Nginx">
+  <img src="https://img.shields.io/badge/Python-3.10+-yellow?logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/Node.js-18.0+-green?logo=node.js" alt="Node.js">
+</p>
 
-- **Certbot Container**: `docker-compose.yaml` now contains `certbot` for managing SSL certificates. This container automatically renews certificates and ensures secure HTTPS connections.  
-  For more information, refer `docker/certbot/README.md`.
+<p align="center">
+本リポジトリはAMATERASU Spellbookの一部として、Difyサービスのデプロイメント構成を提供します。
+</p>
 
-- **Persistent Environment Variables**: Environment variables are now managed through a `.env` file, ensuring that your configurations persist across deployments.
+## 📋 目次
 
-  > What is `.env`? </br> </br>
-  > The `.env` file is a crucial component in Docker and Docker Compose environments, serving as a centralized configuration file where you can define environment variables that are accessible to the containers at runtime. This file simplifies the management of environment settings across different stages of development, testing, and production, providing consistency and ease of configuration to deployments.
+- [📋 目次](#-目次)
+- [🎯 概要](#-概要)
+- [🏗 システムアーキテクチャ](#-システムアーキテクチャ)
+- [✨ 前提条件](#-前提条件)
+- [🚀 セットアップ方法](#-セットアップ方法)
+- [🔧 サービスコンポーネント](#-サービスコンポーネント)
+- [⚙️ 環境設定](#️-環境設定)
+- [👨‍💼 管理と運用](#-管理と運用)
+  - [サービス管理](#サービス管理)
+  - [データバックアップ](#データバックアップ)
+- [🔍 トラブルシューティング](#-トラブルシューティング)
+- [📝 ライセンス](#-ライセンス)
+- [🤝 コントリビューション](#-コントリビューション)
 
-- **Unified Vector Database Services**: All vector database services are now managed from a single Docker Compose file `docker-compose.yaml`. You can switch between different vector databases by setting the `VECTOR_STORE` environment variable in your `.env` file.
-- **Mandatory .env File**: A `.env` file is now required to run `docker compose up`. This file is crucial for configuring your deployment and for any custom settings to persist through upgrades.
-- **Legacy Support**: Previous deployment files are now located in the `docker-legacy` directory and will no longer be maintained.
+## 🎯 概要
 
-### How to Deploy Dify with `docker-compose.yaml`
+本プロジェクトはDifyサービスを効率的にデプロイ・運用するためのDocker Compose構成を提供します。以下の特徴があります：
 
-1. **Prerequisites**: Ensure Docker and Docker Compose are installed on your system.
-2. **Environment Setup**:
-    - Navigate to the `docker` directory.
-    - Copy the `.env.example` file to a new file named `.env` by running `cp .env.example .env`.
-    - Customize the `.env` file as needed. Refer to the `.env.example` file for detailed configuration options.
-3. **Running the Services**:
-    - Execute `docker compose up` from the `docker` directory to start the services.
-    - To specify a vector database, set the `VECTOR_STORE` variable in your `.env` file to your desired vector database service, such as `milvus`, `weaviate`, or `opensearch`.
-4. **SSL Certificate Setup**:
-    - Rrefer `docker/certbot/README.md` to set up SSL certificates using Certbot.
+- 🐳 Docker Composeベースの一貫したデプロイメント
+- 🔒 SSL/TLS対応（Certbot統合）
+- 🔄 ベクトルデータベース複数対応
+- 🛡️ SSRFプロテクション
+- 🔌 プラグインシステム対応
+- 📦 コード実行サンドボックス環境
 
-### How to Deploy Middleware for Developing Dify
+## 🏗 システムアーキテクチャ 
 
-1. **Middleware Setup**:
-    - Use the `docker-compose.middleware.yaml` for setting up essential middleware services like databases and caches.
-    - Navigate to the `docker` directory.
-    - Ensure the `middleware.env` file is created by running `cp middleware.env.example middleware.env` (refer to the `middleware.env.example` file).
-2. **Running Middleware Services**:
-    - Execute `docker-compose -f docker-compose.middleware.yaml up --env-file middleware.env -d` to start the middleware services.
+本システムは以下のコンポーネントで構成されています：
 
-### Migration for Existing Users
+```mermaid
+graph TB
+    Client[クライアント] --> Nginx[Nginxリバースプロキシ]
+    Nginx --> WebUI[Web UI]
+    Nginx --> API[APIサービス]
+    API --> Worker[Workerサービス]
+    API --> Redis[Redisキャッシュ]
+    API --> PostgreSQL[PostgreSQLデータベース]
+    API --> VectorDB[ベクトルデータベース]
+    Worker --> Sandbox[コード実行サンドボックス]
+    API --> PluginDaemon[プラグインデーモン]
+```
 
-For users migrating from the `docker-legacy` setup:
+## ✨ 前提条件
 
-1. **Review Changes**: Familiarize yourself with the new `.env` configuration and Docker Compose setup.
-2. **Transfer Customizations**:
-    - If you have customized configurations such as `docker-compose.yaml`, `ssrf_proxy/squid.conf`, or `nginx/conf.d/default.conf`, you will need to reflect these changes in the `.env` file you create.
-3. **Data Migration**:
-    - Ensure that data from services like databases and caches is backed up and migrated appropriately to the new structure if necessary.
+- Docker Engine 24.0.0以上
+- Docker Compose 2.20.0以上
+- 最小システム要件:
+  - CPU: 2コア以上
+  - メモリ: 4GB以上
+  - ディスク: 20GB以上の空き容量
 
-### Overview of `.env`
+## 🚀 セットアップ方法
 
-#### Key Modules and Customization
+1. 環境ファイルの準備:
+```bash
+cp .env.example .env
+```
 
-- **Vector Database Services**: Depending on the type of vector database used (`VECTOR_STORE`), users can set specific endpoints, ports, and authentication details.
-- **Storage Services**: Depending on the storage type (`STORAGE_TYPE`), users can configure specific settings for S3, Azure Blob, Google Storage, etc.
-- **API and Web Services**: Users can define URLs and other settings that affect how the API and web frontends operate.
+2. 環境変数の設定:
+```bash
+# .envファイルを編集して必要な設定を行う
+vim .env
+```
 
-#### Other notable variables
+3. サービスの起動:
+```bash
+# 基本サービスの起動
+docker compose up -d
 
-The `.env.example` file provided in the Docker setup is extensive and covers a wide range of configuration options. It is structured into several sections, each pertaining to different aspects of the application and its services. Here are some of the key sections and variables:
+# SSL証明書の取得（オプション）
+docker compose --profile certbot up -d
+docker compose exec certbot /bin/sh /update-cert.sh
+```
 
-1. **Common Variables**:
-    - `CONSOLE_API_URL`, `SERVICE_API_URL`: URLs for different API services.
-    - `APP_WEB_URL`: Frontend application URL.
-    - `FILES_URL`: Base URL for file downloads and previews.
+## 🔧 サービスコンポーネント
 
-2. **Server Configuration**:
-    - `LOG_LEVEL`, `DEBUG`, `FLASK_DEBUG`: Logging and debug settings.
-    - `SECRET_KEY`: A key for encrypting session cookies and other sensitive data.
+- **API & Worker**: アプリケーションのバックエンドサービス
+- **Web UI**: React/Next.jsベースのフロントエンド
+- **PostgreSQL**: メインデータベース 
+- **Redis**: キャッシュとメッセージブローカー
+- **Vector Store**: ベクトルデータベース（Weaviate, Qdrant等）
+- **Nginx**: リバースプロキシとSSL終端
+- **Sandbox**: コード実行環境
+- **Plugin Daemon**: プラグインシステム管理
 
-3. **Database Configuration**:
-    - `DB_USERNAME`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`: PostgreSQL database credentials and connection details.
+## ⚙️ 環境設定
 
-4. **Redis Configuration**:
-    - `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`: Redis server connection settings.
+主要な設定ファイル：
 
-5. **Celery Configuration**:
-    - `CELERY_BROKER_URL`: Configuration for Celery message broker.
+- `.env`: メインの環境設定
+- `docker-compose.yaml`: サービス構成
+- `nginx/conf.d/`: Nginx設定
+- `.env.example`: 設定例とドキュメント
 
-6. **Storage Configuration**:
-    - `STORAGE_TYPE`, `S3_BUCKET_NAME`, `AZURE_BLOB_ACCOUNT_NAME`: Settings for file storage options like local, S3, Azure Blob, etc.
+## 👨‍💼 管理と運用
 
-7. **Vector Database Configuration**:
-    - `VECTOR_STORE`: Type of vector database (e.g., `weaviate`, `milvus`).
-    - Specific settings for each vector store like `WEAVIATE_ENDPOINT`, `MILVUS_URI`.
+### サービス管理
 
-8. **CORS Configuration**:
-    - `WEB_API_CORS_ALLOW_ORIGINS`, `CONSOLE_CORS_ALLOW_ORIGINS`: Settings for cross-origin resource sharing.
+```bash
+# サービスの状態確認
+docker compose ps
 
-9. **Other Service-Specific Environment Variables**:
-    - Each service like `nginx`, `redis`, `db`, and vector databases have specific environment variables that are directly referenced in the `docker-compose.yaml`.
+# ログの確認
+docker compose logs -f [service_name]
 
-### Additional Information
+# サービスの再起動
+docker compose restart [service_name]
+```
 
-- **Continuous Improvement Phase**: We are actively seeking feedback from the community to refine and enhance the deployment process. As more users adopt this new method, we will continue to make improvements based on your experiences and suggestions.
-- **Support**: For detailed configuration options and environment variable settings, refer to the `.env.example` file and the Docker Compose configuration files in the `docker` directory.
+### データバックアップ
 
-This README aims to guide you through the deployment process using the new Docker Compose setup. For any issues or further assistance, please refer to the official documentation or contact support.
+```bash
+# PostgreSQLバックアップ
+docker compose exec db pg_dump -U postgres dify > backup.sql
+
+# ボリュームのバックアップ
+tar -czvf volumes_backup.tar.gz ./volumes/
+```
+
+## 🔍 トラブルシューティング
+
+よくある問題と解決方法：
+
+1. **Nginxが起動しない**:
+   - 設定ファイルの文法を確認
+   - ポートの競合を確認
+   - SSL証明書の存在を確認
+
+2. **ベクトルDBへの接続エラー**:
+   - 環境変数の設定を確認
+   - ネットワーク接続を確認
+   - メモリ使用量を確認
+
+3. **APIエラー**:
+   - ログを確認
+   - 環境変数を確認
+   - データベース接続を確認
+
+---
+
+## 📝 ライセンス
+
+本プロジェクトは[MITライセンス](LICENSE)の下で公開されています。
+
+## 🤝 コントリビューション
+
+問題の報告やプルリクエストを歓迎します。大きな変更を行う場合は、まずIssueで提案してください。
