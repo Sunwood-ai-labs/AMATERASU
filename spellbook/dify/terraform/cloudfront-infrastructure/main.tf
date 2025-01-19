@@ -26,7 +26,7 @@ provider "aws" {
 
 # CloudFrontモジュールの呼び出し
 module "cloudfront" {
-  source = "./modules/cloudfront"
+  source = "../../../Coder/terraform/cloudfront-infrastructure/modules/cloudfront"
 
   providers = {
     aws           = aws
