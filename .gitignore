@@ -221,3 +221,5 @@ spellbook/**/nginx/ssl/*
 spellbook/**/middleware.env
 !spellbook/dify-beta1/nginx/ssl/.gitkeep
 spellbook/dify-beta1/volumes/plugin_daemon
+
+**/**/terraform.tfvars
