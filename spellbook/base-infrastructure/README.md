@@ -65,9 +65,11 @@ cp whitelist-base-sg.example.csv whitelist-base-sg.csv
 
 3. Terraformの実行
 ```bash
+# 初期化
 terraform init
-terraform plan
-terraform apply
+
+# 適用と出力の保存
+terraform apply -auto-approve && terraform output -json > output.json
 ```
 
 ## ⚙️ 設定パラメータ
@@ -102,6 +104,8 @@ aws ec2 describe-security-group-rules --filter Name="group-id",Values="<default-
 # プライベートホストゾーンのレコード一覧
 aws route53 list-resource-record-sets --hosted-zone-id <private-zone-id>
 ```
+
+各リソースのIDは`output.json`から確認できます。
 
 ## 📝 注意事項
 
