@@ -4,6 +4,7 @@ resource "aws_cloudfront_distribution" "main" {
   is_ipv6_enabled    = true
   price_class        = "PriceClass_200"
   comment            = "${var.project_name} distribution"
+  web_acl_id         = aws_wafv2_web_acl.cloudfront_waf.arn
 
   origin {
     domain_name = aws_lb.main.dns_name
@@ -17,7 +18,6 @@ resource "aws_cloudfront_distribution" "main" {
     }
   }
 
-  # オリジン認証用のランダム文字列
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
@@ -25,7 +25,7 @@ resource "aws_cloudfront_distribution" "main" {
 
     forwarded_values {
       query_string = true
-      headers      = ["Host", "Origin"]
+      headers      = ["Host", "Origin", "Sec-WebSocket-Key", "Sec-WebSocket-Version", "Sec-WebSocket-Protocol", "Sec-WebSocket-Accept"]
       cookies {
         forward = "all"
       }
@@ -33,12 +33,34 @@ resource "aws_cloudfront_distribution" "main" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 0  # キャッシュを無効化
-    max_ttl                = 0  # キャッシュを無効化
+    default_ttl            = 0
+    max_ttl                = 0
   }
 
+  # Streamlit WebSocket用のキャッシュ動作
   ordered_cache_behavior {
-    path_pattern     = "/_stcore/*"  # Streamlitの静的アセット
+    path_pattern     = "/_stcore/stream*"
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "ECS"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["*"]
+      cookies {
+        forward = "all"
+      }
+    }
+
+    viewer_protocol_policy = "https-only"
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+  }
+
+  # Streamlitの静的アセット用のキャッシュ動作
+  ordered_cache_behavior {
+    path_pattern     = "/_stcore/*"
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "ECS"
@@ -69,12 +91,6 @@ resource "aws_cloudfront_distribution" "main" {
   tags = {
     Name = "${var.project_name}-cloudfront"
   }
-}
-
-# オリジン認証用のランダム文字列を生成
-resource "random_string" "origin_verify" {
-  length  = 32
-  special = false
 }
 
 # 出力定義

@@ -20,6 +20,8 @@
 
 AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.14.0では、AWSインフラストラクチャの構築と管理を簡素化するためのTerraformコードと、CloudFrontインフラストラクチャの構築を容易にするためのモジュールを実装しました。また、セットアップスクリプトと出力値の定義を追加し、Difyのセットアップと運用を改善しています。
 
+このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
+
 ## ✨ 主な機能
 
 ### セキュアな基盤
@@ -54,6 +56,7 @@ graph TB
                 LL["LiteLLM Proxy<br/>APIプロキシ"]
                 LF["Langfuse<br/>モニタリング"]
                 GL["GitLab<br/>バージョン管理"]
+                CD["Coder<br/>クラウド開発環境"]
             end
             
             subgraph "Fargate-based Service"
@@ -77,6 +80,7 @@ graph TB
         LL --> CF
         LF --> CF
         GL --> CF
+        CD --> CF
         PP --> ECS
         
         CF --> WAF
@@ -95,16 +99,19 @@ graph TB
 - チャットベースのユーザーインターフェース
 - レスポンシブデザイン
 - プロンプトテンプレート管理
+    - [詳細はこちら](./spellbook/open-webui/README.md)
 
 ### 2. LiteLLM (APIプロキシ)
 - Claude-3系列モデルへの統一的なアクセス
 - Google Vertex AIモデルへのアクセス
 - APIキー管理とレート制限
+    - [詳細はこちら](./spellbook/litellm/README.md)
 
 ### 3. Langfuse (モニタリング)
 - 使用状況の追跡
 - コスト分析
 - パフォーマンスモニタリング
+    - [詳細はこちら](./spellbook/langfuse3/README.md)
 
 ### 4. GitLab (バージョン管理)
 - セルフホストGitLabインスタンス
@@ -116,6 +123,33 @@ graph TB
 - AWS Fargateでの自動スケーリング
 - Claude-3.5-Sonnetを活用したプロンプト生成
 - Streamlitベースの直感的UI
+    - [詳細はこちら](./spellbook/fg-prompt-pandora/README.md)
+
+### 6. Coder (クラウド開発環境)
+- WebベースのIDE環境
+- VS Code拡張機能のサポート
+- AWSインフラストラクチャ上でのセキュアな開発
+    - [詳細はこちら](./spellbook/Coder/README.md)
+
+### 7. Dify (AIアプリケーション開発プラットフォーム)
+- 様々なAIモデルを統合したアプリケーション開発プラットフォーム
+- UI/APIベースの開発が可能
+    - [詳細はこちら](./spellbook/dify/README.md)
+
+### 8. Dify Beta (AIアプリケーション開発プラットフォーム)
+- 新機能と実験的な機能を含むDifyのベータ版
+- ベクトルデータベースとサンドボックス環境の高度な設定が可能
+    - [詳細はこちら](./spellbook/dify-beta1/README.md)
+
+### 9. Open WebUI Pipeline
+- Open WebUIとの連携を強化するパイプライン機能
+- 会話ターン制限やLangfuse連携などのフィルター処理が可能
+    - [詳細はこちら](./spellbook/open-webui-pipeline/README.md)
+    
+### 10. tfvars_generator (Terraform変数ジェネレーター)
+- Terraform変数ファイル(`terraform.tfvars`)を自動生成するWebアプリケーション
+- プロジェクト検出、共通設定、個別設定をサポート
+    - [詳細はこちら](./spellbook/tfvars_generator/README.md)
 
 ## 🆕 最新情報
 
@@ -137,9 +171,24 @@ graph TB
 ## 📦 インストール手順
 
 1. リポジトリをクローンします。
+```bash
+git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
+cd AMATERASU
+```
 2. 各プロジェクトのREADMEに記載されている手順に従って、依存関係をインストールし、アプリケーションをデプロイします。
 3. `terraform.tfvars`ファイルに必要な設定を入力します。
 
+## 📦 依存関係
+
+このリポジトリのルートディレクトリには、共通の依存関係を定義する`requirements.txt`ファイルがあります。
+```bash
+pip install -r requirements.txt
+```
+
+```plaintext
+aira
+sourcesage
+```
 
 ## 📄 ライセンス
 

@@ -5,6 +5,7 @@ services:
     build: .
     ports:
       - "8501:8501"
+      - "80:80"
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
