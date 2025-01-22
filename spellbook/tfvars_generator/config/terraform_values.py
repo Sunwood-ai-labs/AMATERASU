@@ -121,7 +121,48 @@ def get_terraform_values() -> Dict[str, Any]:
         st.warning(f"⚠️ 設定値の取得に失敗しました。デフォルト値を使用します: {str(e)}")
         return default_values
 
-def generate_tfvars_content(project_values: Dict[str, str]) -> str:
+def generate_cloudfront_tfvars_content(project_values: Dict[str, str], main_tfvars_path: str) -> str:
+    """
+    CloudFront用のterraform.tfvarsファイルの内容を生成
+    
+    Args:
+        project_values (Dict[str, str]): プロジェクト固有の設定値
+        main_tfvars_path (str): main-infrastructureのterraform.tfvarsファイルのパス
+    
+    Returns:
+        str: terraform.tfvarsファイルの内容
+    """
+    # 最新の設定値を取得
+    values = get_terraform_values()
+    
+    # main-infrastructureのterraform.tfvarsから情報を読み取る
+    origin_domain = ""
+    try:
+        with open(main_tfvars_path, 'r') as f:
+            content = f.read()
+            # EC2のパブリックDNSを取得（実行後に設定される想定）
+            import re
+            match = re.search(r'public_dns\s*=\s*"([^"]*)"', content)
+            if match:
+                origin_domain = match.group(1)
+    except Exception as e:
+        st.warning(f"⚠️ main-infrastructureのterraform.tfvarsの読み取りに失敗しました: {str(e)}")
+    
+    return f'''# AWSの設定
+aws_region = "ap-northeast-1"
+
+# プロジェクト名
+project_name = "{project_values['project_name']}"
+
+# オリジンサーバー設定（EC2インスタンス）
+origin_domain = "{origin_domain}"
+
+# ドメイン設定
+domain    = "{values["ROUTE53"]["zone_name"]}"
+subdomain = "{project_values['subdomain']}"  # 生成されるURL: {project_values['subdomain']}.{values["ROUTE53"]["zone_name"]}
+'''
+
+def generate_main_tfvars_content(project_values: Dict[str, str]) -> str:
     """
     Terraform変数ファイルの内容を生成
     
