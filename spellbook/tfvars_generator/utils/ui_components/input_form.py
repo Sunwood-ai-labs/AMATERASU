@@ -17,7 +17,13 @@ def show_project_settings(project, platform_name, platform_short_name):
     Returns:
         dict: 更新された設定値
     """
-    values = ProjectValues(project['path'])
+    # 利用可能なパスを順番に試す
+    tfvars_path = (
+        project.get('path') or  # 後方互換性のため
+        project.get('main_tfvars_path') or  # メインインフラ用
+        project.get('cloudfront_tfvars_path')  # CloudFront用
+    )
+    values = ProjectValues(tfvars_path)
     folder_name = project['name'].lower()
     
     with st.expander(f"📁 {project['name']} の設定", expanded=True):
