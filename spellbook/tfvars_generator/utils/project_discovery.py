@@ -22,15 +22,31 @@ def find_terraform_main_infrastructure_dirs(base_path=".."):
     """
     projects = []
     
+    # ベースパスを絶対パスに変換
+    abs_base_path = os.path.abspath(base_path)
+    
     # terraform/main-infrastructureディレクトリを持つプロジェクトを探索
-    for project_dir in glob.glob(f"{base_path}/*/"):
-        terraform_dir = os.path.join(project_dir, "terraform/main-infrastructure")
+    for project_dir in glob.glob(os.path.join(abs_base_path, "*/")):
+        # プロジェクトディレクトリを絶対パスに変換
+        abs_project_dir = os.path.abspath(project_dir)
+        terraform_dir = os.path.join(abs_project_dir, "terraform/main-infrastructure")
+        
         if os.path.exists(terraform_dir):
-            project_name = os.path.basename(os.path.dirname(project_dir))
-            projects.append({
-                'name': project_name,
-                'path': os.path.join(terraform_dir, "terraform.tfvars")
-            })
+            # terraform/main-infrastructureの2階層上のディレクトリ名をプロジェクト名として取得
+            infrastructure_parent = os.path.dirname(terraform_dir)  # terraform/
+            project_dir = os.path.dirname(infrastructure_parent)   # プロジェクトディレクトリ
+            project_name = os.path.basename(project_dir)          # プロジェクト名
+            
+            tfvars_path = os.path.join(terraform_dir, "terraform.tfvars")
+            
+            # プロジェクト名が実際のプロジェクトディレクトリから取得できた場合のみ追加
+            if project_name and project_name != "terraform":
+                projects.append({
+                    'name': project_name,
+                    'path': tfvars_path,
+                    'abs_path': os.path.abspath(tfvars_path),  # 絶対パスも保持
+                    'infrastructure_dir': terraform_dir  # mainインフラディレクトリのパスも保持
+                })
     
     # プロジェクト名でソート
     projects.sort(key=lambda x: x['name'])
