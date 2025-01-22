@@ -26,12 +26,7 @@ provider "aws" {
 
 # CloudFrontモジュールの呼び出し
 module "cloudfront" {
-  source = "./modules/cloudfront"
-
-  providers = {
-    aws           = aws
-    aws_virginia = aws.virginia
-  }
+  source = "./modules"
 
   project_name      = var.project_name
   aws_region        = var.aws_region
