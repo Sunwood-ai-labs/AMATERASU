@@ -34,4 +34,9 @@ module "cloudfront" {
   domain            = var.domain
   subdomain         = var.subdomain
   whitelist_csv_path = "../../../whitelist-waf.csv"
+
+  providers = {
+    aws           = aws
+    aws.virginia = aws.virginia
+  }
 }
