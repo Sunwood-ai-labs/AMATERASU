@@ -23,9 +23,18 @@ resource "aws_lb_target_group" "app" {
     path                = "/_stcore/health"
     healthy_threshold   = 2
     unhealthy_threshold = 10
-    timeout             = 60
-    interval           = 300
+    timeout             = 30
+    interval           = 60
   }
+
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 86400
+    enabled         = true
+  }
+
+  # WebSocket設定
+  protocol_version = "HTTP1"
 }
 
 # ALB Listener

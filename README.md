@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.13.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.14.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,7 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.13.0では、StreamlitアプリケーションのUI/UX改善、Langfuseバックエンドインフラの整備、およびドキュメントの更新を行いました。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.14.0では、AWSインフラストラクチャの構築と管理を簡素化するためのTerraformコードと、CloudFrontインフラストラクチャの構築を容易にするためのモジュールを実装しました。また、セットアップスクリプトと出力値の定義を追加し、Difyのセットアップと運用を改善しています。
 
 ## ✨ 主な機能
 
@@ -119,14 +119,14 @@ graph TB
 
 ## 🆕 最新情報
 
-### AMATERASU v1.13.0 (最新のリリース)
+### AMATERASU v1.14.0 (最新のリリース)
 
-- 🎉 Streamlit アプリのUIスタイルをCSSで定義:  より洗練されたデザインになりました。
-- 🎉 セットアップスクリプトの改善: エラー処理が強化されました。
-- 🎉 LangfuseバックエンドインフラのTerraform化: より堅牢で管理しやすいインフラになりました。
-- 🎉 CloudFrontインフラのドキュメントを更新: 最新の情報に更新されました。
-- 🎉 Streamlitの進捗バー表示機能を追加: ファイル生成の進捗状況が確認できるようになりました。
-- ⚠️ インフラストラクチャの大幅な変更: 既存のインフラストラクチャと設定をバックアップしてからアップグレードしてください。
+- 🎉 セットアップスクリプトの実装: EC2インスタンス起動後にAMATERASUリポジトリのクローン、環境変数の設定、Docker Composeを使用したアプリケーションの起動を自動化します。
+- 🎉 CloudFrontインフラモジュールのTerraform設定: CloudFrontディストリビューション、WAFv2、Route53レコード、ACM証明書を管理するTerraformモジュールを実装しました。
+- 🎉 メインインフラ構築のためのTerraformコードを追加: メインのTerraformファイルにIAM、Compute、Networkingモジュールを統合しました。
+- 🎉 構築されたインフラに関する出力値を定義: 構築されたインフラストラクチャリソースに関する出力値を定義しました。
+- 🎉 CloudFrontインフラのための変数の追加: CloudFrontインフラストラクチャの構成に必要な変数を追加しました。
+- 🎉 共通変数ファイルの作成と設定: 全てのインフラリソースで共通して使用する変数を`common_variables.tf`に定義することで、リソース定義のモジュール化と再利用性を向上させました。
 
 
 ## 🛠️ 使用方法

@@ -57,3 +57,9 @@ variable "app_count" {
   description = "Number of application instances to run"
   type        = number
 }
+
+# WAF関連
+variable "whitelist_csv_path" {
+  description = "Path to the CSV file containing whitelisted IP addresses"
+  type        = string
+}
