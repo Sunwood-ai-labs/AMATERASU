@@ -1,5 +1,0 @@
-aira
-sourcesage
-streamlit
-litellm
-boto3>=1.28.57

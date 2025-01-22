@@ -1,8 +1,13 @@
 """
-Terraform変数ファイルジェネレーター
-メインページ
+terraform.tfvarsファイルを生成するページ
 """
 import streamlit as st
+from utils.ui_components import (
+    discover_projects_with_ui,
+    show_input_form,
+    generate_files_with_progress
+)
+from utils.project_discovery import find_terraform_main_infrastructure_dirs
 from config.terraform_values import get_terraform_values
 
 def show_current_values():
@@ -60,34 +65,21 @@ Internal Zone Name: {values['ROUTE53'].get('internal_zone_name', 'N/A')}
 
 def main():
     """メイン関数"""
-    st.set_page_config(
-        page_title="Terraform Vars Generator",
-        page_icon="🎮",
-        layout="wide"
-    )
-    
-    st.title("🎮 Terraform Variables Generator")
+    st.title("🔄 Terraform Variables Generator")
     st.markdown("""
-    ### 📝 概要
-    このツールは、Terraformプロジェクトの変数ファイル（terraform.tfvars）を
-    効率的に管理するためのWebアプリケーションです。
-
-    ### 🎯 主な機能
-    1. 🔄 **変数ファイルの生成** (Generate TFVars)
-       - terraform.tfvarsファイルの自動生成
-       - プロジェクトの自動検出
-       - 共通設定の一括適用
-    
-    2. 🗑️ **キャッシュ管理** (Cache Manager)
-       - 複数プロジェクトの一括選択
-       - Terraformキャッシュの安全な削除
-       - 処理状況のリアルタイム表示
+    ### 概要
+    このページでは、`terraform/main-infrastructure`ディレクトリを持つ
+    プロジェクトに対して、`terraform.tfvars`ファイルを生成します。
     """)
-    
-    st.divider()
     
     # 現在の設定値を表示
     show_current_values()
+    
+    # プロジェクトの探索と表示
+    projects = discover_projects_with_ui(find_terraform_main_infrastructure_dirs)
+    
+    # 入力フォームの表示とファイル生成
+    show_input_form(projects, generate_files_with_progress)
 
 if __name__ == "__main__":
     main()
