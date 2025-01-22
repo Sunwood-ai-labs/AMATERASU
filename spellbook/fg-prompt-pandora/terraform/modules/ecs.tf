@@ -21,11 +21,50 @@ resource "aws_ecs_task_definition" "app" {
         {
           containerPort = 8501
           hostPort      = 8501
+          protocol      = "tcp"
         }
       ]
       essential = true
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/${var.project_name}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
     }
   ])
+}
+
+# CloudWatch Logsグループの作成
+resource "aws_cloudwatch_log_group" "ecs" {
+  name              = "/ecs/${var.project_name}"
+  retention_in_days = 30
+}
+
+# Service Discovery Namespace
+resource "aws_service_discovery_private_dns_namespace" "main" {
+  name = "${var.project_name}.local"
+  vpc  = var.vpc_id
+}
+
+# Service Discovery Service
+resource "aws_service_discovery_service" "main" {
+  name = replace(var.project_name, "-", "")
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.main.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
 }
 
 # ECSサービスの作成
@@ -37,21 +76,17 @@ resource "aws_ecs_service" "app" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = [aws_security_group.ecs_tasks.id, data.aws_security_group.existing.id]
+    security_groups  = [aws_security_group.ecs_tasks.id]
     subnets         = [var.public_subnet_id, var.public_subnet_2_id]
     assign_public_ip = true
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.app.arn
-    container_name   = "${var.project_name}-container"
-    container_port   = 8501
+  service_registries {
+    registry_arn = aws_service_discovery_service.main.arn
   }
-
-  depends_on = [aws_lb_listener.https]
 }
 
-# Application Auto Scaling Target の設定
+# Auto Scaling Target
 resource "aws_appautoscaling_target" "ecs_target" {
   max_capacity       = var.app_count
   min_capacity       = 0
