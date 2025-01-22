@@ -3,7 +3,11 @@
 """
 import streamlit as st
 import time
-from config.terraform_values import generate_tfvars_content
+import os
+from config.terraform_values import (
+    generate_main_tfvars_content,
+    generate_cloudfront_tfvars_content
+)
 from config.project_values import ProjectValues
 from utils.file_operations import write_tfvars
 
@@ -32,20 +36,40 @@ def generate_files_with_progress(projects, domain_name, project_settings):
     progress_text = "ファイル生成の進捗状況"
     progress_bar = st.progress(0, text=progress_text)
     
+    total_steps = len(projects) * 2  # main-infrastructureとcloudfront-infrastructureの2ファイル
+    current_step = 0
+    
     for i, project in enumerate(projects):
-        progress = (i + 1) / len(projects)
-        progress_bar.progress(progress, text=f"処理中: {project['name']}")
+        project_values = project_settings[project['name']]
         
-        with st.spinner(f"💾 {project['name']}のファイルを生成中..."):
-            # プロジェクト固有の設定を取得
-            project_values = project_settings[project['name']]
-            
-            # terraform.tfvarsの内容を生成
-            content = generate_tfvars_content(project_values)
-            
-            # ファイルに書き込み
-            write_tfvars(project, content)
-            time.sleep(0.5)  # UIの動きを視覚化するための遅延
+        # 1. main-infrastructure/terraform.tfvarsの生成
+        current_step += 1
+        progress = current_step / total_steps
+        progress_bar.progress(progress, text=f"main-infrastructure: {project['name']}")
+        
+        with st.spinner(f"💾 {project['name']}のmain-infrastructure設定を生成中..."):
+            main_content = generate_main_tfvars_content(project_values)
+            write_tfvars({
+                'name': project['name'],
+                'path': project['main_tfvars_path']
+            }, main_content)
+            time.sleep(0.3)  # UIの動きを視覚化するための遅延
+        
+        # 2. cloudfront-infrastructure/terraform.tfvarsの生成
+        current_step += 1
+        progress = current_step / total_steps
+        progress_bar.progress(progress, text=f"cloudfront-infrastructure: {project['name']}")
+        
+        with st.spinner(f"💾 {project['name']}のCloudFront設定を生成中..."):
+            cloudfront_content = generate_cloudfront_tfvars_content(
+                project_values,
+                project['main_tfvars_path']
+            )
+            write_tfvars({
+                'name': project['name'],
+                'path': project['cloudfront_tfvars_path']
+            }, cloudfront_content)
+            time.sleep(0.3)  # UIの動きを視覚化するための遅延
     
     st.success("✨ 全てのファイルの生成が完了しました！")
     st.balloons()
