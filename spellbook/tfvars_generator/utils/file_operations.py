@@ -21,19 +21,39 @@ def write_tfvars(project, content):
     指定されたプロジェクトのterraform.tfvarsファイルを生成
 
     Args:
-        project (dict): プロジェクト情報 (name, pathを含む)
+        project (dict): プロジェクト情報 (name と以下のいずれかのパスを含む)
+                      - path: 従来のパス
+                      - main_tfvars_path: main-infrastructure用のパス
+                      - cloudfront_tfvars_path: cloudfront-infrastructure用のパス
         content (str): terraform.tfvarsファイルの内容
     """
-    abs_dir_path = os.path.abspath(os.path.dirname(project['path']))
+    # 使用するパスを決定
+    tfvars_path = (
+        project.get('path') or  # 後方互換性のため
+        project.get('main_tfvars_path') or  # メインインフラ用
+        project.get('cloudfront_tfvars_path')  # CloudFront用
+    )
+    
+    if not tfvars_path:
+        st.error(f"❌ {project['name']}: tfvarsファイルのパスが指定されていません")
+        return
+
+    abs_dir_path = os.path.abspath(os.path.dirname(tfvars_path))
     create_directory_if_not_exists(abs_dir_path)
     
     try:
-        abs_file_path = os.path.abspath(project['path'])
+        abs_file_path = os.path.abspath(tfvars_path)
         with open(abs_file_path, 'w') as f:
             f.write(content)
-        st.success(f"✅ Generated for {project['name']}: {project['path']}")
+        
+        # インフラのタイプを判断
+        infra_type = "Main"
+        if 'cloudfront' in abs_file_path.lower():
+            infra_type = "CloudFront"
+        
+        st.success(f"✅ Generated {infra_type} Infrastructure for {project['name']}: {tfvars_path}")
     except Exception as e:
-        st.error(f"❌ Error generating for {project['name']}: {str(e)}")
+        st.error(f"❌ Error generating for {project['name']}: {str(e)}\nPath: {tfvars_path}")
 
 def delete_terraform_cache(project_path):
     """
