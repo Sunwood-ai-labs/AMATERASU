@@ -10,8 +10,8 @@ resource "aws_cloudfront_distribution" "main" {
     origin_id   = "ECS"
 
     custom_origin_config {
-      http_port              = 8501
-      https_port             = 8501
+      http_port              = 80
+      https_port             = 80
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1.2"]
     }

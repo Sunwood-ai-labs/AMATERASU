@@ -29,4 +29,12 @@ variable "whitelist_csv_path" {
   type        = string
 }
 
-# プロバイダー設定は削除（モジュール内で直接プロバイダーを参照）
+# プロバイダー設定
+terraform {
+  required_providers {
+    aws = {
+      source                = "hashicorp/aws"
+      configuration_aliases = [aws.virginia]
+    }
+  }
+}

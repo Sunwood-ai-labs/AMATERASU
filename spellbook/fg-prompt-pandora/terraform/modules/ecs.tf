@@ -19,8 +19,8 @@ resource "aws_ecs_task_definition" "app" {
       image = var.container_image
       portMappings = [
         {
-          containerPort = 8501
-          hostPort      = 8501
+          containerPort = 80
+          hostPort      = 80
           protocol      = "tcp"
         }
       ]
