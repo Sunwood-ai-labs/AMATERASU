@@ -1,5 +1,5 @@
 """
-terraform.tfvarsファイルを生成するページ
+main-infrastructure用のterraform.tfvarsファイルを生成するページ
 """
 import streamlit as st
 from utils.ui_components import (
@@ -69,7 +69,12 @@ def main():
     st.markdown("""
     ### 概要
     このページでは、`terraform/main-infrastructure`ディレクトリを持つ
-    プロジェクトに対して、`terraform.tfvars`ファイルを生成します。
+    プロジェクトに対して、以下の設定を含むterraform.tfvarsファイルを生成します：
+
+    - 🖥️ EC2インスタンスの基本設定
+    - 🔒 VPCやセキュリティグループの設定
+    - 🌐 Route53の内部ドメイン設定
+    - 🔑 SSHキーや環境変数の設定
     """)
     
     # 現在の設定値を表示
@@ -77,6 +82,10 @@ def main():
     
     # プロジェクトの探索と表示
     projects = discover_projects_with_ui(find_terraform_main_infrastructure_dirs)
+    
+    if not projects:
+        st.warning("⚠️ terraform/main-infrastructureディレクトリを持つプロジェクトが見つかりませんでした")
+        return
     
     # 入力フォームの表示とファイル生成
     show_input_form(projects, generate_files_with_progress)

@@ -22,17 +22,26 @@ def show_project_list(projects):
         
         # プロジェクト一覧をカラムで表示
         for i, project in enumerate(projects):
-            col1, col2 = st.columns([1, 2])
-            with col1:
-                st.write(f"**{project['name']}**")
-            with col2:
-                st.code(project['path'], language="bash")
+            with st.expander(f"📁 {project['name']}", expanded=True):
+                # プロジェクトの詳細情報を表示
+                if 'main_tfvars_path' in project:
+                    st.markdown("##### 🔧 Main Infrastructure")
+                    st.code(project['main_tfvars_path'], language="bash")
+                
+                if 'cloudfront_tfvars_path' in project:
+                    st.markdown("##### 🌐 CloudFront Infrastructure")
+                    st.code(project['cloudfront_tfvars_path'], language="bash")
+                
+                if 'path' in project:
+                    # 後方互換性のため
+                    st.markdown("##### 📄 設定ファイル")
+                    st.code(project['path'], language="bash")
             
             # 最後以外は区切り線を表示
             if i < len(projects) - 1:
                 st.divider()
     else:
-        st.warning("⚠️ terraform/main-infrastructureディレクトリを持つプロジェクトが見つかりませんでした")
+        st.warning("⚠️ 対象となるプロジェクトが見つかりませんでした")
 
 def discover_projects_with_ui(find_projects_func):
     """
