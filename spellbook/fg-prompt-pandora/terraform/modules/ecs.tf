@@ -66,6 +66,9 @@ resource "aws_ecs_service" "app" {
   health_check_grace_period_seconds = 300
 
   depends_on = [aws_lb_listener.http]
+
+  # 既存のタスクを強制的に新しい設定に更新
+  force_new_deployment = true
 }
 
 # 出力定義
