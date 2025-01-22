@@ -32,9 +32,9 @@ variable "public_subnet_2_id" {
 }
 
 # セキュリティグループ
-variable "security_group_id" {
-  description = "ID of the existing security group"
-  type        = string
+variable "security_group_ids" {
+  description = "List of security group IDs"
+  type        = list(string)
 }
 
 # コンテナ関連
@@ -56,26 +56,4 @@ variable "task_memory" {
 variable "app_count" {
   description = "Number of application instances to run"
   type        = number
-}
-
-# ドメイン関連
-variable "domain" {
-  description = "Domain name to use"
-  type        = string
-}
-
-variable "subdomain" {
-  description = "Subdomain to use"
-  type        = string
-}
-
-# その他
-variable "ami_id" {
-  description = "ID of the AMI to use"
-  type        = string
-}
-
-variable "key_name" {
-  description = "Name of the SSH key pair"
-  type        = string
 }
