@@ -8,19 +8,19 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.14.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.15.1)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service in an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA). It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-based applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.14.0 includes Terraform code to simplify the construction and management of AWS infrastructure, and a module for easier CloudFront infrastructure setup.  Setup scripts and output value definitions have been added to improve Dify setup and operation.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.15.1 includes additions to the `fg-prompt-pandora` project such as an IP whitelist function using AWS WAFv2, enhanced CloudFront settings, and improved ALB target group configurations.  Documentation updates have also been made.
 
-This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or functionalities.
+This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or features.
 
 ## ✨ Key Features
 
@@ -29,7 +29,7 @@ This repository is structured as a "spellbook" for managing multiple AI-related 
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservice Architecture
+### Microservices Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -37,11 +37,11 @@ This repository is structured as a "spellbook" for managing multiple AI-related 
 ### Infrastructure as Code
 - Fully automated deployment with Terraform
 - Environment-specific configuration management
-- Version-controlled infrastructure
+- Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management capabilities
-- Integration with a self-hosted GitLab instance
+- Improved version control, CI/CD pipelines, and project management features
+- Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
 - Automated labeling using GitLab Webhooks
 
@@ -60,7 +60,7 @@ graph TB
             end
             
             subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>Prompt Generation Support"]
+                PP["Prompt Pandora<br/>Prompt Generation Assistance"]
                 ECS["ECS Fargate Cluster"]
             end
         end
@@ -119,7 +119,7 @@ graph TB
 - CI pipeline and Runner configuration
 - Backup and restore functionality
 
-### 5. FG-prompt-pandora (Fargate Sample Application)
+### 5. FG-prompt-pandora (Fargate-based Sample Application)
 - Auto-scaling on AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
@@ -133,17 +133,17 @@ graph TB
 
 ### 7. Dify (AI Application Development Platform)
 - AI application development platform integrating various AI models
-- UI/API-based development
+- UI/API-based development is possible
     - [Details here](./spellbook/dify/README.md)
 
 ### 8. Dify Beta (AI Application Development Platform)
 - Beta version of Dify including new and experimental features
-- Advanced configuration of vector databases and sandbox environments
+- Advanced configuration of vector databases and sandbox environments is possible
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline features enhancing integration with Open WebUI
-- Allows filter processing such as conversation turn limits and Langfuse integration
+- Pipeline functionality enhancing integration with Open WebUI
+- Enables filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
 ### 10. tfvars_generator (Terraform Variable Generator)
@@ -151,26 +151,23 @@ graph TB
 - Supports project detection, common settings, and individual settings
     - [Details here](./spellbook/tfvars_generator/README.md)
 
-## 🆕 What's New
+## 🆕 Latest News
 
-### AMATERASU v1.14.0 (Latest Release)
+### AMATERASU v1.15.1 (Latest Release)
 
-- 🎉 **Setup script implementation:** Automates cloning the AMATERASU repository, setting environment variables, and starting applications using Docker Compose after launching EC2 instances.
-- 🎉 **Terraform configuration for CloudFront infrastructure module:** Implemented a Terraform module to manage CloudFront distributions, WAFv2, Route53 records, and ACM certificates.
-- 🎉 **Added Terraform code for main infrastructure construction:** Integrated IAM, Compute, and Networking modules into the main Terraform file.
-- 🎉 **Defined output values for built infrastructure:** Defined output values for the built infrastructure resources.
-- 🎉 **Added variables for CloudFront infrastructure:** Added variables required for configuring the CloudFront infrastructure.
-- 🎉 **Created and configured a common variable file:** Defined variables used commonly across all infrastructure resources in `common_variables.tf`, improving modularity and reusability of resource definitions.
+- 🎉 **Implementation of IP Whitelist Function using AWS WAFv2**:  Implemented an IP address whitelist function using AWS WAFv2 in the `fg-prompt-pandora` project.
+- 🎉 **Addition of Options When Starting the Streamlit App**: Added options to control upload size limits, WebSocket compression, CSRF protection, and CORS settings when starting the Streamlit app in the `fg-prompt-pandora` project.
+- 🚀 **README.md Update**: Improved project overview, feature details, and installation instructions.
 
 
 ## 🛠️ Usage
 
-Refer to the individual README files for instructions on using each component.  Specifically, see `spellbook/tfvars_generator/README.md` for instructions on using the Terraform variable generator web app.
+Refer to the respective README files for instructions on using each component.  In particular, refer to `spellbook/tfvars_generator/README.md` for instructions on using the Terraform variable generator web app.
 
 
 ## 📦 Installation Instructions
 
-1. Clone the repository:
+1. Clone the repository.
 ```bash
 git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
@@ -196,4 +193,4 @@ This project is licensed under the MIT License.
 
 ## 👏 Acknowledgements
 
-Thanks to Maki and iris-s-coon for their contributions.
+Thanks to iris-s-coon and Maki for their contributions.
