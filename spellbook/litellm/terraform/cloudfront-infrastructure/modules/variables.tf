@@ -23,3 +23,18 @@ variable "subdomain" {
   description = "サブドメイン名"
   type        = string
 }
+
+variable "whitelist_csv_path" {
+  description = "Path to the CSV file containing whitelisted IP addresses"
+  type        = string
+}
+
+# プロバイダー設定
+terraform {
+  required_providers {
+    aws = {
+      source                = "hashicorp/aws"
+      configuration_aliases = [aws.virginia]
+    }
+  }
+}

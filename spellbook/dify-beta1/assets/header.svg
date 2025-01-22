@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FF3CAC;stop-opacity:1">
+        <animate attributeName="stop-color" values="#FF3CAC;#784BA0;#FF3CAC" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#784BA0;stop-opacity:1">
+        <animate attributeName="stop-color" values="#784BA0;#2B86C5;#784BA0" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#2B86C5;stop-opacity:1">
+        <animate attributeName="stop-color" values="#2B86C5;#FF3CAC;#2B86C5" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF3CAC;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#2B86C5;stop-opacity:0.3"/>
+    </linearGradient>
+
+    <!-- Dify glow effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Dify service icons -->
+  <g transform="translate(60, 100)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="url(#gradient1)" stroke-width="2">
+      <animate attributeName="r" values="28;32;28" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="0" cy="0" r="20" fill="none" stroke="url(#gradient1)" stroke-width="1.5">
+      <animate attributeName="r" values="18;22;18" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Service component symbols -->
+  <g fill="url(#gradient1)" filter="url(#glow)">
+    <!-- API -->
+    <path d="M680,60 l10,0 l-5,-10 z">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <!-- Database -->
+    <path d="M700,160 l-10,0 l5,-10 z">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </path>
+    <!-- Vector Store -->
+    <path d="M120,140 l0,10 l10,-5 z">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Main title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle" filter="url(#glow)">
+    Dify Deployment
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    AMATERASU Spellbook Collection
+  </text>
+  
+  <!-- Service connection streams -->
+  <g stroke="url(#gradient1)" stroke-width="1.5" fill="none">
+    <path d="M100,160 C 300,140 500,180 700,140" opacity="0.6">
+      <animate attributeName="d" 
+               values="M100,160 C 300,140 500,180 700,140;
+                      M100,140 C 300,180 500,140 700,160;
+                      M100,160 C 300,140 500,180 700,140" 
+               dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M150,140 C 350,180 450,140 650,160" opacity="0.4">
+      <animate attributeName="d" 
+               values="M150,140 C 350,180 450,140 650,160;
+                      M150,160 C 350,140 450,180 650,140;
+                      M150,140 C 350,180 450,140 650,160" 
+               dur="6s" begin="2s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="4s" begin="1s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

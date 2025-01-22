@@ -3,36 +3,47 @@
 """
 import streamlit as st
 from config.project_values import ProjectValues
+from utils.file_operations import delete_terraform_cache
 
-def show_project_settings(project):
+def show_project_settings(project, platform_name, platform_short_name):
     """
     プロジェクトごとの設定フォームを表示
 
     Args:
         project (dict): プロジェクト情報
+        platform_name (str): プラットフォームの正式名称
+        platform_short_name (str): プラットフォームの略式名称
     
     Returns:
         dict: 更新された設定値
     """
-    # 既存の設定値を読み込み
-    values = ProjectValues(project['path'])
+    # 利用可能なパスを順番に試す
+    tfvars_path = (
+        project.get('path') or  # 後方互換性のため
+        project.get('main_tfvars_path') or  # メインインフラ用
+        project.get('cloudfront_tfvars_path')  # CloudFront用
+    )
+    values = ProjectValues(tfvars_path)
+    folder_name = project['name'].lower()
     
     with st.expander(f"📁 {project['name']} の設定", expanded=True):
         col1, col2 = st.columns(2)
         
         with col1:
+            default_subdomain = f"{platform_name}-{folder_name}" if platform_name else values.get_value('subdomain', '')
             subdomain = st.text_input(
                 "サブドメイン",
-                value=values.get_value('subdomain'),
+                value=default_subdomain,
                 key=f"{project['name']}_subdomain",
-                help="例: app"
+                help="例: amaterasu-coder"
             )
             
+            default_project_name = f"{platform_short_name}-{folder_name}" if platform_short_name else values.get_value('project_name', '')
             project_name = st.text_input(
                 "プロジェクト名",
-                value=values.get_value('project_name'),
+                value=default_project_name,
                 key=f"{project['name']}_project_name",
-                help="例: myapp"
+                help="例: amts-coder"
             )
             
             instance_type = st.selectbox(
@@ -58,14 +69,14 @@ def show_project_settings(project):
                 key=f"{project['name']}_key_name",
                 help="例: myapp-key"
             )
-    
-    return {
-        'subdomain': subdomain,
-        'project_name': project_name,
-        'instance_type': instance_type,
-        'ami_id': ami_id,
-        'key_name': key_name
-    }
+        
+        return {
+            'subdomain': subdomain,
+            'project_name': project_name,
+            'instance_type': instance_type,
+            'ami_id': ami_id,
+            'key_name': key_name
+        }
 
 def show_input_form(projects, on_generate):
     """
@@ -76,26 +87,46 @@ def show_input_form(projects, on_generate):
         on_generate (callable): 生成ボタン押下時のコールバック関数
               引数: (projects, domain_name, project_settings)
     """
-    st.divider()
-    st.subheader("⚙️ 設定")
-    
     with st.form("tfvars_form"):
-        # ドメイン名入力
+        st.subheader("⚙️ 共通設定")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            platform_name = st.text_input(
+                "プラットフォーム正式名称",
+                value="amaterasu",
+                key="platform_name",
+                help="例: amaterasu",
+                placeholder="正式名称を入力してください"
+            )
+        
+        with col2:
+            platform_short_name = st.text_input(
+                "プラットフォーム略式名称",
+                value="amts",
+                key="platform_short_name",
+                help="例: amts",
+                placeholder="略式名称を入力してください"
+            )
+            
         domain_name = st.text_input(
             "共通ドメイン名",
             value="sunwood-ai-labs",
+            key="tfvars_domain_name",
             help="例: sunwood-ai-labs",
             placeholder="ドメイン名を入力してください"
         )
         
-        # プロジェクトごとの設定
         st.divider()
         st.subheader("🛠️ プロジェクト個別設定")
         project_settings = {}
         for project in projects:
-            project_settings[project['name']] = show_project_settings(project)
+            project_settings[project['name']] = show_project_settings(
+                project,
+                platform_name,
+                platform_short_name
+            )
         
-        # 生成ボタン
         st.divider()
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:

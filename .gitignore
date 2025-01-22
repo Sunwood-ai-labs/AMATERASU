@@ -191,7 +191,8 @@ spellbook/base-infrastructure/whitelist-base-sg.csv
 spellbook/litellm/terraform/cloudfront-infrastructure/terraform.tfvars
 spellbook/litellm/terraform/main-infrastructure/terraform.tfvars
 spellbook/whitelist-waf.csv
-spellbook/base-infrastructure/output.json
+
+output.json
 
 
 
@@ -222,4 +223,7 @@ spellbook/**/middleware.env
 !spellbook/dify-beta1/nginx/ssl/.gitkeep
 spellbook/dify-beta1/volumes/plugin_daemon
 
+# Terraform
 **/**/terraform.tfvars
+!**/**/terraform.example.tfvars
+terraform.tfvars
