@@ -17,6 +17,7 @@ locals {
     task_cpu         = var.task_cpu
     task_memory      = var.task_memory
     app_count        = var.app_count
+    whitelist_csv_path = var.whitelist_csv_path
   }
 }
 
@@ -35,4 +36,5 @@ module "ecs" {
   task_cpu         = local.common_vars.task_cpu
   task_memory      = local.common_vars.task_memory
   app_count        = local.common_vars.app_count
+  whitelist_csv_path = local.common_vars.whitelist_csv_path
 }
