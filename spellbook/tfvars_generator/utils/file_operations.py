@@ -12,8 +12,9 @@ def create_directory_if_not_exists(path):
     Args:
         path (str): 作成するディレクトリのパス
     """
-    if not os.path.exists(path):
-        os.makedirs(path)
+    abs_path = os.path.abspath(path)
+    if not os.path.exists(abs_path):
+        os.makedirs(abs_path)
 
 def write_tfvars(project, content):
     """
@@ -23,11 +24,12 @@ def write_tfvars(project, content):
         project (dict): プロジェクト情報 (name, pathを含む)
         content (str): terraform.tfvarsファイルの内容
     """
-    dir_path = os.path.dirname(project['path'])
-    create_directory_if_not_exists(dir_path)
+    abs_dir_path = os.path.abspath(os.path.dirname(project['path']))
+    create_directory_if_not_exists(abs_dir_path)
     
     try:
-        with open(project['path'], 'w') as f:
+        abs_file_path = os.path.abspath(project['path'])
+        with open(abs_file_path, 'w') as f:
             f.write(content)
         st.success(f"✅ Generated for {project['name']}: {project['path']}")
     except Exception as e:
@@ -44,8 +46,8 @@ def delete_terraform_cache(project_path):
         bool: 削除が成功したかどうか
     """
     try:
-        # プロジェクトのディレクトリパスを取得
-        dir_path = os.path.dirname(project_path)
+        # プロジェクトのディレクトリパスを絶対パスに変換
+        abs_dir_path = os.path.abspath(os.path.dirname(project_path))
         
         # 進捗表示用のコンテナ
         st.markdown("### 🔄 キャッシュ削除の進捗")
@@ -57,14 +59,14 @@ def delete_terraform_cache(project_path):
         
         with log_container:
             st.write("🔍 キャッシュ削除を開始します")
-            st.code(f"対象ディレクトリ: {dir_path}")
+            st.code(f"対象ディレクトリ: {abs_dir_path}")
         
         # 削除対象のファイル・ディレクトリ
         cache_paths = {
-            '.terraform': os.path.join(dir_path, '.terraform'),
-            'terraform.tfstate': os.path.join(dir_path, 'terraform.tfstate'),
-            'terraform.tfstate.backup': os.path.join(dir_path, 'terraform.tfstate.backup'),
-            '.terraform.lock.hcl': os.path.join(dir_path, '.terraform.lock.hcl')
+            '.terraform': os.path.join(abs_dir_path, '.terraform'),
+            'terraform.tfstate': os.path.join(abs_dir_path, 'terraform.tfstate'),
+            'terraform.tfstate.backup': os.path.join(abs_dir_path, 'terraform.tfstate.backup'),
+            '.terraform.lock.hcl': os.path.join(abs_dir_path, '.terraform.lock.hcl')
         }
         
         deleted_files = []
@@ -75,33 +77,34 @@ def delete_terraform_cache(project_path):
         # キャッシュの削除
         for name, path in cache_paths.items():
             current_file += 1
+            abs_path = os.path.abspath(path)
             
             # 進捗状況の更新
             with progress_container:
                 st.progress(current_file / total_files)
                 st.write(f"⏳ 処理中: {name} ({current_file}/{total_files})")
             
-            if os.path.exists(path):
+            if os.path.exists(abs_path):
                 try:
-                    if os.path.isdir(path):
-                        shutil.rmtree(path)
-                        deleted_files.append((name, path, "directory"))
+                    if os.path.isdir(abs_path):
+                        shutil.rmtree(abs_path)
+                        deleted_files.append((name, abs_path, "directory"))
                         with log_container:
-                            st.write(f"📂 ディレクトリを削除: {path}")
+                            st.write(f"📂 ディレクトリを削除: {abs_path}")
                     else:
-                        os.remove(path)
-                        deleted_files.append((name, path, "file"))
+                        os.remove(abs_path)
+                        deleted_files.append((name, abs_path, "file"))
                         with log_container:
-                            st.write(f"📄 ファイルを削除: {path}")
+                            st.write(f"📄 ファイルを削除: {abs_path}")
                 except Exception as e:
-                    error_msg = f"❌ {path}の削除に失敗しました: {str(e)}"
+                    error_msg = f"❌ {abs_path}の削除に失敗しました: {str(e)}"
                     with log_container:
                         st.error(error_msg)
                     return False
             else:
-                skipped_files.append((name, path))
+                skipped_files.append((name, abs_path))
                 with log_container:
-                    st.write(f"⏭️ 存在しないためスキップ: {path}")
+                    st.write(f"⏭️ 存在しないためスキップ: {abs_path}")
         
         # 最終的な進捗表示を更新
         with progress_container:
@@ -125,7 +128,7 @@ def delete_terraform_cache(project_path):
             ### ✨ 処理サマリー
             - ✅ 削除成功: {len(deleted_files)}件
             - ⏭️ スキップ: {len(skipped_files)}件
-            - 📁 対象ディレクトリ: {dir_path}
+            - 📁 対象ディレクトリ: {abs_dir_path}
             """)
         
         return True
