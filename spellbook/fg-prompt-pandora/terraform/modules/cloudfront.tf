@@ -6,19 +6,14 @@ resource "aws_cloudfront_distribution" "main" {
   comment            = "${var.project_name} distribution"
 
   origin {
-    domain_name = "${replace(aws_ecs_service.app.name, "-service", "")}.${var.project_name}.local"
+    domain_name = aws_lb.main.dns_name
     origin_id   = "ECS"
 
     custom_origin_config {
       http_port              = 80
-      https_port             = 80
+      https_port            = 443
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1.2"]
-    }
-
-    custom_header {
-      name  = "X-Origin-Verify"
-      value = random_string.origin_verify.result
     }
   }
 
