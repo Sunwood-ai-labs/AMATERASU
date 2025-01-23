@@ -49,9 +49,15 @@ def generate_files_with_progress(projects, domain_name, project_settings):
         
         with st.spinner(f"💾 {project['name']}のmain-infrastructure設定を生成中..."):
             main_content = generate_main_tfvars_content(project_values)
+            # pathキーとmain_tfvars_pathキーの両方に対応
+            tfvars_path = project.get('main_tfvars_path') or project.get('path')
+            if not tfvars_path:
+                st.error(f"❌ {project['name']}: tfvarsファイルのパスが指定されていません")
+                continue
+                
             write_tfvars({
                 'name': project['name'],
-                'path': project['main_tfvars_path']
+                'path': tfvars_path
             }, main_content)
             time.sleep(0.3)  # UIの動きを視覚化するための遅延
         
@@ -61,14 +67,23 @@ def generate_files_with_progress(projects, domain_name, project_settings):
         progress_bar.progress(progress, text=f"cloudfront-infrastructure: {project['name']}")
         
         with st.spinner(f"💾 {project['name']}のCloudFront設定を生成中..."):
-            cloudfront_content = generate_cloudfront_tfvars_content(
-                project_values,
-                project['main_tfvars_path']
-            )
-            write_tfvars({
-                'name': project['name'],
-                'path': project['cloudfront_tfvars_path']
-            }, cloudfront_content)
+            # CloudFrontの設定は、main_tfvars_pathとcloudfront_tfvars_pathの両方が必要
+            main_tfvars = project.get('main_tfvars_path') or project.get('path')
+            cloudfront_tfvars = project.get('cloudfront_tfvars_path')
+
+            if not main_tfvars:
+                st.error(f"❌ {project['name']}: main-infrastructureのパスが指定されていません")
+                continue
+
+            if cloudfront_tfvars:
+                cloudfront_content = generate_cloudfront_tfvars_content(
+                    project_values,
+                    main_tfvars
+                )
+                write_tfvars({
+                    'name': project['name'],
+                    'path': cloudfront_tfvars
+                }, cloudfront_content)
             time.sleep(0.3)  # UIの動きを視覚化するための遅延
     
     st.success("✨ 全てのファイルの生成が完了しました！")
