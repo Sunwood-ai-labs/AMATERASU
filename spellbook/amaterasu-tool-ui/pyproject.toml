@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "amaterasu-tool"
+version = "0.1.0"
+description = "AWSインフラストラクチャの設定を管理するためのツール"
+authors = ["Sunwood <dev@sunwood.dev>"]
+readme = "README.md"
+packages = [{include = "amaterasu_tool"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "^2.5.3"
+boto3 = "^1.34.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+black = "^23.12.1"
+mypy = "^1.8.0"
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
