@@ -2,9 +2,15 @@ import openai
 from loguru import logger
 import json
 import time
+import os
+from dotenv import load_dotenv
+
+# 環境変数の読み込み
+load_dotenv()
 
 # APIの設定
-API_BASE = "https://amaterasu-litellm-dev.sunwood-ai-labs.click"
+API_BASE = os.getenv("API_BASE")
+MODEL_NAME = os.getenv("MODEL_NAME")
 
 # OpenAIクライアントの初期化
 client = openai.OpenAI(
@@ -16,7 +22,7 @@ def test_chat():
     """通常のチャット補完をテストする"""
     try:
         response = client.chat.completions.create(
-            model="bedrock/claude-3-5-sonnet",
+            model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": "あなたは親切で簡潔なアシスタントです。"},
                 {"role": "user", "content": "プログラミングについて5行で説明してください。"}
@@ -38,7 +44,7 @@ def test_json_mode():
     """JSON形式での応答をテストする"""
     try:
         response = client.chat.completions.create(
-            model="bedrock/claude-3-5-sonnet",
+            model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": "JSONフォーマットで応答してください。"},
                 {"role": "user", "content": """
@@ -85,4 +91,4 @@ if __name__ == "__main__":
     
     # JSONモードのテスト
     logger.info("\n=== JSON形式でのテスト ===")
-    test_json_mode()
+    # test_json_mode()

@@ -1,12 +1,14 @@
 version: "3.11"
 services:
   litellm:
-    image: ghcr.io/berriai/litellm:main-latest
+    image: ghcr.io/berriai/litellm:main-v1.59.5
     volumes:
      - ./config.yaml:/app/config.yaml
+     - ./config.dev.yaml:/app/config.dev.yaml
      - ./vertex-ai-key.json:/app/vertex-ai-key.json
     command: 
-     - "--config=/app/config.yaml"
+    #  - "--config=/app/config.yaml"
+     - "--config=/app/config.dev.yaml"
      - "--debug"
     ports:
       - "${LITELLM_PORT:-4000}:4000"
