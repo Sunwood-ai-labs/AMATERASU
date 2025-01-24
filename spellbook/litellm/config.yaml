@@ -146,6 +146,163 @@ model_list:
       vertex_project: "os.environ/GOOGLE_PROJECT_ID"
       vertex_location: "us-central1"
 
+  # ----------------------------------------------
+  # ===== Gemini Models =====
+  # ----------------------------------------------
+  - model_name: gemini/gemini-1.0-pro-latest
+    litellm_params:
+      model: gemini/gemini-1.0-pro-latest
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.0-pro
+    litellm_params:
+      model: gemini/gemini-1.0-pro
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-pro
+    litellm_params:
+      model: gemini/gemini-pro
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.0-pro-001
+    litellm_params:
+      model: gemini/gemini-1.0-pro-001
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.0-pro-vision-latest
+    litellm_params:
+      model: gemini/gemini-1.0-pro-vision-latest
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-pro-vision
+    litellm_params:
+      model: gemini/gemini-pro-vision
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-pro-latest
+    litellm_params:
+      model: gemini/gemini-1.5-pro-latest
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-pro-001
+    litellm_params:
+      model: gemini/gemini-1.5-pro-001
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-pro-002
+    litellm_params:
+      model: gemini/gemini-1.5-pro-002
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-pro
+    litellm_params:
+      model: gemini/gemini-1.5-pro
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-pro-exp-0801
+    litellm_params:
+      model: gemini/gemini-1.5-pro-exp-0801
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-pro-exp-0827
+    litellm_params:
+      model: gemini/gemini-1.5-pro-exp-0827
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-latest
+    litellm_params:
+      model: gemini/gemini-1.5-flash-latest
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-001
+    litellm_params:
+      model: gemini/gemini-1.5-flash-001
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-001-tuning
+    litellm_params:
+      model: gemini/gemini-1.5-flash-001-tuning
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash
+    litellm_params:
+      model: gemini/gemini-1.5-flash
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-exp-0827
+    litellm_params:
+      model: gemini/gemini-1.5-flash-exp-0827
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-002
+    litellm_params:
+      model: gemini/gemini-1.5-flash-002
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-8b
+    litellm_params:
+      model: gemini/gemini-1.5-flash-8b
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-8b-001
+    litellm_params:
+      model: gemini/gemini-1.5-flash-8b-001
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-8b-latest
+    litellm_params:
+      model: gemini/gemini-1.5-flash-8b-latest
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-8b-exp-0827
+    litellm_params:
+      model: gemini/gemini-1.5-flash-8b-exp-0827
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-1.5-flash-8b-exp-0924
+    litellm_params:
+      model: gemini/gemini-1.5-flash-8b-exp-0924
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-2.0-flash-exp
+    litellm_params:
+      model: gemini/gemini-2.0-flash-exp
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-2.0-flash-thinking-exp
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-2.0-flash-thinking-exp-01-21
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp-01-21
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-2.0-flash-thinking-exp-1219
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp-1219
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-exp-1206
+    litellm_params:
+      model: gemini/gemini-exp-1206
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-exp-1121
+    litellm_params:
+      model: gemini/gemini-exp-1121
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-exp-1114
+    litellm_params:
+      model: gemini/gemini-exp-1114
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/learnlm-1.5-pro-experimental
+    litellm_params:
+      model: gemini/learnlm-1.5-pro-experimental
+      api_key: "os.environ/GEMINI_API_KEY"
 
   # ----------------------------------------------
   # ===== Deepseek AI Models =====
@@ -155,6 +312,38 @@ model_list:
       model: deepseek/deepseek-chat
       api_key: "os.environ/DEEPSEEK_API_KEY" 
 
+  # ----------------------------------------------
+  # ===== Hydra's Legion: Viper Nexus =====
+  # ----------------------------------------------
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params: 
+      model: openrouter/google/gemini-2.0-flash-thinking-exp:free
+      api_key: "os.environ/OPENROUTER_API_KEY" 
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params: 
+      model: openrouter/google/gemini-2.0-flash-exp:free
+      api_key: "os.environ/OPENROUTER_API_KEY" 
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp-01-21
+      api_key: "os.environ/GEMINI_API_KEY"
+  
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params:
+      model: gemini/gemini-2.0-flash-exp
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params:
+      model: vertex_ai/gemini-2.0-flash-exp
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
 
 litellm_settings:
-    drop_params: true
+  drop_params: true
+
+general_settings:
+  store_prompts_in_spend_logs: true
