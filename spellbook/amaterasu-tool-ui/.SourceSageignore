@@ -1,0 +1,36 @@
+# バージョン管理システム関連
+.git
+.gitignore
+
+# キャッシュファイル
+__pycache__
+.pytest_cache
+**/__pycache__/**
+*.pyc
+
+# ビルド・配布関連
+build
+dist
+*.egg-info
+node_modules
+
+# 一時ファイル・出力
+output
+output.md
+test_output
+.SourceSageAssets
+.SourceSageAssetsDemo
+
+# アセット
+*.png
+*.svg
+assets
+
+# その他
+LICENSE
+example
+folder
+package-lock.json
+.DS_Store
+.venv
+venv
