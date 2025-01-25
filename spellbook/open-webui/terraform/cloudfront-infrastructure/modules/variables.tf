@@ -24,11 +24,6 @@ variable "subdomain" {
   type        = string
 }
 
-variable "whitelist_csv_path" {
-  description = "Path to the CSV file containing whitelisted IP addresses"
-  type        = string
-}
-
 # プロバイダー設定
 terraform {
   required_providers {
