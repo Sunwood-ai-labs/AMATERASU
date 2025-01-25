@@ -55,6 +55,12 @@ class AmaterasuCLI:
         )
 
         parser.add_argument(
+            "--project-prefix",
+            default="amts-",
+            help="プロジェクト名のプレフィックス（デフォルト: amts-）"
+        )
+
+        parser.add_argument(
             "--key-name",
             required=True,
             help="SSH キーペア名"
@@ -91,6 +97,7 @@ class AmaterasuCLI:
 
             content = self.terraform_config.generate_tfvars_content(
                 project_name=project,
+                project_prefix=args.project_prefix,
                 output_json=output_json,
                 aws_region=args.aws_region,
                 instance_type=args.instance_type,
