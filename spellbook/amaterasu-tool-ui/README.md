@@ -81,6 +81,7 @@ setup_script_path  = "./scripts/setup_script.sh"
    - プロジェクト名とプレフィックスから自動的にサブドメインを生成
    - セキュリティグループ、サブネット、VPC情報を設定
    - ドメイン設定とRoute53ゾーン情報を設定
+   - main-infrastructure と cloudfront-infrastructure の両方の terraform.tfvars を生成
 
 ## ⚠️ 注意事項
 
