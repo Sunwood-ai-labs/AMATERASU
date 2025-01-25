@@ -1,5 +1,0 @@
-gradio>=5.0.0
-rich>=13.0.0
-python-dotenv>=1.0.0
-pydantic>=2.5.0
-# amaterasu-tool==0.1.0
