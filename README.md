@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.15.1)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.16.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,8 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.15.1では、`fg-prompt-pandora`プロジェクトにAWS WAFv2を用いたIPホワイトリスト機能、CloudFront設定の強化、ALBターゲットグループ設定の改善などが追加されました。また、ドキュメントの更新も行われています。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.16.0では、プロジェクト探索機能が追加され、不要になったファイルとモジュールが削除されました。これにより、コードベースのクリーンアップと保守性の向上が図られています。
+
 
 このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
 
@@ -44,6 +45,10 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 - セルフホスト型GitLabインスタンスの統合
 - LLMを用いたマージリクエスト分析
 - GitLab Webhookを用いた自動ラベル付け
+
+### プロジェクト探索機能
+- Terraformプロジェクトの自動検出と`terraform.tfvars`ファイルの生成
+- `amaterasu`コマンドラインツールによる簡素化された設定
 
 ## 🏗️ システムアーキテクチャ
 
@@ -146,23 +151,23 @@ graph TB
 - 会話ターン制限やLangfuse連携などのフィルター処理が可能
     - [詳細はこちら](./spellbook/open-webui-pipeline/README.md)
     
-### 10. tfvars_generator (Terraform変数ジェネレーター)
-- Terraform変数ファイル(`terraform.tfvars`)を自動生成するWebアプリケーション
-- プロジェクト検出、共通設定、個別設定をサポート
-    - [詳細はこちら](./spellbook/tfvars_generator/README.md)
+### 10. Amaterasu Tool (Terraform 変数ジェネレーター)
+-  コマンドラインツールで`terraform.tfvars`ファイルの生成を自動化
+- spellbook の各プロジェクトを対象に設定値を生成
+- [詳細はこちら](./spellbook/amaterasu-tool-ui/README.md)
+
 
 ## 🆕 最新情報
 
-### AMATERASU v1.15.1 (最新のリリース)
+### AMATERASU v1.16.0 (最新のリリース)
 
-- 🎉 **AWS WAFv2を用いたIPホワイトリスト機能の実装**: `fg-prompt-pandora`プロジェクトで、AWS WAFv2を用いてIPアドレスのホワイトリスト機能を実装しました。
-- 🎉 **Streamlitアプリ起動時のオプション追加**: `fg-prompt-pandora`プロジェクトのStreamlitアプリ起動時に、アップロードサイズ制限、WebSocket圧縮、CSRF保護、CORS設定を制御できるオプションを追加しました。
-- 🚀 **README.md更新**: プロジェクト概要、機能詳細、インストール手順を改善しました。
+- 🎉 **プロジェクト探索機能の実装**: `amaterasu` コマンドラインツールを使用して、spellbook内のTerraformプロジェクトを探索し、`terraform.tfvars`ファイルを自動生成できます。
+- ⚠️ **不要なファイルとモジュールの削除**: プロジェクトの再構築とクリーンアップにより、不要なファイルとモジュールが削除されました。
 
 
-## 🛠️ 使用方法
+## 🔧 使用方法
 
-各コンポーネントの使用方法については、それぞれのREADMEファイルを参照してください。  特に、Terraform変数ジェネレーターWebアプリの使用方法については、`spellbook/tfvars_generator/README.md`を参照ください。
+各コンポーネントの使用方法については、それぞれのREADMEファイルを参照してください。  `amaterasu`コマンドラインツールの使用方法については、`spellbook/amaterasu-tool-ui/README.md`を参照ください。
 
 
 ## 📦 インストール手順
@@ -173,7 +178,8 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
 ```
 2. 各プロジェクトのREADMEに記載されている手順に従って、依存関係をインストールし、アプリケーションをデプロイします。
-3. `terraform.tfvars`ファイルに必要な設定を入力します。
+3. `terraform.tfvars`ファイルに必要な設定を入力します。  `amaterasu` ツールを利用して自動生成することもできます。
+
 
 ## 📦 依存関係
 
