@@ -8,28 +8,29 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.15.1)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.16.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA). It has evolved to run each AI service on an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.15.1 includes additions to the `fg-prompt-pandora` project such as an IP whitelist function using AWS WAFv2, enhanced CloudFront settings, and improved ALB target group configurations.  Documentation updates have also been made.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-powered applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.16.0 includes a new project discovery feature and removes unnecessary files and modules, resulting in a cleaner, more maintainable codebase.
 
-This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or features.
+
+This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or functionalities.
 
 ## ✨ Key Features
 
 ### Secure Foundation
 - Secure LLM foundation based on AWS Bedrock and Google Vertex AI
-- Operation in a completely closed environment
+- Operation in a fully closed environment
 - Enterprise-grade security
 
-### Microservices Architecture
+### Microservice Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -37,13 +38,17 @@ This repository is structured as a "spellbook" for managing multiple AI-related 
 ### Infrastructure as Code
 - Fully automated deployment with Terraform
 - Environment-specific configuration management
-- Version-controlled configuration
+- Version-controlled infrastructure
 
 ### GitLab Integration
-- Improved version control, CI/CD pipelines, and project management features
+- Enhanced version control, CI/CD pipelines, and project management
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
 - Automated labeling using GitLab Webhooks
+
+### Project Discovery Feature
+- Automatic detection of Terraform projects and generation of `terraform.tfvars` files
+- Simplified configuration using the `amaterasu` command-line tool
 
 ## 🏗️ System Architecture
 
@@ -93,7 +98,7 @@ graph TB
     end
 ```
 
-## 📦 Component Composition
+## 📦 Component Structure
 
 ### 1. Open WebUI (Frontend)
 - Chat-based user interface
@@ -126,7 +131,7 @@ graph TB
     - [Details here](./spellbook/fg-prompt-pandora/README.md)
 
 ### 6. Coder (Cloud Development Environment)
-- Web-based IDE environment
+- Web-based IDE
 - Support for VS Code extensions
 - Secure development on AWS infrastructure
     - [Details here](./spellbook/Coder/README.md)
@@ -138,31 +143,31 @@ graph TB
 
 ### 8. Dify Beta (AI Application Development Platform)
 - Beta version of Dify including new and experimental features
-- Advanced configuration of vector databases and sandbox environments is possible
+- Advanced settings for vector databases and sandbox environments are possible
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline functionality enhancing integration with Open WebUI
-- Enables filter processing such as conversation turn limits and Langfuse integration
+- Pipeline functions that enhance the integration with Open WebUI
+- It is possible to perform filter processing such as conversation turn restrictions and Langfuse linkage
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
-### 10. tfvars_generator (Terraform Variable Generator)
-- Web application that automatically generates Terraform variable files (`terraform.tfvars`)
-- Supports project detection, common settings, and individual settings
-    - [Details here](./spellbook/tfvars_generator/README.md)
+### 10. Amaterasu Tool (Terraform Variable Generator)
+- Automates the generation of `terraform.tfvars` files using a command-line tool
+- Generates settings for each project in the spellbook
+- [Details here](./spellbook/amaterasu-tool-ui/README.md)
+
 
 ## 🆕 Latest News
 
-### AMATERASU v1.15.1 (Latest Release)
+### AMATERASU v1.16.0 (Latest Release)
 
-- 🎉 **Implementation of IP Whitelist Function using AWS WAFv2**:  Implemented an IP address whitelist function using AWS WAFv2 in the `fg-prompt-pandora` project.
-- 🎉 **Addition of Options When Starting the Streamlit App**: Added options to control upload size limits, WebSocket compression, CSRF protection, and CORS settings when starting the Streamlit app in the `fg-prompt-pandora` project.
-- 🚀 **README.md Update**: Improved project overview, feature details, and installation instructions.
+- 🎉 **Implementation of Project Discovery Feature**:  Use the `amaterasu` command-line tool to explore Terraform projects within the spellbook and automatically generate `terraform.tfvars` files.
+- ⚠️ **Removal of Unnecessary Files and Modules**:  Unnecessary files and modules have been removed as part of project restructuring and cleanup.
 
 
-## 🛠️ Usage
+## 🔧 Usage
 
-Refer to the respective README files for instructions on using each component.  In particular, refer to `spellbook/tfvars_generator/README.md` for instructions on using the Terraform variable generator web app.
+Refer to the individual README files for instructions on using each component. For instructions on using the `amaterasu` command-line tool, refer to `spellbook/amaterasu-tool-ui/README.md`.
 
 
 ## 📦 Installation Instructions
@@ -173,7 +178,8 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
 ```
 2. Follow the instructions in each project's README to install dependencies and deploy the application.
-3. Enter the necessary settings in the `terraform.tfvars` file.
+3. Enter the necessary settings in the `terraform.tfvars` file. You can also use the `amaterasu` tool to generate it automatically.
+
 
 ## 📦 Dependencies
 
