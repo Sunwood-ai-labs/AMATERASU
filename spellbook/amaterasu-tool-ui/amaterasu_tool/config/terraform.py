@@ -113,3 +113,56 @@ key_name           = "{key_name}"
 # ローカルファイルパス
 env_file_path      = "../../.env"
 setup_script_path  = "./scripts/setup_script.sh"'''
+    
+    @staticmethod
+    def generate_cloudfront_tfvars_content(
+        project_name: str,
+        project_prefix: str,
+        output_json: Dict[str, Any],
+        aws_region: str,
+    ) -> str:
+        """
+        cloudfront terraform.tfvarsファイルの内容を生成
+
+        Args:
+            project_name (str): プロジェクト名
+            output_json (Dict[str, Any]): output.jsonの内容
+            aws_region (str): AWSリージョン
+
+        Returns:
+            str: 生成された内容
+        """
+        config = TerraformConfig()
+        
+        # ドメイン設定
+        domain = config.get_output_value(output_json, 'route53_zone_name')
+        subdomain = f"{project_name.replace('amts-', project_prefix)}"
+
+        # オリジンサーバー設定（EC2インスタンス）
+        origin_domain = config.get_output_value(output_json, 'ec2_public_ip')
+
+        content = f'''# AWSの設定
+aws_region = "{aws_region}"
+
+# プロジェクト名
+project_name = "{project_prefix}{project_name}"
+
+# オリジンサーバー設定（EC2インスタンス）
+origin_domain = "{origin_domain}"
+
+# ドメイン設定
+domain    = "{domain}"
+subdomain = "{subdomain}"
+'''
+        
+        cloudfront_tfvars_path = ProjectDiscovery.get_cloudfront_tfvars_path(
+            base_path="/home/maki/prj/AMATERASU/spellbook", # TODO: base_path を引数で受け取るように修正
+            project_name=project_name
+        )
+        
+        if os.path.exists(cloudfront_tfvars_path):
+            # ファイルが既に存在する場合は origin_domain をスキップ
+            content_lines = content.splitlines()
+            content = "\n".join([line for line in content_lines if "origin_domain" not in line])
+
+        return content
