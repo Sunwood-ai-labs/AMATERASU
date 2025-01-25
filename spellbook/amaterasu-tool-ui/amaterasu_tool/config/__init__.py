@@ -1,7 +1,6 @@
 """
-Amaterasu Tool設定管理モジュール
+設定管理パッケージ
 """
-from .project_config import ProjectConfig
-from .terraform_config import TerraformConfig
+from .terraform import TerraformConfig
 
-__all__ = ['ProjectConfig', 'TerraformConfig']
+__all__ = ['TerraformConfig']
