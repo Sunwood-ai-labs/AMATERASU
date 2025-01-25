@@ -90,6 +90,7 @@ class AmaterasuCLI:
 
         # 各プロジェクトに対してterraform.tfvarsを生成
         for project in projects:
+            # main-infrastructure の terraform.tfvars を生成
             tfvars_path = self.project_discovery.get_tfvars_path(
                 args.base_path,
                 project
@@ -112,6 +113,27 @@ class AmaterasuCLI:
                 print(f"✅ Generated terraform.tfvars for {project}: {tfvars_path}")
             except Exception as e:
                 print(f"❌ Error generating for {project}: {str(e)}")
+            
+            # cloudfront-infrastructure の terraform.tfvars を生成
+            cloudfront_tfvars_path = self.project_discovery.get_cloudfront_tfvars_path(
+                args.base_path,
+                project
+            )
+            
+            cloudfront_content = self.terraform_config.generate_cloudfront_tfvars_content(
+                project_name=project,
+                project_prefix=args.project_prefix,
+                output_json=output_json,
+                aws_region=args.aws_region,
+            )
+            
+            try:
+                os.makedirs(os.path.dirname(cloudfront_tfvars_path), exist_ok=True)
+                with open(cloudfront_tfvars_path, 'w') as f:
+                    f.write(cloudfront_content)
+                print(f"✅ Generated cloudfront terraform.tfvars for {project}: {cloudfront_tfvars_path}")
+            except Exception as e:
+                print(f"❌ Error generating cloudfront for {project}: {str(e)}")
 
 def main():
     """CLIのエントリーポイント"""
