@@ -6,6 +6,9 @@ authors = ["Sunwood <dev@sunwood.dev>"]
 readme = "README.md"
 packages = [{include = "amaterasu_tool"}]
 
+[tool.poetry.scripts]
+amaterasu = "amaterasu_tool.cli:main"
+
 [tool.poetry.dependencies]
 python = "^3.9"
 pydantic = "^2.5.3"
