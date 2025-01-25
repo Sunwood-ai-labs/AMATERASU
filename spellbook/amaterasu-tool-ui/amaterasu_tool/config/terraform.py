@@ -52,6 +52,7 @@ class TerraformConfig:
     @staticmethod
     def generate_tfvars_content(
         project_name: str,
+        project_prefix: str,
         output_json: Dict[str, Any],
         aws_region: str,
         instance_type: str,
@@ -101,10 +102,10 @@ security_group_ids = [
 # ドメイン設定
 domain_internal    = "{config.get_output_value(output_json, 'route53_internal_zone_name')}"  # 内部ドメイン
 route53_internal_zone_id = "{config.get_output_value(output_json, 'route53_internal_zone_id')}"  # 内部ゾーンID
-subdomain          = "{project_name.replace('amts-', 'amaterasu-')}"
+subdomain          = "{project_name.replace('amts-', project_prefix)}"
 
 # プロジェクト設定パラメータ
-project_name       = "{project_name}"
+project_name       = "{project_prefix}{project_name}"
 instance_type      = "{instance_type}"
 ami_id             = "{ami_id}"
 key_name           = "{key_name}"
