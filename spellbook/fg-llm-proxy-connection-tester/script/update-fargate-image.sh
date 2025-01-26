@@ -6,12 +6,12 @@ set -e
 # 変数設定
 REGION="ap-northeast-1"
 ACCOUNT_ID="498218886114"
-ECR_REPO="amts-prompt-pandora"
+ECR_REPO="amts-llm-tester"
 IMAGE_TAG="latest"
 ECR_URI="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
 IMAGE_NAME="${ECR_URI}/${ECR_REPO}:${IMAGE_TAG}"
-CLUSTER_NAME="amts-prompt-pandora-cluster"
-SERVICE_NAME="amts-prompt-pandora-service"
+CLUSTER_NAME="amts-llm-tester-cluster"
+SERVICE_NAME="amts-llm-tester-service"
 
 echo "ECRにログインしています..."
 aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ECR_URI}
