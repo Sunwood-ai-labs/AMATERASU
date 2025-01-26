@@ -28,21 +28,36 @@ def get_ip_info():
 
 def get_global_accelerator_ip():
     try:
-        # グローバルアクセラレータのDNS名を指定
-        global_accelerator_dns = os.environ.get("GLOBAL_ACCELERATOR_DNS_NAME")
+        # terraform.tfstateファイルを読み込む
+        with open('terraform/terraform.tfstate', 'r') as f:
+            tfstate = json.load(f)
         
-        # DNS解決
-        resolver = dns.resolver.Resolver()
-        answers = resolver.resolve(global_accelerator_dns)
+        # Global Acceleratorのリソースを検索
+        for resource in tfstate.get('resources', []):
+            if (resource.get('type') == 'aws_globalaccelerator_accelerator' and 
+                resource.get('name') == 'main'):
+                
+                # ip_setsから情報を取得
+                ip_sets = resource.get('instances', [])[0].get('attributes', {}).get('ip_sets', [])
+                if ip_sets:
+                    ip_addresses = ip_sets[0].get('ip_addresses', [])
+                    if ip_addresses:
+                        return ', '.join(ip_addresses)
+                
+                # DNSネーム情報も取得
+                dns_name = resource.get('instances', [])[0].get('attributes', {}).get('dns_name', '')
+                if dns_name:
+                    return f"DNS: {dns_name}\nIP: {', '.join(ip_addresses)}"
         
-        # IPアドレスを抽出
-        return str(answers[0])
+        return "Global Accelerator情報が見つかりません"
+    except FileNotFoundError:
+        return "terraform.tfstateファイルが見つかりません"
     except Exception as e:
         return f"取得失敗: {str(e)}"
-
+    
 def main():
-    st.set_page_config(page_title="FG Prompt Pandora Mini", layout="wide")
-    st.title("🚀 FG Prompt Pandora Mini")
+    st.set_page_config(page_title="llm-tester", layout="wide")
+    st.title("🚀 llm-tester")
 
     # サイドバーに設定項目を配置
     with st.sidebar:
