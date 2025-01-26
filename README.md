@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.16.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.17.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,7 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.16.0では、プロジェクト探索機能が追加され、不要になったファイルとモジュールが削除されました。これにより、コードベースのクリーンアップと保守性の向上が図られています。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.17.0では、Global AcceleratorのDNS名設定に関する新機能が追加されました。これにより、アプリケーションはGlobal Accelerator経由でアクセスできるようになりました。
 
 
 このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
@@ -50,6 +50,10 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 - Terraformプロジェクトの自動検出と`terraform.tfvars`ファイルの生成
 - `amaterasu`コマンドラインツールによる簡素化された設定
 
+### Global Accelerator対応
+- Global AcceleratorのDNS名を利用したアプリケーションへのアクセス
+
+
 ## 🏗️ システムアーキテクチャ
 
 ```mermaid
@@ -66,11 +70,13 @@ graph TB
             
             subgraph "Fargate-based Service"
                 PP["Prompt Pandora<br/>プロンプト生成支援"]
+                CT["LLM Proxy Connection Tester<br/>疎通確認ツール"]
                 ECS["ECS Fargate Cluster"]
             end
         end
         
         subgraph "Infrastructure Layer"
+            GA["Global Accelerator"]
             CF["CloudFront"]
             WAF["WAF"]
             R53["Route 53"]
@@ -87,9 +93,11 @@ graph TB
         GL --> CF
         CD --> CF
         PP --> ECS
+        CT --> GA
         
         CF --> WAF
         WAF --> R53
+        GA --> R53
         
         EC2 --> Bedrock
         ECS --> Bedrock
@@ -156,13 +164,23 @@ graph TB
 - spellbook の各プロジェクトを対象に設定値を生成
 - [詳細はこちら](./spellbook/amaterasu-tool-ui/README.md)
 
+### 11.  FG-LLM-Proxy-Connection-Tester (Fargate版接続テストアプリケーション)
+- LitemLLM Proxyへの接続テスト
+- Global Accelerator経由でのアクセス確認
+- StreamlitベースのUIによる簡便なテスト実行
+- [詳細はこちら](./spellbook/fg-llm-proxy-connection-tester/README.md)
+
 
 ## 🆕 最新情報
 
-### AMATERASU v1.16.0 (最新のリリース)
+### AMATERASU v1.17.0 (最新のリリース)
 
-- 🎉 **プロジェクト探索機能の実装**: `amaterasu` コマンドラインツールを使用して、spellbook内のTerraformプロジェクトを探索し、`terraform.tfvars`ファイルを自動生成できます。
-- ⚠️ **不要なファイルとモジュールの削除**: プロジェクトの再構築とクリーンアップにより、不要なファイルとモジュールが削除されました。
+- 🎉 **Global Accelerator DNS名変数の追加**: 各FargateアプリケーションにGlobal AcceleratorのDNS名を参照するための環境変数を追加しました。これにより、Global Accelerator経由でのアプリケーションへのアクセスが可能になりました。(commit: 0739657)
+- 🎉 **ECSタスク定義への環境変数追加**: ECSタスク定義に`GLOBAL_ACCELERATOR_DNS_NAME`環境変数を追加しました。(commit: 9713626)
+- 🎉 **Global Accelerator DNS名のterraform出力**: Global AcceleratorのDNS名をterraform出力に追加しました。(commit: 8106eb5)
+- 🎉 **Dockerfileへの環境変数追加**: Dockerfileに`GLOBAL_ACCELERATOR_DNS_NAME`環境変数を追加しました。(commit: 7773127)
+- 🚀 **Global Accelerator IPアドレス取得処理の改善**: Global AcceleratorのIPアドレス取得処理を改善しました。(commit: cd6b857)
+- 🐛 **ポート番号とHEALTHCHECKコマンドの修正**: docker-compose.ymlのポート番号とHEALTHCHECKコマンドを修正しました。(commit: b526bec)
 
 
 ## 🔧 使用方法
