@@ -1,6 +1,7 @@
 import streamlit as st
 import openai
 import json
+import os
 import socket
 import dns.resolver
 import requests
@@ -27,37 +28,21 @@ def get_ip_info():
     }
 
 def get_global_accelerator_ip():
-    try:
-        # terraform.tfstateファイルを読み込む
-        with open('terraform/terraform.tfstate', 'r') as f:
-            tfstate = json.load(f)
-        
-        # Global Acceleratorのリソースを検索
-        for resource in tfstate.get('resources', []):
-            if (resource.get('type') == 'aws_globalaccelerator_accelerator' and 
-                resource.get('name') == 'main'):
-                
-                # ip_setsから情報を取得
-                ip_sets = resource.get('instances', [])[0].get('attributes', {}).get('ip_sets', [])
-                if ip_sets:
-                    ip_addresses = ip_sets[0].get('ip_addresses', [])
-                    if ip_addresses:
-                        return ', '.join(ip_addresses)
-                
-                # DNSネーム情報も取得
-                dns_name = resource.get('instances', [])[0].get('attributes', {}).get('dns_name', '')
-                if dns_name:
-                    return f"DNS: {dns_name}\nIP: {', '.join(ip_addresses)}"
-        
-        return "Global Accelerator情報が見つかりません"
-    except FileNotFoundError:
-        return "terraform.tfstateファイルが見つかりません"
-    except Exception as e:
-        return f"取得失敗: {str(e)}"
+    dns_name = os.environ.get('GLOBAL_ACCELERATOR_DNS_NAME')
+    if dns_name:
+        resolver = dns.resolver.Resolver()
+        try:
+            ip_addresses = [str(ip.address) for ip in resolver.resolve(dns_name, 'A')]
+            ip_address_str = ", ".join(ip_addresses)
+            return f"DNS: {dns_name}\nIPアドレス: {ip_address_str}"
+        except Exception as e:
+            print(f"DNS resolution failed: {e}")
+            return f"取得失敗: {str(e)}"
+    return "Global Accelerator DNS名が設定されていません"
     
 def main():
     st.set_page_config(page_title="llm-tester", layout="wide")
-    st.title("🚀 llm-tester")
+    st.title("🚀 llm-tester v0.1")
 
     # サイドバーに設定項目を配置
     with st.sidebar:
