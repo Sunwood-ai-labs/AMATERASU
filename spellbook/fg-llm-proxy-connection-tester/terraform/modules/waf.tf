@@ -1,6 +1,12 @@
+# バージニアリージョンのプロバイダー設定
+provider "aws" {
+  alias  = "virginia"
+  region = "us-east-1"
+}
+
 # CSVファイルからホワイトリストを読み込む
 locals {
-  whitelist_csv = file("${path.root}/../../../whitelist-waf.csv")
+  whitelist_csv = file(var.whitelist_csv_path)
   whitelist_lines = [for l in split("\n", local.whitelist_csv) : trim(l, " \t\r\n") if trim(l, " \t\r\n") != "" && !startswith(trim(l, " \t\r\n"), "ip")]
   whitelist_entries = [
     for l in local.whitelist_lines : {
@@ -32,7 +38,7 @@ resource "aws_wafv2_web_acl" "cloudfront_waf" {
   scope       = "CLOUDFRONT"
 
   default_action {
-    block {}  # デフォルトですべてのアクセスをブロック
+    block {}
   }
 
   rule {
@@ -61,4 +67,14 @@ resource "aws_wafv2_web_acl" "cloudfront_waf" {
     metric_name               = "CloudFrontWAFMetric"
     sampled_requests_enabled  = true
   }
+
+  tags = {
+    Name = "${var.project_name}-waf"
+  }
+}
+
+# WAF Web ACLの関連付けのために必要な出力
+output "waf_web_acl_arn" {
+  value       = aws_wafv2_web_acl.cloudfront_waf.arn
+  description = "ARN of the WAF Web ACL"
 }

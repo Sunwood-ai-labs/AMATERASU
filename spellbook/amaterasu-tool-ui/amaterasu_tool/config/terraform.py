@@ -4,6 +4,7 @@ Terraform設定の読み込みと生成を行うモジュール
 import json
 import os
 from typing import Dict, Any, List, Union
+from ..utils.project import ProjectDiscovery
 
 class TerraformConfig:
     """Terraform設定の管理クラス"""
@@ -111,7 +112,7 @@ ami_id             = "{ami_id}"
 key_name           = "{key_name}"
 
 # ローカルファイルパス
-env_file_path      = "../../.env"
+env_file_path      = "../../.aws.env"
 setup_script_path  = "./scripts/setup_script.sh"'''
     
     @staticmethod
@@ -138,8 +139,20 @@ setup_script_path  = "./scripts/setup_script.sh"'''
         domain = config.get_output_value(output_json, 'route53_zone_name')
         subdomain = f"{project_name.replace('amts-', project_prefix)}"
 
-        # オリジンサーバー設定（EC2インスタンス）
-        origin_domain = config.get_output_value(output_json, 'ec2_public_ip')
+        # 既存のterraform.tfvarsが存在する場合、origin_domainの値を取得
+        cloudfront_tfvars_path = ProjectDiscovery.get_cloudfront_tfvars_path(
+            base_path="/home/maki/prj/AMATERASU/spellbook",  # TODO: base_path を引数で受け取るように修正
+            project_name=project_name
+        )
+        
+        # オリジンドメインの設定
+        origin_domain = ""
+        if os.path.exists(cloudfront_tfvars_path):
+            with open(cloudfront_tfvars_path, 'r') as f:
+                content = f.read()
+                for line in content.splitlines():
+                    if 'origin_domain' in line and '=' in line:
+                        origin_domain = line.split('=')[1].strip().strip('"')
 
         content = f'''# AWSの設定
 aws_region = "{aws_region}"
@@ -148,21 +161,11 @@ aws_region = "{aws_region}"
 project_name = "{project_prefix}{project_name}"
 
 # オリジンサーバー設定（EC2インスタンス）
-origin_domain = "{origin_domain}"
+origin_domain = "{origin_domain if origin_domain else config.get_output_value(output_json, 'ec2_public_ip')}"
 
 # ドメイン設定
 domain    = "{domain}"
 subdomain = "{subdomain}"
 '''
-        
-        cloudfront_tfvars_path = ProjectDiscovery.get_cloudfront_tfvars_path(
-            base_path="/home/maki/prj/AMATERASU/spellbook", # TODO: base_path を引数で受け取るように修正
-            project_name=project_name
-        )
-        
-        if os.path.exists(cloudfront_tfvars_path):
-            # ファイルが既に存在する場合は origin_domain をスキップ
-            content_lines = content.splitlines()
-            content = "\n".join([line for line in content_lines if "origin_domain" not in line])
 
         return content
