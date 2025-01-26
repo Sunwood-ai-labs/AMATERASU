@@ -24,6 +24,17 @@ resource "aws_ecs_task_definition" "app" {
           protocol      = "tcp"
         }
       ]
+      environment = [
+        {
+          name = "GLOBAL_ACCELERATOR_DNS_NAME"
+          value = var.global_accelerator_dns_name
+        },
+        {
+          containerPort = 80
+          hostPort      = 80
+          protocol      = "tcp"
+        }
+      ]
       essential = true
       logConfiguration = {
         logDriver = "awslogs"

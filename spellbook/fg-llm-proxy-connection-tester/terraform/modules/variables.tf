@@ -63,3 +63,9 @@ variable "whitelist_csv_path" {
   description = "Path to the CSV file containing whitelisted IP addresses"
   type        = string
 }
+
+# グローバルアクセラレータ
+variable "global_accelerator_dns_name" {
+  description = "Global Accelerator DNS Name"
+  type        = string
+}

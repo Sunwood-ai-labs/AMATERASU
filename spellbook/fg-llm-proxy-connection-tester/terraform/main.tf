@@ -37,6 +37,7 @@ module "ecs" {
   task_memory      = local.common_vars.task_memory
   app_count        = local.common_vars.app_count
   whitelist_csv_path = local.common_vars.whitelist_csv_path
+  global_accelerator_dns_name = aws_globalaccelerator_accelerator.main.dns_name
 }
 
 # グローバルアクセラレータの作成
@@ -66,4 +67,9 @@ resource "aws_globalaccelerator_endpoint_group" "main" {
     endpoint_id = module.ecs.alb_id
     weight      = 100
   }
+}
+
+output "global_accelerator_dns_name" {
+  value = aws_globalaccelerator_accelerator.main.dns_name
+  description = "Global Accelerator DNS Name"
 }
