@@ -1,6 +1,6 @@
 <div align="center">
 
-![CloudFront Infrastructure](assets/header.svg)
+![CloudFront Infrastructure](https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/spellbook/open-webui/terraform/cloudfront-infrastructure/assets/header.svg)
 
 </div>
 
