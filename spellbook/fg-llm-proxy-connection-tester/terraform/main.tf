@@ -61,8 +61,9 @@ resource "aws_globalaccelerator_listener" "main" {
 # エンドポイントグループの作成
 resource "aws_globalaccelerator_endpoint_group" "main" {
   listener_arn = aws_globalaccelerator_listener.main.id
+
   endpoint_configuration {
-    endpoint_id = module.ecs.alb_dns_name
+    endpoint_id = module.ecs.alb_id
     weight      = 100
   }
 }
