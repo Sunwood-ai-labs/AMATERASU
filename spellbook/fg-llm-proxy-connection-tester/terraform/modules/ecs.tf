@@ -54,6 +54,7 @@ resource "aws_ecs_service" "app" {
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
     subnets         = [var.public_subnet_id, var.public_subnet_2_id]
+    assign_public_ip = true
   }
 
   load_balancer {
@@ -70,13 +71,4 @@ resource "aws_ecs_service" "app" {
   force_new_deployment = true
 }
 
-# 出力定義
-output "ecs_cluster_name" {
-  value       = aws_ecs_cluster.main.name
-  description = "The name of the ECS cluster"
-}
 
-output "ecs_service_name" {
-  value       = aws_ecs_service.app.name
-  description = "The name of the ECS service"
-}
