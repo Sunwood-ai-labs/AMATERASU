@@ -12,7 +12,7 @@ services:
       clickhouse:
         condition: service_healthy
     ports:
-      - "3030:3030"
+      - "${LANGFUSE_WORKER_PORT:-3030}:3030"
     environment: &langfuse-worker-env
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
       SALT: "mysalt"
@@ -49,10 +49,10 @@ services:
     restart: always
     depends_on: *langfuse-depends-on
     ports:
-      - "3000:3000"
+      - "${LANGFUSE_WEB_PORT:-3000}:3000"
     environment:
       <<: *langfuse-worker-env
-      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_URL: http://localhost:${LANGFUSE_WEB_PORT:-3000}
       NEXTAUTH_SECRET: mysecret
       LANGFUSE_INIT_ORG_ID: ${LANGFUSE_INIT_ORG_ID:-}
       LANGFUSE_INIT_ORG_NAME: ${LANGFUSE_INIT_ORG_NAME:-}

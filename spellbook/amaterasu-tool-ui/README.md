@@ -18,6 +18,9 @@ amaterasu --key-name AMATERASU-terraform-keypair-tokyo-PEM
 # 特定のプロジェクトのみ処理
 amaterasu --key-name AMATERASU-terraform-keypair-tokyo-PEM --project-dir litellm
 
+# プロジェクトプレフィックスを指定して実行
+amaterasu --key-name AMATERASU-terraform-keypair-tokyo-PEM --project-prefix my-prefix
+
 # カスタム設定での実行
 amaterasu \
   --key-name AMATERASU-terraform-keypair-tokyo-PEM \
@@ -34,6 +37,7 @@ amaterasu \
 - `--instance-type`: EC2インスタンスタイプ（デフォルト: t3.micro）
 - `--ami-id`: AMI ID（デフォルト: ami-0bba69335379e17f8）
 - `--key-name`: SSH キーペア名（必須）
+- `--project-prefix`: プロジェクト名のプレフィックス（デフォルト: amts-）
 
 ## 📄 生成される設定例
 
@@ -74,14 +78,15 @@ setup_script_path  = "./scripts/setup_script.sh"
 1. base-infrastructure/output.jsonから既存の設定値を読み込み
 2. プロジェクトディレクトリを探索
 3. terraform.tfvarsファイルを生成
-   - プロジェクト名から自動的にサブドメインを生成（amts- → amaterasu-）
+   - プロジェクト名とプレフィックスから自動的にサブドメインを生成
    - セキュリティグループ、サブネット、VPC情報を設定
    - ドメイン設定とRoute53ゾーン情報を設定
+   - main-infrastructure と cloudfront-infrastructure の両方の terraform.tfvars を生成
 
 ## ⚠️ 注意事項
 
 - `output.json`が存在しない場合はデフォルト値が使用されます
-- プロジェクト名は`amts-`で始まる必要があります（サブドメイン生成のため）
+- サブドメインはプロジェクト名からプレフィックスを削除して生成されます
 - キーペア名は必須パラメータです
 
 ## 📄 ライセンス

@@ -26,14 +26,13 @@ provider "aws" {
 
 # CloudFrontモジュールの呼び出し
 module "cloudfront" {
-  source = "./modules"
+  source = "../../../open-webui/terraform/cloudfront-infrastructure/modules"
 
   project_name      = var.project_name
   aws_region        = var.aws_region
   origin_domain     = var.origin_domain
   domain            = var.domain
   subdomain         = var.subdomain
-  whitelist_csv_path = "../../../whitelist-waf.csv"
 
   providers = {
     aws           = aws

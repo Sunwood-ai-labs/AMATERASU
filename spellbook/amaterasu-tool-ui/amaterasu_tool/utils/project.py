@@ -56,3 +56,23 @@ class ProjectDiscovery:
             "main-infrastructure",
             "terraform.tfvars"
         )
+
+    @staticmethod
+    def get_cloudfront_tfvars_path(base_path: str, project_name: str) -> str:
+        """
+        プロジェクトのcloudfront terraform.tfvarsファイルパスを取得
+
+        Args:
+            base_path (str): ベースディレクトリのパス
+            project_name (str): プロジェクト名
+
+        Returns:
+            str: cloudfront terraform.tfvarsファイルのパス
+        """
+        return os.path.join(
+            base_path,
+            project_name,
+            "terraform",
+            "cloudfront-infrastructure",
+            "terraform.tfvars"
+        )

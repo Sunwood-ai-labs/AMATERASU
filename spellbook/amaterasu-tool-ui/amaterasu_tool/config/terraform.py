@@ -4,6 +4,7 @@ Terraform設定の読み込みと生成を行うモジュール
 import json
 import os
 from typing import Dict, Any, List, Union
+from ..utils.project import ProjectDiscovery
 
 class TerraformConfig:
     """Terraform設定の管理クラス"""
@@ -52,6 +53,7 @@ class TerraformConfig:
     @staticmethod
     def generate_tfvars_content(
         project_name: str,
+        project_prefix: str,
         output_json: Dict[str, Any],
         aws_region: str,
         instance_type: str,
@@ -101,14 +103,69 @@ security_group_ids = [
 # ドメイン設定
 domain_internal    = "{config.get_output_value(output_json, 'route53_internal_zone_name')}"  # 内部ドメイン
 route53_internal_zone_id = "{config.get_output_value(output_json, 'route53_internal_zone_id')}"  # 内部ゾーンID
-subdomain          = "{project_name.replace('amts-', 'amaterasu-')}"
+subdomain          = "{project_name.replace('amts-', project_prefix)}"
 
 # プロジェクト設定パラメータ
-project_name       = "{project_name}"
+project_name       = "{project_prefix}{project_name}"
 instance_type      = "{instance_type}"
 ami_id             = "{ami_id}"
 key_name           = "{key_name}"
 
 # ローカルファイルパス
-env_file_path      = "../../.env"
+env_file_path      = "../../.aws.env"
 setup_script_path  = "./scripts/setup_script.sh"'''
+    
+    @staticmethod
+    def generate_cloudfront_tfvars_content(
+        project_name: str,
+        project_prefix: str,
+        output_json: Dict[str, Any],
+        aws_region: str,
+    ) -> str:
+        """
+        cloudfront terraform.tfvarsファイルの内容を生成
+
+        Args:
+            project_name (str): プロジェクト名
+            output_json (Dict[str, Any]): output.jsonの内容
+            aws_region (str): AWSリージョン
+
+        Returns:
+            str: 生成された内容
+        """
+        config = TerraformConfig()
+        
+        # ドメイン設定
+        domain = config.get_output_value(output_json, 'route53_zone_name')
+        subdomain = f"{project_name.replace('amts-', project_prefix)}"
+
+        # 既存のterraform.tfvarsが存在する場合、origin_domainの値を取得
+        cloudfront_tfvars_path = ProjectDiscovery.get_cloudfront_tfvars_path(
+            base_path="/home/maki/prj/AMATERASU/spellbook",  # TODO: base_path を引数で受け取るように修正
+            project_name=project_name
+        )
+        
+        # オリジンドメインの設定
+        origin_domain = ""
+        if os.path.exists(cloudfront_tfvars_path):
+            with open(cloudfront_tfvars_path, 'r') as f:
+                content = f.read()
+                for line in content.splitlines():
+                    if 'origin_domain' in line and '=' in line:
+                        origin_domain = line.split('=')[1].strip().strip('"')
+
+        content = f'''# AWSの設定
+aws_region = "{aws_region}"
+
+# プロジェクト名
+project_name = "{project_prefix}{project_name}"
+
+# オリジンサーバー設定（EC2インスタンス）
+origin_domain = "{origin_domain if origin_domain else config.get_output_value(output_json, 'ec2_public_ip')}"
+
+# ドメイン設定
+domain    = "{domain}"
+subdomain = "{subdomain}"
+'''
+
+        return content

@@ -228,3 +228,5 @@ spellbook/dify-beta1/volumes/plugin_daemon
 !**/**/terraform.example.tfvars
 terraform.tfvars
 spellbook/litellm/config.dev.yaml
+.env.aws
+.aws.env
