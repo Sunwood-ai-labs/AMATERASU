@@ -8,29 +8,29 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.16.0)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.17.1)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service on an independent EC2 instance using Docker Compose, and deployment is simplified with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows you to develop and operate LLM-powered applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.16.0 includes a new project discovery feature and removes unnecessary files and modules, resulting in a cleaner, more maintainable codebase.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.17.1 includes improvements to the `docker-compose` configuration and corrections to the port number and hostname of the `coder` service. This makes development and operation in a Docker environment smoother.
 
 
-This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or functionalities.
+This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or features.
 
 ## ✨ Key Features
 
 ### Secure Foundation
 - Secure LLM foundation based on AWS Bedrock and Google Vertex AI
-- Operation in a fully closed environment
+- Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservice Architecture
+### Microservices Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -38,17 +38,17 @@ This repository is structured as a "spellbook" for managing multiple AI-related 
 ### Infrastructure as Code
 - Fully automated deployment with Terraform
 - Environment-specific configuration management
-- Version-controlled infrastructure
+- Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management
+- Enhanced version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
 - Automated labeling using GitLab Webhooks
 
-### Project Discovery Feature
+### Project Exploration Features
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
-- Simplified configuration using the `amaterasu` command-line tool
+- Simplified configuration with the `amaterasu` command-line tool
 
 ## 🏗️ System Architecture
 
@@ -65,7 +65,7 @@ graph TB
             end
             
             subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>Prompt Generation Assistance"]
+                PP["Prompt Pandora<br/>Prompt Generation Support"]
                 ECS["ECS Fargate Cluster"]
             end
         end
@@ -124,14 +124,14 @@ graph TB
 - CI pipeline and Runner configuration
 - Backup and restore functionality
 
-### 5. FG-prompt-pandora (Fargate-based Sample Application)
+### 5. FG-prompt-pandora (Fargate Sample Application)
 - Auto-scaling on AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
     - [Details here](./spellbook/fg-prompt-pandora/README.md)
 
 ### 6. Coder (Cloud Development Environment)
-- Web-based IDE
+- Web-based IDE environment
 - Support for VS Code extensions
 - Secure development on AWS infrastructure
     - [Details here](./spellbook/Coder/README.md)
@@ -147,27 +147,27 @@ graph TB
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline functions that enhance the integration with Open WebUI
-- It is possible to perform filter processing such as conversation turn restrictions and Langfuse linkage
+- Pipeline features enhancing the integration with Open WebUI
+- Filter processing such as conversation turn limits and Langfuse integration is possible
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
 ### 10. Amaterasu Tool (Terraform Variable Generator)
-- Automates the generation of `terraform.tfvars` files using a command-line tool
+- Automates the generation of `terraform.tfvars` files with a command-line tool
 - Generates settings for each project in the spellbook
 - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 
-## 🆕 Latest News
+## 🆕 What's New
 
-### AMATERASU v1.16.0 (Latest Release)
+### AMATERASU v1.17.1 (Latest Release)
 
-- 🎉 **Implementation of Project Discovery Feature**:  Use the `amaterasu` command-line tool to explore Terraform projects within the spellbook and automatically generate `terraform.tfvars` files.
-- ⚠️ **Removal of Unnecessary Files and Modules**:  Unnecessary files and modules have been removed as part of project restructuring and cleanup.
+- 🎉 **`coder` service port number and hostname correction**: The `coder` service port number has been changed from 8080 to 80, and the hostname has been changed from `my-coder-server.local` to `host.docker.internal`.
+- 🚀 **`docker-compose` configuration improvements**: The `extra_hosts` option has been added to `docker-compose.yaml`, mapping `host.docker.internal` to `host-gateway` to facilitate access to the host machine from within the container.
 
 
 ## 🔧 Usage
 
-Refer to the individual README files for instructions on using each component. For instructions on using the `amaterasu` command-line tool, refer to `spellbook/amaterasu-tool-ui/README.md`.
+Refer to the respective README files for instructions on using each component.  Refer to `spellbook/amaterasu-tool-ui/README.md` for instructions on using the `amaterasu` command-line tool.
 
 
 ## 📦 Installation Instructions
