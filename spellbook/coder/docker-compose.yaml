@@ -22,6 +22,8 @@ services:
     security_opt:
       - no-new-privileges:true
     mem_limit: ${CODER_MEMORY_LIMIT:-8g}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   database:
     image: "postgres:16"
@@ -41,7 +43,8 @@ services:
     security_opt:
       - no-new-privileges:true
     mem_limit: ${POSTGRES_MEMORY_LIMIT:-1g}
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 volumes:
   coder_data:
   coder_home:
