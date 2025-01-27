@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.16.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.17.1)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,7 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.16.0では、プロジェクト探索機能が追加され、不要になったファイルとモジュールが削除されました。これにより、コードベースのクリーンアップと保守性の向上が図られています。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.17.1では、`docker-compose`設定の改善と`coder`サービスのポート番号とホスト名の修正が行われました。これにより、Docker環境での開発と運用がよりスムーズになります。
 
 
 このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
@@ -159,10 +159,10 @@ graph TB
 
 ## 🆕 最新情報
 
-### AMATERASU v1.16.0 (最新のリリース)
+### AMATERASU v1.17.1 (最新のリリース)
 
-- 🎉 **プロジェクト探索機能の実装**: `amaterasu` コマンドラインツールを使用して、spellbook内のTerraformプロジェクトを探索し、`terraform.tfvars`ファイルを自動生成できます。
-- ⚠️ **不要なファイルとモジュールの削除**: プロジェクトの再構築とクリーンアップにより、不要なファイルとモジュールが削除されました。
+- 🎉 **`coder`サービスのポート番号とホスト名の修正**: `coder`サービスのポート番号を8080から80に変更、ホスト名を`my-coder-server.local`から`host.docker.internal`に変更しました。
+- 🚀 **`docker-compose`設定の改善**: `docker-compose.yaml`に`extra_hosts`オプションを追加し、`host.docker.internal`を`host-gateway`にマッピングすることで、コンテナ内からホストマシンへのアクセスを容易にしました。
 
 
 ## 🔧 使用方法
