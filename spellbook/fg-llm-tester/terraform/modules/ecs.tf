@@ -24,17 +24,6 @@ resource "aws_ecs_task_definition" "app" {
           protocol      = "tcp"
         }
       ]
-      environment = [
-        {
-          name = "GLOBAL_ACCELERATOR_DNS_NAME"
-          value = var.global_accelerator_dns_name
-        },
-        {
-          containerPort = 80
-          hostPort      = 80
-          protocol      = "tcp"
-        }
-      ]
       essential = true
       logConfiguration = {
         logDriver = "awslogs"
@@ -43,6 +32,13 @@ resource "aws_ecs_task_definition" "app" {
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
+      }
+      healthCheck = {
+        command     = ["CMD-SHELL", "curl -f http://localhost:80/_stcore/health || exit 1"]
+        interval    = 60
+        timeout     = 30
+        retries     = 3
+        startPeriod = 60
       }
     }
   ])
@@ -68,18 +64,6 @@ resource "aws_ecs_service" "app" {
     assign_public_ip = true
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.app.arn
-    container_name   = "${var.project_name}-container"
-    container_port   = 80
-  }
-
-  health_check_grace_period_seconds = 300
-
-  depends_on = [aws_lb_listener.http]
-
   # 既存のタスクを強制的に新しい設定に更新
   force_new_deployment = true
 }
-
-

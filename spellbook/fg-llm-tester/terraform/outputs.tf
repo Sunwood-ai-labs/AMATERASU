@@ -25,9 +25,3 @@ output "ecs_tasks_security_group_id" {
   value       = module.ecs.ecs_tasks_security_group_id
   description = "The ID of the ECS tasks security group"
 }
-
-# グローバルアクセラレータの出力
-output "GLOBAL_ACCELERATOR_DNS_NAME" {
-  value       = aws_globalaccelerator_accelerator.main.dns_name
-  description = "グローバルアクセラレータのDNS名"
-}

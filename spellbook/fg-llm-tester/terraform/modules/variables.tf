@@ -21,19 +21,20 @@ variable "vpc_cidr" {
   type        = string
 }
 
+# サブネット（ECSタスク用）
 variable "public_subnet_id" {
-  description = "ID of the first public subnet"
+  description = "ID of the first public subnet for ECS tasks"
   type        = string
 }
 
 variable "public_subnet_2_id" {
-  description = "ID of the second public subnet"
+  description = "ID of the second public subnet for ECS tasks"
   type        = string
 }
 
-# セキュリティグループ
+# セキュリティグループ（CloudFrontアクセス用）
 variable "security_group_ids" {
-  description = "List of security group IDs"
+  description = "List of security group IDs for CloudFront access"
   type        = list(string)
 }
 
@@ -60,12 +61,6 @@ variable "app_count" {
 
 # WAF関連
 variable "whitelist_csv_path" {
-  description = "Path to the CSV file containing whitelisted IP addresses"
-  type        = string
-}
-
-# グローバルアクセラレータ
-variable "global_accelerator_dns_name" {
-  description = "Global Accelerator DNS Name"
+  description = "Path to the CSV file containing whitelisted IP addresses for CloudFront"
   type        = string
 }
