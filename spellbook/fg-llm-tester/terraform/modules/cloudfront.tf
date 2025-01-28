@@ -1,13 +1,13 @@
 # CloudFront Distribution
 resource "aws_cloudfront_distribution" "main" {
-  enabled             = true
-  is_ipv6_enabled    = true
-  price_class        = "PriceClass_200"
-  comment            = "${var.project_name} distribution"
-  web_acl_id         = aws_wafv2_web_acl.cloudfront_waf.arn
+  enabled          = true
+  is_ipv6_enabled  = true
+  price_class      = "PriceClass_200"
+  comment          = "${var.project_name} distribution"
+  web_acl_id       = aws_wafv2_web_acl.cloudfront_waf.arn
 
   origin {
-    domain_name = aws_lb.main.dns_name
+    domain_name = aws_ecs_service.app.id
     origin_id   = "ECS"
 
     custom_origin_config {
@@ -92,5 +92,3 @@ resource "aws_cloudfront_distribution" "main" {
     Name = "${var.project_name}-cloudfront"
   }
 }
-
-

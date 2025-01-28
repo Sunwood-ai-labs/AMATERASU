@@ -3,9 +3,7 @@ import openai
 import json
 import os
 import socket
-import dns.resolver
 import requests
-import os
 
 def get_ip_info():
     # パブリックIPの取得
@@ -26,19 +24,6 @@ def get_ip_info():
         "ローカルIP": local_ip,
         "ホスト名": hostname
     }
-
-def get_global_accelerator_ip():
-    dns_name = os.environ.get('GLOBAL_ACCELERATOR_DNS_NAME')
-    if dns_name:
-        resolver = dns.resolver.Resolver()
-        try:
-            ip_addresses = [str(ip.address) for ip in resolver.resolve(dns_name, 'A')]
-            ip_address_str = ", ".join(ip_addresses)
-            return f"DNS: {dns_name}\nIPアドレス: {ip_address_str}"
-        except Exception as e:
-            print(f"DNS resolution failed: {e}")
-            return f"取得失敗: {str(e)}"
-    return "Global Accelerator DNS名が設定されていません"
     
 def main():
     st.set_page_config(page_title="llm-tester", layout="wide")
@@ -58,11 +43,6 @@ def main():
         ip_info = get_ip_info()
         for key, value in ip_info.items():
             st.text(f"{key}: {value}")
-
-        # グローバルアクセラレータのIPアドレスを表示
-        st.header("🌐 グローバルアクセラレータ情報")
-        global_accelerator_ip = get_global_accelerator_ip()
-        st.text(f"IPアドレス: {global_accelerator_ip}")
 
     # メインエリアにプロンプト入力と結果表示
     prompt = st.text_area("プロンプトを入力してください", height=200)
