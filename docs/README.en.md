@@ -8,20 +8,22 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.17.1)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.18.0)</h2>
 
 >[!IMPORTANT]
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service on an independent EC2 instance using Docker Compose, and deployment is simplified with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
+
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.17.1 includes improvements to the `docker-compose` configuration and corrections to the port number and hostname of the `coder` service. This makes development and operation in a Docker environment smoother.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.18.0 includes improvements to infrastructure management with Terraform, the addition of WAF configuration, and a scheduling function. This makes infrastructure configuration more flexible and manageable.
 
 
-This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or features.
+This repository is structured as a "Spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or functionalities.
+
 
 ## ✨ Key Features
 
@@ -36,19 +38,20 @@ This repository is structured as a "spellbook" for managing multiple AI-related 
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment with Terraform
+- Fully automated deployment using Terraform
 - Environment-specific configuration management
 - Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management features
+- Enhanced version control, CI/CD pipelines, and project management
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
 - Automated labeling using GitLab Webhooks
 
-### Project Exploration Features
+### Project Exploration Feature
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
-- Simplified configuration with the `amaterasu` command-line tool
+- Simplified configuration using the `amaterasu` command-line tool
+
 
 ## 🏗️ System Architecture
 
@@ -65,7 +68,7 @@ graph TB
             end
             
             subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>Prompt Generation Support"]
+                PP["Prompt Pandora<br/>Prompt Generation Assistance"]
                 ECS["ECS Fargate Cluster"]
             end
         end
@@ -147,30 +150,31 @@ graph TB
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline features enhancing the integration with Open WebUI
-- Filter processing such as conversation turn limits and Langfuse integration is possible
+- Pipeline functions to enhance collaboration with Open WebUI
+- Enables filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
 ### 10. Amaterasu Tool (Terraform Variable Generator)
-- Automates the generation of `terraform.tfvars` files with a command-line tool
+- Automates the generation of `terraform.tfvars` files using a command-line tool
 - Generates settings for each project in the spellbook
-- [Details here](./spellbook/amaterasu-tool-ui/README.md)
+    - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 
 ## 🆕 What's New
 
-### AMATERASU v1.17.1 (Latest Release)
+### AMATERASU v1.18.0 (Latest Release)
 
-- 🎉 **`coder` service port number and hostname correction**: The `coder` service port number has been changed from 8080 to 80, and the hostname has been changed from `my-coder-server.local` to `host.docker.internal`.
-- 🚀 **`docker-compose` configuration improvements**: The `extra_hosts` option has been added to `docker-compose.yaml`, mapping `host.docker.internal` to `host-gateway` to facilitate access to the host machine from within the container.
+- 🎉 **Added Terraform variable file (`variables.tf`)**: Defines variables such as AWS region, project name, VPC information, security groups, container images, task resources, application instance count, and whitelist CSV file path. This makes infrastructure configuration more flexible and manageable.
+- 🚀 **Corrected Terraform output settings**: Changed to retrieve output values from modules.
+- ⚠️ **Removed ALB-related resources**: This is due to a migration from a load balancing configuration using a global accelerator and ALB to a configuration using CloudFront.
 
 
 ## 🔧 Usage
 
-Refer to the respective README files for instructions on using each component.  Refer to `spellbook/amaterasu-tool-ui/README.md` for instructions on using the `amaterasu` command-line tool.
+Refer to the respective README files for instructions on using each component.  For instructions on using the `amaterasu` command-line tool, refer to `spellbook/amaterasu-tool-ui/README.md`.
 
 
-## 📦 Installation Instructions
+## 📦 Installation
 
 1. Clone the repository.
 ```bash
