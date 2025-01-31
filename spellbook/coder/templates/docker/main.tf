@@ -45,13 +45,28 @@ resource "coder_agent" "main" {
       fi
 
       # Set correct ownership
-      sudo chown -R coder:coder /home/coder
+      sudo chown -R coder:coder /home
 
       # Copy skel files only if not initialized
       if [ ! -f /home/coder/.init_done ]; then
         cp -rT /etc/skel /home/coder
         touch /home/coder/.init_done
       fi
+
+      # Install Python and nmon
+      sudo apt-get update
+      sudo apt-get install -y python3 python3-pip nmon curl
+
+      # Set Python3 as default python
+      sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+      # Install Node.js and npm
+      curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+      sudo apt-get install -y nodejs
+      
+      # Verify installations
+      node --version
+      npm --version
 
       # Install the latest code-server.
       # Append "--version x.x.x" to install a specific version of code-server.
@@ -73,17 +88,12 @@ resource "coder_agent" "main" {
       /tmp/code-server/bin/code-server --install-extension jock.svg
       /tmp/code-server/bin/code-server --install-extension mhutchie.git-graph
       /tmp/code-server/bin/code-server --install-extension qwtel.sqlite-viewer
-      
-
 
       # Start code-server in the background.
       /tmp/code-server/bin/code-server --auth none --port 13337 >/tmp/code-server.log 2>&1 &
   EOT
 
-  # These environment variables allow you to make Git commits right away after creating a
-  # workspace. Note that they take precedence over configuration defined in ~/.gitconfig!
-  # You can remove this block if you'd prefer to configure Git manually or using
-  # dotfiles. (see docs/dotfiles.md)
+  # Rest of the configuration remains the same...
   env = {
     GIT_AUTHOR_NAME     = coalesce(data.coder_workspace_owner.me.full_name, data.coder_workspace_owner.me.name)
     GIT_AUTHOR_EMAIL    = "${data.coder_workspace_owner.me.email}"
@@ -91,11 +101,6 @@ resource "coder_agent" "main" {
     GIT_COMMITTER_EMAIL = "${data.coder_workspace_owner.me.email}"
   }
 
-  # The following metadata blocks are optional. They are used to display
-  # information about your workspace in the dashboard. You can remove them
-  # if you don't want to display any information.
-  # For basic resources, you can use the `coder stat` command.
-  # If you need more control, you can write your own script.
   metadata {
     display_name = "CPU Usage"
     key          = "0_cpu_usage"
@@ -139,7 +144,6 @@ resource "coder_agent" "main" {
   metadata {
     display_name = "Load Average (Host)"
     key          = "6_load_host"
-    # get load avg scaled by number of cores
     script   = <<EOT
       echo "`cat /proc/loadavg | awk '{ print $1 }'` `nproc`" | awk '{ printf "%0.2f", $1/$2 }'
     EOT
