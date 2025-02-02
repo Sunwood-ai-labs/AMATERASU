@@ -344,6 +344,7 @@ model_list:
 
 litellm_settings:
   drop_params: true
-
+  success_callback: ["langfuse"]
+  
 general_settings:
   store_prompts_in_spend_logs: true

@@ -80,3 +80,7 @@ FG-prompt-pandora
 gitlab
 langfuse
 cloudfront-infrastructure
+
+**/ktem_app_data/
+**/venv/
+**/.venv/
