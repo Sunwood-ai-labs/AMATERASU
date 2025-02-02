@@ -1,3 +1,5 @@
+# AMATERASU: Enterprise-Grade Private AI Platform (v1.19.0)
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
 </p>
@@ -8,20 +10,21 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">Enterprise-Grade Private AI Platform (v1.17.1)</h2>
+<h2 align="center">Enterprise-Grade Private AI Platform (v1.19.0)</h2>
 
->[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+[!IMPORTANT]
+This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
->[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has been improved to run each AI service on an independent EC2 instance using Docker Compose, and deployment is simplified with Terraform.
+[!NOTE]
+AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service in a separate EC2 instance using Docker Compose, enabling easy deployment with Terraform.
+
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  v1.17.1 includes improvements to the `docker-compose` configuration and corrections to the port number and hostname of the `coder` service. This makes development and operation in a Docker environment smoother.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows for the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management.  Version 1.19.0 significantly improves the flexibility and maintainability of infrastructure configuration management using Terraform.  Specifically, this includes the addition of Terraform variables, output variables, modularization, and the creation of import scripts for existing resources.  Furthermore, this update prioritizes security and operational improvements with additions such as WAF configuration, ECS configuration, and scheduling functionality.  Other improvements include Docker image optimization, UI enhancements, and strengthened error handling.
 
 
-This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or features.
+This repository is structured as a "Spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or features.
 
 ## ✨ Key Features
 
@@ -30,7 +33,7 @@ This repository is structured as a "spellbook" for managing multiple AI-related 
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservices Architecture
+### Microservice Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -41,14 +44,15 @@ This repository is structured as a "spellbook" for managing multiple AI-related 
 - Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management features
+- Improved version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
 - Automated labeling using GitLab Webhooks
 
-### Project Exploration Features
+### Project Exploration Feature
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
-- Simplified configuration with the `amaterasu` command-line tool
+- Simplified configuration using the `amaterasu` command-line tool
+
 
 ## 🏗️ System Architecture
 
@@ -98,7 +102,7 @@ graph TB
     end
 ```
 
-## 📦 Component Structure
+## 📦 Component Composition
 
 ### 1. Open WebUI (Frontend)
 - Chat-based user interface
@@ -124,7 +128,7 @@ graph TB
 - CI pipeline and Runner configuration
 - Backup and restore functionality
 
-### 5. FG-prompt-pandora (Fargate Sample Application)
+### 5. FG-prompt-pandora (Fargate-based Sample Application)
 - Auto-scaling on AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
@@ -138,36 +142,56 @@ graph TB
 
 ### 7. Dify (AI Application Development Platform)
 - AI application development platform integrating various AI models
-- UI/API-based development is possible
+- UI/API-based development possible
     - [Details here](./spellbook/dify/README.md)
 
 ### 8. Dify Beta (AI Application Development Platform)
 - Beta version of Dify including new and experimental features
-- Advanced settings for vector databases and sandbox environments are possible
+- Advanced configuration of vector databases and sandbox environments
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline features enhancing the integration with Open WebUI
-- Filter processing such as conversation turn limits and Langfuse integration is possible
+- Pipeline features enhancing integration with Open WebUI
+- Filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
 ### 10. Amaterasu Tool (Terraform Variable Generator)
-- Automates the generation of `terraform.tfvars` files with a command-line tool
+- Automates the generation of `terraform.tfvars` files using a command-line tool
 - Generates settings for each project in the spellbook
-- [Details here](./spellbook/amaterasu-tool-ui/README.md)
+    - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 
-## 🆕 What's New
+## 🆕 Latest Information
 
-### AMATERASU v1.17.1 (Latest Release)
+### AMATERASU v1.19.0 (Latest Release)
 
-- 🎉 **`coder` service port number and hostname correction**: The `coder` service port number has been changed from 8080 to 80, and the hostname has been changed from `my-coder-server.local` to `host.docker.internal`.
-- 🚀 **`docker-compose` configuration improvements**: The `extra_hosts` option has been added to `docker-compose.yaml`, mapping `host.docker.internal` to `host-gateway` to facilitate access to the host machine from within the container.
+- 🎉 **Addition of Terraform Variables**: AWS region, project name, VPC settings, EC2 instance settings, application settings, and WAF settings can now be flexibly configured.
+- 🎉 **Addition of Terraform Outputs**: Information about CloudFront, ECS, and security groups can now be retrieved.
+- 🎉 **Addition of WAF (Web Application Firewall) Configuration**: A WAF Web ACL is created to protect CloudFront, and access restrictions are set using an IP whitelist.
+- 🎉 **Addition of Security Group Configuration**: A security group is created to allow communication between ECS tasks and ALB.
+- 🎉 **Addition of Application Scheduling Configuration**: Using Auto Scaling Target, the DesiredCount of the ECS service is adjusted to start at 8:00 AM (JST) on weekdays and stop at 10:00 PM (JST) on weekdays.
+- 🎉 **Addition of IAM (Identity and Access Management) Configuration**: ECS instance profiles, ECS task roles, and ECS execution roles are created and the necessary policies are attached.
+- 🎉 **Addition of ECS (Elastic Container Service) Configuration**: An ECS cluster, task definition, and service are created and configured to integrate with CloudWatch Logs and ALB.
+- 🎉 **Addition of EC2 Instance and AutoScaling Configuration**: Configuration to launch EC2 instances to run ECS tasks is added, and the instance count is managed using an Auto Scaling Group.
+- 🎉 **Addition of CloudFront Configuration**: A CloudFront Distribution configuration with ALB as the origin is added.
+- 🎉 **Addition of ALB (Application Load Balancer) Configuration**: ALB, listeners, target groups, and security groups are created, and the ALB is configured to forward HTTP traffic to the ECS service.
+- 🎉 **Addition of Animated Header Image**: An animated SVG image is added as the application header.
+- 🎉 **UI Improvements and Enhanced Error Handling**: A user-friendly interface is created using Streamlit, and error handling is strengthened.
+- 🎉 **Creation of Import Script for Existing AWS Resources into Terraform State**: A script to import existing AWS resources into the Terraform state is created.
+- 🎉 **Creation of Deployment Script to AWS ECS**: A script to deploy Docker images to the AWS ECS cluster and service is created.
+- 🎉 **Docker Image Optimization and Addition of Health Checks**: The image size is reduced by basing it on the Python 3.11-slim image, and a health check command is added.
+- 🚀 **Modularization and Variabilization of Terraform Configuration**: The overall configuration is modularized, and variables for each module are defined.
+- 🚀 **Update of README File**: The application overview, features, environment setup methods, usage, debugging information, and deployment procedures to AWS ECS Fargate are described in detail.
+- 🚀 **Correction of docker-compose.yml and Health Check Settings**: The docker-compose.yml settings are corrected, and port mapping and health checks are correctly configured.
+- 🚀 **Improvement of Coder Image Python, Node.js Installation and Code Server Settings**: Python3 and pip, Node.js and npm are installed, and Python3 is set as the default Python.
+- 🚀 **Dependency Updates and Additions**: The Streamlit, OpenAI, and requests libraries are updated to the latest versions, and the dnspython library is added.
+- 🐛 **Port Correction in docker-compose.yml**: The ClickHouse port 9000 is commented out.
+- ⚠️ **Removal of ALB-related Resources**: Migrated from a load balancing configuration using a global accelerator and ALB to a configuration using CloudFront.
 
 
 ## 🔧 Usage
 
-Refer to the respective README files for instructions on using each component.  Refer to `spellbook/amaterasu-tool-ui/README.md` for instructions on using the `amaterasu` command-line tool.
+Refer to the README file for each component for usage instructions.  For instructions on using the `amaterasu` command-line tool, see `spellbook/amaterasu-tool-ui/README.md`.
 
 
 ## 📦 Installation Instructions
@@ -178,7 +202,7 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
 ```
 2. Follow the instructions in each project's README to install dependencies and deploy the application.
-3. Enter the necessary settings in the `terraform.tfvars` file. You can also use the `amaterasu` tool to generate it automatically.
+3. Enter the necessary settings in the `terraform.tfvars` file.  You can also use the `amaterasu` tool to automatically generate it.
 
 
 ## 📦 Dependencies
@@ -197,6 +221,6 @@ sourcesage
 
 This project is licensed under the MIT License.
 
-## 👏 Acknowledgements
+## 👏 Acknowledgments
 
 Thanks to iris-s-coon and Maki for their contributions.

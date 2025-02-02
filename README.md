@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.17.1)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.19.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -18,7 +18,7 @@
 
 ## 🚀 プロジェクト概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.17.1では、`docker-compose`設定の改善と`coder`サービスのポート番号とホスト名の修正が行われました。これにより、Docker環境での開発と運用がよりスムーズになります。
+AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。  v1.19.0では、Terraformによるインフラ構成管理の柔軟性と保守性が大幅に向上しました。具体的には、Terraform変数の追加、出力の追加、モジュール化、既存リソースのインポートスクリプト作成などを行いました。また、WAFの設定追加、ECSの設定追加、スケジューリング機能の追加など、セキュリティと運用性の向上に重点を置いたアップデートが含まれています。さらに、Dockerイメージの最適化、UIの改良、エラーハンドリングの強化なども行っています。
 
 
 このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
@@ -150,7 +150,7 @@ graph TB
 - Open WebUIとの連携を強化するパイプライン機能
 - 会話ターン制限やLangfuse連携などのフィルター処理が可能
     - [詳細はこちら](./spellbook/open-webui-pipeline/README.md)
-    
+
 ### 10. Amaterasu Tool (Terraform 変数ジェネレーター)
 -  コマンドラインツールで`terraform.tfvars`ファイルの生成を自動化
 - spellbook の各プロジェクトを対象に設定値を生成
@@ -159,10 +159,30 @@ graph TB
 
 ## 🆕 最新情報
 
-### AMATERASU v1.17.1 (最新のリリース)
+### AMATERASU v1.19.0 (最新のリリース)
 
-- 🎉 **`coder`サービスのポート番号とホスト名の修正**: `coder`サービスのポート番号を8080から80に変更、ホスト名を`my-coder-server.local`から`host.docker.internal`に変更しました。
-- 🚀 **`docker-compose`設定の改善**: `docker-compose.yaml`に`extra_hosts`オプションを追加し、`host.docker.internal`を`host-gateway`にマッピングすることで、コンテナ内からホストマシンへのアクセスを容易にしました。
+- 🎉 **Terraform変数の追加**: AWSリージョン、プロジェクト名、VPC設定、EC2インスタンス設定、アプリケーション設定、WAF設定などを柔軟に設定可能になりました。
+- 🎉 **Terraform出力の追加**: CloudFront, ECS, セキュリティグループに関する情報を取得可能になりました。
+- 🎉 **WAF(Web Application Firewall)の設定追加**: CloudFrontを保護するWAF Web ACLを作成し、IPホワイトリストによるアクセス制限を設定しました。
+- 🎉 **セキュリティグループの設定追加**: ECSタスクとALB間の通信を許可するセキュリティグループを作成しました。
+- 🎉 **アプリケーションのスケジューリング設定の追加**: Auto Scaling Targetを使用して、ECSサービスのDesiredCountを調整し、平日朝8時(JST)に起動、平日夜10時(JST)に停止するスケジュールを設定しました。
+- 🎉 **IAM(Identity and Access Management)の設定追加**: ECSインスタンスプロファイル、ECSタスクロール、ECS実行ロールを作成し、必要なポリシーをアタッチしました。
+- 🎉 **ECS(Elastic Container Service)の設定追加**: ECSクラスタ、タスク定義、サービスを作成し、CloudWatch LogsとALBと連携するように設定しました。
+- 🎉 **EC2インスタンス、AutoScalingの設定追加**: ECSタスクを実行するためのEC2インスタンスを起動する設定を追加し、Auto Scaling Groupを利用してインスタンス数を管理します。
+- 🎉 **CloudFrontの設定追加**: ALBをオリジンとするCloudFront Distributionの設定を追加しました。
+- 🎉 **ALB(Application Load Balancer)の設定追加**: ALB、リスナー、ターゲットグループ、セキュリティグループを作成し、ALBはHTTPトラフィックをECSサービスに転送するように構成されています。
+- 🎉 **アニメーション付きヘッダー画像の追加**: アプリケーションのヘッダーとしてアニメーション付きSVG画像を追加しました。
+- 🎉 **UIの改良とエラーハンドリングの強化**: Streamlitを使用して、ユーザーフレンドリーなインターフェースを作成し、エラーハンドリングを強化しました。
+- 🎉 **既存AWSリソースのTerraform stateへのインポートスクリプト作成**: 既存のAWSリソースをTerraform stateにインポートするスクリプトを作成しました。
+- 🎉 **AWS ECSへのデプロイスクリプト作成**: AWS ECSクラスタとサービスにDockerイメージをデプロイするスクリプトを作成しました。
+- 🎉 **Dockerイメージの最適化とヘルスチェックの追加**: Python 3.11-slimイメージをベースとしてイメージサイズを削減し、ヘルスチェックコマンドを追加しました。
+- 🚀 **Terraform構成のモジュール化と変数化**: 全体構成をモジュール化し、各モジュールの変数を定義しました。
+- 🚀 **READMEファイルの更新**: アプリケーションの概要、機能、環境構築方法、使用方法、デバッグ情報、AWS ECS Fargateへのデプロイ手順などを詳細に記述しました。
+- 🚀 **docker-compose.ymlの修正とヘルスチェックの設定**: docker-compose.ymlの設定を修正し、ポートマッピングとヘルスチェックを正しく設定しました。
+- 🚀 **CoderイメージのPython, Node.jsインストールとコードサーバー設定の改善**:  Python3とpip, Node.jsとnpmをインストールし、Python3をデフォルトのPythonとして設定しました。
+- 🚀 **依存関係の更新と追加**: Streamlit、OpenAI、requestsライブラリを最新バージョンに更新し、dnspythonライブラリを追加しました。
+- 🐛 **docker-compose.yml のポート修正**: ClickHouseのポート9000をコメントアウトしました。
+- ⚠️ **ALB関連のリソースの削除**: グローバルアクセラレータとALBを用いたロードバランシング構成から、CloudFrontを利用した構成へ移行しました。
 
 
 ## 🔧 使用方法
