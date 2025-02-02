@@ -14,12 +14,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   open-webui:
-    build:
-      context: .
-      args:
-        OLLAMA_BASE_URL: '/ollama'
-      dockerfile: Dockerfile.openweb.ui
-    image: ghcr.io/open-webui/open-webui:dev
+    image: ghcr.io/open-webui/open-webui:main
     volumes:
       - open-webui-amaterasu1:/app/backend/data
       - ./:/work
@@ -33,6 +28,17 @@ services:
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 open-webui
+    depends_on:
+      - open-webui
+    restart: unless-stopped
 
   # バックアップ・リストア用のサービス
   backup-tool:
