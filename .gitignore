@@ -230,3 +230,4 @@ terraform.tfvars
 spellbook/litellm/config.dev.yaml
 .env.aws
 .aws.env
+spellbook/kotaemon/ktem_app_data
