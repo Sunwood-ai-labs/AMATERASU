@@ -56,14 +56,19 @@ model_list:
   # ----------------------------------------------
   # ===== OpenAI Models =====
   # ----------------------------------------------
-  - model_name: gpt-4o-mini
+  - model_name: openai/gpt-4o-mini
     litellm_params:
       model: openai/gpt-4o-mini                         # OpenAIのAPI呼び出しに使用
       api_key: os.environ/OPENAI_API_KEY
-  - model_name: gpt-4o
+  - model_name: openai/gpt-4o
     litellm_params:
       model: openai/gpt-4o                         # OpenAIのAPI呼び出しに使用
       api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: openrouter/openai/o3-mini
+    litellm_params:
+      model: openrouter/openai/o3-mini
+      api_key: "os.environ/OPENROUTER_API_KEY" 
 
   # ----------------------------------------------
   # ===== Anthropic Direct API Models =====
@@ -341,6 +346,9 @@ model_list:
       model: vertex_ai/gemini-2.0-flash-exp
       vertex_project: "os.environ/GOOGLE_PROJECT_ID"
       vertex_location: "us-central1"
+
+
+
 
 litellm_settings:
   drop_params: true
