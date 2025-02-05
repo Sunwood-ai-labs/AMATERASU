@@ -90,7 +90,7 @@ resource "coder_agent" "main" {
       /tmp/code-server/bin/code-server --install-extension qwtel.sqlite-viewer
 
       # Start code-server in the background.
-      /tmp/code-server/bin/code-server --auth none --port 13337 >/tmp/code-server.log 2>&1 &
+      /tmp/code-server/bin/code-server --ignore-last-opened --auth none --port 13337 >/tmp/code-server.log 2>&1 &
   EOT
 
   # Rest of the configuration remains the same...
