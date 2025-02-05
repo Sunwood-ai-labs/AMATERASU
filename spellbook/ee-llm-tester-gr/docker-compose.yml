@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  gradio-app:
+    build: .
+    ports:
+      - "8510:80"
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80/healthz" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
