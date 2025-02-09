@@ -3,13 +3,7 @@ resource "aws_lb" "main" {
   name               = "${var.project_name}-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [
-    aws_security_group.alb.id,
-    # "sg-039f249b028b22787",
-    # "sg-02971d71e2149978b",
-    # "sg-0b5b19ba018fdce2e",
-    # "sg-09595b69cbd642847"
-  ]
+  security_groups    = var.security_group_ids
   subnets           = [var.public_subnet_id, var.public_subnet_2_id]
 
   enable_deletion_protection = false
@@ -47,29 +41,3 @@ resource "aws_lb_target_group" "ecs" {
   }
 }
 
-# ALB用セキュリティグループ
-resource "aws_security_group" "alb" {
-  name        = "${var.project_name}-sg-alb"
-  description = "Security group for ALB"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all inbound"
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Allow all outbound"
-  }
-
-  tags = {
-    Name = "${var.project_name}-sg-alb"
-  }
-}

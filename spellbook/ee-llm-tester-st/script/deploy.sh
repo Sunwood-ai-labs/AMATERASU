@@ -6,12 +6,12 @@ set -e
 # 変数設定
 REGION="ap-northeast-1"
 ACCOUNT_ID="498218886114"
-ECR_REPO="amts-ee-llm-tester"
+ECR_REPO="amts-ee-llm-tester-st"
 IMAGE_TAG="latest"
 ECR_URI="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
 IMAGE_NAME="${ECR_URI}/${ECR_REPO}:${IMAGE_TAG}"
-CLUSTER_NAME="amts-ee-llm-tester-cluster"
-SERVICE_NAME="amts-ee-llm-tester-service"
+CLUSTER_NAME="amts-ee-llm-tester-st-cluster"
+SERVICE_NAME="amts-ee-llm-tester-st-service"
 
 # ビルド開始メッセージ
 echo "🚀 デプロイを開始します..."

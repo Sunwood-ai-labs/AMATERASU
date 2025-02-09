@@ -3,7 +3,7 @@ services:
   coder:
     image: ghcr.io/coder/coder:${CODER_VERSION:-latest}
     group_add:
-      - "999"
+      - "${DOCKER_GROUP_ID:-999}"  # DockerグループIDを環境変数から設定
     ports:
       - "${CODER_HOST:-0.0.0.0}:${CODER_PORT:-7080}:7080"
     environment:

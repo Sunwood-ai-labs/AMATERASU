@@ -1,20 +1,23 @@
+# CSVファイルからホワイトリストを読み込む
+locals {
+  whitelist_csv = file("${path.root}/../../whitelist-waf.csv")
+  whitelist_lines = [for l in split("\n", local.whitelist_csv) : trim(l, " \t\r\n") if trim(l, " \t\r\n") != "" && !startswith(trim(l, " \t\r\n"), "ip")]
+  whitelist_entries = [
+    for l in local.whitelist_lines : {
+      ip          = trim(element(split(",", l), 0), " \t\r\n")
+      description = trim(element(split(",", l), 1), " \t\r\n")
+    }
+  ]
+}
+
 # IPセットの作成（ホワイトリスト用）
 resource "aws_wafv2_ip_set" "whitelist" {
   provider           = aws.virginia
   name               = "${var.project_name}-whitelist"
-  description        = "Whitelisted IP addresses"
+  description        = "Whitelisted IP addresses from CSV"
   scope              = "CLOUDFRONT"
   ip_address_version = "IPV4"
-  addresses          = [
-    "122.132.45.194/32",
-    "93.118.41.103/32",
-    "122.135.202.17/32",
-    "93.118.41.105/32",
-    "54.92.45.126/32",
-    "35.79.202.92/32",
-    "57.180.80.237/32",
-    "52.195.98.19/32"
-  ]
+  addresses          = [for entry in local.whitelist_entries : "${entry.ip}"]
 
   tags = {
     Name = "${var.project_name}-whitelist"
