@@ -1,5 +1,5 @@
 aws_region      = "ap-northeast-1"
-project_name    = "amts-ee-llm-tester-gr"
+project_name    = "amts-ee-llm-tester-st"
 
 vpc_id             = "vpc-02f238431c68567d5"
 vpc_cidr           = "10.0.0.0/16"
@@ -19,7 +19,7 @@ ecs_ami_id     = "ami-00dee0b525da780e0"
 instance_type  = "t3.small"
 
 # アプリケーション設定
-container_image = "498218886114.dkr.ecr.ap-northeast-1.amazonaws.com/amts-ee-llm-tester-gr:latest"
+container_image = "498218886114.dkr.ecr.ap-northeast-1.amazonaws.com/amts-ee-llm-tester-st:latest"
 app_count       = 1
 
 # WAF設定
