@@ -52,7 +52,7 @@ services:
       - "${LANGFUSE_WEB_PORT:-3000}:3000"
     environment:
       <<: *langfuse-worker-env
-      NEXTAUTH_URL: http://localhost:${LANGFUSE_WEB_PORT:-3000}
+      NEXTAUTH_URL: http://192.168.0.147:${LANGFUSE_WEB_PORT:-3000}
       NEXTAUTH_SECRET: mysecret
       LANGFUSE_INIT_ORG_ID: ${LANGFUSE_INIT_ORG_ID:-}
       LANGFUSE_INIT_ORG_NAME: ${LANGFUSE_INIT_ORG_NAME:-}

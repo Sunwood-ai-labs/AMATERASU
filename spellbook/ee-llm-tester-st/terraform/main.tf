@@ -24,6 +24,7 @@ locals {
     ecs_ami_id       = var.ecs_ami_id
     instance_type    = var.instance_type
     ec2_key_name     = var.ec2_key_name
+    security_group_ids = var.security_group_ids
   }
 }
 
@@ -48,4 +49,5 @@ module "main" {
   ecs_ami_id      = local.common_vars.ecs_ami_id
   instance_type   = local.common_vars.instance_type
   ec2_key_name    = local.common_vars.ec2_key_name
+  security_group_ids = local.common_vars.security_group_ids
 }
