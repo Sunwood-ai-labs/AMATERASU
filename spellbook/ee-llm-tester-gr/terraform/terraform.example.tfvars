@@ -23,6 +23,6 @@ container_image = "498218886114.dkr.ecr.ap-northeast-1.amazonaws.com/amts-ee-llm
 app_count       = 1
 
 # WAF設定
-whitelist_csv_path = "../../whitelist-waf.csv"
+whitelist_csv_path = "/home/maki/prj/AMATERASU/whitelist-waf.csv" # 環境に合わせてパスを変更してください
 
 ec2_key_name = "AMATERASU-terraform-keypair-tokyo-PEM"
