@@ -30,7 +30,7 @@ locals {
 
 # メインのモジュール参照
 module "main" {
-  source = "./modules"
+  source = "../../ee-llm-tester-gr/terraform/modules"
   
   providers = {
     aws          = aws
