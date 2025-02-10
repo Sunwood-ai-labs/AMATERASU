@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  app:
+    image: ghcr.io/sunwood-ai-labs/app-gallery-showcase:latest
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-thisisasecretkey}
+      - NEXT_PUBLIC_SITE_NAME=${NEXT_PUBLIC_SITE_NAME:-"App Gallery Showcase v0.3"}
+      - NEXT_PUBLIC_SITE_DESCRIPTION=${NEXT_PUBLIC_SITE_DESCRIPTION:-"プロジェクトを美しく魅力的に紹介するウェブアプリケーション"}
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_FONT_FAMILY=${NEXT_PUBLIC_FONT_FAMILY:-"Noto Sans JP"}
+      - NEXT_PUBLIC_FONT_IMPORT=${NEXT_PUBLIC_FONT_IMPORT:-"Noto+Sans+JP:wght@400;500;700"}
+      - NEXT_PUBLIC_OG_IMAGE=${NEXT_PUBLIC_OG_IMAGE:-/og-image.png}
+      - NEXT_PUBLIC_SITE_EMOJI=${NEXT_PUBLIC_SITE_EMOJI:-"🤗"}
+    env_file:
+      - .env
