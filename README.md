@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.20.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.21.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -61,6 +61,8 @@ graph TB
                 LF["Langfuse<br/>モニタリング"]
                 GL["GitLab<br/>バージョン管理"]
                 CD["Coder<br/>クラウド開発環境"]
+                GR["Gradio LLM Tester"]
+                ST["Streamlit LLM Tester"]
             end
             
             subgraph "Fargate-based Service"
@@ -85,6 +87,8 @@ graph TB
         LF --> CF
         GL --> CF
         CD --> CF
+        GR --> CF
+        ST --> CF
         PP --> ECS
         
         CF --> WAF
@@ -108,6 +112,7 @@ graph TB
 ### 2. LiteLLM (APIプロキシ)
 - Claude-3系列モデルへの統一的なアクセス
 - Google Vertex AIモデルへのアクセス
+- OpenRouter API統合
 - APIキー管理とレート制限
     - [詳細はこちら](./spellbook/litellm/README.md)
 
@@ -169,6 +174,16 @@ graph TB
 - CloudFrontインフラストラクチャの設定
     - [詳細はこちら](./spellbook/bolt-diy/README.md)
 
+### 13.  LLMテスター(Gradio版)
+- GradioベースのLLMプロキシ接続テスター
+- 各種パラメータ設定とデバッグ情報表示
+    - [詳細はこちら](./spellbook/ee-llm-tester-gr/README.md)
+
+### 14. LLMテスター(Streamlit版)
+- StreamlitベースのLLMプロキシ接続テスター
+- 各種パラメータ設定とデバッグ情報表示
+    - [詳細はこちら](./spellbook/ee-llm-tester-st/README.md)
+
 
 ## 🔧 使用方法
 
@@ -208,22 +223,18 @@ iris-s-coonとMakiへの貢献に感謝します。
 
 ## 🆕 最新情報
 
-### AMATERASU v1.20.0 (最新のリリース)
+### AMATERASU v1.21.0 (最新のリリース)
 
-<img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/release_notes/header_image/release_header_v1.20.0.png" width="100%">
+<img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/release_notes/header_image/release_header_v1.21.0.png" width="100%">
 
-- 新規プロジェクトの追加:
-    - Kotaemon: ドキュメントとチャットするためのRAG UIツール
-    - Bolt DIY: 最新のAIチャットインターフェース (OpenAI, Anthropic, Google等対応)
-- インフラストラクチャの改善:
-    - `.gitignore`と`.SourceSageignore`の更新 (Kotaemonのアプリケーションデータとvenvを除外)
-    - Docker環境の最適化 (Watchtowerによる自動アップデート機能追加)
-    - LiteLLMの機能拡張 (Langfuse連携強化)
-- 設定ファイルの更新: Docker Compose、環境変数テンプレート、Terraformモジュールの改善
-- ドキュメントの更新: READMEファイル(英訳含む)、インストール手順、セットアップガイドの改善
+- **LLMテスター機能の拡張**: GradioとStreamlitベースの2種類のインターフェースを追加。IPアドレス情報や詳細なデバッグ情報を表示可能に。
+- **LiteLLM機能の強化**: OpenRouter APIの統合とモデル名の標準化を実施。
+- **インフラストラクチャの改善**: Docker環境の最適化、コンテナ間の連携強化、Langfuse3のNextAuth URL設定更新。
+- **新規プレゼンテーションツールの追加**: Marp Editable UIを追加。コンテナ化されたMarkdownプレゼンテーション編集環境を提供。
+- **セキュリティの強化**: WAF設定の改善、IPホワイトリストのCSVファイル管理、柔軟なセキュリティルール設定。
+- **設定管理の改善**: 各コンポーネントの`.env.example`ファイルを追加し、設定ファイルの標準化と文書化を実施。
 
-- 注意事項:
-    - Kotaemonの初期認証情報は必ず変更してください
-    - APIキーは適切に管理し、公開リポジトリにコミットしないよう注意してください
-    - 新規追加されたプロジェクトについては、それぞれのREADMEを参照してください
-
+- 📝 注意事項:
+    - LiteLLMの設定変更に伴い、既存の設定ファイルの更新が必要
+    - WAFのIPホワイトリストを新しいCSV形式に移行する必要あり
+    - 環境変数の設定を確認し、必要に応じて更新
