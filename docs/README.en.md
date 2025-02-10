@@ -14,11 +14,11 @@
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, allowing for easy deployment with Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository acts as a "Spellbook" for managing multiple AI-related projects. Each project is structured as an independent folder for deploying and managing specific AI services or functionalities.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows for the development and operation of LLM-powered applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository is structured as a "spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or functionalities.
 
 
 ## ✨ Key Features
@@ -28,23 +28,23 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservice Architecture
+### Microservices Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment using Terraform
+- Fully automated deployment with Terraform
 - Environment-specific configuration management
-- Version-controlled infrastructure
+- Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management
+- Enhanced version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
 - Automated labeling using GitLab webhooks
 
-### Project Exploration Feature
+### Project Exploration Features
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
 - Simplified configuration using the `amaterasu` command-line tool
 
@@ -101,7 +101,7 @@ graph TB
     end
 ```
 
-## 📦 Component Structure
+## 📦 Component Composition
 
 ### 1. Open WebUI (Frontend)
 - Chat-based user interface
@@ -125,7 +125,7 @@ graph TB
 ### 4. GitLab (Version Control)
 - Self-hosted GitLab instance
 - Project and code management
-- CI pipeline and runner configuration
+- CI pipeline and Runner configuration
 - Backup and restore functionality
 
 ### 5. FG-prompt-pandora (Fargate Sample Application)
@@ -135,23 +135,23 @@ graph TB
     - [Details here](./spellbook/fg-prompt-pandora/README.md)
 
 ### 6. Coder (Cloud Development Environment)
-- Web-based IDE
+- Web-based IDE environment
 - Support for VS Code extensions
 - Secure development on AWS infrastructure
     - [Details here](./spellbook/Coder/README.md)
 
 ### 7. Dify (AI Application Development Platform)
 - AI application development platform integrating various AI models
-- UI/API-based development
+- UI/API-based development is possible
     - [Details here](./spellbook/dify/README.md)
 
 ### 8. Dify Beta (AI Application Development Platform)
 - Beta version of Dify including new and experimental features
-- Advanced configuration of vector databases and sandbox environments
+- Advanced configuration of vector databases and sandbox environments is possible
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline features enhancing integration with Open WebUI
+- Pipeline functions to enhance integration with Open WebUI
 - Filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
@@ -161,25 +161,25 @@ graph TB
 - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 ### 11. Kotaemon (Document and Chat RAG UI Tool)
-- RAG UI tool for document and chat access
-- Provides Docker environment and Terraform configuration
+- RAG UI tool for document and chat
+- Provides a Docker environment and Terraform configuration
 - Data persistence and customizable environment settings
 - Secure authentication system implemented
     - [Details here](./spellbook/kotaemon/README.md)
 
 ### 12. Bolt DIY (AI Chat Interface)
-- Modern AI chat interface
+- State-of-the-art AI chat interface
 - Supports multiple AI providers (OpenAI, Anthropic, Google, etc.)
-- Provides a Docker containerized environment
+- Provides a Docker-containerized environment
 - CloudFront infrastructure configuration
     - [Details here](./spellbook/bolt-diy/README.md)
 
-### 13. LLM Tester (Gradio version)
+### 13. LLM Tester (Gradio Version)
 - Gradio-based LLM proxy connection tester
 - Various parameter settings and debug information display
     - [Details here](./spellbook/ee-llm-tester-gr/README.md)
 
-### 14. LLM Tester (Streamlit version)
+### 14. LLM Tester (Streamlit Version)
 - Streamlit-based LLM proxy connection tester
 - Various parameter settings and debug information display
     - [Details here](./spellbook/ee-llm-tester-st/README.md)
@@ -187,10 +187,10 @@ graph TB
 
 ## 🔧 Usage
 
-Refer to the respective README files for instructions on using each component. For instructions on using the `amaterasu` command-line tool, refer to `spellbook/amaterasu-tool-ui/README.md`.
+Refer to the respective README files for instructions on using each component.  For instructions on using the `amaterasu` command-line tool, refer to `spellbook/amaterasu-tool-ui/README.md`.
 
 
-## 📦 Installation
+## 📦 Installation Instructions
 
 1. Clone the repository.
 ```bash
@@ -198,7 +198,7 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
 ```
 2. Follow the instructions in each project's README to install dependencies and deploy the application.
-3. Enter the necessary settings in the `terraform.tfvars` file.  You can also use the `amaterasu` tool to generate it automatically.
+3. Enter the necessary settings in the `terraform.tfvars` file. You can also use the `amaterasu` tool to generate it automatically.
 
 
 ## 📦 Dependencies
@@ -227,14 +227,14 @@ Thanks to iris-s-coon and Maki for their contributions.
 
 <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/release_notes/header_image/release_header_v1.21.0.png" width="100%">
 
-- **Expanded LLM Tester Functionality**: Added two interfaces based on Gradio and Streamlit.  Displays IP address information and detailed debugging information.
+- **Expanded LLM Tester Functionality**: Added two types of interfaces based on Gradio and Streamlit.  IP address information and detailed debug information can now be displayed.
 - **Enhanced LiteLLM Functionality**: Integrated OpenRouter API and standardized model names.
-- **Infrastructure Improvements**: Optimized Docker environment, strengthened inter-container communication, and updated NextAuth URL settings for Langfuse3.
-- **Addition of New Presentation Tool**: Added Marp Editable UI. Provides a containerized Markdown presentation editing environment.
+- **Infrastructure Improvements**: Optimized Docker environment, strengthened inter-container communication, and updated the NextAuth URL setting for Langfuse3.
+- **Added New Presentation Tool**: Added Marp Editable UI. Provides a containerized Markdown presentation editing environment.
 - **Enhanced Security**: Improved WAF settings, CSV file management for IP whitelists, and flexible security rule settings.
 - **Improved Configuration Management**: Added `.env.example` files for each component to standardize and document configuration files.
 
 - 📝 Notes:
-    - Existing configuration files need to be updated due to LiteLLM configuration changes.
+    - Existing configuration files need to be updated due to changes in LiteLLM settings.
     - The WAF IP whitelist needs to be migrated to the new CSV format.
-    - Check environment variable settings and update as needed.
+    - Check the environment variable settings and update as needed.
