@@ -33,11 +33,18 @@ resource "aws_lb_target_group" "ecs" {
     healthy_threshold   = 2
     interval            = 30
     matcher            = "200"
-    path               = "/_stcore/health"
+    path               = "/"
     port               = "traffic-port"
     protocol           = "HTTP"
     timeout            = 5
     unhealthy_threshold = 10
   }
+}
+
+# EC2インスタンスをターゲットグループに登録
+resource "aws_lb_target_group_attachment" "ecs" {
+  target_group_arn = aws_lb_target_group.ecs.arn
+  target_id        = aws_instance.ecs.id
+  port             = 80
 }
 
