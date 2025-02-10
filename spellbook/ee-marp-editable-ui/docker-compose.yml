@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/sunwood-ai-labs/marp-editable-ui:git-71e40fb
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"  # フロントエンド（Vite）
+      - "${BACKEND_PORT:-3001}:3001"   # バックエンド（Express）
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
+    #   - /app/client/node_modules
+    #   - /app/server/node_modules
+    environment:
+      - PORT=3001
+      - HOST=${HOST:-0.0.0.0}
+      - NODE_ENV=${NODE_ENV:-development}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-true}
