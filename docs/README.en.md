@@ -11,14 +11,14 @@
 <h2 align="center">Enterprise-Grade Private AI Platform (🚀 AMATERASU v1.22.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository serves as a "spellbook" for managing multiple AI-related projects. Each project is structured as a separate folder for deploying and managing specific AI services or functionalities.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows for the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository serves as a "spellbook" for managing multiple AI-related projects. Each project is structured as a separate folder for deploying and managing specific AI services or functionalities.
 
 
 ## ✨ Key Features
@@ -34,76 +34,30 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Flexible scaling
 
 ### Infrastructure as Code
-- Fully automated deployment with Terraform
-- Configuration management for each environment
+- Fully automated deployment using Terraform
+- Environment-specific configuration management
 - Version-controlled configuration
 
 ### GitLab Integration
-- Improved version control, CI/CD pipelines, and project management
+- Enhanced version control, CI/CD pipelines, and project management capabilities
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
-- Automated labeling using GitLab Webhooks
+- Automatic labeling using GitLab webhooks
 
-### Project Exploration Functionality
+### Project Exploration Features
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
 - Simplified configuration via the `amaterasu` command-line tool
 
-
 ## 🏗️ System Architecture
 
-```mermaid
-graph TB
-    subgraph "AWS Cloud"
-        subgraph "Application Layer"
-            subgraph "EC2-based Services"
-                OW["Open WebUI<br/>Chat Interface"]
-                LL["LiteLLM Proxy<br/>API Proxy"]
-                LF["Langfuse<br/>Monitoring"]
-                GL["GitLab<br/>Version Control"]
-                CD["Coder<br/>Cloud Development Environment"]
-                GR["Gradio LLM Tester"]
-                ST["Streamlit LLM Tester"]
-                MEU["Marp Editable UI<br/>Presentation Editing"]
-                AGS["App Gallery Showcase<br/>Project Showcase"]
-            end
-            
-            subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>Prompt Generation Assistance"]
-                ECS["ECS Fargate Cluster"]
-            end
-        end
-        
-        subgraph "Infrastructure Layer"
-            CF["CloudFront"]
-            WAF["WAF"]
-            R53["Route 53"]
-        end
-        
-        subgraph "AWS Services"
-            Bedrock["AWS Bedrock<br/>LLM Service"]
-            IAM["IAM<br/>Authentication & Authorization"]
-        end
-        
-        OW --> CF
-        LL --> CF
-        LF --> CF
-        GL --> CF
-        CD --> CF
-        GR --> CF
-        ST --> CF
-        MEU --> CF
-        AGS --> CF
-        PP --> ECS
-        
-        CF --> WAF
-        WAF --> R53
-        
-        EC2 --> Bedrock
-        ECS --> Bedrock
-        EC2 --> IAM
-        ECS --> IAM
-    end
-```
+![](docs/flow.svg)
+
+- AMATERASU Base Infrastructure provides reusable infrastructure components, reducing costs and management overhead.
+- Multi-layered security is achieved with different security groups for various purposes (Default, CloudFront, VPC Internal, Whitelist).
+- AMATERASU EC2 Module runs Docker containers on EC2 instances.
+- AMATERASU EE Module uses an ECS cluster, deploying from the development environment to ECR for operation.
+- Both modules are protected by CloudFront and WAF with IP whitelisting and share the same base infrastructure.
+- The entire infrastructure is managed by a modular design using Terraform, leveraging the same security groups and network settings.
 
 ## 📦 Component Composition
 
@@ -129,7 +83,7 @@ graph TB
 ### 4. GitLab (Version Control)
 - Self-hosted GitLab instance
 - Project and code management
-- CI pipeline and Runner configuration
+- CI pipelines and runner configuration
 - Backup and restore functionality
 
 ### 5. FG-prompt-pandora (Fargate Sample Application)
@@ -139,63 +93,63 @@ graph TB
     - [Details here](./spellbook/fg-prompt-pandora/README.md)
 
 ### 6. Coder (Cloud Development Environment)
-- Web-based IDE
+- Web-based IDE environment
 - Support for VS Code extensions
 - Secure development on AWS infrastructure
     - [Details here](./spellbook/Coder/README.md)
 
 ### 7. Dify (AI Application Development Platform)
 - AI application development platform integrating various AI models
-- UI/API-based development
+- UI/API-based development is possible
     - [Details here](./spellbook/dify/README.md)
 
 ### 8. Dify Beta (AI Application Development Platform)
 - Beta version of Dify including new and experimental features
-- Advanced settings for vector databases and sandbox environments
+- Advanced configuration of vector databases and sandbox environments is possible
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline functions to enhance integration with Open WebUI
+- Pipeline functionality enhancing the integration with Open WebUI
 - Filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
 ### 10. Amaterasu Tool (Terraform Variable Generator)
-- Automates the generation of `terraform.tfvars` files using a command-line tool
-- Generates settings for each project in the spellbook
+- Automates the generation of `terraform.tfvars` files using a command-line tool.
+- Generates configuration values for each project in the spellbook.
     - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 ### 11. Kotaemon (Document and Chat RAG UI Tool)
-- RAG UI tool for document and chat interaction
-- Provides Docker environment and Terraform configuration
-- Data persistence and customizable settings
-- Secure authentication system implemented
+- RAG UI tool for document and chat.
+- Provides Docker environment and Terraform configuration.
+- Data persistence and customizable environment settings.
+- Implements a secure authentication system.
     - [Details here](./spellbook/kotaemon/README.md)
 
 ### 12. Bolt DIY (AI Chat Interface)
-- State-of-the-art AI chat interface
+- Latest AI chat interface
 - Supports multiple AI providers (OpenAI, Anthropic, Google, etc.)
 - Provides a Docker containerized environment
 - CloudFront infrastructure configuration
     - [Details here](./spellbook/bolt-diy/README.md)
 
-### 13. LLM Tester (Gradio version)
+### 13. LLM Tester (Gradio Version)
 - Gradio-based LLM proxy connection tester
 - Various parameter settings and debug information display
     - [Details here](./spellbook/ee-llm-tester-gr/README.md)
 
-### 14. LLM Tester (Streamlit version)
+### 14. LLM Tester (Streamlit Version)
 - Streamlit-based LLM proxy connection tester
 - Various parameter settings and debug information display
     - [Details here](./spellbook/ee-llm-tester-st/README.md)
 
 ### 15. Marp Editable UI (Markdown Presentation Editing Tool)
-- Web application for creating and editing presentations in Markdown format
-- Provides a Docker containerized environment
+- Web application for creating and editing presentations in Markdown format.
+- Provides a Docker containerized environment.
     - [Details here](./spellbook/ee-marp-editable-ui/README.md)
 
-### 16. App Gallery Showcase (Project Showcase Web Application)
-- Web application for visually showcasing projects
-- Provides a Docker containerized environment
+### 16. App Gallery Showcase (Project Introduction Web Application)
+- Web application to visually showcase projects beautifully.
+- Provides a Docker containerized environment.
     - [Details here](./spellbook/app-gallery-showcase/README.md)
 
 
@@ -212,7 +166,7 @@ git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
 ```
 2. Follow the instructions in each project's README to install dependencies and deploy the application.
-3. Enter the necessary settings in the `terraform.tfvars` file.  You can also use the `amaterasu` tool to generate this automatically.
+3. Enter the necessary settings in the `terraform.tfvars` file. You can also use the `amaterasu` tool to generate it automatically.
 
 
 ## 📦 Dependencies
@@ -240,24 +194,22 @@ Thanks to iris-s-coon and Maki for their contributions.
 ### AMATERASU v1.22.0 (Latest Release)
 
 - **🔄 Enhanced OpenRouter API Integration**: LiteLLM's OpenRouter API integration has been enhanced and updated to the latest version.
-- **🧪 Improved UI Testing Tools**: The ECS infrastructure has been optimized to an EC2 instance-based architecture, enabling more stable operation.
+- **🧪 Improved UI Testing Tool Functionality**: The ECS infrastructure has been optimized to an EC2 instance-based setup, enabling more stable operation.
 - **📊 Added Marp Editable UI**: A new containerized tool providing a Markdown presentation editing environment has been added.
-- **🖼️ Integrated App Gallery Showcase**: A web application for beautifully showcasing projects has been added.
+- **🖼️ Integrated App Gallery Showcase**: A web application for showcasing projects beautifully has been added.
 - **🐳 Updated Docker Images**: Several components have been updated to the latest versions, including Langfuse 3.26.
-- **📐 Enhanced Architecture Visualization**: A system-wide architecture diagram has been added to clearly show the relationships between components.
-- **🔍 Enhanced RAG Functionality in Open WebUI**: Added Web content loading functionality through Playwright integration.
-- 🖥️ ECS task deployment has been optimized to an EC2 instance-based configuration, enabling more stable operation.
-- 🔗 Docker Compose configuration improvements and standardization have strengthened inter-container collaboration.
-- 🛡️ Enhanced WAF security settings and improved CSV file-based IP whitelisting management.
+- **📐 Enhanced Architecture Visualization**: A system-wide architecture diagram has been added to clarify the relationships between components.
+- **🔍 Enhanced RAG Functionality in Open WebUI**: Added web content loading functionality through Playwright integration.
+- 🖥️ ECS task deployments have been optimized to an EC2 instance-based configuration, enabling more stable operation.
+- 🔗 Docker Compose configurations have been improved and standardized for enhanced inter-container communication.
+- 🛡️ WAF configuration security has been enhanced, and IP whitelist management via CSV files has been improved.
 - 📄 Added `.env.example` files to each component for standardized and documented configuration files.
 - 🧩 Improved sharing and reusability of Terraform modules.
 - 🔤 Standardized environment variables to ensure consistency across different environments.
 
 
 - 📝 Notes:
-    - 🔄 Due to changes in LiteLLM configuration, existing configuration files need to be updated.
-    - 📋 The WAF IP whitelist needs to be migrated to the new CSV format.
-    - 🔍 Check the environment variable settings and update them as needed.
-    - 📚 When using new components, refer to their respective READMEs for proper configuration.
-
-This release enhances the functionality of the enterprise-grade AI platform, providing a more stable infrastructure and expanded UI tools. ✨
+    - Existing configuration files need to be updated due to changes in LiteLLM settings.
+    - It is necessary to migrate the WAF IP whitelist to the new CSV format.
+    - Check and update environment variable settings as needed.
+```
