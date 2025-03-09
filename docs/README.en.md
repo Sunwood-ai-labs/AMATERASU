@@ -14,11 +14,11 @@
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it enables the development and operation of LLM-based applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository serves as a "spellbook" for managing multiple AI-related projects. Each project is structured as a separate folder for deploying and managing specific AI services or functionalities.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows for the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository serves as a "spellbook" for managing multiple AI-related projects. Each project is structured as a separate folder for deploying and managing specific AI services or functionalities.
 
 
 ## ✨ Key Features
@@ -39,15 +39,14 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Version-controlled infrastructure
 
 ### GitLab Integration
-- Improved version control, CI/CD pipelines, and project management
+- Enhanced version control, CI/CD pipelines, and project management capabilities
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
-- Automated labeling using GitLab Webhooks
+- Automatic labeling using GitLab webhooks
 
-### Project Exploration Functionality
+### Project Exploration Features
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
 - Simplified configuration via the `amaterasu` command-line tool
-
 
 ## 🏗️ System Architecture
 
@@ -102,16 +101,16 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 
 ### 7. Dify (AI Application Development Platform)
 - AI application development platform integrating various AI models
-- UI/API-based development
+- UI/API-based development is possible
     - [Details here](./spellbook/dify/README.md)
 
 ### 8. Dify Beta (AI Application Development Platform)
 - Beta version of Dify including new and experimental features
-- Advanced settings for vector databases and sandbox environments
+- Advanced configuration of vector databases and sandbox environments is possible
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline functions to enhance integration with Open WebUI
+- Pipeline functionality enhancing the integration with Open WebUI
 - Filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
@@ -128,25 +127,25 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
     - [Details here](./spellbook/kotaemon/README.md)
 
 ### 12. Bolt DIY (AI Chat Interface)
-- State-of-the-art AI chat interface
+- Latest AI chat interface
 - Supports multiple AI providers (OpenAI, Anthropic, Google, etc.)
 - Provides a Docker containerized environment
 - CloudFront infrastructure configuration
     - [Details here](./spellbook/bolt-diy/README.md)
 
-### 13. LLM Tester (Gradio version)
+### 13. LLM Tester (Gradio Version)
 - Gradio-based LLM proxy connection tester
 - Various parameter settings and debug information display
     - [Details here](./spellbook/ee-llm-tester-gr/README.md)
 
-### 14. LLM Tester (Streamlit version)
+### 14. LLM Tester (Streamlit Version)
 - Streamlit-based LLM proxy connection tester
 - Various parameter settings and debug information display
     - [Details here](./spellbook/ee-llm-tester-st/README.md)
 
 ### 15. Marp Editable UI (Markdown Presentation Editing Tool)
-- Web application for creating and editing presentations in Markdown format
-- Provides a Docker containerized environment
+- Web application for creating and editing presentations in Markdown format.
+- Provides a Docker containerized environment.
     - [Details here](./spellbook/ee-marp-editable-ui/README.md)
 
 ### 16. App Gallery Showcase (Project Introduction Web Application)
