@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.21.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (🚀 AMATERASU v1.22.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -63,6 +63,8 @@ graph TB
                 CD["Coder<br/>クラウド開発環境"]
                 GR["Gradio LLM Tester"]
                 ST["Streamlit LLM Tester"]
+                MEU["Marp Editable UI<br/>プレゼンテーション編集"]
+                AGS["App Gallery Showcase<br/>プロジェクト紹介"]
             end
             
             subgraph "Fargate-based Service"
@@ -89,6 +91,8 @@ graph TB
         CD --> CF
         GR --> CF
         ST --> CF
+        MEU --> CF
+        AGS --> CF
         PP --> ECS
         
         CF --> WAF
@@ -158,7 +162,7 @@ graph TB
 ### 10. Amaterasu Tool (Terraform 変数ジェネレーター)
 -  コマンドラインツールで`terraform.tfvars`ファイルの生成を自動化
 - spellbook の各プロジェクトを対象に設定値を生成
-- [詳細はこちら](./spellbook/amaterasu-tool-ui/README.md)
+    - [詳細はこちら](./spellbook/amaterasu-tool-ui/README.md)
 
 ### 11. Kotaemon (ドキュメントとチャットRAG UIツール)
 - ドキュメントとチャットするためのRAG UIツール
@@ -183,6 +187,16 @@ graph TB
 - StreamlitベースのLLMプロキシ接続テスター
 - 各種パラメータ設定とデバッグ情報表示
     - [詳細はこちら](./spellbook/ee-llm-tester-st/README.md)
+
+### 15. Marp Editable UI (Markdown プレゼンテーション編集ツール)
+- Markdown形式でプレゼンテーションを作成・編集できるWebアプリケーション
+- Dockerコンテナ化された環境を提供
+    - [詳細はこちら](./spellbook/ee-marp-editable-ui/README.md)
+
+### 16. App Gallery Showcase (プロジェクト紹介Webアプリケーション)
+- プロジェクトを視覚的に美しく紹介するWebアプリケーション
+- Dockerコンテナ化された環境を提供
+    - [詳細はこちら](./spellbook/app-gallery-showcase/README.md)
 
 
 ## 🔧 使用方法
@@ -223,18 +237,27 @@ iris-s-coonとMakiへの貢献に感謝します。
 
 ## 🆕 最新情報
 
-### AMATERASU v1.21.0 (最新のリリース)
+### AMATERASU v1.22.0 (最新のリリース)
 
-<img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/release_notes/header_image/release_header_v1.21.0.png" width="100%">
+- **🔄 OpenRouter API 統合の強化**: LiteLLM の OpenRouter API 統合が強化され、最新バージョンに更新されました。
+- **🧪 UI テストツールの機能改善**: ECS インフラストラクチャが EC2 インスタンスベースに最適化され、より安定した運用が可能になりました。
+- **📊 Marp Editable UI の追加**: Markdown プレゼンテーション編集環境を提供するコンテナ化された新しいツールが追加されました。
+- **🖼️ App Gallery Showcase の統合**: プロジェクトを美しく紹介するウェブアプリケーションが追加されました。
+- **🐳 Docker イメージの更新**: Langfuse 3.26 への更新など、複数のコンポーネントが最新バージョンに更新されました。
+- **📐 アーキテクチャ可視化の強化**: システム全体のアーキテクチャ図を追加し、コンポーネント間の関係をより明確に示しました。
+- **🔍 Open WebUI の RAG 機能強化**: Playwright 統合による Web コンテンツのローディング機能が追加されました。
+- 🖥️ ECS タスクのデプロイメントが EC2 インスタンスベースの構成に最適化され、より安定した運用が可能になりました
+- 🔗 Docker Compose 設定の改善と標準化により、コンテナ間の連携が強化されました
+- 🛡️ WAF 設定のセキュリティ強化と CSV ファイルによる IP ホワイトリスト管理が改善されました
+- 📄 各コンポーネントの `.env.example` ファイルを追加し、設定ファイルの標準化と文書化を実施
+- 🧩 Terraform モジュールの共有化と再利用性の向上
+- 🔤 環境変数の標準化により、異なる環境間での一貫性を確保
 
-- **LLMテスター機能の拡張**: GradioとStreamlitベースの2種類のインターフェースを追加。IPアドレス情報や詳細なデバッグ情報を表示可能に。
-- **LiteLLM機能の強化**: OpenRouter APIの統合とモデル名の標準化を実施。
-- **インフラストラクチャの改善**: Docker環境の最適化、コンテナ間の連携強化、Langfuse3のNextAuth URL設定更新。
-- **新規プレゼンテーションツールの追加**: Marp Editable UIを追加。コンテナ化されたMarkdownプレゼンテーション編集環境を提供。
-- **セキュリティの強化**: WAF設定の改善、IPホワイトリストのCSVファイル管理、柔軟なセキュリティルール設定。
-- **設定管理の改善**: 各コンポーネントの`.env.example`ファイルを追加し、設定ファイルの標準化と文書化を実施。
 
 - 📝 注意事項:
-    - LiteLLMの設定変更に伴い、既存の設定ファイルの更新が必要
-    - WAFのIPホワイトリストを新しいCSV形式に移行する必要あり
-    - 環境変数の設定を確認し、必要に応じて更新
+    - 🔄 LiteLLM の設定変更に伴い、既存の設定ファイルの更新が必要です
+    - 📋 WAF の IP ホワイトリストを新しい CSV 形式に移行する必要があります
+    - 🔍 環境変数の設定を確認し、必要に応じて更新してください
+    - 📚 新規コンポーネントを利用する場合は、それぞれの README を参照して適切に設定してください
+
+このリリースでは、エンタープライズグレードの AI プラットフォームとしての機能が強化され、より安定したインフラストラクチャと拡張された UI ツールを提供します。✨
