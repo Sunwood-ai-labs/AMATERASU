@@ -1,6 +1,6 @@
 services:
   langfuse-worker:
-    image: langfuse/langfuse-worker:3
+    image: ghcr.io/langfuse/langfuse-worker:3.26
     restart: always
     depends_on: &langfuse-depends-on
       postgres:
@@ -45,7 +45,7 @@ services:
       REDIS_AUTH: ${REDIS_AUTH:-myredissecret}
 
   langfuse-web:
-    image: langfuse/langfuse:3
+    image: ghcr.io/langfuse/langfuse:3.26
     restart: always
     depends_on: *langfuse-depends-on
     ports:
