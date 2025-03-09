@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="AMATERASU-OpenWebUI-Architecture" name="AMATERASU OpenWebUI Architecture">
-        <mxGraphModel dx="1299" dy="1615" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="324" dy="1219" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
