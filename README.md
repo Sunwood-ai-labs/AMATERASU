@@ -8,7 +8,7 @@
   <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
 </p>
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.21.0)</h2>
+<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (🚀 AMATERASU v1.22.0)</h2>
 
 >[!IMPORTANT]
 >このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
@@ -116,7 +116,7 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 ### 10. Amaterasu Tool (Terraform 変数ジェネレーター)
 -  コマンドラインツールで`terraform.tfvars`ファイルの生成を自動化
 - spellbook の各プロジェクトを対象に設定値を生成
-- [詳細はこちら](./spellbook/amaterasu-tool-ui/README.md)
+    - [詳細はこちら](./spellbook/amaterasu-tool-ui/README.md)
 
 ### 11. Kotaemon (ドキュメントとチャットRAG UIツール)
 - ドキュメントとチャットするためのRAG UIツール
@@ -141,6 +141,16 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 - StreamlitベースのLLMプロキシ接続テスター
 - 各種パラメータ設定とデバッグ情報表示
     - [詳細はこちら](./spellbook/ee-llm-tester-st/README.md)
+
+### 15. Marp Editable UI (Markdown プレゼンテーション編集ツール)
+- Markdown形式でプレゼンテーションを作成・編集できるWebアプリケーション
+- Dockerコンテナ化された環境を提供
+    - [詳細はこちら](./spellbook/ee-marp-editable-ui/README.md)
+
+### 16. App Gallery Showcase (プロジェクト紹介Webアプリケーション)
+- プロジェクトを視覚的に美しく紹介するWebアプリケーション
+- Dockerコンテナ化された環境を提供
+    - [詳細はこちら](./spellbook/app-gallery-showcase/README.md)
 
 
 ## 🔧 使用方法
