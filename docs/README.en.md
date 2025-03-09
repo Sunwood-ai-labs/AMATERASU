@@ -119,14 +119,14 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
     - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 ### 11. Kotaemon (Document and Chat RAG UI Tool)
-- RAG UI tool for interacting with documents and chat
+- RAG UI tool for document and chat interaction
 - Provides Docker environment and Terraform configuration
 - Data persistence and customizable environment settings
 - Secure authentication system implemented
     - [Details here](./spellbook/kotaemon/README.md)
 
 ### 12. Bolt DIY (AI Chat Interface)
-- Latest AI chat interface
+- State-of-the-art AI chat interface
 - Supports multiple AI providers (OpenAI, Anthropic, Google, etc.)
 - Provides a Docker containerized environment
 - CloudFront infrastructure configuration
@@ -155,12 +155,15 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 
 ## 🔧 Usage
 
-Refer to the individual README files for instructions on using each component.  For instructions on using the `amaterasu` command-line tool, see `spellbook/amaterasu-tool-ui/README.md`.
+Refer to the respective README files for instructions on using each component.  For instructions on using the `amaterasu` command-line tool, see `spellbook/amaterasu-tool-ui/README.md`.
 
 
 ## 📦 Installation Instructions
 
+<<<<<<< HEAD
 1. Clone the repository:
+=======
+>>>>>>> 5e84d61 (📖 [docs] 英語READMEの更新)
 ```bash
 cp .env.example .env
 # Edit the .env file and make the necessary settings
@@ -171,4 +174,39 @@ cd AMATERASU
 
 ## 📄 License
 
+<<<<<<< HEAD
 This project is licensed under the MIT License.
+=======
+This project is licensed under the MIT License.
+
+## 👏 Acknowledgements
+
+Thanks to iris-s-coon and Maki for their contributions.
+
+## 🆕 What's New
+
+### AMATERASU v1.22.0 (Latest Release)
+
+- **🔄 Enhanced OpenRouter API Integration**: LiteLLM's OpenRouter API integration has been enhanced and updated to the latest version.
+- **🧪 Improved UI Testing Tools**: The ECS infrastructure has been optimized to an EC2 instance-based architecture, enabling more stable operation.
+- **📊 Added Marp Editable UI**: A new containerized tool providing a Markdown presentation editing environment has been added.
+- **🖼️ Integrated App Gallery Showcase**: A web application for beautifully showcasing projects has been added.
+- **🐳 Updated Docker Images**: Several components have been updated to the latest versions, including Langfuse 3.26.
+- **📐 Enhanced Architecture Visualization**: A system-wide architecture diagram has been added to clearly show the relationships between components.
+- **🔍 Enhanced RAG Functionality in Open WebUI**: Added Web content loading functionality through Playwright integration.
+- 🖥️ ECS task deployment has been optimized to an EC2 instance-based configuration, enabling more stable operation.
+- 🔗 Docker Compose configuration improvements and standardization have strengthened inter-container collaboration.
+- 🛡️ Enhanced WAF security settings and improved CSV file-based IP whitelisting management.
+- 📄 Added `.env.example` files to each component for standardized and documented configuration files.
+- 🧩 Improved sharing and reusability of Terraform modules.
+- 🔤 Standardized environment variables to ensure consistency across different environments.
+
+
+- 📝 Notes:
+    - 🔄 Due to changes in LiteLLM configuration, existing configuration files need to be updated.
+    - 📋 The WAF IP whitelist needs to be migrated to the new CSV format.
+    - 🔍 Check the environment variable settings and update them as needed.
+    - 📚 When using new components, refer to their respective READMEs for proper configuration.
+
+This release enhances the functionality of the enterprise-grade AI platform, providing a more stable infrastructure and expanded UI tools. ✨
+>>>>>>> 5e84d61 (📖 [docs] 英語READMEの更新)
