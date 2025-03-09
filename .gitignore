@@ -231,3 +231,4 @@ spellbook/litellm/config.dev.yaml
 .env.aws
 .aws.env
 spellbook/kotaemon/ktem_app_data
+spellbook/dify-beta1/volumes/
