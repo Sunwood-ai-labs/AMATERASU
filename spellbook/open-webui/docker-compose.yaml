@@ -25,6 +25,9 @@ services:
       - ${OPEN_WEBUI_PORT-8181}:8080
     env_file:
       - .env
+    environment:
+      - 'RAG_WEB_LOADER_ENGINE=playwright'
+      - 'PLAYWRIGHT_WS_URI=ws://playwright:3000'
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -50,6 +53,11 @@ services:
     tty: true
     stdin_open: true
     command: bash
+
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.49.1-noble # Version must match requirements.txt
+    container_name: playwright
+    command: npx -y playwright@1.49.1 run-server --port 3000 --host 0.0.0.0
 
 volumes:
   ollama-amaterasu1: {}
