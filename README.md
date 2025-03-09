@@ -48,62 +48,16 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 - Terraformプロジェクトの自動検出と`terraform.tfvars`ファイルの生成
 - `amaterasu`コマンドラインツールによる簡素化された設定
 
-
 ## 🏗️ システムアーキテクチャ
 
-```mermaid
-graph TB
-    subgraph "AWS Cloud"
-        subgraph "Application Layer"
-            subgraph "EC2-based Services"
-                OW["Open WebUI<br/>チャットインターフェース"]
-                LL["LiteLLM Proxy<br/>APIプロキシ"]
-                LF["Langfuse<br/>モニタリング"]
-                GL["GitLab<br/>バージョン管理"]
-                CD["Coder<br/>クラウド開発環境"]
-                GR["Gradio LLM Tester"]
-                ST["Streamlit LLM Tester"]
-                MEU["Marp Editable UI<br/>プレゼンテーション編集"]
-                AGS["App Gallery Showcase<br/>プロジェクト紹介"]
-            end
-            
-            subgraph "Fargate-based Service"
-                PP["Prompt Pandora<br/>プロンプト生成支援"]
-                ECS["ECS Fargate Cluster"]
-            end
-        end
-        
-        subgraph "Infrastructure Layer"
-            CF["CloudFront"]
-            WAF["WAF"]
-            R53["Route 53"]
-        end
-        
-        subgraph "AWS Services"
-            Bedrock["AWS Bedrock<br/>LLMサービス"]
-            IAM["IAM<br/>認証・認可"]
-        end
-        
-        OW --> CF
-        LL --> CF
-        LF --> CF
-        GL --> CF
-        CD --> CF
-        GR --> CF
-        ST --> CF
-        MEU --> CF
-        AGS --> CF
-        PP --> ECS
-        
-        CF --> WAF
-        WAF --> R53
-        
-        EC2 --> Bedrock
-        ECS --> Bedrock
-        EC2 --> IAM
-        ECS --> IAM
-    end
-```
+![](docs/flow.svg)
+
+- AMATERASU Base Infrastructureは再利用可能な基盤コンポーネントを提供し、コストと管理オーバーヘッドを削減
+- 異なる目的のセキュリティグループ（Default、CloudFront、VPC Internal、Whitelist）で多層的なセキュリティを実現
+- AMATERASU EC2 ModuleはEC2インスタンス上でDockerコンテナを実行
+- AMATERASU EE ModuleはECSクラスターを使用し、開発環境からECRにデプロイして運用
+- 両モジュールはCloudFrontとWAFによるIPホワイトリストで保護され、同じベースインフラストラクチャを共有
+- インフラ全体はTerraformでモジュール化された設計によって管理され、同じセキュリティグループとネットワーク設定を活用
 
 ## 📦 コンポーネント構成
 
@@ -255,9 +209,15 @@ iris-s-coonとMakiへの貢献に感謝します。
 
 
 - 📝 注意事項:
+<<<<<<< HEAD
     - 🔄 LiteLLM の設定変更に伴い、既存の設定ファイルの更新が必要です
     - 📋 WAF の IP ホワイトリストを新しい CSV 形式に移行する必要があります
     - 🔍 環境変数の設定を確認し、必要に応じて更新してください
     - 📚 新規コンポーネントを利用する場合は、それぞれの README を参照して適切に設定してください
 
 このリリースでは、エンタープライズグレードの AI プラットフォームとしての機能が強化され、より安定したインフラストラクチャと拡張された UI ツールを提供します。✨
+=======
+    - LiteLLMの設定変更に伴い、既存の設定ファイルの更新が必要
+    - WAFのIPホワイトリストを新しいCSV形式に移行する必要あり
+    - 環境変数の設定を確認し、必要に応じて更新
+>>>>>>> develop
