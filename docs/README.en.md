@@ -11,7 +11,15 @@
 <h2 align="center">Enterprise-Grade Private AI Platform (🚀 AMATERASU v1.22.0)</h2>
 
 >[!IMPORTANT]
+<<<<<<< HEAD
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+=======
+<<<<<<< HEAD
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+=======
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage), and approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) + [claude.ai](https://claude.ai/).
+>>>>>>> 1495f5f (📖 [docs] 英語READMEの更新)
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
 
 >[!NOTE]
 >AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
@@ -34,9 +42,19 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Flexible scaling
 
 ### Infrastructure as Code
+<<<<<<< HEAD
 - Fully automated deployment with Terraform
 - Environment-specific configuration management
+<<<<<<< HEAD
 - Version-controlled configuration
+=======
+- Version-controlled infrastructure
+=======
+- Fully automated deployment using Terraform
+- Environment-specific configuration management
+- Version-controlled configuration
+>>>>>>> 1495f5f (📖 [docs] 英語READMEの更新)
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
 
 ### GitLab Integration
 - Enhanced version control, CI/CD pipelines, and project management features
@@ -53,12 +71,28 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 ![](docs/flow.svg)
 
 - AMATERASU Base Infrastructure provides reusable infrastructure components, reducing costs and management overhead.
+<<<<<<< HEAD
 - Multi-layered security is achieved with security groups for different purposes (Default, CloudFront, VPC Internal, Whitelist).
+=======
+<<<<<<< HEAD
+- Multi-layered security is achieved using security groups with different purposes (Default, CloudFront, VPC Internal, Whitelist).
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
 - The AMATERASU EC2 Module runs Docker containers on EC2 instances.
 - The AMATERASU EE Module uses an ECS cluster, deploying from a development environment to ECR for operation.
 - Both modules are protected by an IP whitelist using CloudFront and WAF and share the same base infrastructure.
 - The entire infrastructure is managed by a modular design using Terraform, leveraging the same security groups and network settings.
 
+<<<<<<< HEAD
+=======
+=======
+- Multi-layered security is achieved with different security groups for various purposes (Default, CloudFront, VPC Internal, Whitelist).
+- AMATERASU EC2 Module runs Docker containers on EC2 instances.
+- AMATERASU EE Module uses an ECS cluster, deploying from the development environment to ECR for operation.
+- Both modules are protected by CloudFront and WAF with IP whitelisting and share the same base infrastructure.
+- The entire infrastructure is managed by a modular design using Terraform, leveraging the same security groups and network settings.
+>>>>>>> 1495f5f (📖 [docs] 英語READMEの更新)
+
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
 ## 📦 Component Composition
 
 ### 1. Open WebUI (Frontend)
@@ -83,7 +117,15 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 ### 4. GitLab (Version Control)
 - Self-hosted GitLab instance
 - Project and code management
+<<<<<<< HEAD
 - CI pipeline and Runner configuration
+=======
+<<<<<<< HEAD
+- CI pipelines and Runner configuration
+=======
+- CI pipelines and runner configuration
+>>>>>>> 1495f5f (📖 [docs] 英語READMEの更新)
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
 - Backup and restore functionality
 
 ### 5. FG-prompt-pandora (Fargate Sample Application)
@@ -114,19 +156,26 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
 ### 10. Amaterasu Tool (Terraform Variable Generator)
-- Automates the generation of `terraform.tfvars` files using a command-line tool
-- Generates settings for each project in the spellbook
+- Automates the generation of `terraform.tfvars` files using a command-line tool.
+- Generates configuration values for each project in the spellbook.
     - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 ### 11. Kotaemon (Document and Chat RAG UI Tool)
+<<<<<<< HEAD
 - RAG UI tool for document and chat interaction
 - Provides Docker environment and Terraform configuration
 - Data persistence and customizable environment settings
 - Secure authentication system implemented
+=======
+- RAG UI tool for document and chat.
+- Provides Docker environment and Terraform configuration.
+- Data persistence and customizable environment settings.
+- Implements a secure authentication system.
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
     - [Details here](./spellbook/kotaemon/README.md)
 
 ### 12. Bolt DIY (AI Chat Interface)
-- State-of-the-art AI chat interface
+- Latest AI chat interface
 - Supports multiple AI providers (OpenAI, Anthropic, Google, etc.)
 - Provides a Docker containerized environment
 - CloudFront infrastructure configuration
@@ -148,8 +197,17 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
     - [Details here](./spellbook/ee-marp-editable-ui/README.md)
 
 ### 16. App Gallery Showcase (Project Introduction Web Application)
+<<<<<<< HEAD
 - Web application for visually showcasing projects
 - Provides a Docker containerized environment
+=======
+<<<<<<< HEAD
+- Web application for visually showcasing projects attractively.
+=======
+- Web application to visually showcase projects beautifully.
+>>>>>>> 1495f5f (📖 [docs] 英語READMEの更新)
+- Provides a Docker containerized environment.
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
     - [Details here](./spellbook/app-gallery-showcase/README.md)
 
 
@@ -188,25 +246,35 @@ Thanks to iris-s-coon and Maki for their contributions.
 ### AMATERASU v1.22.0 (Latest Release)
 
 - **🔄 Enhanced OpenRouter API Integration**: LiteLLM's OpenRouter API integration has been enhanced and updated to the latest version.
-- **🧪 Improved UI Testing Tools**: The ECS infrastructure has been optimized to an EC2 instance-based architecture, enabling more stable operation.
+- **🧪 Improved UI Testing Tool Functionality**: The ECS infrastructure has been optimized to an EC2 instance-based setup, enabling more stable operation.
 - **📊 Added Marp Editable UI**: A new containerized tool providing a Markdown presentation editing environment has been added.
-- **🖼️ Integrated App Gallery Showcase**: A web application for beautifully showcasing projects has been added.
+- **🖼️ Integrated App Gallery Showcase**: A web application for showcasing projects beautifully has been added.
 - **🐳 Updated Docker Images**: Several components have been updated to the latest versions, including Langfuse 3.26.
-- **📐 Enhanced Architecture Visualization**: A system-wide architecture diagram has been added to clearly show the relationships between components.
-- **🔍 Enhanced RAG Functionality in Open WebUI**: Added Web content loading functionality through Playwright integration.
-- 🖥️ ECS task deployment has been optimized to an EC2 instance-based configuration, enabling more stable operation.
-- 🔗 Docker Compose configuration improvements and standardization have strengthened inter-container collaboration.
-- 🛡️ Enhanced WAF security settings and improved CSV file-based IP whitelisting management.
+- **📐 Enhanced Architecture Visualization**: A system-wide architecture diagram has been added to clarify the relationships between components.
+- **🔍 Enhanced RAG Functionality in Open WebUI**: Added web content loading functionality through Playwright integration.
+- 🖥️ ECS task deployments have been optimized to an EC2 instance-based configuration, enabling more stable operation.
+- 🔗 Docker Compose configurations have been improved and standardized for enhanced inter-container communication.
+- 🛡️ WAF configuration security has been enhanced, and IP whitelist management via CSV files has been improved.
 - 📄 Added `.env.example` files to each component for standardized and documented configuration files.
 - 🧩 Improved sharing and reusability of Terraform modules.
 - 🔤 Standardized environment variables to ensure consistency across different environments.
 
 
 - 📝 Notes:
+<<<<<<< HEAD
     - 🔄 Due to changes in LiteLLM configuration, existing configuration files need to be updated.
     - 📋 The WAF IP whitelist needs to be migrated to the new CSV format.
     - 🔍 Check the environment variable settings and update them as needed.
     - 📚 When using new components, refer to their respective READMEs for proper configuration.
 
 This release enhances the functionality of the enterprise-grade AI platform, providing a more stable infrastructure and expanded UI tools. ✨
+<<<<<<< HEAD
 >>>>>>> 5e84d61 (📖 [docs] 英語READMEの更新)
+=======
+=======
+    - Existing configuration files need to be updated due to changes in LiteLLM settings.
+    - It is necessary to migrate the WAF IP whitelist to the new CSV format.
+    - Check and update environment variable settings as needed.
+```
+>>>>>>> 1495f5f (📖 [docs] 英語READMEの更新)
+>>>>>>> 664928f (📖 [docs] 英語READMEの更新)
