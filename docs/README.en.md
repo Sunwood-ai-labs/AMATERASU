@@ -14,8 +14,7 @@
 >This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
->AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA). It has evolved to run each AI service as an independent EC2 instance using Docker Compose, allowing for easy deployment with Terraform.
-
+>AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, and deployment is simplified using Terraform.
 
 ## 🚀 Project Overview
 
@@ -29,7 +28,7 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservice Architecture
+### Microservices Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -40,10 +39,10 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Version-controlled infrastructure
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management
+- Improved version control, CI/CD pipelines, and project management
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
-- Automated labeling using GitLab webhooks
+- Automated labeling using GitLab Webhooks
 
 ### Project Exploration Functionality
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
@@ -108,11 +107,11 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 
 ### 8. Dify Beta (AI Application Development Platform)
 - Beta version of Dify including new and experimental features
-- Advanced configuration of vector databases and sandbox environments
+- Advanced settings for vector databases and sandbox environments
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline features enhancing integration with Open WebUI
+- Pipeline functions to enhance integration with Open WebUI
 - Filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
@@ -124,12 +123,12 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 ### 11. Kotaemon (Document and Chat RAG UI Tool)
 - RAG UI tool for interacting with documents and chat
 - Provides Docker environment and Terraform configuration
-- Data persistence and customizable environment settings
+- Data persistence and customizable settings
 - Secure authentication system implemented
     - [Details here](./spellbook/kotaemon/README.md)
 
 ### 12. Bolt DIY (AI Chat Interface)
-- Modern AI chat interface
+- State-of-the-art AI chat interface
 - Supports multiple AI providers (OpenAI, Anthropic, Google, etc.)
 - Provides a Docker containerized environment
 - CloudFront infrastructure configuration
