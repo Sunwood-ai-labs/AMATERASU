@@ -1,54 +1,40 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-</p>
+<div align="center">
 
-<p align="center">
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU"><img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github"></a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square"></a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
-</p>
+![Supabase Infrastructure](assets/header.svg)
 
 <h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (🚀 AMATERASU v1.22.0)</h2>
 
->[!IMPORTANT]
->このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
+Terraformを使用したSupabaseのセルフホスティング環境の構築とCloudFrontによるCDN配信の自動化
 
->[!NOTE]
->AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
+</div>
 
-## 🚀 プロジェクト概要
+## 🎯 概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
+このプロジェクトは、AWS上でSupabaseをセルフホスティングするための完全な Infrastructure as Code (IaC) ソリューションを提供します。TerraformとDockerを使用して、安全で拡張性の高いインフラストラクチャを自動的に構築します。
 
+## 🏗️ アーキテクチャ
 
-## ✨ 主な機能
+プロジェクトは以下の主要コンポーネントで構成されています：
 
-### セキュアな基盤
-- AWS BedrockとGoogle Vertex AIベースの安全なLLM基盤
-- 完全クローズド環境での運用
-- エンタープライズグレードのセキュリティ
+- 📦 **Supabase Self-hosting**
+  - PostgreSQLデータベース
+  - Auth, Storage, Edge Functionsなどのサービス
+  - 管理用ダッシュボード
 
-### マイクロサービスアーキテクチャ
-- 独立したサービスコンポーネント
-- コンテナベースのデプロイメント
-- 柔軟なスケーリング
+- 🌐 **CDN配信**
+  - CloudFrontによる高速なコンテンツ配信
+  - WAFによるセキュリティ制御
+  - カスタムドメイン対応
 
-### Infrastructure as Code
-- Terraformによる完全自動化されたデプロイ
-- 環境ごとの設定管理
-- バージョン管理された構成
+## 🚀 クイックスタート
 
-### GitLab統合
-- バージョン管理、CI/CDパイプライン、プロジェクト管理機能の向上
-- セルフホスト型GitLabインスタンスの統合
-- LLMを用いたマージリクエスト分析
-- GitLab Webhookを用いた自動ラベル付け
+### 前提条件
 
-### プロジェクト探索機能
-- Terraformプロジェクトの自動検出と`terraform.tfvars`ファイルの生成
-- `amaterasu`コマンドラインツールによる簡素化された設定
+- AWS CLI設定済み
+- Terraform v0.12以上
+- Docker & Docker Compose
 
-## 🏗️ システムアーキテクチャ
+### セットアップ手順
 
 ![](docs/flow.svg)
 
@@ -596,8 +582,6 @@ cp .env.example .env
 git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
 ```
-2. 各プロジェクトのREADMEに記載されている手順に従って、依存関係をインストールし、アプリケーションをデプロイします。
-3. `terraform.tfvars`ファイルに必要な設定を入力します。  `amaterasu` ツールを利用して自動生成することもできます。
 
 
 ## 📄 ライセンス
