@@ -1,198 +1,126 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-</p>
+<div align="center">
 
-<p align="center">
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU"><img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github"></a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square"></a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
-</p>
+![Supabase Infrastructure](assets/header.svg)
 
-<h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (v1.21.0)</h2>
+# 🌟 Supabase Self-hosting インフラストラクチャ
 
->[!IMPORTANT]
->このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
+Terraformを使用したSupabaseのセルフホスティング環境の構築とCloudFrontによるCDN配信の自動化
 
->[!NOTE]
->AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
+</div>
 
-## 🚀 プロジェクト概要
+## 🎯 概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
+このプロジェクトは、AWS上でSupabaseをセルフホスティングするための完全な Infrastructure as Code (IaC) ソリューションを提供します。TerraformとDockerを使用して、安全で拡張性の高いインフラストラクチャを自動的に構築します。
 
+## 🏗️ アーキテクチャ
 
-## ✨ 主な機能
+プロジェクトは以下の主要コンポーネントで構成されています：
 
-### セキュアな基盤
-- AWS BedrockとGoogle Vertex AIベースの安全なLLM基盤
-- 完全クローズド環境での運用
-- エンタープライズグレードのセキュリティ
+- 📦 **Supabase Self-hosting**
+  - PostgreSQLデータベース
+  - Auth, Storage, Edge Functionsなどのサービス
+  - 管理用ダッシュボード
 
-### マイクロサービスアーキテクチャ
-- 独立したサービスコンポーネント
-- コンテナベースのデプロイメント
-- 柔軟なスケーリング
+- 🌐 **CDN配信**
+  - CloudFrontによる高速なコンテンツ配信
+  - WAFによるセキュリティ制御
+  - カスタムドメイン対応
 
-### Infrastructure as Code
-- Terraformによる完全自動化されたデプロイ
-- 環境ごとの設定管理
-- バージョン管理された構成
+## 🚀 クイックスタート
 
-### GitLab統合
-- バージョン管理、CI/CDパイプライン、プロジェクト管理機能の向上
-- セルフホスト型GitLabインスタンスの統合
-- LLMを用いたマージリクエスト分析
-- GitLab Webhookを用いた自動ラベル付け
+### 前提条件
 
-### プロジェクト探索機能
-- Terraformプロジェクトの自動検出と`terraform.tfvars`ファイルの生成
-- `amaterasu`コマンドラインツールによる簡素化された設定
+- AWS CLI設定済み
+- Terraform v0.12以上
+- Docker & Docker Compose
 
-## 🏗️ システムアーキテクチャ
+### セットアップ手順
 
-![](docs/flow.svg)
-
-- AMATERASU Base Infrastructureは再利用可能な基盤コンポーネントを提供し、コストと管理オーバーヘッドを削減
-- 異なる目的のセキュリティグループ（Default、CloudFront、VPC Internal、Whitelist）で多層的なセキュリティを実現
-- AMATERASU EC2 ModuleはEC2インスタンス上でDockerコンテナを実行
-- AMATERASU EE ModuleはECSクラスターを使用し、開発環境からECRにデプロイして運用
-- 両モジュールはCloudFrontとWAFによるIPホワイトリストで保護され、同じベースインフラストラクチャを共有
-- インフラ全体はTerraformでモジュール化された設計によって管理され、同じセキュリティグループとネットワーク設定を活用
-
-## 📦 コンポーネント構成
-
-### 1. Open WebUI (フロントエンド)
-- チャットベースのユーザーインターフェース
-- レスポンシブデザイン
-- プロンプトテンプレート管理
-    - [詳細はこちら](./spellbook/open-webui/README.md)
-
-### 2. LiteLLM (APIプロキシ)
-- Claude-3系列モデルへの統一的なアクセス
-- Google Vertex AIモデルへのアクセス
-- OpenRouter API統合
-- APIキー管理とレート制限
-    - [詳細はこちら](./spellbook/litellm/README.md)
-
-### 3. Langfuse (モニタリング)
-- 使用状況の追跡
-- コスト分析
-- パフォーマンスモニタリング
-    - [詳細はこちら](./spellbook/langfuse3/README.md)
-
-### 4. GitLab (バージョン管理)
-- セルフホストGitLabインスタンス
-- プロジェクトとコード管理
-- CIパイプラインとRunner設定
-- バックアップと復元機能
-
-### 5. FG-prompt-pandora (Fargate版サンプルアプリケーション)
-- AWS Fargateでの自動スケーリング
-- Claude-3.5-Sonnetを活用したプロンプト生成
-- Streamlitベースの直感的UI
-    - [詳細はこちら](./spellbook/fg-prompt-pandora/README.md)
-
-### 6. Coder (クラウド開発環境)
-- WebベースのIDE環境
-- VS Code拡張機能のサポート
-- AWSインフラストラクチャ上でのセキュアな開発
-    - [詳細はこちら](./spellbook/Coder/README.md)
-
-### 7. Dify (AIアプリケーション開発プラットフォーム)
-- 様々なAIモデルを統合したアプリケーション開発プラットフォーム
-- UI/APIベースの開発が可能
-    - [詳細はこちら](./spellbook/dify/README.md)
-
-### 8. Dify Beta (AIアプリケーション開発プラットフォーム)
-- 新機能と実験的な機能を含むDifyのベータ版
-- ベクトルデータベースとサンドボックス環境の高度な設定が可能
-    - [詳細はこちら](./spellbook/dify-beta1/README.md)
-
-### 9. Open WebUI Pipeline
-- Open WebUIとの連携を強化するパイプライン機能
-- 会話ターン制限やLangfuse連携などのフィルター処理が可能
-    - [詳細はこちら](./spellbook/open-webui-pipeline/README.md)
-
-### 10. Amaterasu Tool (Terraform 変数ジェネレーター)
--  コマンドラインツールで`terraform.tfvars`ファイルの生成を自動化
-- spellbook の各プロジェクトを対象に設定値を生成
-- [詳細はこちら](./spellbook/amaterasu-tool-ui/README.md)
-
-### 11. Kotaemon (ドキュメントとチャットRAG UIツール)
-- ドキュメントとチャットするためのRAG UIツール
-- Docker環境とTerraform設定を提供
-- データ永続化とカスタマイズ可能な環境設定
-- セキュアな認証システムを実装
-    - [詳細はこちら](./spellbook/kotaemon/README.md)
-
-### 12. Bolt DIY (AIチャットインターフェース)
-- 最新のAIチャットインターフェース
-- 複数のAIプロバイダー（OpenAI、Anthropic、Google等）をサポート
-- Dockerコンテナ化された環境を提供
-- CloudFrontインフラストラクチャの設定
-    - [詳細はこちら](./spellbook/bolt-diy/README.md)
-
-### 13.  LLMテスター(Gradio版)
-- GradioベースのLLMプロキシ接続テスター
-- 各種パラメータ設定とデバッグ情報表示
-    - [詳細はこちら](./spellbook/ee-llm-tester-gr/README.md)
-
-### 14. LLMテスター(Streamlit版)
-- StreamlitベースのLLMプロキシ接続テスター
-- 各種パラメータ設定とデバッグ情報表示
-    - [詳細はこちら](./spellbook/ee-llm-tester-st/README.md)
-
-
-## 🔧 使用方法
-
-各コンポーネントの使用方法については、それぞれのREADMEファイルを参照してください。  `amaterasu`コマンドラインツールの使用方法については、`spellbook/amaterasu-tool-ui/README.md`を参照ください。
-
-
-## 📦 インストール手順
-
-1. リポジトリをクローンします。
+1. 環境変数の設定：
 ```bash
-git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
-cd AMATERASU
+cp .env.example .env
+# .envファイルを編集して必要な設定を行う
 ```
-2. 各プロジェクトのREADMEに記載されている手順に従って、依存関係をインストールし、アプリケーションをデプロイします。
-3. `terraform.tfvars`ファイルに必要な設定を入力します。  `amaterasu` ツールを利用して自動生成することもできます。
 
-
-## 📦 依存関係
-
-このリポジトリのルートディレクトリには、共通の依存関係を定義する`requirements.txt`ファイルがあります。
+2. インフラストラクチャのデプロイ：
 ```bash
-pip install -r requirements.txt
+cd terraform/main-infrastructure
+terraform init
+terraform plan
+terraform apply
 ```
+
+3. CDNの設定：
+```bash
+cd ../cloudfront-infrastructure
+terraform init
+terraform plan
+terraform apply
+```
+
+4. アプリケーションの起動：
+```bash
+docker compose up -d
+```
+
+## 📁 プロジェクト構造
 
 ```plaintext
-aira
-sourcesage
+.
+├── terraform/
+│   ├── cloudfront-infrastructure/  # CDN関連の設定
+│   └── main-infrastructure/        # 基本インフラの設定
+├── .env.example                    # 環境変数テンプレート
+├── docker-compose.yml             # Supabaseサービス定義
+└── reset.sh                       # 環境リセットスクリプト
 ```
+
+## ⚙️ 設定項目
+
+### 環境変数（.env）
+
+- `POSTGRES_PASSWORD`: データベースパスワード
+- `JWT_SECRET`: JWTシークレットキー
+- `ANON_KEY`: 匿名アクセス用キー
+- `SERVICE_ROLE_KEY`: サービスロール用キー
+
+### Terraform変数（terraform.tfvars）
+
+- `aws_region`: AWSリージョン
+- `project_name`: プロジェクト名
+- `domain`: ドメイン名
+- `subdomain`: サブドメイン
+
+## 🛠️ 開発ガイド
+
+### リセット方法
+
+環境を完全にリセットする場合：
+```bash
+./reset.sh
+```
+
+### カスタマイズ
+
+1. CloudFront設定の変更：
+   - `terraform/cloudfront-infrastructure/variables.tf`を編集
+
+2. インフラ構成の変更：
+   - `terraform/main-infrastructure/main.tf`を編集
+
+## 📝 注意事項
+
+- 本番環境では必ず`.env`の機密情報を変更してください
+- CloudFrontのデプロイには15-30分程度かかる場合があります
+- データベースのバックアップを定期的に行うことを推奨します
+
+## 🤝 コントリビューション
+
+1. このリポジトリをフォーク
+2. 機能開発用のブランチを作成
+3. 変更をコミット
+4. プルリクエストを作成
 
 ## 📄 ライセンス
 
-このプロジェクトはMITライセンスの下で公開されています。
-
-## 👏 謝辞
-
-iris-s-coonとMakiへの貢献に感謝します。
-
-## 🆕 最新情報
-
-### AMATERASU v1.21.0 (最新のリリース)
-
-<img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/release_notes/header_image/release_header_v1.21.0.png" width="100%">
-
-- **LLMテスター機能の拡張**: GradioとStreamlitベースの2種類のインターフェースを追加。IPアドレス情報や詳細なデバッグ情報を表示可能に。
-- **LiteLLM機能の強化**: OpenRouter APIの統合とモデル名の標準化を実施。
-- **インフラストラクチャの改善**: Docker環境の最適化、コンテナ間の連携強化、Langfuse3のNextAuth URL設定更新。
-- **新規プレゼンテーションツールの追加**: Marp Editable UIを追加。コンテナ化されたMarkdownプレゼンテーション編集環境を提供。
-- **セキュリティの強化**: WAF設定の改善、IPホワイトリストのCSVファイル管理、柔軟なセキュリティルール設定。
-- **設定管理の改善**: 各コンポーネントの`.env.example`ファイルを追加し、設定ファイルの標準化と文書化を実施。
-
-- 📝 注意事項:
-    - LiteLLMの設定変更に伴い、既存の設定ファイルの更新が必要
-    - WAFのIPホワイトリストを新しいCSV形式に移行する必要あり
-    - 環境変数の設定を確認し、必要に応じて更新
+MIT
