@@ -1,54 +1,40 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/AMATERASU/refs/heads/main/docs/amaterasu_main.png" width="100%">
-</p>
+<div align="center">
 
-<p align="center">
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU"><img alt="GitHub Repo" src="https://img.shields.io/badge/github-AMATERASU-blue?logo=github"></a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/Sunwood-ai-labs/AMATERASU?include_prereleases&style=flat-square"></a>
-  <a href="https://github.com/Sunwood-ai-labs/AMATERASU/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/Sunwood-ai-labs/AMATERASU?color=green"></a>
-</p>
+![Supabase Infrastructure](assets/header.svg)
 
 <h2 align="center">エンタープライズグレードのプライベートAIプラットフォーム (🚀 AMATERASU v1.22.0)</h2>
 
->[!IMPORTANT]
->このリポジトリは[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage)を活用しており、リリースノートやREADME、コミットメッセージの9割は[SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) ＋ [claude.ai](https://claude.ai/)で生成しています。
+Terraformを使用したSupabaseのセルフホスティング環境の構築とCloudFrontによるCDN配信の自動化
 
->[!NOTE]
->AMATERASUは[MOA](https://github.com/Sunwood-ai-labs/MOA)の後継プロジェクトです。各AIサービスを独立したEC2インスタンス上でDocker Composeを用いて実行し、Terraformで簡単にデプロイできるように進化させました。
+</div>
 
-## 🚀 プロジェクト概要
+## 🎯 概要
 
-AMATERASUは、エンタープライズグレードのプライベートAIプラットフォームです。AWS BedrockとGoogle Vertex AIをベースに構築されており、セキュアでスケーラブルな環境でLLMを活用したアプリケーションを開発・運用できます。GitLabとの統合により、バージョン管理、CI/CDパイプライン、プロジェクト管理を効率化します。このリポジトリは、複数のAI関連プロジェクトを管理するための「呪文書（Spellbook）」として構成されています。各プロジェクトは、特定のAIサービスや機能をデプロイ・管理するための独立したフォルダとして構造化されています。
+このプロジェクトは、AWS上でSupabaseをセルフホスティングするための完全な Infrastructure as Code (IaC) ソリューションを提供します。TerraformとDockerを使用して、安全で拡張性の高いインフラストラクチャを自動的に構築します。
 
+## 🏗️ アーキテクチャ
 
-## ✨ 主な機能
+プロジェクトは以下の主要コンポーネントで構成されています：
 
-### セキュアな基盤
-- AWS BedrockとGoogle Vertex AIベースの安全なLLM基盤
-- 完全クローズド環境での運用
-- エンタープライズグレードのセキュリティ
+- 📦 **Supabase Self-hosting**
+  - PostgreSQLデータベース
+  - Auth, Storage, Edge Functionsなどのサービス
+  - 管理用ダッシュボード
 
-### マイクロサービスアーキテクチャ
-- 独立したサービスコンポーネント
-- コンテナベースのデプロイメント
-- 柔軟なスケーリング
+- 🌐 **CDN配信**
+  - CloudFrontによる高速なコンテンツ配信
+  - WAFによるセキュリティ制御
+  - カスタムドメイン対応
 
-### Infrastructure as Code
-- Terraformによる完全自動化されたデプロイ
-- 環境ごとの設定管理
-- バージョン管理された構成
+## 🚀 クイックスタート
 
-### GitLab統合
-- バージョン管理、CI/CDパイプライン、プロジェクト管理機能の向上
-- セルフホスト型GitLabインスタンスの統合
-- LLMを用いたマージリクエスト分析
-- GitLab Webhookを用いた自動ラベル付け
+### 前提条件
 
-### プロジェクト探索機能
-- Terraformプロジェクトの自動検出と`terraform.tfvars`ファイルの生成
-- `amaterasu`コマンドラインツールによる簡素化された設定
+- AWS CLI設定済み
+- Terraform v0.12以上
+- Docker & Docker Compose
 
-## 🏗️ システムアーキテクチャ
+### セットアップ手順
 
 ![](docs/flow.svg)
 
@@ -162,53 +148,89 @@ AMATERASUは、エンタープライズグレードのプライベートAIプラ
 
 1. リポジトリをクローンします。
 ```bash
-git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
-cd AMATERASU
+cp .env.example .env
+# .envファイルを編集して必要な設定を行う
 ```
-2. 各プロジェクトのREADMEに記載されている手順に従って、依存関係をインストールし、アプリケーションをデプロイします。
-3. `terraform.tfvars`ファイルに必要な設定を入力します。  `amaterasu` ツールを利用して自動生成することもできます。
 
-
-## 📦 依存関係
-
-このリポジトリのルートディレクトリには、共通の依存関係を定義する`requirements.txt`ファイルがあります。
+2. インフラストラクチャのデプロイ：
 ```bash
-pip install -r requirements.txt
+cd terraform/main-infrastructure
+terraform init
+terraform plan
+terraform apply
 ```
+
+3. CDNの設定：
+```bash
+cd ../cloudfront-infrastructure
+terraform init
+terraform plan
+terraform apply
+```
+
+4. アプリケーションの起動：
+```bash
+docker compose up -d
+```
+
+## 📁 プロジェクト構造
 
 ```plaintext
-aira
-sourcesage
+.
+├── terraform/
+│   ├── cloudfront-infrastructure/  # CDN関連の設定
+│   └── main-infrastructure/        # 基本インフラの設定
+├── .env.example                    # 環境変数テンプレート
+├── docker-compose.yml             # Supabaseサービス定義
+└── reset.sh                       # 環境リセットスクリプト
 ```
+
+## ⚙️ 設定項目
+
+### 環境変数（.env）
+
+- `POSTGRES_PASSWORD`: データベースパスワード
+- `JWT_SECRET`: JWTシークレットキー
+- `ANON_KEY`: 匿名アクセス用キー
+- `SERVICE_ROLE_KEY`: サービスロール用キー
+
+### Terraform変数（terraform.tfvars）
+
+- `aws_region`: AWSリージョン
+- `project_name`: プロジェクト名
+- `domain`: ドメイン名
+- `subdomain`: サブドメイン
+
+## 🛠️ 開発ガイド
+
+### リセット方法
+
+環境を完全にリセットする場合：
+```bash
+./reset.sh
+```
+
+### カスタマイズ
+
+1. CloudFront設定の変更：
+   - `terraform/cloudfront-infrastructure/variables.tf`を編集
+
+2. インフラ構成の変更：
+   - `terraform/main-infrastructure/main.tf`を編集
+
+## 📝 注意事項
+
+- 本番環境では必ず`.env`の機密情報を変更してください
+- CloudFrontのデプロイには15-30分程度かかる場合があります
+- データベースのバックアップを定期的に行うことを推奨します
+
+## 🤝 コントリビューション
+
+1. このリポジトリをフォーク
+2. 機能開発用のブランチを作成
+3. 変更をコミット
+4. プルリクエストを作成
 
 ## 📄 ライセンス
 
-このプロジェクトはMITライセンスの下で公開されています。
-
-## 👏 謝辞
-
-iris-s-coonとMakiへの貢献に感謝します。
-
-## 🆕 最新情報
-
-### AMATERASU v1.22.0 (最新のリリース)
-
-- **🔄 OpenRouter API 統合の強化**: LiteLLM の OpenRouter API 統合が強化され、最新バージョンに更新されました。
-- **🧪 UI テストツールの機能改善**: ECS インフラストラクチャが EC2 インスタンスベースに最適化され、より安定した運用が可能になりました。
-- **📊 Marp Editable UI の追加**: Markdown プレゼンテーション編集環境を提供するコンテナ化された新しいツールが追加されました。
-- **🖼️ App Gallery Showcase の統合**: プロジェクトを美しく紹介するウェブアプリケーションが追加されました。
-- **🐳 Docker イメージの更新**: Langfuse 3.26 への更新など、複数のコンポーネントが最新バージョンに更新されました。
-- **📐 アーキテクチャ可視化の強化**: システム全体のアーキテクチャ図を追加し、コンポーネント間の関係をより明確に示しました。
-- **🔍 Open WebUI の RAG 機能強化**: Playwright 統合による Web コンテンツのローディング機能が追加されました。
-- 🖥️ ECS タスクのデプロイメントが EC2 インスタンスベースの構成に最適化され、より安定した運用が可能になりました
-- 🔗 Docker Compose 設定の改善と標準化により、コンテナ間の連携が強化されました
-- 🛡️ WAF 設定のセキュリティ強化と CSV ファイルによる IP ホワイトリスト管理が改善されました
-- 📄 各コンポーネントの `.env.example` ファイルを追加し、設定ファイルの標準化と文書化を実施
-- 🧩 Terraform モジュールの共有化と再利用性の向上
-- 🔤 環境変数の標準化により、異なる環境間での一貫性を確保
-
-
-- 📝 注意事項:
-    - LiteLLMの設定変更に伴い、既存の設定ファイルの更新が必要
-    - WAFのIPホワイトリストを新しいCSV形式に移行する必要あり
-    - 環境変数の設定を確認し、必要に応じて更新
+MIT
