@@ -11,14 +11,14 @@
 <h2 align="center">Enterprise-Grade Private AI Platform (🚀 AMATERASU v1.22.0)</h2>
 
 >[!IMPORTANT]
->This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages are generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
+>This repository leverages [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage).  Approximately 90% of the release notes, README, and commit messages were generated using [SourceSage](https://github.com/Sunwood-ai-labs/SourceSage) and [claude.ai](https://claude.ai/).
 
 >[!NOTE]
 >AMATERASU is the successor project to [MOA](https://github.com/Sunwood-ai-labs/MOA).  It has evolved to run each AI service as an independent EC2 instance using Docker Compose, enabling easy deployment with Terraform.
 
 ## 🚀 Project Overview
 
-AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows for the development and operation of LLM-based applications in a secure and scalable environment. Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository serves as a "spellbook" for managing multiple AI-related projects. Each project is structured as a separate folder for deploying and managing specific AI services or functionalities.
+AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and Google Vertex AI, it allows for the development and operation of LLM-based applications in a secure and scalable environment.  Integration with GitLab streamlines version control, CI/CD pipelines, and project management. This repository is structured as a "Spellbook" for managing multiple AI-related projects. Each project is organized as a separate folder for deploying and managing specific AI services or functionalities.
 
 
 ## ✨ Key Features
@@ -28,7 +28,7 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 - Operation in a completely closed environment
 - Enterprise-grade security
 
-### Microservices Architecture
+### Microservice Architecture
 - Independent service components
 - Container-based deployment
 - Flexible scaling
@@ -36,29 +36,28 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 ### Infrastructure as Code
 - Fully automated deployment with Terraform
 - Environment-specific configuration management
-- Version-controlled infrastructure
+- Version-controlled configuration
 
 ### GitLab Integration
-- Enhanced version control, CI/CD pipelines, and project management capabilities
+- Enhanced version control, CI/CD pipelines, and project management features
 - Integration with self-hosted GitLab instances
 - LLM-powered merge request analysis
-- Automatic labeling using GitLab webhooks
+- Automated labeling using GitLab webhooks
 
-### Project Exploration Features
+### Project Exploration Feature
 - Automatic detection of Terraform projects and generation of `terraform.tfvars` files
-- Simplified configuration via the `amaterasu` command-line tool
+- Simplified configuration using the `amaterasu` command-line tool
 
 ## 🏗️ System Architecture
 
 ![](docs/flow.svg)
 
 - AMATERASU Base Infrastructure provides reusable infrastructure components, reducing costs and management overhead.
-- Multi-layered security is achieved using security groups with different purposes (Default, CloudFront, VPC Internal, Whitelist).
+- Multi-layered security is achieved with security groups for different purposes (Default, CloudFront, VPC Internal, Whitelist).
 - The AMATERASU EC2 Module runs Docker containers on EC2 instances.
-- The AMATERASU EE Module uses an ECS cluster, deploying from the development environment to ECR for operation.
+- The AMATERASU EE Module uses an ECS cluster, deploying from a development environment to ECR for operation.
 - Both modules are protected by an IP whitelist using CloudFront and WAF and share the same base infrastructure.
 - The entire infrastructure is managed by a modular design using Terraform, leveraging the same security groups and network settings.
-
 
 ## 📦 Component Composition
 
@@ -84,11 +83,11 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
 ### 4. GitLab (Version Control)
 - Self-hosted GitLab instance
 - Project and code management
-- CI pipelines and Runner configuration
+- CI pipeline and Runner configuration
 - Backup and restore functionality
 
 ### 5. FG-prompt-pandora (Fargate Sample Application)
-- Auto-scaling on AWS Fargate
+- Auto-scaling with AWS Fargate
 - Prompt generation using Claude-3.5-Sonnet
 - Intuitive UI based on Streamlit
     - [Details here](./spellbook/fg-prompt-pandora/README.md)
@@ -110,19 +109,19 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
     - [Details here](./spellbook/dify-beta1/README.md)
 
 ### 9. Open WebUI Pipeline
-- Pipeline functionality enhancing the integration with Open WebUI
+- Pipeline functionality enhancing integration with Open WebUI
 - Filter processing such as conversation turn limits and Langfuse integration
     - [Details here](./spellbook/open-webui-pipeline/README.md)
 
 ### 10. Amaterasu Tool (Terraform Variable Generator)
 - Automates the generation of `terraform.tfvars` files using a command-line tool
-- Generates configuration values for each project in the spellbook
+- Generates settings for each project in the spellbook
     - [Details here](./spellbook/amaterasu-tool-ui/README.md)
 
 ### 11. Kotaemon (Document and Chat RAG UI Tool)
 - RAG UI tool for interacting with documents and chat
 - Provides Docker environment and Terraform configuration
-- Data persistence and customizable settings
+- Data persistence and customizable environment settings
 - Secure authentication system implemented
     - [Details here](./spellbook/kotaemon/README.md)
 
@@ -144,13 +143,13 @@ AMATERASU is an enterprise-grade private AI platform. Built on AWS Bedrock and G
     - [Details here](./spellbook/ee-llm-tester-st/README.md)
 
 ### 15. Marp Editable UI (Markdown Presentation Editing Tool)
-- Web application for creating and editing presentations in Markdown format.
-- Provides a Docker containerized environment.
+- Web application for creating and editing presentations in Markdown format
+- Provides a Docker containerized environment
     - [Details here](./spellbook/ee-marp-editable-ui/README.md)
 
 ### 16. App Gallery Showcase (Project Introduction Web Application)
-- Web application for visually showcasing projects attractively.
-- Provides a Docker containerized environment.
+- Web application for visually showcasing projects
+- Provides a Docker containerized environment
     - [Details here](./spellbook/app-gallery-showcase/README.md)
 
 
@@ -162,16 +161,12 @@ Refer to the individual README files for instructions on using each component.  
 ## 📦 Installation Instructions
 
 1. Clone the repository:
-
 ```bash
+cp .env.example .env
+# Edit the .env file and make the necessary settings
 git clone https://github.com/Sunwood-ai-labs/AMATERASU.git
 cd AMATERASU
-cp .env.example .env
-# Edit the .env file with the necessary settings
 ```
-
-2. Follow the instructions in each project's README to install dependencies and deploy the application.
-3. Enter the necessary settings in the `terraform.tfvars` file. You can also use the `amaterasu` tool to generate it automatically.
 
 
 ## 📄 License
