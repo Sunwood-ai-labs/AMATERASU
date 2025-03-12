@@ -231,3 +231,10 @@ spellbook/litellm/config.dev.yaml
 .env.aws
 .aws.env
 spellbook/kotaemon/ktem_app_data
+
+# librechat Logs
+spellbook/librechat/data-node
+spellbook/librechat/meili_data*
+spellbook/librechat/data/
+spellbook/librechat/logs
+*.log
