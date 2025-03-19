@@ -1,14 +1,12 @@
 version: "3.11"
 services:
   litellm:
-    image: ghcr.io/berriai/litellm:main-latest
+    image: ghcr.io/berriai/litellm-database:main-v1.63.6-nightly
     volumes:
-     - ./config.yaml:/app/config.yaml
-     - ./config.dev.yaml:/app/config.dev.yaml
+     - ./config:/app/config
      - ./vertex-ai-key.json:/app/vertex-ai-key.json
     command: 
-    #  - "--config=/app/config.yaml"
-     - "--config=/app/config.dev.yaml"
+     - "--config=/app/config/${CONFIG_FILE:-config.dev.yaml}"
      - "--debug"
     ports:
       - "${LITELLM_PORT:-4000}:4000"
@@ -16,20 +14,30 @@ services:
         DATABASE_URL: "postgresql://llmproxy:dbpassword9090@db:5432/litellm"
         STORE_MODEL_IN_DB: "True"
     env_file:
-      - .env
+      - .env # Load local .env file
+    depends_on:
+      - db  # Indicates that this service depends on the 'db' service, ensuring 'db' starts first
+    healthcheck:  # Defines the health check configuration for the container
+      test: [ "CMD", "curl", "-f", "http://localhost:4000/health/liveliness || exit 1" ]  # Command to execute for health check
+      interval: 30s  # Perform health check every 30 seconds
+      timeout: 10s   # Health check command times out after 10 seconds
+      retries: 3     # Retry up to 3 times if health check fails
+      start_period: 40s  # Wait 40 seconds after container start before beginning health checks
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
   db:
-    image: postgres
+    image: postgres:16
     restart: always
     environment:
       POSTGRES_DB: litellm
       POSTGRES_USER: llmproxy
       POSTGRES_PASSWORD: dbpassword9090
+    ports:
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data  # Persists Postgres data across container restarts
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d litellm -U llmproxy"]
       interval: 1s
@@ -50,7 +58,7 @@ services:
     restart: always
 
 volumes:
-  postgres_data:
-    driver: local
   prometheus_data:
     driver: local
+  postgres_data:
+    name: litellm_postgres_data  # Named volume for Postgres data persistence

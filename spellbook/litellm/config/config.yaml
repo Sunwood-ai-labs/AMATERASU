@@ -1,0 +1,257 @@
+model_list:
+  # ----------------------------------------------
+  # ===== Amazon Bedrock Claude Models =====
+  # ----------------------------------------------
+  - model_name: bedrock/claude-3-5-sonnet
+    litellm_params:
+      model: bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0
+      aws_region_name: us-east-1
+
+  - model_name: bedrock/claude-3-5-sonnet-V2-Cross
+    litellm_params:
+      model: bedrock/us.anthropic.claude-3-5-sonnet-20241022-v2:0
+      aws_region_name: us-east-1
+
+  - model_name: bedrock/claude-3-5-sonnet-V1-Cross
+    litellm_params:
+      model: bedrock/us.anthropic.claude-3-5-sonnet-20240620-v1:0
+      aws_region_name: us-east-1
+
+  # ----------------------------------------------
+  # ===== Amazon Bedrock Nova Models =====
+  # ----------------------------------------------
+  - model_name: bedrock/nova-micro
+    litellm_params:
+      model: bedrock/amazon.nova-micro-v1:0
+      aws_region_name: us-east-1
+
+  - model_name: bedrock/nova-lite
+    litellm_params:
+      model: bedrock/amazon.nova-lite-v1:0
+      aws_region_name: us-east-1
+        
+  - model_name: bedrock/nova-pro
+    litellm_params:
+      model: bedrock/amazon.nova-pro-v1:0
+      aws_region_name: us-east-1
+
+  # ----------------------------------------------
+  # ===== Amazon Bedrock DeepSeek Models =====
+  # ----------------------------------------------
+  - model_name: bedrock/deepseek-r1
+    litellm_params:
+      model: bedrock/us.deepseek.r1-v1:0
+      aws_region_name: us-east-1
+
+  # ----------------------------------------------
+  # ===== Amazon Bedrock Embedding Models =====
+  # ----------------------------------------------
+  - model_name: bedrock/amazon.titan-embed-text-v1
+    litellm_params:
+      model: bedrock/amazon.titan-embed-text-v1
+      aws_region_name: us-east-1
+
+  - model_name: bedrock/cohere.embed-english-v3
+    litellm_params:
+      model: bedrock/cohere.embed-english-v3
+      aws_region_name: us-east-1
+
+  - model_name: bedrock/cohere.embed-multilingual-v3
+    litellm_params:
+      model: bedrock/cohere.embed-multilingual-v3
+      aws_region_name: us-east-1
+
+  # ----------------------------------------------
+  # ===== OpenAI Models =====
+  # ----------------------------------------------
+  - model_name: openai/gpt-4o-mini
+    litellm_params:
+      model: openai/gpt-4o-mini                         # OpenAIのAPI呼び出しに使用
+      api_key: os.environ/OPENAI_API_KEY
+  - model_name: openai/gpt-4o
+    litellm_params:
+      model: openai/gpt-4o                         # OpenAIのAPI呼び出しに使用
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: openrouter/openai/o3-mini
+    litellm_params:
+      model: openrouter/openai/o3-mini
+      api_key: "os.environ/OPENROUTER_API_KEY" 
+
+  # ----------------------------------------------
+  # ===== Anthropic Direct API Models =====
+  # ----------------------------------------------
+  - model_name: Anthropic/claude-3-5-sonnet-20240620    # Claude 3 Sonnet v1
+    litellm_params: 
+      model: claude-3-5-sonnet-20240620 
+      api_key: "os.environ/ANTHROPIC_API_KEY" 
+
+  - model_name: Anthropic/claude-3-5-sonnet-20241022    # Claude 3 Sonnet v2
+    litellm_params: 
+      model: claude-3-5-sonnet-20241022
+      api_key: "os.environ/ANTHROPIC_API_KEY" 
+
+  - model_name: Anthropic/claude-3-5-haiku-20241022
+    litellm_params: 
+      model: claude-3-5-haiku-20241022
+      api_key: "os.environ/ANTHROPIC_API_KEY"
+
+  - model_name: Anthropic/claude-3-haiku-20240307       # Claude 3 Haiku
+    litellm_params: 
+      model: claude-3-haiku-20240307
+      api_key: "os.environ/ANTHROPIC_API_KEY"
+
+  # ----------------------------------------------
+  # ===== Google Vertex AI Models =====
+  # ----------------------------------------------
+  - model_name: Vertex_AI/gemini-pro
+    litellm_params:
+      model: vertex_ai/gemini-pro
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-2.0-flash-exp
+    litellm_params:
+      model: vertex_ai/gemini-2.0-flash-exp
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-pro-001
+    litellm_params:
+      model: vertex_ai/gemini-1.5-pro-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-pro-002
+    litellm_params:
+      model: vertex_ai/gemini-1.5-pro-002
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-flash-001
+    litellm_params:
+      model: vertex_ai/gemini-1.5-flash-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.5-flash-002
+    litellm_params:
+      model: vertex_ai/gemini-1.5-flash-002
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro-001
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro-002
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro-002
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  - model_name: Vertex_AI/gemini-1.0-pro-vision-001
+    litellm_params:
+      model: vertex_ai/gemini-1.0-pro-vision-001
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+  # ----------------------------------------------
+  # ===== Gemini Models =====
+  # ----------------------------------------------
+
+
+  - model_name: gemini/gemini-2.0-flash-exp
+    litellm_params:
+      model: gemini/gemini-2.0-flash-exp
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-2.0-flash-thinking-exp
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-2.0-flash-thinking-exp-01-21
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp-01-21
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: gemini/gemini-2.0-flash-thinking-exp-1219
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp-1219
+      api_key: "os.environ/GEMINI_API_KEY"
+
+
+  # ----------------------------------------------
+  # ===== Deepseek AI Models =====
+  # ----------------------------------------------
+  - model_name: deepseek/deepseek-chat    # Deepseek
+    litellm_params: 
+      model: deepseek/deepseek-chat
+      api_key: "os.environ/DEEPSEEK_API_KEY" 
+
+  # ----------------------------------------------
+  # ===== xAI Models =====
+  # ----------------------------------------------
+  - model_name: xai/grok-2-latest
+    litellm_params: 
+      model: xai/grok-2-latest
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-2-1212
+    litellm_params: 
+      model: xai/grok-2-1212
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-2-vision-1212
+    litellm_params: 
+      model: xai/grok-2-vision-1212
+      api_key: "os.environ/XAI_API_KEY" 
+
+  # ----------------------------------------------
+  # ===== Hydra's Legion: Viper Nexus =====
+  # ----------------------------------------------
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params: 
+      model: openrouter/google/gemini-2.0-flash-thinking-exp:free
+      api_key: "os.environ/OPENROUTER_API_KEY" 
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params: 
+      model: openrouter/google/gemini-2.0-flash-exp:free
+      api_key: "os.environ/OPENROUTER_API_KEY" 
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params:
+      model: gemini/gemini-2.0-flash-thinking-exp-01-21
+      api_key: "os.environ/GEMINI_API_KEY"
+  
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params:
+      model: gemini/gemini-2.0-flash-exp
+      api_key: "os.environ/GEMINI_API_KEY"
+
+  - model_name: hydra/gemini-2.0-viper
+    litellm_params:
+      model: vertex_ai/gemini-2.0-flash-exp
+      vertex_project: "os.environ/GOOGLE_PROJECT_ID"
+      vertex_location: "us-central1"
+
+
+
+
+litellm_settings:
+  drop_params: true
+  success_callback: ["langfuse"]
+  
+general_settings:
+  store_prompts_in_spend_logs: true
