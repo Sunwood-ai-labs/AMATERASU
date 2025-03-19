@@ -70,10 +70,14 @@ docker compose up -d
 ├── terraform/
 │   ├── cloudfront-infrastructure/  # CDN関連の設定
 │   └── main-infrastructure/        # 基本インフラの設定
-├── .env.example                    # 環境変数テンプレート
-├── docker-compose.yml             # Supabaseサービス定義
-└── reset.sh                       # 環境リセットスクリプト
+├── example/                       # サンプル実装とテストデータ
+│   └── README.md                  # テストデータのセットアップガイド
+├── .env.example                   # 環境変数テンプレート
+├── docker-compose.yml            # Supabaseサービス定義
+└── reset.sh                      # 環境リセットスクリプト
 ```
+
+テストデータのセットアップについては、[example/README.md](example/README.md)を参照してください。
 
 ## ⚙️ 設定項目
 
