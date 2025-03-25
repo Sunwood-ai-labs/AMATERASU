@@ -29,4 +29,24 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.2/docker
 # Make Docker Compose executable
 sudo chmod +x /usr/local/bin/docker-compose
 
-echo "docker-compose setup completed!"
+# Create the docker group if it doesn't exist
+sudo groupadd -f docker
+
+# Add current user to the docker group
+sudo usermod -aG docker $USER
+
+# Apply the new group membership
+echo "Docker group membership has been added."
+echo "You need to log out and log back in (or restart the system) for the group membership to take effect."
+
+# Optionally, start and enable the Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Install uv - the Python package installer from astral.sh
+echo "Installing uv..."
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+echo "Docker, docker-compose, and uv setup completed!"
+echo "After logging out and back in, you'll be able to run Docker commands without sudo."
+echo "uv should be available immediately. If not, you may need to source your profile or restart your terminal."
