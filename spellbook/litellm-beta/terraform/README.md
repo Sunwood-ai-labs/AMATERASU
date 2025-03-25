@@ -1,34 +1,59 @@
-<div align="center">
+# 🚀 LiteLLM-Beta Terraform インフラストラクチャ
 
-![Open WebUI Infrastructure](../assets/header.svg)
+## 📌 概要
 
-# Terraform Infrastructure
+このTerraformコードは、LiteLLM-Betaのインフラストラクチャをセットアップします。パブリックおよび内部アクセス用の2つの環境を構築し、それぞれに適切な証明書とロードバランサーを設定します。
 
-Comprehensive AWS infrastructure setup for Open WebUI deployment
+## 🏗️ インフラストラクチャ構成
 
-</div>
+- **VPC & サブネット**
+  - パブリックサブネット x 2
+  - セキュリティグループ
 
-## 📁 インフラストラクチャ構成
+- **ロードバランサー（ALB）**
+  - パブリック用ALB
+  - 内部用ALB
 
-本プロジェクトは以下の2つの主要なインフラストラクチャモジュールで構成されています：
+- **証明書管理**
+  - パブリックドメイン: AWS ACM証明書（DNS検証）
+  - 内部ドメイン: 自己署名証明書
 
-1. [Main Infrastructure](./main-infrastructure/README.md)
-   - EC2インスタンス管理
-   - VPCネットワーキング
-   - ALBロードバランシング
-   - Route53 DNS管理
-   - IAMセキュリティ設定
+- **Route53**
+  - パブリックホストゾーン
+  - プライベートホストゾーン
 
-2. [CloudFront Infrastructure](./cloudfront-infrastructure/README.md)
-   - CloudFrontディストリビューション
-   - WAFv2セキュリティ設定
-   - オリジンアクセス設定
+## 🔒 証明書管理について
 
-各モジュールの詳細な設定と使用方法については、それぞれのREADMEを参照してください。
+### パブリックドメイン証明書
+- AWS ACM証明書を使用
+- Route53でのDNS検証による自動検証
+- 有効期間は自動更新
 
-## 🚀 デプロイメントフロー
+### 内部ドメイン証明書（自己署名）
+- `.internal`ドメイン用に自己署名証明書を使用
+- DNS検証が不要で即時発行可能
+- 有効期間: 1年
+- セキュアな内部通信を確保
 
-1. Main Infrastructureのデプロイ
+## 🛠️ デプロイ方法
+
+1. 環境変数の設定
+```bash
+export AWS_ACCESS_KEY_ID="your_access_key"
+export AWS_SECRET_ACCESS_KEY="your_secret_key"
+export AWS_DEFAULT_REGION="ap-northeast-1"
+```
+
+2. terraform.tfvarsの設定
+```hcl
+# 必要な値を設定
+aws_region         = "ap-northeast-1"
+domain             = "your-domain.com"
+domain_internal    = "your-domain.internal"
+...
+```
+
+3. Terraformの実行
 ```bash
 cd main-infrastructure
 terraform init
@@ -36,31 +61,28 @@ terraform plan
 terraform apply
 ```
 
-2. CloudFront Infrastructureのデプロイ
-```bash
-cd ../cloudfront-infrastructure
-terraform init
-terraform plan
-terraform apply
-```
+## 🌐 アクセス方法
 
-3. インフラストラクチャの削除（必要な場合）
-```bash
-terraform destroy
-```
+デプロイ完了後、以下のURLでアクセス可能：
 
-## 📝 設定管理
+- パブリックアクセス: `https://litellm-beta.sunwood-ai-labs.com`
+- 内部アクセス: `https://litellm-beta.sunwood-ai-labs.internal`
 
-- 環境固有の設定は`terraform.tfvars`で管理
-- 共通変数は`common_variables.tf`で定義
-- モジュール固有の設定は各モジュールの`variables.tf`で定義
+## 📊 出力値
+
+| 出力名 | 説明 |
+|--------|------|
+| instance_id | EC2インスタンスID |
+| instance_private_ip | プライベートIPアドレス |
+| instance_public_dns | パブリックDNS名 |
+| instance_public_ip | パブリックIPアドレス |
+| internal_url | 内部アクセス用URL |
+| public_url | パブリックアクセス用URL |
+| security_group_id | セキュリティグループID |
+| vpc_id | VPC ID |
 
 ## ⚠️ 注意事項
 
-インフラストラクチャをデプロイする前に以下を確認してください：
-
-1. AWS認証情報が正しく設定されていること
-2. 必要なIAM権限が付与されていること
-3. リソース制限と予算を確認すること
-
-詳細な注意事項については各モジュールのドキュメントを参照してください。
+1. 内部ドメイン用の自己署名証明書は1年で期限切れとなります
+2. 証明書の更新は手動で行う必要があります
+3. ブラウザでアクセスする際は、自己署名証明書の警告が表示される場合があります
