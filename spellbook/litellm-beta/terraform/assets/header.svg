@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7B4BFF;stop-opacity:1">
+        <animate attributeName="stop-color" values="#7B4BFF;#A34FDE;#7B4BFF" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#A34FDE;stop-opacity:1">
+        <animate attributeName="stop-color" values="#A34FDE;#7B4BFF;#A34FDE" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#7B4BFF;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#7B4BFF;stop-opacity:0"/>
+    </linearGradient>
+
+    <!-- Terraform Logo shape gradient -->
+    <linearGradient id="terraformGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7B4BFF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#A34FDE;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Terraform-inspired geometric shapes -->
+  <g transform="translate(50, 40) scale(0.4)">
+    <path d="M 0,0 L 60,30 L 60,90 L 0,60 Z" fill="url(#terraformGradient)" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 70,30 L 130,60 L 130,120 L 70,90 Z" fill="url(#terraformGradient)" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.8;0.6" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M 140,60 L 200,90 L 200,150 L 140,120 Z" fill="url(#terraformGradient)" opacity="0.4">
+      <animate attributeName="opacity" values="0.4;0.6;0.4" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Main title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle">
+    Terraform Infrastructure
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    Infrastructure as Code Blueprint
+  </text>
+  
+  <!-- Code-like decoration -->
+  <g fill="none" stroke="url(#gradient1)" stroke-width="1.5">
+    <path d="M600,40 h100 m-90,10 h80 m-70,10 h60" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="0,400;400,0" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M100,160 h100 m-90,10 h80 m-70,10 h60" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="0,400;400,0" dur="4s" begin="2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Floating particles -->
+  <g fill="url(#gradient1)">
+    <circle cx="650" cy="50" r="3">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="150" r="3">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="3s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="700" cy="150" r="3">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="3s" begin="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <!-- Background with rounded corners -->
+  <rect width="800" height="200" rx="20" ry="20" fill="#1a1a1a"/>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00C6FF;stop-opacity:1">
+        <animate attributeName="stop-color" values="#00C6FF;#0072FF;#00C6FF" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#0072FF;stop-opacity:1">
+        <animate attributeName="stop-color" values="#0072FF;#00C6FF;#0072FF" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00C6FF;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00C6FF;stop-opacity:0"/>
+    </linearGradient>
+
+    <!-- Infrastructure component gradients -->
+    <linearGradient id="componentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00C6FF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0072FF;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Infrastructure component icons -->
+  <g transform="translate(60, 40)">
+    <!-- VPC representation -->
+    <rect x="0" y="0" width="40" height="40" rx="5" fill="url(#componentGradient)" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- EC2 representation -->
+    <g transform="translate(60, 0)">
+      <rect x="0" y="0" width="40" height="40" rx="5" fill="url(#componentGradient)" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.9;0.7" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+    
+    <!-- ALB representation -->
+    <g transform="translate(120, 0)">
+      <rect x="0" y="0" width="40" height="40" rx="5" fill="url(#componentGradient)" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.8;0.6" dur="3s" begin="1s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- Connection lines -->
+    <path d="M42,20 L58,20 M102,20 L118,20" stroke="url(#gradient1)" stroke-width="2">
+      <animate attributeName="stroke-dasharray" values="0,100;100,0" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Main title with animation -->
+  <text x="400" y="90" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#gradient1)" text-anchor="middle">
+    Main Infrastructure
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="130" font-family="Arial, sans-serif" font-size="24" fill="#808080" text-anchor="middle">
+    Core AWS Components Setup
+  </text>
+  
+  <!-- Network flow lines -->
+  <g stroke="url(#gradient1)" stroke-width="1.5">
+    <path d="M100,160 C 250,160 350,140 500,140 S 700,160 750,160" fill="none" opacity="0.6">
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M50,140 C 200,140 300,160 450,160 S 650,140 700,140" fill="none" opacity="0.4">
+      <animate attributeName="stroke-dasharray" values="0,1000;1000,0" dur="5s" begin="2.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Floating cloud symbols -->
+  <g fill="url(#gradient1)">
+    <path d="M600,50 a10,10 0 0,1 20,0 a10,10 0 0,1 -20,0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M650,170 a8,8 0 0,1 16,0 a8,8 0 0,1 -16,0" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
