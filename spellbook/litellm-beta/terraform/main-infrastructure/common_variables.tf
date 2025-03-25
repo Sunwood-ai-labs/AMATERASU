@@ -69,6 +69,12 @@ variable "route53_internal_zone_id" {
   type        = string
 }
 
+variable "route53_zone_id" {
+  description = "Zone ID for Route53 public hosted zone"
+  type        = string
+}
+
+
 # EC2インスタンス関連の変数
 # EC2インスタンスのAMI ID
 variable "ami_id" {

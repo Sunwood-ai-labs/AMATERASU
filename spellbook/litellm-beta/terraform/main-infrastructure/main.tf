@@ -15,14 +15,14 @@ provider "aws" {
 
 # IAM module
 module "iam" {
-  source = "../../../open-webui/terraform/main-infrastructure/modules/iam"
+  source = "./modules/iam"
   
   project_name = var.project_name
 }
 
 # Compute module
 module "compute" {
-  source = "../../../open-webui/terraform/main-infrastructure/modules/compute"
+  source = "./modules/compute"
   
   project_name         = var.project_name
   vpc_id              = var.vpc_id
@@ -43,7 +43,7 @@ module "compute" {
 
 # Networking module
 module "networking" {
-  source = "../../../open-webui/terraform/main-infrastructure/modules/networking"
+  source = "./modules/networking"
   
   project_name       = var.project_name
   aws_region        = var.aws_region
@@ -55,7 +55,8 @@ module "networking" {
   domain           = var.domain
   subdomain        = var.subdomain
   domain_internal  = var.domain_internal
-  route53_zone_id  = var.route53_internal_zone_id
+  route53_zone_id  = var.route53_zone_id
+  route53_internal_zone_id = var.route53_internal_zone_id
   instance_id      = module.compute.instance_id
   instance_private_ip = module.compute.instance_private_ip
   instance_private_dns = module.compute.instance_private_dns

@@ -108,25 +108,6 @@ script/
 └─ check_model_params.py  # モデルパラメータ検証
 ```
 
-## 🔍 動作確認
-
-### 接続テスト
-内部通信の確認：
-```bash
-python scripts/connectivity_health_check.py
-```
-
-### API動作確認
-```bash
-# シンプルなチャットリクエスト
-curl -X POST "https://<your-domain>/v1/chat/completions" \
-  -H "Authorization: Bearer ${LITELLM_MASTER_KEY}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "bedrock/claude-3-5-sonnet",
-    "messages": [{"role": "user", "content": "Hello!"}]
-  }'
-```
 
 ## ⚙️ 設定カスタマイズ
 
@@ -156,6 +137,17 @@ curl -X POST "https://<your-domain>/v1/chat/completions" \
    - DNS設定の確認
    - セキュリティグループの確認
    - VPCエンドポイントの確認
+
+## 🔐 自己署名証明書の設定
+
+内部ドメイン（`.internal`）にアクセスするには、自己署名証明書の設定が必要です。
+詳細な手順については、[自己署名証明書の設定ガイド](./docs/self-signed-cert-guide.md)を参照してください。
+
+主な設定手順:
+1. 証明書の取得
+2. 信頼ストアへの証明書の追加
+3. 環境変数の設定
+4. 接続テスト
 
 ## 📄 ライセンス
 

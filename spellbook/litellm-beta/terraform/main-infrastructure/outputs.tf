@@ -32,3 +32,13 @@ output "security_group_id" {
   description = "ID of the security group"
   value       = module.networking.ec2_security_group_id
 }
+
+output "internal_url" {
+  description = "内部用サブドメインURL"
+  value       = "https://${var.subdomain}.${var.domain_internal}"
+}
+
+output "public_url" {
+  description = "公開用サブドメインURL"
+  value       = "https://${var.subdomain}.${var.domain}"
+}
