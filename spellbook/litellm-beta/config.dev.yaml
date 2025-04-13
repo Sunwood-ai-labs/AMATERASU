@@ -194,6 +194,52 @@ model_list:
       api_key: "os.environ/DEEPSEEK_API_KEY" 
 
   # ----------------------------------------------
+  # ===== bedrock image =====
+  # ----------------------------------------------
+  - model_name: bedrock/stability.sd3-5-large-v1
+    litellm_params: 
+      model: bedrock/stability.sd3-5-large-v1:0
+      aws_region_name: us-west-2
+      
+  # ----------------------------------------------
+  # ===== xAI Models =====
+  # ----------------------------------------------
+  - model_name: xai/grok-3-beta
+    litellm_params: 
+      model: xai/grok-3-beta
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-3-fast-beta
+    litellm_params: 
+      model: xai/grok-3-fast-beta
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-3-mini-beta
+    litellm_params: 
+      model: xai/grok-3-mini-beta
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-3-mini-fast-beta
+    litellm_params: 
+      model: xai/grok-3-mini-fast-beta
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-2-latest
+    litellm_params: 
+      model: xai/grok-2-latest
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-2-1212
+    litellm_params: 
+      model: xai/grok-2-1212
+      api_key: "os.environ/XAI_API_KEY" 
+
+  - model_name: xai/grok-2-vision-1212
+    litellm_params: 
+      model: xai/grok-2-vision-1212
+      api_key: "os.environ/XAI_API_KEY" 
+
+  # ----------------------------------------------
   # ===== Hydra's Legion: Viper Nexus =====
   # ----------------------------------------------
 
