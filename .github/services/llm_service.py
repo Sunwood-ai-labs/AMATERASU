@@ -50,19 +50,42 @@ class LLMService:
         
         return self.get_response(prompt)
 
-    def analyze_issue(self, issue_title: str, issue_body: str, existing_labels: list) -> str:
+    def analyze_issue(self, issue_title: str, issue_body: str, existing_labels: list, is_pr: bool = False) -> str:
+        issue_type = "Pull Request" if is_pr else "イシュー"
+        
+        # タイトルに基づいたヒントを追加
+        hints = []
+        title_lower = issue_title.lower()
+        
+        # タイトルに基づいたヒント
+        if any(x in title_lower for x in ['docs', 'ドキュメント', 'readme']):
+            hints.append('documentation')
+        if any(x in title_lower for x in ['bug', 'バグ', 'fix', '修正', 'error', 'エラー']):
+            hints.append('bug')
+        if any(x in title_lower for x in ['✨', 'feature', '新機能', '機能追加']):
+            hints.append('enhancement')
+        if any(x in title_lower for x in ['♾️', 'refactor', 'リファクタ', '改善']):
+            hints.append('enhancement')
+        if title_lower.startswith('wip') or 'work in progress' in title_lower:
+            hints.append('help wanted')
+        
+        hint_str = ""
+        if hints:
+            hint_str = f"\n\nヒント: タイトルから以下のラベルが適切な可能性があります: {', '.join(hints)}"
+        
         prompt = f"""
-        以下のGitHubイシューを分析し、適切なラベルを提案してください：
+        以下のGitHub{issue_type}を分析し、適切なラベルを提案してください：
 
         タイトル: {issue_title}
 
         本文:
-        {issue_body}
+        {issue_body if issue_body else '（本文なし）'}
 
         既存のラベルのリスト:
         {', '.join(existing_labels)}
+        {hint_str}
 
-        上記の既存のラベルのリストから、このイシューに最も適切なラベルを最大3つ選んでください。
+        上記の既存のラベルのリストから、この{issue_type}に最も適切なラベルを最大3つ選んでください。
         選んだラベルをカンマ区切りで提案してください。既存のラベルにない新しいラベルは提案しないでください。
         
         回答は以下の形式でラベルのみを提供してください：
