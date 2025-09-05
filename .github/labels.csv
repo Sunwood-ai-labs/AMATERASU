@@ -1,4 +1,5 @@
 label,description
+automated pr,自動生成されたプルリクエスト
 bug,何かが正常に動作していません
 documentation,ドキュメントの改善または追加
 duplicate,このイシューまたはプルリクエストは既に存在します

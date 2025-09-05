@@ -34,10 +34,20 @@ def main():
     existing_labels = load_labels_from_csv(csv_path)
     logger.info(f"読み込まれたラベル: {', '.join(existing_labels)}")
     
+    # Pull Requestかどうかを確認
+    is_pr = hasattr(issue, 'pull_request') and issue.pull_request is not None
+    
     logger.info("LLMを使用してイシューを分析し、ラベルを提案しています...")
-    suggested_labels = llm_service.analyze_issue(issue.title, issue.body, existing_labels)
+    suggested_labels = llm_service.analyze_issue(issue.title, issue.body, existing_labels, is_pr)
     
     label_list = [label.strip().replace("*", "") for label in suggested_labels.split(',')]
+    
+    # 自動PRの検出とラベル追加
+    if is_pr and ('iris-s-coon' in str(issue.user.login) or 'bot' in str(issue.user.login).lower()):
+        if 'automated pr' not in label_list:
+            label_list.append('automated pr')
+            logger.info("自動生成されたPRを検出し、'automated pr'ラベルを追加しました")
+    
     logger.info(f"提案されたラベル: {', '.join(label_list)}")
 
     # 提案されたラベルを検証し、未登録のラベルをスキップ
